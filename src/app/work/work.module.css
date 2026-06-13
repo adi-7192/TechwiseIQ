@@ -1,0 +1,288 @@
+.hero {
+  padding: 160px 0 96px;
+  border-bottom: var(--bd);
+}
+
+.label {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--soft);
+}
+
+.title {
+  font-family: var(--font-anton), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(40px, 7.5vw, 110px);
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+  margin-top: 16px;
+}
+
+.titleAccent {
+  color: var(--hot);
+}
+
+.intro {
+  margin-top: 28px;
+  font-size: 16.5px;
+  font-weight: 500;
+  max-width: 56ch;
+  color: #3a3933;
+}
+
+/* ─── Tile grid ─── */
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: var(--bd);
+}
+
+.tile {
+  border-bottom: var(--bd);
+  border-right: var(--bd);
+  cursor: pointer;
+  background: var(--bone);
+  text-align: left;
+  padding: 0;
+  transition: background 0.2s;
+  font: inherit;
+  color: inherit;
+}
+
+.tile:nth-child(2n) {
+  border-right: none;
+}
+
+.tile:hover {
+  background: #ece9e0;
+}
+
+.tileImgWrap {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-bottom: var(--bd);
+}
+
+.tileImg {
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.4s ease;
+}
+
+.tile:hover .tileImg {
+  transform: scale(1.03);
+}
+
+.tileActive {
+  background: #ece9e0;
+}
+
+.tileActive .tileImgWrap {
+  border-bottom-color: var(--hot);
+}
+
+.tileBody {
+  padding: 24px 28px 28px;
+}
+
+.tileService {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--hot);
+  display: block;
+}
+
+.tileTitle {
+  font-family: var(--font-anton), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(24px, 3.6vw, 42px);
+  line-height: 0.96;
+  letter-spacing: 0.005em;
+  margin-top: 10px;
+  transition: color 0.2s, -webkit-text-stroke 0.2s;
+}
+
+.tile:hover .tileTitle {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+}
+
+.tileTagline {
+  font-size: 14px;
+  font-weight: 500;
+  color: #3a3933;
+  margin-top: 8px;
+  display: block;
+  max-width: 38ch;
+}
+
+.tileIndicator {
+  font-family: var(--font-anton), sans-serif;
+  font-size: 28px;
+  color: var(--hot);
+  display: block;
+  margin-top: 14px;
+  transition: transform 0.25s;
+}
+
+.tileActive .tileIndicator {
+  transform: rotate(45deg);
+}
+
+/* ─── Detail panel (accordion) ─── */
+.detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.detailInner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  padding: 48px 0 64px;
+  border-bottom: var(--bd);
+  background: #ece9e0;
+}
+
+.detailPad {
+  padding: 0 28px;
+}
+
+.detailLabel {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--soft);
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Deliverables list */
+.deliverables {
+  list-style: none;
+}
+
+.deliverable {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #3a3933;
+  padding: 10px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.delArrow {
+  color: var(--hot);
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+/* Stack tags */
+.stackRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.stackTag {
+  font-family: var(--font-mono), monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border: var(--bd);
+  padding: 8px 14px;
+  background: var(--bone);
+  box-shadow: 3px 3px 0 var(--ink);
+}
+
+/* Impact */
+.impactBody {
+  font-size: 16.5px;
+  font-weight: 500;
+  color: #3a3933;
+  line-height: 1.6;
+  max-width: 50ch;
+}
+
+.visitLink {
+  display: inline-block;
+  margin-top: 28px;
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border: var(--bd);
+  padding: 14px 22px;
+  background: var(--hot);
+  color: var(--bone);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+
+.visitLink:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+/* ─── Empty state ─── */
+.empty {
+  padding: 96px 0;
+  border-top: var(--bd);
+}
+
+.emptyBody {
+  font-size: 16.5px;
+  font-weight: 500;
+  color: #3a3933;
+  max-width: 48ch;
+  margin-top: 20px;
+  margin-bottom: 32px;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 880px) {
+  .detailInner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 120px 0 64px;
+  }
+
+  .tiles {
+    grid-template-columns: 1fr;
+  }
+
+  .tile {
+    border-right: none;
+  }
+
+  .tileBody {
+    padding: 20px 20px 24px;
+  }
+
+  .detailPad {
+    padding: 0 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .detail {
+    transition: none;
+  }
+}

@@ -19,30 +19,24 @@ export default function Manifesto() {
     if (!el) return
     const wordEls = el.querySelectorAll<HTMLSpanElement>('[data-w]')
     const count = wordEls.length
-    const FADE_BAND = 4
     const hotStart = count - PUNCH_WORDS.length
 
     function litCheck() {
       const r = el!.getBoundingClientRect()
       const progress = Math.min(Math.max((innerHeight * 0.82 - r.top) / r.height, 0), 1)
-      // Cursor drives the first N-2 words across 0→85% of scroll progress
-      // Hot words only start after 85%, giving a visible pause
       const leadEnd = hotStart
       const cursor = progress <= 0.85
         ? (progress / 0.85) * leadEnd
         : leadEnd + ((progress - 0.85) / 0.15) * PUNCH_WORDS.length
 
       wordEls.forEach((w, i) => {
-        let opacity: number
-        if (i < cursor - 1) {
-          opacity = 1
-        } else if (i > cursor + FADE_BAND) {
-          opacity = 0.14
-        } else {
-          const t = Math.min(Math.max((cursor - i) / FADE_BAND, 0), 1)
-          opacity = 0.14 + t * 0.86
+        const shouldBeLit = cursor > i
+        const isLit = w.hasAttribute('data-lit')
+        if (shouldBeLit && !isLit) {
+          w.setAttribute('data-lit', '')
+        } else if (!shouldBeLit && isLit) {
+          w.removeAttribute('data-lit')
         }
-        w.style.opacity = String(opacity)
       })
 
       // Fire burst once when hot words are fully revealed

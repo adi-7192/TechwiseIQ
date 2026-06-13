@@ -27,8 +27,12 @@
 .word {
   display: inline-block;
   margin-right: 0.22em;
-  opacity: 0.14;
-  transition: opacity 0.45s ease;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.word[data-lit] {
+  opacity: 1;
 }
 
 .hotLine {
@@ -41,10 +45,10 @@
   color: var(--hot);
   font-size: 1.45em;
   line-height: 1;
-  transition: opacity 0.45s ease;
   transform-origin: center center;
 }
 
+/* burst overrides wordPop for hot words — must stay after .word[data-lit] */
 .hot[data-burst] {
   animation: burst 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
@@ -58,6 +62,7 @@
 @media (prefers-reduced-motion: reduce) {
   .word {
     opacity: 1;
+    transition: none;
   }
   .hot[data-burst] {
     animation: none;

@@ -19,6 +19,11 @@ export type CaseStudy = {
   stack: string[]
   liveUrl?: string
   coverImage?: string
+  problem: string
+  constraints: string
+  approach: string[]
+  result: string
+  images?: string[]
 }
 
 export type NavLink = {

@@ -1,0 +1,127 @@
+.hero {
+  padding: 160px 0 96px;
+  border-bottom: var(--bd);
+}
+
+.label {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--soft);
+}
+
+.title {
+  font-family: var(--font-anton), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(40px, 7.5vw, 110px);
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+  margin-top: 16px;
+}
+
+.titleAccent {
+  color: var(--hot);
+}
+
+.intro {
+  margin-top: 28px;
+  font-size: 16.5px;
+  font-weight: 500;
+  max-width: 56ch;
+  color: #3a3933;
+}
+
+.list {
+  border-top: var(--bd);
+}
+
+.svc {
+  border-bottom: var(--bd);
+  display: block;
+  transition: background 0.2s;
+}
+
+.svc:hover {
+  background: #ece9e0;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: 28px;
+  padding: 30px 0;
+  transition: padding-left 0.25s ease;
+}
+
+.svc:hover .row {
+  padding-left: 22px;
+}
+
+.num {
+  font-family: var(--font-mono), monospace;
+  font-size: 14px;
+  color: var(--hot);
+  min-width: 46px;
+  flex-shrink: 0;
+}
+
+.svcTitle {
+  font-family: var(--font-anton), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(34px, 6.2vw, 86px);
+  line-height: 0.96;
+  letter-spacing: 0.005em;
+  flex: 1;
+  transition: color 0.2s ease, -webkit-text-stroke 0.2s ease;
+}
+
+.svc:hover .svcTitle {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+}
+
+.arr {
+  font-family: var(--font-anton), sans-serif;
+  font-size: clamp(26px, 3.6vw, 48px);
+  color: var(--hot);
+  transform: translateX(-14px);
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  flex-shrink: 0;
+}
+
+.svc:hover .arr {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.tagline {
+  display: block;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--soft);
+  margin-top: 8px;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 120px 0 64px;
+  }
+
+  .row {
+    gap: 14px;
+    padding: 22px 0;
+  }
+
+  .num {
+    min-width: 30px;
+    font-size: 12px;
+  }
+
+  .tagline {
+    display: none;
+  }
+}

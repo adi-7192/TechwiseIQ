@@ -6,6 +6,7 @@
   position: relative;
   padding: 90px 0 70px;
   overflow: hidden;
+  isolation: isolate; /* contain z-index: -1 canvas within this context */
 }
 
 .sticker {

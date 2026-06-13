@@ -1,10 +1,12 @@
 import Marquee from '@/components/Marquee'
 import { Button, StickerBadge } from '@/components/ui'
+import FluidParticles from './FluidParticles'
 import styles from './Hero.module.css'
 
 export default function Hero() {
   return (
     <header className={styles.hero}>
+      <FluidParticles />
       <StickerBadge className={styles.sticker}>AI-FIRST ★ DUBAI</StickerBadge>
 
       {/* 3 kinetic marquee rows — decorative, real h1 is in the claim card */}
