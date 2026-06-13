@@ -1,0 +1,31 @@
+.badge {
+  display: inline-block;
+  background: var(--sun);
+  border: var(--bd);
+  font-family: var(--font-mono), monospace;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 12px 16px;
+  transform: rotate(7deg);
+  box-shadow: 5px 5px 0 var(--ink);
+  animation: wob 5s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+@keyframes wob {
+  0%,
+  100% {
+    transform: rotate(7deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    animation: none;
+  }
+}

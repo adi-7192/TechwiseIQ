@@ -1,0 +1,65 @@
+.manifesto {
+  padding: 110px 0;
+  border-top: var(--bd);
+  text-align: center;
+}
+
+.label {
+  display: block;
+  margin-bottom: 30px;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--soft);
+}
+
+.text {
+  font-family: var(--font-anton), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(36px, 5.6vw, 76px);
+  line-height: 1.08;
+  max-width: 18ch;
+  margin: 0 auto;
+  letter-spacing: 0.005em;
+}
+
+.word {
+  display: inline-block;
+  margin-right: 0.22em;
+  opacity: 0.14;
+  transition: opacity 0.45s ease;
+}
+
+.hotLine {
+  display: block;
+  margin-top: 0.1em;
+  white-space: nowrap;
+}
+
+.hot {
+  color: var(--hot);
+  font-size: 1.45em;
+  line-height: 1;
+  transition: opacity 0.45s ease;
+  transform-origin: center center;
+}
+
+.hot[data-burst] {
+  animation: burst 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes burst {
+  0%   { transform: scale(0.75); opacity: 0.6; }
+  45%  { transform: scale(1.18); opacity: 1; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word {
+    opacity: 1;
+  }
+  .hot[data-burst] {
+    animation: none;
+  }
+}

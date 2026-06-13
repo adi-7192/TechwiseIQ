@@ -1,0 +1,31 @@
+.btn {
+  font-family: var(--font-mono), monospace;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 15px 26px;
+  border: var(--bd);
+  background: var(--hot);
+  color: var(--bone);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.12s, box-shadow 0.12s;
+  display: inline-block;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.btn:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--hot);
+  outline-offset: 2px;
+}
+
+.secondary {
+  background: var(--bone);
+  color: var(--ink);
+}

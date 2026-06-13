@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local Claude Code settings
+.claude/settings.local.json
+
+# reference docs (source of truth lives in parent dir)
+docs/design-reference.html

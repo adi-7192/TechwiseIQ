@@ -1,0 +1,124 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding: 90px 0 70px;
+  overflow: hidden;
+}
+
+.sticker {
+  position: absolute;
+  top: 14%;
+  right: 7%;
+  z-index: 5;
+}
+
+.rowText {
+  font-family: var(--font-anton), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(64px, 12.5vw, 176px);
+  line-height: 0.94;
+  padding-right: 46px;
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+}
+
+.outlined {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+}
+
+.hotText {
+  color: var(--hot);
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  pointer-events: none;
+}
+
+.claim {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-mono), monospace;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 18px 28px;
+  max-width: 52ch;
+  text-align: center;
+  transform: rotate(-2deg);
+  box-shadow: var(--shadow-hot);
+  pointer-events: auto;
+  line-height: 1.55;
+}
+
+.highlight {
+  color: var(--sun);
+  font-weight: 400;
+}
+
+.ctas {
+  display: flex;
+  gap: 16px;
+  pointer-events: auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cue {
+  position: absolute;
+  bottom: 22px;
+  left: 24px;
+  color: var(--soft);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.cueArrow {
+  animation: dip 1.6s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes dip {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@media (max-width: 880px) {
+  .sticker {
+    top: auto;
+    bottom: 18%;
+    right: 5%;
+  }
+}
+
+@media (max-width: 600px) {
+  .claim {
+    font-size: 12.5px;
+    max-width: 90vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cueArrow {
+    animation: none;
+  }
+}
