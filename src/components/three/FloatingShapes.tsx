@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -8,16 +8,18 @@ function DriftingShape({
   geometry,
   position,
   speed,
+  reducedRef,
 }: {
   geometry: 'tetra' | 'torus' | 'octa'
   position: [number, number, number]
   speed: number
+  reducedRef: React.MutableRefObject<boolean>
 }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const baseY = position[1]
 
   useFrame(({ clock }) => {
-    if (!meshRef.current) return
+    if (!meshRef.current || reducedRef.current) return
     meshRef.current.rotation.x = clock.elapsedTime * speed * 0.3
     meshRef.current.rotation.y = clock.elapsedTime * speed * 0.2
     meshRef.current.position.y =
@@ -37,6 +39,17 @@ function DriftingShape({
 export default function FloatingShapes() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
+  const reducedRef = useRef(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    reducedRef.current = mq.matches
+    const handler = (e: MediaQueryListEvent) => {
+      reducedRef.current = e.matches
+    }
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   useEffect(() => {
     const el = containerRef.current
@@ -66,9 +79,9 @@ export default function FloatingShapes() {
         gl={{ alpha: true, antialias: true }}
         style={{ background: 'transparent' }}
       >
-        <DriftingShape geometry="tetra" position={[-3.5, 1.2, 0]} speed={0.8} />
-        <DriftingShape geometry="torus" position={[3.2, -0.8, -1]} speed={0.6} />
-        <DriftingShape geometry="octa" position={[-2, -1.5, 0.5]} speed={0.7} />
+        <DriftingShape geometry="tetra" position={[-3.5, 1.2, 0]} speed={0.8} reducedRef={reducedRef} />
+        <DriftingShape geometry="torus" position={[3.2, -0.8, -1]} speed={0.6} reducedRef={reducedRef} />
+        <DriftingShape geometry="octa" position={[-2, -1.5, 0.5]} speed={0.7} reducedRef={reducedRef} />
       </Canvas>
     </div>
   )

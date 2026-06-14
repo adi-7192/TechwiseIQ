@@ -1,25 +1,26 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 
-function Scene() {
+function Scene({ reducedRef }: { reducedRef: React.MutableRefObject<boolean> }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const mouse = useRef({ x: 0, y: 0 })
   const { viewport } = useThree()
 
   useEffect(() => {
     function onMove(e: MouseEvent) {
+      if (reducedRef.current) return
       mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1
       mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1
     }
     window.addEventListener('mousemove', onMove)
     return () => window.removeEventListener('mousemove', onMove)
-  }, [])
+  }, [reducedRef])
 
   useFrame((_, delta) => {
-    if (!meshRef.current) return
+    if (!meshRef.current || reducedRef.current) return
     meshRef.current.rotation.y += delta * 0.15
     meshRef.current.rotation.x += delta * 0.08
 
@@ -43,6 +44,17 @@ function Scene() {
 export default function HeroScene() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
+  const reducedRef = useRef(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    reducedRef.current = mq.matches
+    const handler = (e: MediaQueryListEvent) => {
+      reducedRef.current = e.matches
+    }
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   useEffect(() => {
     const el = containerRef.current
@@ -72,7 +84,7 @@ export default function HeroScene() {
         gl={{ alpha: true, antialias: true }}
         style={{ background: 'transparent' }}
       >
-        <Scene />
+        <Scene reducedRef={reducedRef} />
       </Canvas>
     </div>
   )
