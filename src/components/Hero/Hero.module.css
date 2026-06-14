@@ -6,7 +6,7 @@
   position: relative;
   padding: 90px 0 70px;
   overflow: hidden;
-  isolation: isolate; /* contain z-index: -1 canvas within this context */
+  isolation: isolate;
 }
 
 .sticker {
@@ -44,6 +44,7 @@
   justify-content: center;
   gap: 22px;
   pointer-events: none;
+  z-index: 2;
 }
 
 .claim {
@@ -74,6 +75,16 @@
   justify-content: center;
 }
 
+.screenshot {
+  position: absolute;
+  right: 5%;
+  bottom: 18%;
+  width: clamp(200px, 22vw, 320px);
+  transform: rotate(-3deg);
+  z-index: 3;
+  pointer-events: none;
+}
+
 .cue {
   position: absolute;
   bottom: 22px;
@@ -86,6 +97,7 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.07em;
+  z-index: 4;
 }
 
 .cueArrow {
@@ -94,13 +106,8 @@
 }
 
 @keyframes dip {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(6px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
 }
 
 @media (max-width: 880px) {
@@ -108,6 +115,10 @@
     top: auto;
     bottom: 18%;
     right: 5%;
+  }
+
+  .screenshot {
+    display: none;
   }
 }
 
