@@ -10,7 +10,7 @@ export default function Ticker() {
         <li>No surprise invoices</li>
         <li>Weeks not quarters</li>
       </ul>
-      <div className={styles.ticker} aria-hidden="true">
+      <div className={styles.ticker} aria-hidden="true" data-parallax="0.9">
         <Marquee duration={26}>
           <span className={styles.text}>
             Fixed scope ★ Demos every Friday ★ No surprise invoices ★ Weeks not
