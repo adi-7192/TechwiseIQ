@@ -28,12 +28,15 @@ export default function ProcessSection() {
     <section className={styles.process}>
       <div className="wrap">
         <span className={styles.label}>How it runs — no mystery</span>
-        <div className={styles.grid}>
+        <div className={styles.grid} data-animate="slide-up" data-stagger="0.15">
           {STEPS.map((step, i) => (
             <div
               key={step.num}
-              className={`${styles.step} rv${i === 1 ? ' rv-d1' : ''}${i >= 2 ? ' rv-d2' : ''}`}
+              className={`${styles.step} ${i % 2 === 1 ? styles.stepOffset : ''}`}
             >
+              <span className={styles.ghost} data-parallax="0.4" aria-hidden="true">
+                {step.num}
+              </span>
               <div className={styles.big}>{step.num}</div>
               <h3 className={styles.title}>{step.title}</h3>
               <p className={styles.body}>{step.body}</p>
