@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { GeometricAccents } from '@/components/ui'
 import styles from './Manifesto.module.css'
 
 const LEAD_WORDS =
@@ -39,7 +40,6 @@ export default function Manifesto() {
         }
       })
 
-      // Fire burst once when hot words are fully revealed
       const allHotLit = cursor >= count
       if (allHotLit && !burstFired.current) {
         burstFired.current = true
@@ -62,7 +62,10 @@ export default function Manifesto() {
 
   return (
     <section ref={sectionRef} className={styles.manifesto}>
-      <div className="wrap">
+      <div className={styles.geometryWrap} data-parallax="0.3">
+        <GeometricAccents variant="manifesto" />
+      </div>
+      <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
         <span className={styles.label}>The short version</span>
         <p className={styles.text}>
           {LEAD_WORDS.map((word, i) => (
