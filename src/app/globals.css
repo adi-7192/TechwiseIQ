@@ -65,7 +65,7 @@ img { display: block; max-width: 100%; }
   padding: 0 24px;
 }
 
-/* ─── Scroll Reveal ─── */
+/* ─── Scroll Reveal (legacy — kept for backward compat) ─── */
 .rv {
   opacity: 0;
   transform: translateY(30px);
@@ -74,6 +74,11 @@ img { display: block; max-width: 100%; }
 .rv.in  { opacity: 1; transform: none; }
 .rv-d1  { transition-delay: 0.12s; }
 .rv-d2  { transition-delay: 0.24s; }
+
+/* ─── GSAP ScrollTrigger base ─── */
+[data-animate] {
+  will-change: transform, opacity;
+}
 
 /* ─── Marquee (kinetic rows 22–30s, ticker ~26s) ─── */
 @keyframes marquee-l {
@@ -97,7 +102,7 @@ img { display: block; max-width: 100%; }
     animation: none !important;
     transition: none !important;
   }
-  .rv {
+  .rv, [data-animate] {
     opacity: 1 !important;
     transform: none !important;
   }

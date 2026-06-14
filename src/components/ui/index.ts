@@ -1,4 +1,5 @@
 export { Button } from './Button'
 export { StickerBadge } from './StickerBadge'
 export { RevealObserver } from './RevealObserver'
+export { default as ScrollAnimator } from './ScrollAnimator'
 export { VelocitySkewObserver } from './VelocitySkewObserver'
