@@ -36,26 +36,50 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  grid-template-columns: 58% 38%;
+  gap: 4%;
+  align-items: start;
 }
 
 .card {
   border: 3px solid var(--ink);
   background: var(--bone);
   box-shadow: 5px 5px 0 var(--ink);
-  padding: 36px 32px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
   text-decoration: none;
   color: var(--ink);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: visible;
 }
 
 .card:hover {
-  transform: translate(3px, 3px);
-  box-shadow: 2px 2px 0 var(--ink);
+  transform: translate(-6px, -6px);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+.card:hover .imageWrap {
+  transform: translateY(-4px);
+}
+
+.featured {
+  /* first card — large */
+}
+
+.secondary {
+  margin-top: 30px;
+}
+
+.imageWrap {
+  transition: transform 0.2s ease;
+  border-bottom: 3px solid var(--ink);
+}
+
+.cardBody {
+  padding: 28px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .industry {
@@ -89,6 +113,9 @@
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 4px;
+  margin-bottom: -20px;
+  position: relative;
+  z-index: 2;
 }
 
 .tag {
@@ -99,6 +126,7 @@
   border: 1px solid var(--ink);
   padding: 4px 8px;
   color: var(--ink);
+  background: var(--bone);
 }
 
 .viewLink {
@@ -107,12 +135,16 @@
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--hot);
-  margin-top: 8px;
+  margin-top: 20px;
 }
 
 @media (max-width: 700px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  .secondary {
+    margin-top: 0;
   }
 }
 
@@ -120,5 +152,9 @@
   .card:hover {
     transform: none;
     box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .card:hover .imageWrap {
+    transform: none;
   }
 }
