@@ -1,7 +1,5 @@
 .contact {
   padding: 110px 0 90px;
-  position: relative;
-  overflow: hidden;
 }
 
 .label {
@@ -12,63 +10,52 @@
   color: var(--soft);
 }
 
-.bigmail {
-  display: block;
+.heading {
   font-family: var(--font-anton), sans-serif;
   text-transform: uppercase;
-  font-size: clamp(30px, 6.4vw, 92px);
+  font-size: clamp(48px, 7vw, 108px);
   line-height: 1;
   letter-spacing: 0.005em;
-  margin: 26px 0 8px;
-  width: max-content;
-  max-width: 100%;
-  position: relative;
-  transition: color 0.2s ease;
+  margin: 20px 0 52px;
+  color: var(--ink);
 }
 
-.bigmail::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  height: 6px;
-  width: 100%;
-  background: var(--hot);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.35s ease;
-}
-
-.bigmail:hover::after {
-  transform: scaleX(1);
-}
-
-.bigmail:hover {
-  color: var(--hot);
-}
-
-.altRow {
+.channels {
   display: flex;
-  gap: 14px;
-  margin-top: 38px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
-.altRow a {
-  font-family: var(--font-mono), monospace;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
+.channel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   border: var(--bd);
-  padding: 12px 18px;
+  padding: 20px 28px;
   background: var(--bone);
   box-shadow: var(--shadow);
   transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+  min-width: 200px;
 }
 
-.altRow a:hover {
+.channel:hover {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 var(--ink);
   background: var(--sun);
+}
+
+.channelType {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--soft);
+}
+
+.channelValue {
+  font-family: var(--font-mono), monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink);
 }

@@ -131,6 +131,25 @@
   color: var(--hot);
 }
 
+.learnMore {
+  grid-column: 2;
+  display: inline-block;
+  align-self: end;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  padding-bottom: 2px;
+  transition: border-color 0.2s ease;
+}
+
+.learnMore:hover {
+  border-bottom-color: var(--ink);
+}
+
 .open {
   background: #ece9e0;
 }

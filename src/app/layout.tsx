@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Anton, Archivo, Space_Mono } from 'next/font/google'
+import WhatsAppButton from '@/components/WhatsAppButton'
 import './globals.css'
 
 const anton = Anton({
@@ -35,6 +36,7 @@ export const metadata: Metadata = {
     siteName: 'Techwise IQ',
     type: 'website',
     locale: 'en_AE',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Techwise IQ — Web, Software & AI Engineering | Dubai' }],
   },
 }
 
@@ -48,7 +50,10 @@ export default function RootLayout({
       lang="en"
       className={`${anton.variable} ${archivo.variable} ${spaceMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <WhatsAppButton />
+        {children}
+      </body>
     </html>
   )
 }

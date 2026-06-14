@@ -1,13 +1,123 @@
 .footer {
   border-top: var(--bd);
-  padding: 22px 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.4fr;
+  gap: 48px;
+  padding-top: 60px;
+  padding-bottom: 52px;
+}
+
+.brand {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.wordmark {
+  font-family: var(--font-anton), sans-serif;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.hotIQ {
+  color: var(--hot);
+}
+
+.tagline {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1.8;
+  color: var(--soft);
+}
+
+.meta {
   font-family: var(--font-mono), monospace;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--soft);
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.colHead {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--soft);
+  margin-bottom: 6px;
+}
+
+.col a {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  transition: color 0.15s;
+  width: fit-content;
+  overflow-wrap: break-word;
+}
+
+.col a:hover {
+  color: var(--hot);
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  border-top: var(--bd);
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--soft);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.legal {
+  display: flex;
+  gap: 20px;
+}
+
+.legal a {
+  color: var(--soft);
+  transition: color 0.15s;
+}
+
+.legal a:hover {
+  color: var(--hot);
+}
+
+@media (max-width: 880px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px 24px;
+  }
+}
+
+@media (max-width: 540px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-top: 44px;
+    padding-bottom: 36px;
+  }
 }

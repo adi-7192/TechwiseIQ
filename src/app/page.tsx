@@ -7,6 +7,7 @@ import ServicesSection from '@/components/ServicesSection'
 import Ticker from '@/components/Ticker'
 import ProcessSection from '@/components/ProcessSection'
 import ShoutSection from '@/components/ShoutSection'
+import CaseStudySection from '@/components/CaseStudySection'
 import CTASection from '@/components/CTASection'
 import { RevealObserver, VelocitySkewObserver } from '@/components/ui'
 
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
     description:
       'Dubai-based digital engineering agency. We build fast websites, custom software, and AI automations.',
     url: 'https://techwiseiq.com',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Techwise IQ — Web, Software & AI Engineering | Dubai' }],
   },
 }
 
@@ -39,7 +41,8 @@ const jsonLd = {
       },
       contactPoint: {
         '@type': 'ContactPoint',
-        email: 'hello@techwiseiq.com',
+        email: 'Info@techwiseiqtechnologies.ae',
+        telephone: '+971567760667',
         contactType: 'sales',
       },
     },
@@ -78,6 +81,7 @@ export default function Home() {
         <Ticker />
         <ProcessSection />
         <ShoutSection />
+        <CaseStudySection />
         <CTASection />
       </main>
       <Footer />

@@ -37,7 +37,7 @@ export default function Hero() {
         <h1 className={`${styles.claim} rv`}>
           Techwise IQ — the AI-first engineering agency.{' '}
           <span className={styles.highlight}>
-            The type does the talking. The work does the proving.
+            We build it. We ship it. You own the outcome.
           </span>
         </h1>
         <div className={`${styles.ctas} rv rv-d1`}>

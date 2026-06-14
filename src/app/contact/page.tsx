@@ -46,16 +46,16 @@ export default function ContactPage() {
               <aside className={`${styles.sidebar} rv rv-d1`}>
                 <p className={styles.sideLabel}>Or reach out directly</p>
                 <div className={styles.contactMethods}>
-                  <a href="mailto:hello@techwiseiq.com" className={styles.method}>
+                  <a href="mailto:Info@techwiseiqtechnologies.ae" className={styles.method}>
                     <span className={styles.methodTitle}>
                       Email <span className={styles.methodArrow}>&rarr;</span>
                     </span>
                     <span className={styles.methodDetail}>
-                      hello@techwiseiq.com
+                      Info@techwiseiqtechnologies.ae
                     </span>
                   </a>
                   <a
-                    href="https://wa.me/971000000000"
+                    href="https://wa.me/971567760667"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.method}
