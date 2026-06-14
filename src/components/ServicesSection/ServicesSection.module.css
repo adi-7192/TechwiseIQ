@@ -75,11 +75,11 @@
   color: inherit;
   text-align: left;
   position: relative;
-  transition: padding-left 0.25s ease;
+  transition: transform 0.25s ease;
 }
 
 .row:hover {
-  padding-left: 22px;
+  transform: translateX(12px);
 }
 
 .num {
