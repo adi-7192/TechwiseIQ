@@ -1,5 +1,5 @@
 .contact {
-  padding: 110px 0 90px;
+  padding: 96px 0 90px;
 }
 
 .label {
@@ -10,20 +10,36 @@
   color: var(--soft);
 }
 
+.split {
+  display: grid;
+  grid-template-columns: 55% 5% 40%;
+  align-items: start;
+  margin-top: 20px;
+}
+
+.left {
+  /* heading side */
+}
+
 .heading {
   font-family: var(--font-anton), sans-serif;
   text-transform: uppercase;
   font-size: clamp(48px, 7vw, 108px);
   line-height: 1;
   letter-spacing: 0.005em;
-  margin: 20px 0 52px;
   color: var(--ink);
 }
 
-.channels {
+.accent {
+  position: relative;
+  min-height: 200px;
+}
+
+.right {
   display: flex;
+  flex-direction: column;
   gap: 16px;
-  flex-wrap: wrap;
+  padding-top: 10px;
 }
 
 .channel {
@@ -34,14 +50,23 @@
   padding: 20px 28px;
   background: var(--bone);
   box-shadow: var(--shadow);
-  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
   min-width: 200px;
 }
 
 .channel:hover {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 var(--ink);
-  background: var(--sun);
+  background: var(--hot);
+}
+
+.channel:hover .channelType {
+  color: var(--bone);
+  opacity: 0.8;
+}
+
+.channel:hover .channelValue {
+  color: var(--bone);
 }
 
 .channelType {
@@ -50,6 +75,7 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--soft);
+  transition: color 0.15s ease;
 }
 
 .channelValue {
@@ -58,4 +84,20 @@
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--ink);
+  transition: color 0.15s ease;
+}
+
+@media (max-width: 880px) {
+  .split {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .accent {
+    display: none;
+  }
+
+  .heading {
+    margin-bottom: 12px;
+  }
 }
