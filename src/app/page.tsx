@@ -9,7 +9,7 @@ import ProcessSection from '@/components/ProcessSection'
 import ShoutSection from '@/components/ShoutSection'
 import CaseStudySection from '@/components/CaseStudySection'
 import CTASection from '@/components/CTASection'
-import { RevealObserver, ScrollAnimator, VelocitySkewObserver } from '@/components/ui'
+import { ScrollAnimator, VelocitySkewObserver } from '@/components/ui'
 
 export const metadata: Metadata = {
   title: 'Techwise IQ — Web, Software & AI Engineering | Dubai',
@@ -71,7 +71,6 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <RevealObserver />
       <ScrollAnimator />
       <VelocitySkewObserver />
       <Nav />
