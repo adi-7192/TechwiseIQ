@@ -1,6 +1,7 @@
 'use client'
 
 import { useAccordion } from '@/hooks/useAccordion'
+import { PlaceholderImage, GeometricAccents } from '@/components/ui'
 import styles from './ServicesSection.module.css'
 
 const SERVICES = [
@@ -35,7 +36,7 @@ export default function ServicesSection() {
 
   return (
     <section className={styles.services} id="services">
-      <div className="wrap">
+      <div className={styles.headWrap}>
         <div className={styles.head}>
           <span className={styles.label}>What we do — tap a row</span>
           <span className={styles.label}>001 — 003</span>
@@ -45,8 +46,13 @@ export default function ServicesSection() {
         <div
           key={svc.num}
           className={`${styles.svc}${openIndex === i ? ` ${styles.open}` : ''}`}
+          data-animate="slide-up"
         >
-          <div className="wrap">
+          {/* Giant background number */}
+          <span className={styles.bgNum} data-parallax="0.2" aria-hidden="true">
+            {svc.num}
+          </span>
+          <div className={styles.svcInner}>
             <h2 className={styles.heading}>
               <button
                 id={`svc-btn-${i}`}
@@ -71,15 +77,21 @@ export default function ServicesSection() {
               aria-labelledby={`svc-btn-${i}`}
             >
               <div className={styles.bodyInner}>
-                <p>{svc.description}</p>
-                <ul>
-                  {svc.deliverables.map((d) => (
-                    <li key={d}>{d}</li>
-                  ))}
-                </ul>
-                <a href={svc.href} className={styles.learnMore}>
-                  Learn more →
-                </a>
+                <div className={styles.bodyText}>
+                  <p>{svc.description}</p>
+                  <ul>
+                    {svc.deliverables.map((d) => (
+                      <li key={d}>{d}</li>
+                    ))}
+                  </ul>
+                  <a href={svc.href} className={styles.learnMore}>
+                    Learn more →
+                  </a>
+                </div>
+                <div className={styles.bodyVisual}>
+                  <PlaceholderImage label={`${svc.title} project`} />
+                  <GeometricAccents variant="services" className={styles.svcAccent} />
+                </div>
               </div>
             </div>
           </div>
