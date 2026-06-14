@@ -4,6 +4,23 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-06-14 — Visual Overhaul
+
+- **Animation system**: Replaced `.rv` IntersectionObserver with GSAP ScrollTrigger (slide-up, rotate-x, slide-left/right, scale, parallax) via ScrollAnimator component
+- **Three.js**: Added wireframe icosahedron hero scene + floating wireframe shapes in Shout section
+- **Hero**: Three.js background, floating project screenshot placeholder, stagger entry
+- **Manifesto**: Orbiting SVG geometric accents with parallax, removed border-top
+- **Services**: Full-width layout, giant parallax background numbers, visual panels with placeholder screenshots on expand
+- **Process**: Staggered wave column heights, ghost parallax numbers, enhanced hover
+- **Shout**: RotateX heading reveal, Three.js floating wireframes, enhanced strike-through + outcomes burst, removed border-top, centered
+- **Case Studies**: Magazine layout (58/38% asymmetric), placeholder images, scale reveal, enhanced hover
+- **CTA**: Split layout (heading left, channels right), geometric accent, hot-fill channel hover
+- **Inter-section flow**: Removed uniform borders from Manifesto/Shout, varied padding rhythm
+- **Dependencies**: Added three, @react-three/fiber, @react-three/drei
+- **Reduced-motion audit**: Three.js `useFrame` animation guard via `reducedRef`; `[data-parallax]` added to global CSS reduced-motion reset; `scroll-behavior: auto` under reduced-motion
+
+---
+
 ## 2026-06-14 — Homepage + Support Pages Build
 
 - Added homepage content and layout updates across Hero, Services, Ticker, Case Study, CTA, footer, and contact.
