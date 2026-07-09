@@ -1,18 +1,12 @@
 'use client'
 
-import dynamic from 'next/dynamic'
 import Marquee from '@/components/Marquee'
-import { Button, StickerBadge, PlaceholderImage } from '@/components/ui'
+import { Button, StickerBadge } from '@/components/ui'
 import styles from './Hero.module.css'
-
-const HeroScene = dynamic(() => import('@/components/three/HeroScene'), {
-  ssr: false,
-})
 
 export default function Hero() {
   return (
     <header className={styles.hero}>
-      <HeroScene />
       <StickerBadge className={styles.sticker}>AI-FIRST ★ DUBAI</StickerBadge>
 
       {/* 3 kinetic marquee rows — decorative, real h1 is in the claim card */}
@@ -54,11 +48,6 @@ export default function Hero() {
             What we do ↓
           </Button>
         </div>
-      </div>
-
-      {/* Floating screenshot placeholder */}
-      <div className={styles.screenshot} data-animate="scale" data-parallax="0.6">
-        <PlaceholderImage label="Project preview" />
       </div>
 
       <span className={styles.cue}>

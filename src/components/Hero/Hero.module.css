@@ -75,16 +75,6 @@
   justify-content: center;
 }
 
-.screenshot {
-  position: absolute;
-  right: 5%;
-  bottom: 18%;
-  width: clamp(200px, 22vw, 320px);
-  transform: rotate(-3deg);
-  z-index: 3;
-  pointer-events: none;
-}
-
 .cue {
   position: absolute;
   bottom: 22px;
@@ -115,10 +105,6 @@
     top: auto;
     bottom: 18%;
     right: 5%;
-  }
-
-  .screenshot {
-    display: none;
   }
 }
 

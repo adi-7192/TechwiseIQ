@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { GeometricAccents } from '@/components/ui'
 import styles from './Manifesto.module.css'
 
 const LEAD_WORDS =
@@ -62,10 +61,7 @@ export default function Manifesto() {
 
   return (
     <section ref={sectionRef} className={styles.manifesto}>
-      <div className={styles.geometryWrap} data-parallax="0.3">
-        <GeometricAccents variant="manifesto" />
-      </div>
-      <div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
+<div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
         <span className={styles.label}>The short version</span>
         <p className={styles.text}>
           {LEAD_WORDS.map((word, i) => (

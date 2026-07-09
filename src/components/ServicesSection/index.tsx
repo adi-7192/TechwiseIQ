@@ -1,7 +1,7 @@
 'use client'
 
 import { useAccordion } from '@/hooks/useAccordion'
-import { PlaceholderImage, GeometricAccents } from '@/components/ui'
+import { PlaceholderImage } from '@/components/ui'
 import styles from './ServicesSection.module.css'
 
 const SERVICES = [
@@ -48,10 +48,6 @@ export default function ServicesSection() {
           className={`${styles.svc}${openIndex === i ? ` ${styles.open}` : ''}`}
           data-animate="slide-up"
         >
-          {/* Giant background number */}
-          <span className={styles.bgNum} data-parallax="0.2" aria-hidden="true">
-            {svc.num}
-          </span>
           <div className={styles.svcInner}>
             <h2 className={styles.heading}>
               <button
@@ -90,7 +86,6 @@ export default function ServicesSection() {
                 </div>
                 <div className={styles.bodyVisual}>
                   <PlaceholderImage label={`${svc.title} project`} />
-                  <GeometricAccents variant="services" className={styles.svcAccent} />
                 </div>
               </div>
             </div>

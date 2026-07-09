@@ -33,21 +33,6 @@
   border-bottom: var(--bd);
 }
 
-.bgNum {
-  position: absolute;
-  right: 5%;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--font-anton), sans-serif;
-  font-size: clamp(150px, 20vw, 300px);
-  line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 2px rgba(16, 16, 16, 0.06);
-  pointer-events: none;
-  z-index: 0;
-  white-space: nowrap;
-}
-
 .svcInner {
   max-width: var(--max);
   margin: 0 auto;
@@ -210,11 +195,6 @@
 
   .bodyVisual {
     max-width: 320px;
-  }
-
-  .bgNum {
-    font-size: clamp(100px, 15vw, 180px);
-    right: 2%;
   }
 }
 

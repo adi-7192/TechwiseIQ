@@ -1,12 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import dynamic from 'next/dynamic'
 import styles from './ShoutSection.module.css'
-
-const FloatingShapes = dynamic(() => import('@/components/three/FloatingShapes'), {
-  ssr: false,
-})
 
 export default function ShoutSection() {
   const strikeRef = useRef<HTMLSpanElement>(null)
@@ -39,8 +34,7 @@ export default function ShoutSection() {
 
   return (
     <section className={styles.shout}>
-      <FloatingShapes />
-      <div className="wrap">
+<div className="wrap">
         <h2 className={styles.heading} data-animate="rotate-x">
           Agencies sell{' '}
           <span ref={strikeRef} className={styles.strike}>

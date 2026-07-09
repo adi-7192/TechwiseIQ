@@ -34,9 +34,6 @@ export default function ProcessSection() {
               key={step.num}
               className={`${styles.step} ${i % 2 === 1 ? styles.stepOffset : ''}`}
             >
-              <span className={styles.ghost} data-parallax="0.4" aria-hidden="true">
-                {step.num}
-              </span>
               <div className={styles.big}>{step.num}</div>
               <h3 className={styles.title}>{step.title}</h3>
               <p className={styles.body}>{step.body}</p>

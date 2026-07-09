@@ -1,4 +1,3 @@
-import { GeometricAccents } from '@/components/ui'
 import styles from './CTASection.module.css'
 
 export default function CTASection() {
@@ -14,10 +13,7 @@ export default function CTASection() {
               CONVERSATION.
             </h2>
           </div>
-          <div className={styles.accent}>
-            <GeometricAccents variant="cta" />
-          </div>
-          <div className={styles.right} data-animate="slide-right" data-stagger="0.1">
+<div className={styles.right} data-animate="slide-right" data-stagger="0.1">
             <a
               className={styles.channel}
               href="mailto:Info@techwiseiqtechnologies.ae"

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import CTASection from '@/components/CTASection'
+import RobotVideo from '@/components/RobotVideo'
 import { RevealObserver } from '@/components/ui'
 import styles from './services.module.css'
 
@@ -46,7 +47,9 @@ export default function ServicesPage() {
       <Nav />
       <main>
         <section className={styles.hero}>
-          <div className="wrap">
+          <RobotVideo />
+          <div className={styles.overlay} aria-hidden="true" />
+          <div className={`wrap ${styles.heroContent}`}>
             <span className={styles.label}>What we do — 001 to 003</span>
             <h1 className={`${styles.title} rv`}>
               Three pillars.
@@ -57,6 +60,19 @@ export default function ServicesPage() {
               Web development, custom software, AI automation. Each scoped tight,
               shipped weekly, priced in writing.
             </p>
+            <p className={`${styles.taglineQuote} rv rv-d1`}>
+              Agencies sell hours. We sell outcomes.
+            </p>
+            <div className={styles.actions}>
+              <Link href="/contact" className={styles.actionLink}>
+                <span className={styles.actionArrow} aria-hidden="true">→</span>
+                Start a project
+              </Link>
+              <Link href="/work" className={styles.actionLink}>
+                <span className={styles.actionArrow} aria-hidden="true">→</span>
+                See our work
+              </Link>
+            </div>
           </div>
         </section>
 

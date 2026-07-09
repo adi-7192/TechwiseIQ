@@ -49,6 +49,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${anton.variable} ${archivo.variable} ${spaceMono.variable}`}
+      suppressHydrationWarning
     >
       <body>
         <WhatsAppButton />
