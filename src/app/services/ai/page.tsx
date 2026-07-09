@@ -5,6 +5,7 @@ import ServiceHero from '@/components/ServiceHero'
 import DeliverablesSection from '@/components/DeliverablesSection'
 import MiniProcess from '@/components/MiniProcess'
 import FAQSection from '@/components/FAQSection'
+import ProofStrip from '@/components/ProofStrip'
 import CTASection from '@/components/CTASection'
 import { RevealObserver } from '@/components/ui'
 
@@ -84,15 +85,40 @@ const FAQS = [
 
 const faqJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: FAQS.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: faq.answer,
+  '@graph': [
+    {
+      '@type': 'FAQPage',
+      mainEntity: FAQS.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
     },
-  })),
+    {
+      '@type': 'Service',
+      '@id': 'https://techwiseiq.com/services/ai#service',
+      name: 'AI Automation & Enablement',
+      serviceType: 'AI Automation',
+      url: 'https://techwiseiq.com/services/ai',
+      provider: { '@id': 'https://techwiseiq.com/#organization' },
+      areaServed: ['Dubai', 'United Arab Emirates', 'Worldwide'],
+      description:
+        'Workflow automation, AI assistants on client data, document and email processing, and AI audits — concrete automations, not vague promises.',
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'AED',
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          minPrice: 6500,
+          priceCurrency: 'AED',
+        },
+        description: 'AI audits starting from AED 6,500',
+      },
+    },
+  ],
 }
 
 export default function AIServicePage() {
@@ -112,6 +138,7 @@ export default function AIServicePage() {
         />
         <DeliverablesSection deliverables={DELIVERABLES} />
         <MiniProcess steps={PROCESS} />
+        <ProofStrip service="ai" />
         <FAQSection faqs={FAQS} />
         <CTASection />
       </main>

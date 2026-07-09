@@ -29,7 +29,7 @@
   font-size: 16.5px;
   font-weight: 500;
   max-width: 56ch;
-  color: #3a3933;
+  color: var(--ink-soft);
 }
 
 /* ─── Identity — Who we are ─── */
@@ -56,7 +56,7 @@
 .identityBody {
   font-size: 16.5px;
   font-weight: 500;
-  color: #3a3933;
+  color: var(--ink-soft);
   line-height: 1.6;
 }
 
@@ -85,7 +85,7 @@
 }
 
 .principle:hover {
-  background: #ece9e0;
+  background: var(--surface-open);
 }
 
 .principleNum {
@@ -107,7 +107,7 @@
 .principleBody {
   font-size: 14.5px;
   font-weight: 500;
-  color: #3a3933;
+  color: var(--ink-soft);
 }
 
 /* ─── AI-first — ink bg ─── */
@@ -174,7 +174,7 @@
   font-weight: 500;
   max-width: 58ch;
   line-height: 1.7;
-  color: #3a3933;
+  color: var(--ink-soft);
   margin-top: 32px;
 }
 

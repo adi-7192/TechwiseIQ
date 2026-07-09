@@ -7,7 +7,8 @@
   padding: 15px 26px;
   border: var(--bd);
   background: var(--hot);
-  color: var(--bone);
+  /* ink on hot — bone fails WCAG AA at this size (~2.6:1) */
+  color: var(--ink);
   box-shadow: var(--shadow-md);
   transition: transform 0.12s, box-shadow 0.12s;
   display: inline-block;

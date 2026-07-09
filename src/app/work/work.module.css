@@ -29,7 +29,7 @@
   font-size: 16.5px;
   font-weight: 500;
   max-width: 56ch;
-  color: #3a3933;
+  color: var(--ink-soft);
 }
 
 /* ─── Tile grid ─── */
@@ -59,7 +59,7 @@
 }
 
 .tile:hover {
-  background: #ece9e0;
+  background: var(--surface-open);
 }
 
 .tileImgWrap {
@@ -110,7 +110,7 @@
 .tileTagline {
   font-size: 14px;
   font-weight: 500;
-  color: #3a3933;
+  color: var(--ink-soft);
   margin-top: 8px;
   display: block;
   max-width: 38ch;

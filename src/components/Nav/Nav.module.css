@@ -206,7 +206,8 @@
   text-transform: uppercase;
   letter-spacing: 0.07em;
   background: var(--hot);
-  color: var(--bone);
+  /* ink on hot — bone fails WCAG AA at this size (~2.6:1) */
+  color: var(--ink);
   padding: 18px 28px;
   border: 3px solid var(--bone);
   box-shadow: 5px 5px 0 var(--bone);
@@ -232,7 +233,7 @@
 }
 
 /* ─── Responsive ─── */
-@media (max-width: 768px) {
+@media (max-width: 880px) {
   .links {
     display: none;
   }

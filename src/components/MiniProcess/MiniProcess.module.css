@@ -49,7 +49,7 @@
 .body {
   font-size: 14.5px;
   font-weight: 500;
-  color: #3a3933;
+  color: var(--ink-soft);
 }
 
 @media (max-width: 880px) {

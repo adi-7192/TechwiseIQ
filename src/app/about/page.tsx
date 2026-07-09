@@ -43,9 +43,23 @@ const EVIDENCE = [
   'Internal ops \u2014 automated deployments and notifications',
 ]
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  '@id': 'https://techwiseiq.com/about',
+  name: 'About Techwise IQ',
+  description:
+    'A digital engineering agency headquartered in Dubai. Senior engineers, fixed scope, working demos every Friday. We use the AI we sell.',
+  mainEntity: { '@id': 'https://techwiseiq.com/#organization' },
+}
+
 export default function AboutPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <RevealObserver />
       <Nav />
       <main>

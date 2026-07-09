@@ -17,6 +17,8 @@ export default function Nav() {
   const [hidden, setHidden] = useState(false)
   const lastY = useRef(0)
   const ticking = useRef(false)
+  const overlayRef = useRef<HTMLDivElement>(null)
+  const burgerRef = useRef<HTMLButtonElement>(null)
 
   const onScroll = useCallback(() => {
     if (ticking.current) return
@@ -46,6 +48,40 @@ export default function Nav() {
     }
   }, [menuOpen])
 
+  // Escape closes the overlay; Tab is trapped between the burger and the
+  // overlay links while open; focus moves into the overlay on open.
+  useEffect(() => {
+    if (!menuOpen) return
+    const burger = burgerRef.current
+    const links = overlayRef.current?.querySelectorAll<HTMLElement>('a[href]')
+    const els = [burger, ...(links ?? [])].filter(
+      (el): el is HTMLElement => Boolean(el),
+    )
+
+    els[1]?.focus()
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false)
+        burger?.focus()
+        return
+      }
+      if (e.key !== 'Tab' || els.length === 0) return
+      const first = els[0]
+      const last = els[els.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [menuOpen])
+
   const closeMenu = () => setMenuOpen(false)
 
   return (
@@ -70,6 +106,7 @@ export default function Nav() {
         </Link>
 
         <button
+          ref={burgerRef}
           className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ''}`}
           onClick={() => setMenuOpen((v) => !v)}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -82,6 +119,7 @@ export default function Nav() {
 
       {/* Full-screen mobile overlay */}
       <div
+        ref={overlayRef}
         className={`${styles.overlay} ${menuOpen ? styles.overlayOpen : ''}`}
         aria-hidden={!menuOpen}
       >

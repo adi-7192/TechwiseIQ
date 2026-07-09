@@ -17,6 +17,7 @@ export default function Manifesto() {
 
     const el = sectionRef.current
     if (!el) return
+    el.classList.add(styles.enhanced)
     const wordEls = el.querySelectorAll<HTMLSpanElement>('[data-w]')
     const count = wordEls.length
     const hotStart = count - PUNCH_WORDS.length
@@ -54,15 +55,29 @@ export default function Manifesto() {
       }
     }
 
-    window.addEventListener('scroll', litCheck, { passive: true })
+    // rAF-throttled: getBoundingClientRect forces reflow, so at most once per frame
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        litCheck()
+        ticking = false
+      })
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
     litCheck()
-    return () => window.removeEventListener('scroll', litCheck)
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
     <section ref={sectionRef} className={styles.manifesto}>
-<div className="wrap" style={{ position: 'relative', zIndex: 1 }}>
-        <span className={styles.label}>The short version</span>
+      <div className={`wrap ${styles.inner}`}>
+        <h2 className="sr-only">What we do</h2>
+        <span className={styles.label} aria-hidden="true">
+          The short version
+        </span>
         <p className={styles.text}>
           {LEAD_WORDS.map((word, i) => (
             <span key={i} data-w="" className={styles.word}>

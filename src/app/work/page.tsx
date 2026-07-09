@@ -3,6 +3,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import CTASection from '@/components/CTASection'
 import { RevealObserver } from '@/components/ui'
+import { CASE_STUDIES } from '@/data/case-studies'
 import WorkGrid from './WorkGrid'
 import styles from './work.module.css'
 
@@ -19,9 +20,31 @@ export const metadata: Metadata = {
   },
 }
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': 'https://techwiseiq.com/work',
+  name: 'Work — Techwise IQ case studies',
+  description:
+    'Real projects, real decisions, real results. Case studies from Techwise IQ.',
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: CASE_STUDIES.map((cs, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: cs.title,
+      url: `https://techwiseiq.com/work/${cs.slug}`,
+    })),
+  },
+}
+
 export default function WorkPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <RevealObserver />
       <Nav />
       <main>

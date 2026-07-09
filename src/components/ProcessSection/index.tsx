@@ -27,7 +27,10 @@ export default function ProcessSection() {
   return (
     <section className={styles.process}>
       <div className="wrap">
-        <span className={styles.label}>How it runs — no mystery</span>
+        <h2 className="sr-only">How we work</h2>
+        <span className={styles.label} aria-hidden="true">
+          How it runs — no mystery
+        </span>
         <div className={styles.grid} data-animate="slide-up" data-stagger="0.15">
           {STEPS.map((step, i) => (
             <div

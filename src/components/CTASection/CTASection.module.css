@@ -1,5 +1,6 @@
 .contact {
-  padding: 96px 0 90px;
+  border-top: var(--bd);
+  padding: 96px 0;
 }
 
 .label {
@@ -12,7 +13,8 @@
 
 .split {
   display: grid;
-  grid-template-columns: 55% 5% 40%;
+  grid-template-columns: 55% 40%;
+  gap: 5%;
   align-items: start;
   margin-top: 20px;
 }
@@ -28,11 +30,6 @@
   line-height: 1;
   letter-spacing: 0.005em;
   color: var(--ink);
-}
-
-.accent {
-  position: relative;
-  min-height: 200px;
 }
 
 .right {
@@ -60,13 +57,14 @@
   background: var(--hot);
 }
 
+/* ink on hot — bone fails WCAG AA at these sizes */
 .channel:hover .channelType {
-  color: var(--bone);
-  opacity: 0.8;
+  color: var(--ink);
+  opacity: 0.75;
 }
 
 .channel:hover .channelValue {
-  color: var(--bone);
+  color: var(--ink);
 }
 
 .channelType {
@@ -91,10 +89,6 @@
   .split {
     grid-template-columns: 1fr;
     gap: 32px;
-  }
-
-  .accent {
-    display: none;
   }
 
   .heading {

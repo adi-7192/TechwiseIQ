@@ -2,7 +2,8 @@
   border-top: var(--bd);
   border-bottom: var(--bd);
   background: var(--hot);
-  color: var(--bone);
+  /* ink on hot — bone fails WCAG AA at this size (~2.6:1) */
+  color: var(--ink);
   padding: 13px 0;
 }
 

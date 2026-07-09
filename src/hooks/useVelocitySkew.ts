@@ -16,6 +16,7 @@ export function useVelocitySkew(selector = '.skew') {
 
     let lastY = window.scrollY
     let vel = 0
+    let lastSk = 0
 
     function frame() {
       const dy = window.scrollY - lastY
@@ -23,9 +24,12 @@ export function useVelocitySkew(selector = '.skew') {
       // vel += (dy - vel) * 0.12  ↔  lerp(vel, dy, 0.12)
       vel = lerp(vel, dy, 0.12)
       const sk = clamp(vel * 0.14, -7, 7)
-      document.querySelectorAll<HTMLElement>(selector).forEach(el => {
-        el.style.transform = `skewY(${sk.toFixed(2)}deg)`
-      })
+      if (Math.abs(sk - lastSk) > 0.01) {
+        lastSk = sk
+        document.querySelectorAll<HTMLElement>(selector).forEach(el => {
+          el.style.transform = `skewY(${sk.toFixed(2)}deg)`
+        })
+      }
       rafRef.current = requestAnimationFrame(frame)
     }
 

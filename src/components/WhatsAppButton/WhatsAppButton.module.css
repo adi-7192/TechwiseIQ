@@ -2,16 +2,18 @@
   position: fixed;
   bottom: 32px;
   right: 24px;
-  z-index: 100;
+  /* below the nav (60) and mobile menu overlay (59) */
+  z-index: 50;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   background: var(--hot);
-  color: var(--bone);
-  border: 3px solid var(--ink);
+  /* ink on hot — bone fails WCAG AA at this size (~2.6:1) */
+  color: var(--ink);
+  border: var(--bd);
   padding: 12px 20px;
   border-radius: 0;
-  box-shadow: 4px 4px 0 var(--ink);
+  box-shadow: var(--shadow);
   font-family: var(--font-mono), monospace;
   font-size: 12px;
   font-weight: 700;
@@ -29,6 +31,6 @@
 @media (prefers-reduced-motion: reduce) {
   .btn:hover {
     transform: none;
-    box-shadow: 4px 4px 0 var(--ink);
+    box-shadow: var(--shadow);
   }
 }

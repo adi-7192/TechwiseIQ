@@ -1,14 +1,14 @@
 .manifesto {
+  border-top: var(--bd);
   padding: 120px 0;
   text-align: center;
   position: relative;
   overflow: visible;
 }
 
-.geometryWrap {
-  position: absolute;
-  inset: -20px 0;
-  pointer-events: none;
+.inner {
+  position: relative;
+  z-index: 1;
 }
 
 .label {
@@ -31,14 +31,19 @@
   letter-spacing: 0.005em;
 }
 
+/* Words start visible; the scroll script adds .enhanced before hiding them,
+   so no-JS (and reduced-motion) visitors always see the full statement. */
 .word {
   display: inline-block;
   margin-right: 0.22em;
-  opacity: 0;
   transition: opacity 0.3s ease;
 }
 
-.word[data-lit] {
+.enhanced .word {
+  opacity: 0;
+}
+
+.enhanced .word[data-lit] {
   opacity: 1;
 }
 
@@ -46,6 +51,12 @@
   display: block;
   margin-top: 0.1em;
   white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .hotLine {
+    white-space: normal;
+  }
 }
 
 .hot {
@@ -66,7 +77,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .word {
+  .word,
+  .enhanced .word {
     opacity: 1;
     transition: none;
   }

@@ -5,6 +5,7 @@ import ServiceHero from '@/components/ServiceHero'
 import DeliverablesSection from '@/components/DeliverablesSection'
 import MiniProcess from '@/components/MiniProcess'
 import FAQSection from '@/components/FAQSection'
+import ProofStrip from '@/components/ProofStrip'
 import CTASection from '@/components/CTASection'
 import { RevealObserver } from '@/components/ui'
 
@@ -84,15 +85,40 @@ const FAQS = [
 
 const faqJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: FAQS.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: faq.answer,
+  '@graph': [
+    {
+      '@type': 'FAQPage',
+      mainEntity: FAQS.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
     },
-  })),
+    {
+      '@type': 'Service',
+      '@id': 'https://techwiseiq.com/services/web#service',
+      name: 'End-to-End Web Development',
+      serviceType: 'Web Development',
+      url: 'https://techwiseiq.com/services/web',
+      provider: { '@id': 'https://techwiseiq.com/#organization' },
+      areaServed: ['Dubai', 'United Arab Emirates', 'Worldwide'],
+      description:
+        'Custom websites engineered to load fast, rank well, and convert visitors. Marketing sites, CMS builds, and e-commerce with fixed written scope.',
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'AED',
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          minPrice: 9500,
+          priceCurrency: 'AED',
+        },
+        description: 'Marketing sites starting from AED 9,500',
+      },
+    },
+  ],
 }
 
 export default function WebServicePage() {
@@ -112,6 +138,7 @@ export default function WebServicePage() {
         />
         <DeliverablesSection deliverables={DELIVERABLES} />
         <MiniProcess steps={PROCESS} />
+        <ProofStrip service="web" />
         <FAQSection faqs={FAQS} />
         <CTASection />
       </main>

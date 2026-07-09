@@ -4,6 +4,21 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-07-09 — Phase 2: UX & Visual Improvements (premium-launch roadmap)
+
+- **Hero entrance fixed**: GSAP slide-up and velocity skew were writing the same `style.transform` (skew clobbered the entrance every frame). Now GSAP animates an outer wrapper, skew writes an inner `.skew` div. Skew loop also skips DOM writes when idle. Hero no longer needs `'use client'`.
+- **Contrast (WCAG)**: all small bone-on-hot text switched to ink-on-hot — Ticker, primary Button, CTA channel hover, WhatsApp float, mobile-menu CTA (~2.6:1 → ~5:1).
+- **Heading hierarchy**: sr-only h2s added to ProcessSection ("How we work") and Manifesto ("What we do"); page outline now monotonic.
+- **Section rhythm**: light sections normalized to 96px (set-pieces stay 120px); dividers added at Hero→Manifesto and CaseStudy→CTA boundaries.
+- **Proof cross-links**: new `ProofStrip` component on all 3 service detail pages (case-study cards for web; "see what we've shipped" fallback for software/ai until those studies exist). Case-study snapshot "Service" now links back to its service page.
+- **Mobile nav hardened**: Escape closes, focus trap (burger + overlay links), focus moves into overlay on open and back to burger on close. WhatsApp float dropped to z-index 50 (below nav 60 / overlay 59).
+- **Manifesto**: scroll handler rAF-throttled (was forcing reflow per scroll event); word-hiding is now progressive enhancement (`.enhanced` added by JS — no-JS visitors see the full statement); "hate boring." wraps below 480px; inline style moved to `.inner` class.
+- **Structured data**: `Service` + `Offer` (AED minPrice) on the 3 service pages, `CollectionPage`/`ItemList` on /work, `AboutPage` on /about, `BreadcrumbList` on case studies. (Founder `Person` schema deferred — needs Adi's preferred public name.)
+- **Token discipline**: new `--ink-soft` (#3A3933) and `--surface-open` (#ECE9E0) tokens; ~20 hardcoded uses replaced across 9 stylesheets; literal borders/shadows swapped for `--bd`/`--shadow`/`--shadow-md` in CaseStudySection + WhatsAppButton; Nav breakpoint 768→880 (site standard); dead CSS removed (`.geometryWrap`, `.svcAccent`, `.accent` + CTA's empty 5% spacer column → real gap).
+- Verified: lint 0 errors, build passes, proof strips/JSON-LD/h2s/ticker checked on prod server.
+
+---
+
 ## 2026-07-09 — Phase 1: Launch Blockers (premium-launch roadmap)
 
 - **Contact form delivery**: `contact/actions.ts` now sends via Resend (reply-to visitor, recipient `Info@techwiseiqtechnologies.ae`). Fail-loud: missing `RESEND_API_KEY` or a failed send returns a visible error with email/WhatsApp fallback — never a false "sent". Status regions given `aria-live`. Added `.env.example`. ⏳ Needs Adi: `RESEND_API_KEY` + domain verification.

@@ -69,14 +69,14 @@
 .answer {
   font-size: 16px;
   font-weight: 500;
-  color: #3a3933;
+  color: var(--ink-soft);
   max-width: 64ch;
   padding: 0 0 28px;
   line-height: 1.6;
 }
 
 .open {
-  background: #ece9e0;
+  background: var(--surface-open);
 }
 
 .open .row {

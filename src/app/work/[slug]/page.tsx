@@ -43,8 +43,31 @@ export default async function CaseStudyPage({ params }: Props) {
   const cs = getCaseStudy(slug)
   if (!cs) notFound()
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Work',
+        item: 'https://techwiseiq.com/work',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: cs.title,
+        item: `https://techwiseiq.com/work/${cs.slug}`,
+      },
+    ],
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <RevealObserver />
       <Nav />
       <main>
@@ -78,7 +101,12 @@ export default async function CaseStudyPage({ params }: Props) {
               <div className={styles.snapItem}>
                 <p className={styles.snapLabel}>Service</p>
                 <p className={styles.snapValue}>
-                  {SERVICE_LABELS[cs.service] ?? cs.service}
+                  <Link
+                    href={`/services/${cs.service}`}
+                    className={styles.snapLink}
+                  >
+                    {SERVICE_LABELS[cs.service] ?? cs.service}
+                  </Link>
                 </p>
               </div>
               <div className={styles.snapItem}>

@@ -5,6 +5,7 @@ import ServiceHero from '@/components/ServiceHero'
 import DeliverablesSection from '@/components/DeliverablesSection'
 import MiniProcess from '@/components/MiniProcess'
 import FAQSection from '@/components/FAQSection'
+import ProofStrip from '@/components/ProofStrip'
 import CTASection from '@/components/CTASection'
 import { RevealObserver } from '@/components/ui'
 
@@ -83,15 +84,40 @@ const FAQS = [
 
 const faqJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: FAQS.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: faq.answer,
+  '@graph': [
+    {
+      '@type': 'FAQPage',
+      mainEntity: FAQS.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
     },
-  })),
+    {
+      '@type': 'Service',
+      '@id': 'https://techwiseiq.com/services/software#service',
+      name: 'Custom Software Engineering',
+      serviceType: 'Custom Software Engineering',
+      url: 'https://techwiseiq.com/services/software',
+      provider: { '@id': 'https://techwiseiq.com/#organization' },
+      areaServed: ['Dubai', 'United Arab Emirates', 'Worldwide'],
+      description:
+        'Portals, dashboards, internal tools, and products — software shaped to how your business runs, with fixed written scope and weekly demos.',
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'AED',
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          minPrice: 45000,
+          priceCurrency: 'AED',
+        },
+        description: 'App sprints starting from AED 45,000',
+      },
+    },
+  ],
 }
 
 export default function SoftwareServicePage() {
@@ -111,6 +137,7 @@ export default function SoftwareServicePage() {
         />
         <DeliverablesSection deliverables={DELIVERABLES} />
         <MiniProcess steps={PROCESS} />
+        <ProofStrip service="software" />
         <FAQSection faqs={FAQS} />
         <CTASection />
       </main>

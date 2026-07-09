@@ -1,5 +1,5 @@
 .services {
-  padding: 72px 0 48px;
+  padding: 96px 0;
 }
 
 .headWrap {
@@ -156,13 +156,6 @@
   padding-top: 8px;
 }
 
-.svcAccent {
-  position: absolute;
-  bottom: -10px;
-  right: -10px;
-  width: 40px;
-  height: 40px;
-}
 
 .learnMore {
   display: inline-block;
@@ -183,7 +176,7 @@
 }
 
 .open {
-  background: #ece9e0;
+  background: var(--surface-open);
 }
 
 @media (max-width: 880px) {
