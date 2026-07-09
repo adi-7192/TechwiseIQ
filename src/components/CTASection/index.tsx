@@ -1,3 +1,4 @@
+import { BOOKING_URL } from '@/lib/site'
 import styles from './CTASection.module.css'
 
 export default function CTASection() {
@@ -13,7 +14,11 @@ export default function CTASection() {
               CONVERSATION.
             </h2>
           </div>
-<div className={styles.right} data-animate="slide-right" data-stagger="0.1">
+          <div
+            className={styles.right}
+            data-animate="slide-right"
+            data-stagger="0.1"
+          >
             <a
               className={styles.channel}
               href="mailto:Info@techwiseiqtechnologies.ae"
@@ -32,8 +37,12 @@ export default function CTASection() {
               <span className={styles.channelType}>WhatsApp</span>
               <span className={styles.channelValue}>Chat with us ↗</span>
             </a>
-            {/* TODO: wire booking link */}
-            <a className={styles.channel} href="#">
+            <a
+              className={styles.channel}
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span className={styles.channelType}>Book a call</span>
               <span className={styles.channelValue}>20-min intro ↗</span>
             </a>

@@ -22,6 +22,7 @@ export type CaseStudy = {
   problem: string
   constraints: string
   approach: string[]
+  deliverables: string[]
   result: string
   images?: string[]
 }

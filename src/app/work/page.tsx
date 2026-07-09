@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: 'Work',
   description:
     'Real projects, real decisions, real results. Case studies from Techwise IQ \u2014 web development, custom software, and AI automation.',
+  alternates: { canonical: '/work' },
   openGraph: {
     title: 'Work | Techwise IQ',
     description:

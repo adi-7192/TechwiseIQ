@@ -15,12 +15,12 @@ export const metadata: Metadata = {
   title: 'Techwise IQ — Web, Software & AI Engineering | Dubai',
   description:
     'Dubai-based digital engineering agency. We build fast websites, custom software, and AI automations. Agencies sell hours. We sell outcomes.',
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'Techwise IQ — Web, Software & AI Engineering | Dubai',
     description:
       'Dubai-based digital engineering agency. We build fast websites, custom software, and AI automations.',
     url: 'https://techwiseiq.com',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Techwise IQ — Web, Software & AI Engineering | Dubai' }],
   },
 }
 

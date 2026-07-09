@@ -73,6 +73,13 @@
 .imageWrap {
   transition: transform 0.2s ease;
   border-bottom: 3px solid var(--ink);
+  overflow: hidden;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .cardBody {

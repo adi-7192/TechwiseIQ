@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: 'End-to-End Web Development',
   description:
     'Custom websites engineered to load fast, rank well, and convert visitors. Marketing sites from AED 9,500. Based in Dubai, serving clients worldwide.',
+  alternates: { canonical: '/services/web' },
   openGraph: {
     title: 'End-to-End Web Development | Techwise IQ',
     description:

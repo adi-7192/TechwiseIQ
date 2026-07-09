@@ -23,14 +23,20 @@ export default function ContactForm() {
   )
 
   if (state.success) {
-    return <div className={styles.success}>{state.message}</div>
+    return (
+      <div className={styles.success} role="status" aria-live="polite">
+        {state.message}
+      </div>
+    )
   }
 
   return (
     <form action={formAction} className={styles.form}>
-      {state.message && !state.success && (
-        <p className={styles.error}>{state.message}</p>
-      )}
+      <div role="alert" aria-live="assertive">
+        {state.message && !state.success && (
+          <p className={styles.error}>{state.message}</p>
+        )}
+      </div>
 
       <div className={styles.field}>
         <label htmlFor="name" className={styles.fieldLabel}>

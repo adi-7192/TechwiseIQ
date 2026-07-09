@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'About Techwise IQ',
   description:
     'A digital engineering agency headquartered in Dubai. Senior engineers, fixed scope, working demos every Friday. We use the AI we sell.',
+  alternates: { canonical: '/about' },
   openGraph: {
     title: 'About | Techwise IQ',
     description:

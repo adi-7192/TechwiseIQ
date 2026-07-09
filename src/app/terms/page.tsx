@@ -6,6 +6,7 @@ import styles from './terms.module.css'
 export const metadata: Metadata = {
   title: 'Terms of Service',
   description: 'Terms of service for Techwise IQ Technologies — the conditions under which we provide our services.',
+  alternates: { canonical: '/terms' },
 }
 
 export default function TermsPage() {

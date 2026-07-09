@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: 'Custom Software Engineering',
   description:
     'Portals, dashboards, internal tools, and products — software shaped to how your business runs. App sprints from AED 45,000. Dubai-based, worldwide delivery.',
+  alternates: { canonical: '/services/software' },
   openGraph: {
     title: 'Custom Software Engineering | Techwise IQ',
     description:

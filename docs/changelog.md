@@ -4,6 +4,20 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-07-09 — Phase 1: Launch Blockers (premium-launch roadmap)
+
+- **Contact form delivery**: `contact/actions.ts` now sends via Resend (reply-to visitor, recipient `Info@techwiseiqtechnologies.ae`). Fail-loud: missing `RESEND_API_KEY` or a failed send returns a visible error with email/WhatsApp fallback — never a false "sent". Status regions given `aria-live`. Added `.env.example`. ⏳ Needs Adi: `RESEND_API_KEY` + domain verification.
+- **Booking CTAs**: dead `href="#"` in CTASection + contact sidebar replaced with `BOOKING_URL` from new `src/lib/site.ts` (interim WhatsApp deep link with prefilled message). ⏳ Needs Adi: Cal.com/Calendly URL — one-line swap.
+- **OG image + favicons in-code**: new `src/app/opengraph-image.tsx` (1200×630 Anton/ink/hot kinetic card, site-wide), rebuilt `icon.tsx` (hot square, Anton T), new `apple-icon.tsx` (TIQ lettermark). Removed stray `favicon.ico` and all broken `/og-image.png` references. Anton TTF vendored at `src/assets/fonts/`.
+- **Case-study architecture unified**: deleted WorkGrid's duplicate `PROJECTS` array; grid now driven by `case-studies.ts` and tiles link to `/work/[slug]` (were dead-end accordions). Added `deliverables` + `SERVICE_LABELS` to the data module. `[slug]` pages render a framed cover screenshot + "What we delivered" section. Home CaseStudySection shows real covers via `next/image` (placeholder fallback kept).
+- **Images optimized**: `public/work/*.png` (9.9 MB) → WebP q82 (0.8 MB total).
+- **Robot video self-hosted**: CloudFront dependency removed; re-encoded 3828px/4.4 MB source → 1920px/728 KB with dense keyframes for smooth scrubbing + `robot-poster.webp`.
+- **Canonical URLs**: `alternates.canonical` on all 12 routes (domain `techwiseiq.com`).
+- **Hygiene**: deleted dead `page.module.css` (starter boilerplate), starter SVGs, orphaned `components/three/` + `GeometricAccents`; uninstalled unused `lenis`, `framer-motion`, `three`, `@react-three/fiber`, `@react-three/drei`. Added `resend`.
+- Verified: lint 0 errors, build passes (19 static routes), OG/icon renders inspected, work links + video + booking links checked on prod server.
+
+---
+
 ## 2026-06-14 — Visual Overhaul
 
 - **Animation system**: Replaced `.rv` IntersectionObserver with GSAP ScrollTrigger (slide-up, rotate-x, slide-left/right, scale, parallax) via ScrollAnimator component

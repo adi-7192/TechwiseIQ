@@ -36,7 +36,6 @@ export const metadata: Metadata = {
     siteName: 'Techwise IQ',
     type: 'website',
     locale: 'en_AE',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Techwise IQ — Web, Software & AI Engineering | Dubai' }],
   },
 }
 

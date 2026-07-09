@@ -6,6 +6,7 @@ import styles from './privacy.module.css'
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'Privacy policy for Techwise IQ Technologies — how we collect, use, and protect your data.',
+  alternates: { canonical: '/privacy' },
 }
 
 export default function PrivacyPage() {

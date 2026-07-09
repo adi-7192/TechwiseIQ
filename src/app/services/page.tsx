@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: 'Services',
   description:
     'Web development, custom software, and AI automation — scoped tight, shipped weekly, priced in writing. Based in Dubai, serving clients worldwide.',
+  alternates: { canonical: '/services' },
   openGraph: {
     title: 'Services | Techwise IQ',
     description:

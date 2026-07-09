@@ -90,6 +90,25 @@
   opacity: 0.7;
 }
 
+/* ─── Cover image ─── */
+.cover {
+  padding: 64px 0;
+  border-bottom: var(--bd);
+}
+
+.coverFrame {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border: var(--bd);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.coverImg {
+  object-fit: cover;
+  object-position: top center;
+}
+
 /* ─── Content sections ─── */
 .section {
   padding: 64px 0;
@@ -135,6 +154,25 @@
   font-weight: 700;
 }
 
+.deliverablesList {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 48px;
+  max-width: 900px;
+}
+
+.deliverableItem {
+  font-size: 15px;
+  font-weight: 500;
+  color: #3a3933;
+  line-height: 1.55;
+  padding: 10px 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
 /* ─── Stack ─── */
 .stackList {
   display: flex;
@@ -168,5 +206,9 @@
 
   .snapItem {
     border-bottom: var(--bd);
+  }
+
+  .deliverablesList {
+    grid-template-columns: 1fr;
   }
 }

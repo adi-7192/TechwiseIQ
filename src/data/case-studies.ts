@@ -1,4 +1,10 @@
-import type { CaseStudy } from '@/types'
+import type { CaseStudy, Service } from '@/types'
+
+export const SERVICE_LABELS: Record<Service['id'], string> = {
+  web: 'Web Development',
+  software: 'Custom Software',
+  ai: 'AI Automation',
+}
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
@@ -12,7 +18,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: '6 weeks',
     stack: ['Next.js', 'React', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
     liveUrl: 'https://www.aaskrarealestate.ae',
-    coverImage: '/work/aaskra-hero.png',
+    coverImage: '/work/aaskra-hero.webp',
     problem:
       'AASKRA needed a digital presence that could compete with established Dubai real estate firms. They had RERA registration and developer relationships but no website \u2014 losing credibility with high-net-worth prospects who research online before engaging.',
     constraints:
@@ -23,6 +29,17 @@ export const CASE_STUDIES: CaseStudy[] = [
       '3 strategy pages (off-plan acquisition, buying, selling) structured around concrete process steps, not vague promises',
       'Integrated WhatsApp Business and consultation booking for direct lead capture',
       'Full SEO foundation: Schema.org (Organization, RealEstateAgent), OpenGraph, structured data, sitemap',
+    ],
+    deliverables: [
+      '11-page Next.js website with custom luxury design',
+      'Cinematic animated loading screen + hero sequence',
+      '6 interactive location profiles with ROI metrics',
+      '3 strategy service pages (off-plan, buying, selling)',
+      'Developer partnership showcase (EMAAR, DAMAC, SOBHA, etc.)',
+      'WhatsApp Business + consultation booking integration',
+      'Blog/insights content section',
+      'Full SEO (Schema.org, OpenGraph, structured data)',
+      'RERA-compliant legal pages',
     ],
     result:
       'An 11-page Next.js site that positions AASKRA alongside developers like EMAAR, DAMAC, and SOBHA. Integrated lead generation via WhatsApp and consultation booking. The site carries the credibility burden while the client list grows.',
@@ -38,7 +55,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: '5 weeks',
     stack: ['Vite', 'JavaScript', 'CSS Animations', 'Google Analytics'],
     liveUrl: 'https://www.expresstradefinancing.ae',
-    coverImage: '/work/etf-hero.png',
+    coverImage: '/work/etf-hero.webp',
     problem:
       'Express Trade Financing had facilitated over USD 200M in trade instruments across 25+ countries but had no website. Prospects in global trade \u2014 import/export firms, energy companies \u2014 expect a credible digital presence before engaging on six- and seven-figure deals.',
     constraints:
@@ -49,6 +66,16 @@ export const CASE_STUDIES: CaseStudy[] = [
       'Built trade finance and SME support service pages with clear process explanations, not jargon',
       'Journal section with market analysis articles for ongoing SEO and thought leadership',
       'WhatsApp + consultation form integration for lead capture across time zones',
+    ],
+    deliverables: [
+      '10-page website with custom design and animations',
+      'Global transaction map showing 25+ countries served',
+      '3 detailed case studies with real deal outcomes',
+      'Trade finance + SME support service pages',
+      'Journal section with market analysis articles',
+      'Animated hero with Dubai skyline panorama',
+      'WhatsApp + consultation form integration',
+      'Google Analytics + Schema.org SEO setup',
     ],
     result:
       'A 10-page website that gives a boutique firm the digital weight of an institutional player. The case studies \u2014 with real numbers, real timelines, real outcomes \u2014 do more for trust than any amount of stock photography. The site serves inquiries from 25+ countries.',

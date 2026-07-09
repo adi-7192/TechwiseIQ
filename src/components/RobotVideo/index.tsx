@@ -3,8 +3,8 @@
 import { useEffect, useRef } from 'react'
 import styles from './RobotVideo.module.css'
 
-const VIDEO_URL =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4'
+const VIDEO_URL = '/robot-scrub.mp4'
+const POSTER_URL = '/robot-poster.webp'
 
 const SENSITIVITY = 0.8
 
@@ -59,11 +59,11 @@ export default function RobotVideo() {
       ref={videoRef}
       className={styles.video}
       src={VIDEO_URL}
+      poster={POSTER_URL}
       muted
       playsInline
       preload="metadata"
       tabIndex={-1}
-      crossOrigin="anonymous"
       aria-hidden="true"
     />
   )

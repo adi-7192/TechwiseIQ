@@ -1,11 +1,16 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
 import Link from 'next/link'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import CTASection from '@/components/CTASection'
 import { RevealObserver } from '@/components/ui'
-import { CASE_STUDIES, getCaseStudy } from '@/data/case-studies'
+import {
+  CASE_STUDIES,
+  SERVICE_LABELS,
+  getCaseStudy,
+} from '@/data/case-studies'
 import styles from './case-study.module.css'
 
 interface Props {
@@ -24,18 +29,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${cs.title} \u2014 ${cs.outcome}`,
     description: cs.problem,
+    alternates: { canonical: `/work/${cs.slug}` },
     openGraph: {
       title: `${cs.title} | Techwise IQ`,
       description: cs.outcome,
       url: `https://techwiseiq.com/work/${cs.slug}`,
     },
   }
-}
-
-const SERVICE_LABELS: Record<string, string> = {
-  web: 'Web Development',
-  software: 'Custom Software',
-  ai: 'AI Automation',
 }
 
 export default async function CaseStudyPage({ params }: Props) {
@@ -104,6 +104,24 @@ export default async function CaseStudyPage({ params }: Props) {
           </div>
         </section>
 
+        {/* Cover */}
+        {cs.coverImage && (
+          <section className={styles.cover}>
+            <div className="wrap">
+              <div className={`${styles.coverFrame} rv`}>
+                <Image
+                  src={cs.coverImage}
+                  alt={`${cs.title} website screenshot`}
+                  fill
+                  sizes="(max-width: 1200px) 100vw, 1152px"
+                  priority
+                  className={styles.coverImg}
+                />
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* The problem */}
         <section className={styles.section}>
           <div className="wrap">
@@ -129,6 +147,23 @@ export default async function CaseStudyPage({ params }: Props) {
             <ul className={`${styles.approachList} rv rv-d1`}>
               {cs.approach.map((item) => (
                 <li key={item} className={styles.approachItem}>
+                  <span className={styles.approachArrow} aria-hidden="true">
+                    &rarr;
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* What we delivered */}
+        <section className={styles.section}>
+          <div className="wrap">
+            <p className={`${styles.sectionLabel} rv`}>What we delivered</p>
+            <ul className={`${styles.deliverablesList} rv rv-d1`}>
+              {cs.deliverables.map((item) => (
+                <li key={item} className={styles.deliverableItem}>
                   <span className={styles.approachArrow} aria-hidden="true">
                     &rarr;
                   </span>

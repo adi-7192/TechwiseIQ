@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: 'AI Automation & Enablement',
   description:
     'Workflow automation, AI assistants, document processing — concrete automations, not vague promises. AI audits from AED 6,500. Based in Dubai.',
+  alternates: { canonical: '/services/ai' },
   openGraph: {
     title: 'AI Automation & Enablement | Techwise IQ',
     description:

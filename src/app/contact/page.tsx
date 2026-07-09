@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { RevealObserver } from '@/components/ui'
+import { BOOKING_URL } from '@/lib/site'
 import ContactForm from './ContactForm'
 import styles from './contact.module.css'
 
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
   title: 'Contact',
   description:
     'Tell us what\u2019s slowing you down. We\u2019ll reply with scope, timeline, and cost within 24 hours. Dubai-based, serving clients worldwide.',
+  alternates: { canonical: '/contact' },
   openGraph: {
     title: 'Contact | Techwise IQ',
     description:
@@ -69,7 +71,7 @@ export default function ContactPage() {
                     </span>
                   </a>
                   <a
-                    href="#"
+                    href={BOOKING_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.method}
@@ -79,7 +81,7 @@ export default function ContactPage() {
                       <span className={styles.methodArrow}>&rarr;</span>
                     </span>
                     <span className={styles.methodDetail}>
-                      20-minute intro &mdash; Cal.com
+                      20-minute intro call
                     </span>
                   </a>
                 </div>

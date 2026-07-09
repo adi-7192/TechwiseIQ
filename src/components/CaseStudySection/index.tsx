@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { CASE_STUDIES } from '@/data/case-studies'
 import { PlaceholderImage } from '@/components/ui'
@@ -21,7 +22,18 @@ export default function CaseStudySection() {
               className={`${styles.card} ${i === 0 ? styles.featured : styles.secondary}`}
             >
               <div className={styles.imageWrap}>
-                <PlaceholderImage label={cs.client} />
+                {cs.coverImage ? (
+                  <Image
+                    src={cs.coverImage}
+                    alt={`${cs.client} website screenshot`}
+                    width={1440}
+                    height={900}
+                    sizes="(max-width: 700px) 100vw, 58vw"
+                    className={styles.image}
+                  />
+                ) : (
+                  <PlaceholderImage label={cs.client} />
+                )}
               </div>
               <div className={styles.cardBody}>
                 <span className={styles.industry}>{cs.industry}</span>
