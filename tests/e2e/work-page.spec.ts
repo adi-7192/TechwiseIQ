@@ -48,6 +48,12 @@ test.describe('Work credibility page', () => {
         name: /Read Express Trade Financing case study/,
       }),
     ).toHaveAttribute('href', '/work/express-trade-financing')
+
+    await expect(
+      page.getByRole('link', {
+        name: 'Discuss your project (opens in a new tab)',
+      }),
+    ).toHaveAttribute('target', '_blank')
   })
 
   test('draft concept slots are honest and non-interactive', async ({ page }) => {

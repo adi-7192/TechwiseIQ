@@ -92,7 +92,11 @@ export default function WorkPage() {
               Real launches, clear decisions and a delivery model clients can
               understand before the first call.
             </p>
-            <span className={styles.heroMarker} aria-hidden="true" />
+            <span
+              className={styles.heroMarker}
+              data-animate="scale"
+              aria-hidden="true"
+            />
           </div>
         </section>
 
@@ -219,6 +223,7 @@ export default function WorkPage() {
                 className={styles.ctaButton}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Discuss your project (opens in a new tab)"
               >
                 Discuss your project <span aria-hidden="true">→</span>
               </a>

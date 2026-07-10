@@ -3,10 +3,27 @@ import Link from 'next/link'
 import { CASE_STUDIES, SERVICE_LABELS } from '@/data/case-studies'
 import styles from './work.module.css'
 
+const pageTotal = CASE_STUDIES.reduce((total, caseStudy) => {
+  const pages = caseStudy.workSummary.proof.find(
+    (item) => item.label === 'pages',
+  )
+  return total + Number.parseInt(pages?.value ?? '0', 10)
+}, 0)
+
+const deliveryWeeks = CASE_STUDIES.map((caseStudy) =>
+  Number.parseInt(caseStudy.timeline, 10),
+).filter(Number.isFinite)
+
 const DELIVERY_METRICS = [
-  { value: '21', label: 'Pages shipped' },
-  { value: '5–6', label: 'Week launches' },
-  { value: '2', label: 'Live projects' },
+  { value: String(pageTotal), label: 'Pages shipped' },
+  {
+    value: `${Math.min(...deliveryWeeks)}–${Math.max(...deliveryWeeks)}`,
+    label: 'Week launches',
+  },
+  {
+    value: String(CASE_STUDIES.filter((caseStudy) => caseStudy.liveUrl).length),
+    label: 'Live projects',
+  },
 ]
 
 export default function WorkGrid() {
