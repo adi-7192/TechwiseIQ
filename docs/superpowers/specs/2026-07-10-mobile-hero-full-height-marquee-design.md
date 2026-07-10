@@ -47,7 +47,7 @@ No new animation vocabulary is introduced. Only responsive positioning, sizing, 
 - Preserve visible keyboard focus states and accessible CTA labels.
 - Maintain 44px minimum touch targets and adequate separation between actions.
 - Preserve `prefers-reduced-motion` behavior.
-- Use CSS only for the responsive composition; add no client JavaScript or new dependencies.
+- Use CSS only for the responsive composition; add no client JavaScript or new runtime dependencies. Development-only regression tooling is allowed.
 - Avoid layout shift by keeping the hero dimensions stable at first paint.
 
 ## Verification
