@@ -7,6 +7,11 @@
   padding: 13px 0;
 }
 
+/* pause the strip while the reader is on it */
+.ticker:hover :global(.marquee-track) {
+  animation-play-state: paused;
+}
+
 .text {
   font-family: var(--font-mono), monospace;
   font-weight: 700;

@@ -4,6 +4,17 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-07-10 — Phase 3: Premium Interactions & Polish (premium-launch roadmap)
+
+- **One animation system**: all inner pages migrated from the legacy `.rv`/IntersectionObserver reveals to GSAP `ScrollAnimator` (`data-animate` + `data-stagger`). `RevealObserver.tsx`, `useReveal.ts`, and the `.rv` CSS are deleted. Shared components (ServiceHero, DeliverablesSection, MiniProcess) converted with parent-level stagger.
+- **Design system ratified** (both doc copies): GSAP reveal vocabulary (slide-up/left/right, scale, rotate-x), scrub parallax, the /services mouse-scrub robot video as that page's showpiece, the ink-on-hot contrast rule, and the two-element rule for skew + entrance transforms.
+- **Case-study visual weight**: giant Anton result stats (`<dl>`, hot values — real numbers only: 11 pages / 6 profiles / 6 wks; USD 200M+ / 25+ countries / 5 wks) and a scrollable "full build" frame with the complete 7300px-tall page screenshots (`fullPageImage` in data with dimensions).
+- **Micro-interactions**: ticker pauses on hover; process numbers render hot-filled on touch devices (`@media (hover: none)` — mobile never saw the hover state); StickerBadge is `aria-hidden` (★ read as "black star"). 404 buttons already use the Button primitive — no change needed.
+- **Instant navigation evaluated and deferred**: `cacheComponents` + `unstable_instant` rejects the file-based metadata routes (icon/OG with fs reads) under the draft validator. All routes are fully static so default Link prefetch is already instant; decision documented in `next.config.ts`.
+- Verified: lint 0 errors, build passes (19 routes), stats/full-build/animation output checked on prod server.
+
+---
+
 ## 2026-07-09 — Phase 2: UX & Visual Improvements (premium-launch roadmap)
 
 - **Hero entrance fixed**: GSAP slide-up and velocity skew were writing the same `style.transform` (skew clobbered the entrance every frame). Now GSAP animates an outer wrapper, skew writes an inner `.skew` div. Skew loop also skips DOM writes when idle. Hero no longer needs `'use client'`.

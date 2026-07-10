@@ -19,9 +19,13 @@ export default function ServiceHero({ label, title, description }: ServiceHeroPr
           <span className={styles.sep}>/</span>
           <span className={styles.current}>{label}</span>
         </div>
-        <h1 className={`${styles.title} rv`}>{title}</h1>
-        <p className={`${styles.body} rv rv-d1`}>{description}</p>
-        <div className={`${styles.ctas} rv rv-d2`}>
+        <h1 className={styles.title} data-animate="slide-up">
+          {title}
+        </h1>
+        <p className={styles.body} data-animate="slide-up">
+          {description}
+        </p>
+        <div className={styles.ctas} data-animate="slide-up">
           <Button variant="primary" href="/contact">
             Start a project
           </Button>

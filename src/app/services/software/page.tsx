@@ -7,7 +7,7 @@ import MiniProcess from '@/components/MiniProcess'
 import FAQSection from '@/components/FAQSection'
 import ProofStrip from '@/components/ProofStrip'
 import CTASection from '@/components/CTASection'
-import { RevealObserver } from '@/components/ui'
+import { ScrollAnimator } from '@/components/ui'
 
 export const metadata: Metadata = {
   title: 'Custom Software Engineering',
@@ -127,7 +127,7 @@ export default function SoftwareServicePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <RevealObserver />
+      <ScrollAnimator />
       <Nav />
       <main>
         <ServiceHero

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import CTASection from '@/components/CTASection'
-import { RevealObserver } from '@/components/ui'
+import { ScrollAnimator } from '@/components/ui'
 import {
   CASE_STUDIES,
   SERVICE_LABELS,
@@ -68,7 +68,7 @@ export default async function CaseStudyPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <RevealObserver />
+      <ScrollAnimator />
       <Nav />
       <main>
         {/* Hero */}
@@ -81,15 +81,15 @@ export default async function CaseStudyPage({ params }: Props) {
               <span className={styles.sep}>/</span>
               <span className={styles.current}>{cs.title}</span>
             </div>
-            <h1 className={`${styles.title} rv`}>{cs.title}</h1>
-            <p className={`${styles.outcome} rv rv-d1`}>{cs.outcome}</p>
+            <h1 className={styles.title} data-animate="slide-up">{cs.title}</h1>
+            <p className={styles.outcome} data-animate="slide-up">{cs.outcome}</p>
           </div>
         </section>
 
         {/* Snapshot */}
         <section className={styles.snapshot}>
           <div className="wrap">
-            <div className={`${styles.snapGrid} rv`}>
+            <div className={styles.snapGrid} data-animate="slide-up">
               <div className={styles.snapItem}>
                 <p className={styles.snapLabel}>Client</p>
                 <p className={styles.snapValue}>{cs.client}</p>
@@ -136,7 +136,7 @@ export default async function CaseStudyPage({ params }: Props) {
         {cs.coverImage && (
           <section className={styles.cover}>
             <div className="wrap">
-              <div className={`${styles.coverFrame} rv`}>
+              <div className={styles.coverFrame} data-animate="slide-up">
                 <Image
                   src={cs.coverImage}
                   alt={`${cs.title} website screenshot`}
@@ -153,16 +153,16 @@ export default async function CaseStudyPage({ params }: Props) {
         {/* The problem */}
         <section className={styles.section}>
           <div className="wrap">
-            <p className={`${styles.sectionLabel} rv`}>The problem</p>
-            <p className={`${styles.sectionBody} rv rv-d1`}>{cs.problem}</p>
+            <p className={styles.sectionLabel} data-animate="slide-up">The problem</p>
+            <p className={styles.sectionBody} data-animate="slide-up">{cs.problem}</p>
           </div>
         </section>
 
         {/* Constraints */}
         <section className={styles.section}>
           <div className="wrap">
-            <p className={`${styles.sectionLabel} rv`}>Constraints</p>
-            <p className={`${styles.sectionBody} rv rv-d1`}>
+            <p className={styles.sectionLabel} data-animate="slide-up">Constraints</p>
+            <p className={styles.sectionBody} data-animate="slide-up">
               {cs.constraints}
             </p>
           </div>
@@ -171,8 +171,8 @@ export default async function CaseStudyPage({ params }: Props) {
         {/* What we did */}
         <section className={styles.section}>
           <div className="wrap">
-            <p className={`${styles.sectionLabel} rv`}>What we did</p>
-            <ul className={`${styles.approachList} rv rv-d1`}>
+            <p className={styles.sectionLabel} data-animate="slide-up">What we did</p>
+            <ul className={styles.approachList} data-animate="slide-up">
               {cs.approach.map((item) => (
                 <li key={item} className={styles.approachItem}>
                   <span className={styles.approachArrow} aria-hidden="true">
@@ -188,8 +188,8 @@ export default async function CaseStudyPage({ params }: Props) {
         {/* What we delivered */}
         <section className={styles.section}>
           <div className="wrap">
-            <p className={`${styles.sectionLabel} rv`}>What we delivered</p>
-            <ul className={`${styles.deliverablesList} rv rv-d1`}>
+            <p className={styles.sectionLabel} data-animate="slide-up">What we delivered</p>
+            <ul className={styles.deliverablesList} data-animate="slide-up">
               {cs.deliverables.map((item) => (
                 <li key={item} className={styles.deliverableItem}>
                   <span className={styles.approachArrow} aria-hidden="true">
@@ -205,16 +205,51 @@ export default async function CaseStudyPage({ params }: Props) {
         {/* The result */}
         <section className={styles.section}>
           <div className="wrap">
-            <p className={`${styles.sectionLabel} rv`}>The result</p>
-            <p className={`${styles.sectionBody} rv rv-d1`}>{cs.result}</p>
+            <p className={styles.sectionLabel} data-animate="slide-up">The result</p>
+            <p className={styles.sectionBody} data-animate="slide-up">{cs.result}</p>
+            {cs.stats && (
+              <dl
+                className={styles.statsGrid}
+                data-animate="slide-up"
+                data-stagger="0.12"
+              >
+                {cs.stats.map((stat) => (
+                  <div key={stat.label} className={styles.stat}>
+                    <dt className={styles.statLabel}>{stat.label}</dt>
+                    <dd className={styles.statValue}>{stat.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
           </div>
         </section>
+
+        {/* The full build */}
+        {cs.fullPageImage && (
+          <section className={styles.section}>
+            <div className="wrap">
+              <p className={styles.sectionLabel} data-animate="slide-up">
+                The full build — scroll the page we shipped
+              </p>
+              <div className={styles.fullFrame} data-animate="slide-up">
+                <Image
+                  src={cs.fullPageImage.src}
+                  alt={`Full-page screenshot of the ${cs.title} website`}
+                  width={cs.fullPageImage.width}
+                  height={cs.fullPageImage.height}
+                  sizes="(max-width: 1200px) 100vw, 1152px"
+                  className={styles.fullImg}
+                />
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Stack */}
         <section className={styles.section}>
           <div className="wrap">
-            <p className={`${styles.sectionLabel} rv`}>Built with</p>
-            <div className={`${styles.stackList} rv rv-d1`}>
+            <p className={styles.sectionLabel} data-animate="slide-up">Built with</p>
+            <div className={styles.stackList} data-animate="slide-up">
               {cs.stack.map((tech) => (
                 <span key={tech} className={styles.stackTag}>
                   {tech}

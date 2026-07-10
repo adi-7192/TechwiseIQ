@@ -173,6 +173,56 @@
   gap: 12px;
 }
 
+/* ─── Result stats ─── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-left: var(--bd);
+  margin-top: 48px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse; /* value above label, dt/dd stay semantic */
+  border-right: var(--bd);
+  padding: 20px 24px;
+}
+
+.statValue {
+  font-family: var(--font-anton), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(40px, 5.5vw, 84px);
+  line-height: 1;
+  color: var(--hot);
+  margin: 0;
+}
+
+.statLabel {
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--soft);
+  margin-top: 12px;
+}
+
+/* ─── Full-page build frame ─── */
+.fullFrame {
+  border: var(--bd);
+  box-shadow: var(--shadow-md);
+  height: 620px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin-top: 8px;
+}
+
+.fullImg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* ─── Stack ─── */
 .stackList {
   display: flex;
@@ -210,5 +260,18 @@
 
   .deliverablesList {
     grid-template-columns: 1fr;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    border-top: var(--bd);
+  }
+
+  .stat {
+    border-bottom: var(--bd);
+  }
+
+  .fullFrame {
+    height: 460px;
   }
 }

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import CTASection from '@/components/CTASection'
-import { RevealObserver } from '@/components/ui'
+import { ScrollAnimator } from '@/components/ui'
 import { CASE_STUDIES } from '@/data/case-studies'
 import WorkGrid from './WorkGrid'
 import styles from './work.module.css'
@@ -45,18 +45,18 @@ export default function WorkPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <RevealObserver />
+      <ScrollAnimator />
       <Nav />
       <main>
         <section className={styles.hero}>
           <div className="wrap">
             <span className={styles.label}>Our work</span>
-            <h1 className={`${styles.title} rv`}>
+            <h1 className={styles.title} data-animate="slide-up">
               Proof, not
               <br />
               <span className={styles.titleAccent}>promises.</span>
             </h1>
-            <p className={`${styles.intro} rv rv-d1`}>
+            <p className={styles.intro} data-animate="slide-up">
               Real projects. Real decisions. Real results. No stock screenshots,
               no invented case studies.
             </p>

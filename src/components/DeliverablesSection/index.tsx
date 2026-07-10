@@ -9,12 +9,9 @@ export default function DeliverablesSection({ deliverables }: DeliverablesSectio
     <section className={styles.section}>
       <div className="wrap">
         <span className={styles.label}>What you get</span>
-        <ul className={styles.grid}>
-          {deliverables.map((d, i) => (
-            <li
-              key={d}
-              className={`${styles.item} rv${i >= 2 && i < 4 ? ' rv-d1' : ''}${i >= 4 ? ' rv-d2' : ''}`}
-            >
+        <ul className={styles.grid} data-animate="slide-up" data-stagger="0.08">
+          {deliverables.map((d) => (
+            <li key={d} className={styles.item}>
               <span className={styles.arrow} aria-hidden="true">
                 →
               </span>

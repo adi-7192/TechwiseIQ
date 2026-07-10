@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import CTASection from '@/components/CTASection'
-import { RevealObserver } from '@/components/ui'
+import { ScrollAnimator } from '@/components/ui'
 import styles from './about.module.css'
 
 export const metadata: Metadata = {
@@ -60,19 +60,19 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <RevealObserver />
+      <ScrollAnimator />
       <Nav />
       <main>
         {/* Hero */}
         <section className={styles.hero}>
           <div className="wrap">
             <span className={styles.label}>About us</span>
-            <h1 className={`${styles.title} rv`}>
+            <h1 className={styles.title} data-animate="slide-up">
               Built different.
               <br />
               <span className={styles.titleAccent}>On purpose.</span>
             </h1>
-            <p className={`${styles.intro} rv rv-d1`}>
+            <p className={styles.intro} data-animate="slide-up">
               A digital engineering agency headquartered in Dubai. We build
               websites, custom software, and AI automations for businesses that
               want outcomes &mdash; not process theater.
@@ -84,8 +84,8 @@ export default function AboutPage() {
         <section className={styles.identity}>
           <div className="wrap">
             <div className={styles.identityGrid}>
-              <h2 className={`${styles.sectionHead} rv`}>Who we are</h2>
-              <div className={`${styles.identityBody} rv rv-d1`}>
+              <h2 className={styles.sectionHead} data-animate="slide-up">Who we are</h2>
+              <div className={styles.identityBody} data-animate="slide-up">
                 <p>
                   Small team. Senior engineers. Every project gets the people
                   who scoped it &mdash; not a bench of juniors cycling through
@@ -105,15 +105,16 @@ export default function AboutPage() {
         <section className={styles.philosophy}>
           <div className="wrap">
             <span className={styles.label}>How we think</span>
-            <h2 className={`${styles.sectionHead} rv`}>
+            <h2 className={styles.sectionHead} data-animate="slide-up">
               Outcomes, not hours.
             </h2>
-            <div className={styles.principles}>
-              {PRINCIPLES.map((p, i) => (
-                <div
-                  key={p.num}
-                  className={`${styles.principle} rv${i === 1 ? ' rv-d1' : ''}${i === 2 ? ' rv-d2' : ''}`}
-                >
+            <div
+              className={styles.principles}
+              data-animate="slide-up"
+              data-stagger="0.12"
+            >
+              {PRINCIPLES.map((p) => (
+                <div key={p.num} className={styles.principle}>
                   <span className={styles.principleNum}>{p.num}</span>
                   <h3 className={styles.principleTitle}>{p.title}</h3>
                   <p className={styles.principleBody}>{p.body}</p>
@@ -126,16 +127,16 @@ export default function AboutPage() {
         {/* AI-first */}
         <section className={styles.aifirst}>
           <div className="wrap">
-            <h2 className={`${styles.aifirstHeading} rv`}>
+            <h2 className={styles.aifirstHeading} data-animate="slide-up">
               We use the{' '}
               <span className={styles.aifirstAccent}>AI we sell.</span>
             </h2>
-            <p className={`${styles.aifirstBody} rv rv-d1`}>
+            <p className={styles.aifirstBody} data-animate="slide-up">
               This isn&apos;t a marketing claim. It&apos;s how we operate.
               Every workflow we automate for a client, we&apos;ve
               pressure-tested on ourselves first.
             </p>
-            <ul className={`${styles.evidence} rv rv-d2`}>
+            <ul className={styles.evidence} data-animate="slide-up">
               {EVIDENCE.map((item) => (
                 <li key={item} className={styles.evidenceItem}>
                   <span className={styles.evidenceArrow} aria-hidden="true">
@@ -152,7 +153,7 @@ export default function AboutPage() {
         <section className={styles.founder}>
           <div className="wrap">
             <span className={styles.label}>A note from the founder</span>
-            <div className={`${styles.founderQuote} rv`}>
+            <div className={styles.founderQuote} data-animate="slide-up">
               <p>
                 I started Techwise IQ because I kept seeing the same pattern:
                 businesses paying agency rates for junior work, wrapped in
@@ -171,7 +172,7 @@ export default function AboutPage() {
                 pretend we&apos;ve done two hundred.
               </p>
             </div>
-            <div className={`rv rv-d1`}>
+            <div data-animate="slide-up">
               <p className={styles.founderSig}>Adi</p>
               <p className={styles.founderRole}>Founder, Techwise IQ</p>
             </div>

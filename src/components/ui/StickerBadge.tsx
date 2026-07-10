@@ -7,5 +7,10 @@ interface StickerBadgeProps {
 }
 
 export function StickerBadge({ children, className }: StickerBadgeProps) {
-  return <span className={cn(styles.badge, className)}>{children}</span>
+  // decorative flourish — the ★ reads as "black star" to screen readers
+  return (
+    <span className={cn(styles.badge, className)} aria-hidden="true">
+      {children}
+    </span>
+  )
 }

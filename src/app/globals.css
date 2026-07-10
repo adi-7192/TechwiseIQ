@@ -69,16 +69,6 @@ img { display: block; max-width: 100%; }
   padding: 0 24px;
 }
 
-/* ─── Scroll Reveal (legacy — kept for backward compat) ─── */
-.rv {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.75s cubic-bezier(.2,.7,.3,1), transform 0.75s cubic-bezier(.2,.7,.3,1);
-}
-.rv.in  { opacity: 1; transform: none; }
-.rv-d1  { transition-delay: 0.12s; }
-.rv-d2  { transition-delay: 0.24s; }
-
 /* ─── GSAP ScrollTrigger base ─── */
 [data-animate] {
   will-change: transform, opacity;
@@ -109,7 +99,7 @@ img { display: block; max-width: 100%; }
     animation: none !important;
     transition: none !important;
   }
-  .rv, [data-animate], [data-parallax] {
+  [data-animate], [data-parallax] {
     opacity: 1 !important;
     transform: none !important;
   }

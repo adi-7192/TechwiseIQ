@@ -46,6 +46,14 @@
   transform: scale(1.05);
 }
 
+/* touch devices never hover — show the hot fill by default there */
+@media (hover: none) {
+  .big {
+    color: var(--hot);
+    -webkit-text-stroke: 2px var(--hot);
+  }
+}
+
 .title {
   font-family: var(--font-anton), sans-serif;
   text-transform: uppercase;

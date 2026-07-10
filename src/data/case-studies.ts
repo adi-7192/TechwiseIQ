@@ -43,6 +43,16 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     result:
       'An 11-page Next.js site that positions AASKRA alongside developers like EMAAR, DAMAC, and SOBHA. Integrated lead generation via WhatsApp and consultation booking. The site carries the credibility burden while the client list grows.',
+    stats: [
+      { value: '11', label: 'pages shipped' },
+      { value: '6', label: 'location profiles with real ROI data' },
+      { value: '6 wks', label: 'brief to launch' },
+    ],
+    fullPageImage: {
+      src: '/work/aaskra-desktop.webp',
+      width: 1440,
+      height: 7327,
+    },
   },
   {
     slug: 'express-trade-financing',
@@ -79,6 +89,16 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     result:
       'A 10-page website that gives a boutique firm the digital weight of an institutional player. The case studies \u2014 with real numbers, real timelines, real outcomes \u2014 do more for trust than any amount of stock photography. The site serves inquiries from 25+ countries.',
+    stats: [
+      { value: 'USD 200M+', label: 'in instruments behind the brand' },
+      { value: '25+', label: 'countries served' },
+      { value: '5 wks', label: 'brief to launch' },
+    ],
+    fullPageImage: {
+      src: '/work/etf-desktop.webp',
+      width: 1440,
+      height: 7603,
+    },
   },
 ]
 

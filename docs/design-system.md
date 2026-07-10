@@ -83,23 +83,29 @@ Display tricks (max one per element):
 
 Vocabulary (everything on the page uses only these):
 - Marquee loops: 22–30s linear, infinite. Hero rows + ticker only.
-- Scroll reveals: opacity 0 + translateY(30px) → none, 0.75s `cubic-bezier(.2,.7,.3,1)`, sibling stagger 0.12s, fire once.
+- Scroll reveals (GSAP ScrollTrigger via `ScrollAnimator`, `data-animate`): `slide-up` (default), `slide-left`, `slide-right`, `scale`, `rotate-x` — 0.8s `power3.out`, fire once at top 85%; sibling stagger via `data-stagger` (0.08–0.15s). *(Ratified 2026-07-09, replaces the legacy `.rv` IntersectionObserver reveals — that system is deleted.)*
+- Scrub parallax (`data-parallax`, GSAP scrub): sparing, decorative strips only (e.g. ticker). *(Ratified 2026-07-09.)*
 - Hover micro-interactions: pressed-shadow buttons, outline-hollow titles, arrow slides.
 - Accordion: max-height transition, 0.5s same curve.
 - Decorative idle: sticker wobble 5s, shape bob 6–7s.
+- Particle field background (`FluidParticles`, Home hero only): see prior ratification.
 
-**The showpiece (one per page):** velocity skew — kinetic rows skew with scroll velocity (`skewY`, clamped ±7°, lerp 0.12, rAF loop). Home page only. Other pages get NO showpiece until one is deliberately designed.
+**The showpiece (one per page):**
+- Home: velocity skew — kinetic rows skew with scroll velocity (`skewY`, clamped ±7°, lerp 0.12, rAF loop). Skew and GSAP entrance live on separate wrapper elements — never write two systems to one element's `transform`.
+- /services: mouse-scrub robot video (`RobotVideo`) — self-hosted mp4 (dense keyframes for seek-smoothness) + webp poster, `muted playsInline preload="metadata" aria-hidden`, scrub disabled under reduced motion. *(Ratified 2026-07-09.)*
+- Other pages get NO showpiece until one is deliberately designed.
 
 Rules:
 - transform/opacity only. No layout-triggering properties, no filter animation.
 - `prefers-reduced-motion: reduce` → all animation off, marquees static, manifesto fully lit, accordions open-capable, page fully readable. Already proven in the mockup — port it faithfully.
-- JS animation isolated in hooks (`useReveal`, `useVelocitySkew`, `useAccordion`) — never inline copy-paste.
+- JS animation isolated in hooks/components (`ScrollAnimator`, `useVelocitySkew`, `useAccordion`) — never inline copy-paste.
 
 ## 6. Accessibility
 
 - Service accordion rows: `<button>` semantics, `aria-expanded`, Enter/Space toggle, visible focus = 3px hot outline offset 2px.
 - Kinetic rows + ticker are decorative: `aria-hidden="true"`, real h1 lives in the claim card (visually styled, semantically first).
 - Contrast rules in §1. Touch targets ≥ 44px. Marquees pause under reduced motion.
+- Small text on hot backgrounds is always ink, never bone (bone-on-hot ≈ 2.6:1, fails WCAG AA below large Anton sizes). Applies to ticker, primary buttons, chips, hover states. *(Ratified 2026-07-09.)*
 - Test the manifesto lit-words effect with a screen reader — content must read as one normal paragraph.
 
 ## 7. Don'ts (anti-slop)

@@ -24,6 +24,8 @@ export type CaseStudy = {
   approach: string[]
   deliverables: string[]
   result: string
+  stats?: { value: string; label: string }[]
+  fullPageImage?: { src: string; width: number; height: number }
   images?: string[]
 }
 
