@@ -12,6 +12,18 @@ export const CASE_STUDIES: CaseStudy[] = [
     title: 'AASKRA Realty',
     outcome:
       'Luxury positioning for a new Dubai real estate consultancy targeting high-net-worth investors',
+    workSummary: {
+      challenge: 'No digital presence in a trust-heavy market.',
+      decision:
+        'Build credibility through useful market data, location profiles, and a clear investor journey.',
+      outcome:
+        "A live platform that carries the brand's authority while its track record grows.",
+      proof: [
+        { value: '11', label: 'pages' },
+        { value: '6', label: 'location profiles' },
+        { value: '6 wks', label: 'delivery' },
+      ],
+    },
     client: 'AASKRA Realty',
     industry: 'Real Estate / Dubai',
     service: 'web',
@@ -59,6 +71,19 @@ export const CASE_STUDIES: CaseStudy[] = [
     title: 'Express Trade Financing',
     outcome:
       'Institutional-grade digital presence for a boutique trade finance firm facilitating USD 200M+ in instruments',
+    workSummary: {
+      challenge:
+        'Significant deal history, but no credible digital presence.',
+      decision:
+        'Lead with real transaction stories, explain the process plainly, and balance institutional weight with accessibility.',
+      outcome:
+        'A live site that presents a boutique firm with institutional credibility.',
+      proof: [
+        { value: '10', label: 'pages' },
+        { value: '25+', label: 'countries served' },
+        { value: '5 wks', label: 'delivery' },
+      ],
+    },
     client: 'Express Trade Financing',
     industry: 'Trade Finance / Dubai',
     service: 'web',

@@ -8,10 +8,18 @@ export type Service = {
   href: string
 }
 
+export type WorkSummary = {
+  challenge: string
+  decision: string
+  outcome: string
+  proof: { value: string; label: string }[]
+}
+
 export type CaseStudy = {
   slug: string
   title: string
   outcome: string
+  workSummary: WorkSummary
   client: string
   industry: string
   service: Service['id']
