@@ -130,8 +130,8 @@ type ConceptSite = {
   category: string
   summary: string
   tags: string[]
-  previewImage: string
-  demoPath: string
+  previewImage?: string
+  demoPath?: string
   status: 'draft' | 'published'
 }
 ```
@@ -139,16 +139,23 @@ type ConceptSite = {
 - Standalone demos live at `public/concepts/<slug>/index.html` with any supporting assets inside the same folder.
 - Preview screenshots live at `public/work/concepts/<slug>.webp`.
 - `demoPath` is `/concepts/<slug>/index.html`.
-- Only entries with `status: 'published'` render.
+- Draft and published entries render differently.
+- A draft entry is a non-interactive reserved slot with a blueprint-style preview, category, and explicit `BRIEF PENDING / DEMO COMING LATER` status. It has no anchor, fake screenshot, or implied client association.
 - A published entry requires both a preview image and a working HTML demo path.
 - The Work page uses static preview images; it does not embed live iframes.
 - Opening a demo uses a new tab with `target="_blank"` and `rel="noopener noreferrer"`.
 - The accessible link name includes that a new tab opens.
-- Draft or missing concepts do not produce empty cards, broken links, or a "coming soon" gallery. If there are no published concepts, the whole section is omitted.
+- Missing manifest entries do not produce cards. Draft entries produce intentional reserved slots and never broken links.
 
-The gallery is a three-column grid on desktop and a single-column stack on mobile. Each card uses browser-window framing, a category label, concept title, one-sentence summary, up to three capability tags, and `Open live HTML demo ↗`.
+The gallery is a three-column grid on desktop and a single-column stack on mobile. Published cards use browser-window framing, a category label, concept title, one-sentence summary, up to three capability tags, and `Open live HTML demo ↗`. Draft cards use the same footprint but display a hard-edged blueprint pattern, `DEMO SLOT 01–03`, the planned category, and `BRIEF PENDING`.
 
-Creating the three complete standalone concept websites is a separate creative content stream. Each concept requires its own brief and visual review. This Work-page implementation establishes the publishing system and safely displays completed concepts without conflating unfinished demos with production work.
+The initial manifest contains exactly three draft slots:
+
+1. `DEMO SLOT 01` — luxury hospitality or restaurant.
+2. `DEMO SLOT 02` — B2B SaaS or product platform.
+3. `DEMO SLOT 03` — e-commerce or lifestyle brand.
+
+Creating the three complete standalone concept websites is a separate creative content stream. The user will provide a dedicated prompt for each later. This Work-page implementation establishes the publishing system, shows the planned breadth honestly, and converts each slot into a live card only after its demo and preview are complete.
 
 ### 2.9 How we work
 
@@ -248,8 +255,8 @@ The page uses a controlled Kinetic Rhythm rather than a full cinematic scroll ta
 ### Concept Lab
 
 - Card groups reveal with a short 60–80ms stagger.
-- Hover shifts the static preview image upward by at most 18px inside an overflow-hidden frame.
-- Title outline and arrow movement match project-card interaction.
+- Published-card hover shifts the static preview image upward by at most 18px inside an overflow-hidden frame.
+- Published-card title outline and arrow movement match project-card interaction; draft slots have no hover treatment that suggests interactivity.
 - The full HTML demo loads only after activation.
 
 ### Reduced motion
@@ -274,7 +281,7 @@ Proposed components:
 - `ProjectChapter` — reusable alternating project presentation.
 - `WorkMetrics` — derives aggregate display values from case-study data.
 - `CapabilityGrid` — static evidence-linked capabilities.
-- `ConceptLab` — filters published manifest entries and renders concept cards.
+- `ConceptLab` — renders safe draft slots and validates published concept cards.
 - `WorkProcess` — four delivery stages.
 - `WorkingPrinciples` — paired expectation lists.
 
@@ -293,7 +300,7 @@ type WorkSummary = {
 
 Attach `workSummary` to each existing `CaseStudy`. Do not duplicate the complete case-study record in the Work page.
 
-Concept metadata lives in `src/data/concept-sites.ts`. The component renders only `published` entries.
+Concept metadata lives in `src/data/concept-sites.ts`. Draft entries render reserved slots; published entries render external demo links.
 
 ## 6. Responsive behavior
 
@@ -342,7 +349,7 @@ Concept metadata lives in `src/data/concept-sites.ts`. The component renders onl
 - Concept preview images are WebP or AVIF and lazy-loaded below the fold.
 - No iframes load on `/work`.
 - Image containers reserve aspect ratio to prevent layout shift.
-- Concept entries remain hidden until published and valid, preventing broken demo links.
+- Draft concept entries render without links. Published entries render links only when both required asset paths exist, preventing broken demo links.
 - Missing optional `liveUrl` removes the secondary project link without leaving empty space.
 - The page remains fully readable if JavaScript or animation initialization fails.
 
@@ -351,8 +358,9 @@ Concept metadata lives in `src/data/concept-sites.ts`. The component renders onl
 ### Unit/component coverage
 
 - Aggregate metrics produce `21 pages`, `5–6 weeks`, and `2 live projects` from the current data.
-- `ConceptLab` renders only published entries.
-- An empty concept manifest omits the entire section.
+- `ConceptLab` renders draft entries as non-interactive reserved slots.
+- `ConceptLab` renders published entries as external demo links only when both paths exist.
+- An empty concept manifest omits the entire Concept Lab section.
 - Projects without `liveUrl` omit the external link.
 - Project chapters render the correct challenge, decision, outcome, and proof values.
 
@@ -360,6 +368,7 @@ Concept metadata lives in `src/data/concept-sites.ts`. The component renders onl
 
 - `/work` renders one H1 and all required section headings.
 - Both case-study links navigate to the correct detail pages.
+- Draft concept slots contain no anchors and clearly announce `BRIEF PENDING`.
 - Published concept links open the correct HTML demo paths.
 - Keyboard focus reaches all project, live-site, concept, and CTA links in logical order.
 - At 375px there is no horizontal overflow and project images precede copy.
@@ -379,7 +388,7 @@ Concept metadata lives in `src/data/concept-sites.ts`. The component renders onl
 - No filters until at least two service categories have real published work.
 - No modal project overlay; project chapters link to stable case-study URLs.
 - No carousel or horizontal swipe gallery.
-- No fabricated testimonials, logos, awards, performance uplift, or business outcomes.
+- No fabricated testimonials, logos, awards, performance uplift, business outcomes, demo screenshots, or completed-demo claims.
 - No embedded live concept iframes on the Work page.
 - No redesign of `/work/[slug]` detail pages in this scope.
 - No claim that Concept Lab work was commissioned or launched for a client.
@@ -388,9 +397,6 @@ Concept metadata lives in `src/data/concept-sites.ts`. The component renders onl
 
 The `/work` redesign and the Concept Lab publishing system form one implementation plan. The three complete standalone concept websites are independent creative deliverables because each needs its own audience, visual direction, content, responsive design, and QA.
 
-The Work page may ship with:
+The Work page initially ships with three non-interactive reserved demo slots. As the user supplies a separate prompt and approves each standalone demo, its entry changes from `draft` to `published` and receives real `previewImage` and `demoPath` values.
 
-1. Any concept demos that already meet the publishing contract, or
-2. No Concept Lab section until the first demo is published.
-
-It must not ship with broken links, misleading placeholders, or draft demos labeled as polished work.
+Reserved slots must look intentional and remain explicit about their status. The page must not ship with broken links, fabricated screenshots, or draft demos labeled as polished work.
