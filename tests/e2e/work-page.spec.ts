@@ -53,7 +53,13 @@ test.describe('Work credibility page', () => {
   test('draft concept slots are honest and non-interactive', async ({ page }) => {
     const lab = page.getByTestId('concept-lab')
     await expect(lab.getByRole('link')).toHaveCount(0)
-    await expect(lab.getByText('Demo slot', { exact: false })).toHaveCount(3)
+    const draftSlots = lab.locator('[data-concept-status="draft"]')
+    await expect(draftSlots).toHaveCount(3)
+    await expect(draftSlots).toContainText([
+      'Demo slot 01',
+      'Demo slot 02',
+      'Demo slot 03',
+    ])
     await expect(
       lab.getByText('Concept work — not client commissions'),
     ).toBeVisible()

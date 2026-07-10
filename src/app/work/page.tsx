@@ -5,6 +5,7 @@ import Marquee from '@/components/Marquee'
 import { ScrollAnimator } from '@/components/ui'
 import { CASE_STUDIES } from '@/data/case-studies'
 import { BOOKING_URL } from '@/lib/site'
+import ConceptLab from './ConceptLab'
 import WorkGrid from './WorkGrid'
 import styles from './work.module.css'
 
@@ -150,6 +151,8 @@ export default function WorkPage() {
             </div>
           </div>
         </section>
+
+        <ConceptLab />
 
         <section className={styles.process}>
           <div className="wrap">

@@ -310,6 +310,240 @@
   border-top: var(--bd);
 }
 
+.conceptLab {
+  padding: 104px 0;
+  border-top: var(--bd);
+  background: var(--surface-open);
+}
+
+.conceptDisclosure {
+  display: inline-block;
+  margin-top: 22px;
+  padding: 7px 10px;
+  border: 2px solid var(--ink);
+  background: var(--sun);
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.conceptGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 52px;
+  border-top: var(--bd);
+  border-left: var(--bd);
+}
+
+.conceptCard {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  border-right: var(--bd);
+  border-bottom: var(--bd);
+  background: var(--bone);
+  color: var(--ink);
+}
+
+.conceptPreview {
+  position: relative;
+  min-height: 270px;
+  overflow: hidden;
+  border-bottom: var(--bd);
+  background: var(--paper);
+}
+
+.browserBar {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  height: 34px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border-bottom: 2px solid var(--ink);
+  background: var(--bone);
+}
+
+.browserBar span {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+}
+
+.browserBar b {
+  min-width: 0;
+  margin-left: 5px;
+  overflow: hidden;
+  font-family: var(--font-mono), monospace;
+  font-size: 8px;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--soft);
+}
+
+.blueprint {
+  position: absolute;
+  inset: 34px 0 0;
+  padding: 24px;
+  background: var(--paper);
+}
+
+.blueprint::before,
+.blueprint::after {
+  position: absolute;
+  content: '';
+  pointer-events: none;
+}
+
+.blueprint::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  border-left: 1px solid #d1cec5;
+}
+
+.blueprint::after {
+  top: 50%;
+  right: 0;
+  left: 0;
+  border-top: 1px solid #d1cec5;
+}
+
+.blueprint span {
+  position: relative;
+  z-index: 1;
+  display: block;
+  border: 2px solid #aaa69c;
+  background: var(--bone);
+}
+
+.blueprintNav {
+  width: 100%;
+  height: 18px;
+}
+
+.blueprintHeadline {
+  width: 62%;
+  height: 32px;
+  margin-top: 28px;
+}
+
+.blueprintCopy {
+  width: 48%;
+  height: 12px;
+  margin-top: 10px;
+}
+
+.blueprintMedia {
+  position: absolute !important;
+  top: 66px;
+  right: 24px;
+  width: 34%;
+  height: 92px;
+}
+
+.blueprintButton {
+  width: 30%;
+  height: 24px;
+  margin-top: 18px;
+  border-color: var(--hot) !important;
+}
+
+.conceptImage {
+  object-fit: cover;
+  object-position: top center;
+  padding-top: 34px;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+.conceptCopy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 24px 22px 0;
+}
+
+.conceptIndex,
+.conceptPending,
+.conceptOpen {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.conceptIndex {
+  color: var(--soft);
+}
+
+.conceptTitle {
+  margin-top: 12px;
+  font-family: var(--font-anton), sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 0.96;
+  text-transform: uppercase;
+  transition: color 0.2s ease, -webkit-text-stroke 0.2s ease;
+}
+
+.conceptSummary {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.conceptTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 18px;
+  list-style: none;
+}
+
+.conceptTags li {
+  padding: 5px 7px;
+  border: 1px solid var(--ink);
+  font-family: var(--font-mono), monospace;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.conceptPending,
+.conceptOpen {
+  margin: 24px -22px 0;
+  padding: 16px 22px;
+  border-top: 2px solid var(--ink);
+}
+
+.conceptPending {
+  margin-top: auto;
+  color: var(--soft);
+}
+
+.conceptOpen {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--hot);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
 .capabilityGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -478,6 +712,19 @@
   .ctaButton:hover span {
     transform: translateX(4px);
   }
+
+  .conceptPublished:hover .conceptImage {
+    transform: translateY(-18px) scale(1.02);
+  }
+
+  .conceptPublished:hover .conceptTitle {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--ink);
+  }
+
+  .conceptPublished:hover .conceptOpen span {
+    transform: translateX(4px);
+  }
 }
 
 @media (max-width: 1000px) {
@@ -511,8 +758,13 @@
   }
 
   .capabilityGrid,
-  .processGrid {
+  .processGrid,
+  .conceptGrid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .conceptCard:last-child {
+    grid-column: 1 / -1;
   }
 }
 
@@ -523,6 +775,7 @@
 
   .selectedWork,
   .capabilities,
+  .conceptLab,
   .principles,
   .process,
   .finalCta {
@@ -559,8 +812,19 @@
   .metrics,
   .capabilityGrid,
   .processGrid,
-  .principlesGrid {
+  .principlesGrid,
+  .conceptGrid {
     grid-template-columns: 1fr;
+  }
+
+  .conceptGrid {
+    border-left: 0;
+  }
+
+  .conceptCard,
+  .conceptCard:last-child {
+    grid-column: auto;
+    border-left: var(--bd);
   }
 
   .metric {
