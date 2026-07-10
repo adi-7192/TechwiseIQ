@@ -4,6 +4,14 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-07-10 — fix: full-height mobile hero marquee
+
+- **Full-field type:** the three kinetic marquee rows are distributed across the complete mobile hero rather than collapsing into a shallow band.
+- **Readable overlay:** the semantic claim card and CTAs remain centered above the moving type, with 44px minimum touch targets and a narrow-phone stacked fallback.
+- **Collision safety:** the sticker, CTAs, scroll cue, and fixed WhatsApp control retain clear separation across the supported phone sizes.
+- **Desktop preserved:** all row positioning changes are scoped to viewports at or below 600px; desktop and tablet retain the original composition.
+- **Regression coverage:** Playwright verifies 320×568, 375×667, 390×844, 430×932, 600×900, desktop flow, and hero overflow containment.
+
 ## 2026-07-10 — Phase 4: Performance, Accessibility & Optimization (premium-launch roadmap)
 
 **Lighthouse (prod build, emulated mobile): 95 perf / 100 a11y / 100 best-practices / 100 SEO on all six audited routes** (/, /about, /contact, /work, /services/web, /work/aaskra-realty). Budget met.
