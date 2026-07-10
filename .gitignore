@@ -44,5 +44,8 @@ next-env.d.ts
 # local Claude Code settings
 .claude/settings.local.json
 
+# isolated implementation worktrees
+.worktrees/
+
 # reference docs (source of truth lives in parent dir)
 docs/design-reference.html
