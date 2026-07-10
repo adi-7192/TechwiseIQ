@@ -18,7 +18,10 @@ export default function FAQSection({ faqs }: FAQSectionProps) {
   return (
     <section className={styles.section}>
       <div className="wrap">
-        <span className={styles.label}>Common questions</span>
+        <h2 className="sr-only">Common questions</h2>
+        <span className={styles.label} aria-hidden="true">
+          Common questions
+        </span>
         <div className={styles.list}>
           {faqs.map((faq, i) => (
             <div

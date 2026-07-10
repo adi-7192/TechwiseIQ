@@ -8,7 +8,11 @@ export default function Footer() {
         {/* Brand */}
         <div className={styles.brand}>
           <p className={styles.wordmark}>
-            TECHWISE <span className={styles.hotIQ}>IQ</span>
+            {/* logotype — WCAG contrast-exempt, hidden from AT in favor of plain text */}
+            <span aria-hidden="true">
+              TECHWISE <span className={styles.hotIQ}>IQ</span>
+            </span>
+            <span className="sr-only">Techwise IQ</span>
           </p>
           <p className={styles.tagline}>
             Agencies sell hours.

@@ -1,0 +1,34 @@
+# Techwise IQ
+
+> Techwise IQ Technologies is an AI-first digital engineering agency headquartered in Dubai, UAE, serving clients worldwide. It builds websites, custom software, and AI automations with fixed written scope, weekly working demos, and no surprise invoices. Tagline: "Agencies sell hours. We sell outcomes."
+
+## Services
+
+- [End-to-End Web Development](https://techwiseiq.com/services/web): Custom-designed marketing sites, CMS builds, and e-commerce. Marketing sites start from AED 9,500; CMS sites from AED 18,000; e-commerce from AED 32,000.
+- [Custom Software Engineering](https://techwiseiq.com/services/software): Web applications, portals, dashboards, APIs and integrations, legacy rebuilds, mobile MVPs. App sprints start from AED 45,000; mobile MVPs from AED 60,000.
+- [AI Automation & Enablement](https://techwiseiq.com/services/ai): Workflow automation, AI assistants on client data, document and email processing, AI audits. AI audits start from AED 6,500.
+
+## Proof
+
+- [AASKRA Realty case study](https://techwiseiq.com/work/aaskra-realty): 11-page Next.js site for a Dubai real estate consultancy, shipped in 6 weeks.
+- [Express Trade Financing case study](https://techwiseiq.com/work/express-trade-financing): 10-page site for a trade finance firm that has facilitated USD 200M+ in instruments across 25+ countries, shipped in 5 weeks.
+
+## Process
+
+Four steps: Diagnose (discovery sprint), Scope (fixed written scope, price, and timeline), Build (working software demoed every Friday), Run (launch, handover, optional retainer).
+
+## Contact
+
+- Email: Info@techwiseiqtechnologies.ae
+- WhatsApp: +971 56 776 0667 (https://wa.me/971567760667)
+- Contact page: https://techwiseiq.com/contact
+- Location: Dubai, United Arab Emirates. Works with clients worldwide, mostly async plus weekly demo calls.
+
+## Pages
+
+- [Home](https://techwiseiq.com/)
+- [Services overview](https://techwiseiq.com/services)
+- [Work / case studies](https://techwiseiq.com/work)
+- [About](https://techwiseiq.com/about)
+- [Privacy](https://techwiseiq.com/privacy)
+- [Terms](https://techwiseiq.com/terms)

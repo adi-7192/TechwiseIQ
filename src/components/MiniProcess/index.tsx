@@ -14,7 +14,10 @@ export default function MiniProcess({ steps }: MiniProcessProps) {
   return (
     <section className={styles.section}>
       <div className="wrap">
-        <span className={styles.label}>How it runs</span>
+        <h2 className="sr-only">How it runs</h2>
+        <span className={styles.label} aria-hidden="true">
+          How it runs
+        </span>
         <div className={styles.grid} data-animate="slide-up" data-stagger="0.12">
           {steps.map((step) => (
             <div key={step.num} className={styles.step}>

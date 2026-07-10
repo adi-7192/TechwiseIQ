@@ -7,7 +7,7 @@
   --hot:       #FF4D00;  /* hot orange — PRIMARY accent: CTAs, highlights, ticker */
   --sun:       #FFD02F;  /* pop yellow — SECONDARY accent, max 2–3 uses/page */
   --paper:     #FFFFFF;  /* card surfaces if ever needed */
-  --soft:      #7A776E;  /* muted labels on light bg */
+  --soft:      #66635B;  /* muted labels on light bg */
   --soft-dark: #9A9A92;  /* muted text on ink bg */
   --ink-soft:  #3A3933;  /* body copy on light bg — softer than ink, darker than soft */
   --surface-open: #ECE9E0; /* pressed/open surface — accordion rows, hovered tiles */
@@ -25,7 +25,7 @@
   --color-hot:       #FF4D00;
   --color-sun:       #FFD02F;
   --color-paper:     #FFFFFF;
-  --color-soft:      #7A776E;
+  --color-soft:      #66635B;
   --color-soft-dark: #9A9A92;
   --color-ink-soft:  #3A3933;
   --color-surface-open: #ECE9E0;

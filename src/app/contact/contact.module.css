@@ -20,7 +20,12 @@
 }
 
 .titleAccent {
-  color: var(--hot);
+  /* ink + hot marker underline — hot fill on bone misses 3:1 even at h1 size */
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--hot);
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.08em;
 }
 
 .intro {

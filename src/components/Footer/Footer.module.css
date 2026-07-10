@@ -25,8 +25,12 @@
   color: var(--ink);
 }
 
+/* hot on ink chip (5.7:1) — hot straight on bone misses WCAG even at
+   logotype size; the chip keeps the brand pop and passes */
 .hotIQ {
   color: var(--hot);
+  background: var(--ink);
+  padding: 0 8px;
 }
 
 .tagline {

@@ -141,7 +141,12 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: var(--hot);
+  /* ink, not hot — hot on bone fails WCAG at this size */
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--hot);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
   margin-top: 20px;
 }
 

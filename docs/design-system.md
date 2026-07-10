@@ -13,7 +13,7 @@ The personality: **type IS the design.** Massive moving typography carries the e
   --hot:  #FF4D00;  /* hot orange — PRIMARY accent: CTAs, highlights, ticker bg */
   --sun:  #FFD02F;  /* pop yellow — SECONDARY accent: stickers, hover fills. Sparing. */
   --paper:#FFFFFF;  /* card surfaces if ever needed */
-  --soft: #7A776E;  /* muted labels on light bg */
+  --soft: #66635B;  /* muted labels on light bg — darkened from #7A776E 2026-07-10 for WCAG AA (5.3:1 on bone) */
   --soft-dark: #9A9A92; /* muted text on ink bg */
 }
 ```

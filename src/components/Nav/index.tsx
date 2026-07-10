@@ -90,7 +90,11 @@ export default function Nav() {
         className={`${styles.nav} ${scrolled ? styles.scrolled : ''} ${hidden && !menuOpen ? styles.hidden : ''}`}
       >
         <Link href="/" className={styles.logo} onClick={closeMenu}>
-          TECHWISE<span className={styles.accent}>IQ</span>
+          {/* logotype — WCAG contrast-exempt, hidden from AT in favor of plain text */}
+          <span aria-hidden="true">
+            TECHWISE<span className={styles.accent}>IQ</span>
+          </span>
+          <span className="sr-only">Techwise IQ — home</span>
         </Link>
 
         <div className={styles.links}>

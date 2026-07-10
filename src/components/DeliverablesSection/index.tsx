@@ -8,7 +8,10 @@ export default function DeliverablesSection({ deliverables }: DeliverablesSectio
   return (
     <section className={styles.section}>
       <div className="wrap">
-        <span className={styles.label}>What you get</span>
+        <h2 className="sr-only">What you get</h2>
+        <span className={styles.label} aria-hidden="true">
+          What you get
+        </span>
         <ul className={styles.grid} data-animate="slide-up" data-stagger="0.08">
           {deliverables.map((d) => (
             <li key={d} className={styles.item}>

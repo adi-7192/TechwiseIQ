@@ -21,7 +21,12 @@
 }
 
 .titleAccent {
-  color: var(--hot);
+  /* ink + hot marker underline — hot fill on bone misses 3:1 even at h1 size */
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--hot);
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.08em;
 }
 
 .intro {
@@ -88,7 +93,8 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: var(--hot);
+  /* soft, not hot — hot on bone fails WCAG at this size */
+  color: var(--soft);
   display: block;
 }
 
@@ -122,14 +128,18 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  color: var(--hot);
+  /* ink, not hot — hot on bone fails WCAG at this size */
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--hot);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
   display: block;
   margin-top: 16px;
 }
 
 .tile:hover .tileCta {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  text-decoration-color: var(--ink);
 }
 
 /* ─── Responsive ─── */

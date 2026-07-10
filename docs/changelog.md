@@ -4,6 +4,24 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-07-10 — Phase 4: Performance, Accessibility & Optimization (premium-launch roadmap)
+
+**Lighthouse (prod build, emulated mobile): 95 perf / 100 a11y / 100 best-practices / 100 SEO on all six audited routes** (/, /about, /contact, /work, /services/web, /work/aaskra-realty). Budget met.
+
+- **Hero LCP fixed** (3.6s → 3.0s, perf 90 → 95): hero entrance moved from post-hydration GSAP to a CSS `heroIn` keyframe that plays at first paint — the LCP text is never held at opacity 0 waiting for JS. Global reduced-motion reset still kills it.
+- **`--soft` darkened** #7A776E → **#66635B** (3.9:1 → 5.3:1 on bone) — every mono label now passes AA; design-system docs updated (both copies).
+- **Small hot-on-bone text eliminated** (2.9:1, fails at any size): work tiles, ProofStrip CTAs, home viewLink, case-study snapLink → ink with a 2px hot underline (marker treatment from the display-trick vocabulary). Work tile service labels → soft. **h1 accent words** (about/contact/work "On purpose." / "talk." / "promises.") → ink + 0.12em hot marker underline (hot fill missed the 3:1 large-text bar by 0.09).
+- **Footer logotype "IQ"** → hot on an ink chip (5.7:1). Nav logo left as-is (hot on bone; WCAG logotype exemption, not flagged by axe). ⚠️ Adi: veto/keep the footer chip; optionally match the nav.
+- **Wordmarks**: visual logotype spans `aria-hidden` with sr-only "Techwise IQ" text for AT.
+- **Heading order completed**: sr-only h2s in MiniProcess, DeliverablesSection, FAQSection (service pages had h1 → h3 jumps).
+- **Root `error.tsx`** — on-brand error boundary (Anton "Something broke.", Try again + Go home). `loading.tsx` skipped deliberately: every route is statically prerendered, so it would never render.
+- **Analytics**: Plausible script in layout, gated on `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` (documented in .env.example) — matches the privacy-policy promise.
+- **GEO**: `public/llms.txt` with factual statements — services, starting prices (AED), both case studies, process, contact.
+- JS: ~140KB gz first-load per page (shared react/gsap chunks) — inside the 150KB budget.
+- Still pending on Adi: Cal.com URL, RESEND_API_KEY + domain verify, founder public name (Person schema + About signature), `priceRange` figure for Organization JSON-LD.
+
+---
+
 ## 2026-07-10 — Phase 3: Premium Interactions & Polish (premium-launch roadmap)
 
 - **One animation system**: all inner pages migrated from the legacy `.rv`/IntersectionObserver reveals to GSAP `ScrollAnimator` (`data-animate` + `data-stagger`). `RevealObserver.tsx`, `useReveal.ts`, and the `.rv` CSS are deleted. Shared components (ServiceHero, DeliverablesSection, MiniProcess) converted with parent-level stagger.

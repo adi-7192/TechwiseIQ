@@ -39,6 +39,10 @@ export const metadata: Metadata = {
   },
 }
 
+// Privacy-friendly analytics (Plausible), enabled only when the domain is
+// configured — matches what the privacy policy promises (no cookies, no PII).
+const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -53,6 +57,13 @@ export default function RootLayout({
       <body>
         <WhatsAppButton />
         {children}
+        {PLAUSIBLE_DOMAIN && (
+          <script
+            defer
+            data-domain={PLAUSIBLE_DOMAIN}
+            src="https://plausible.io/js/script.js"
+          />
+        )}
       </body>
     </html>
   )

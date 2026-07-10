@@ -16,6 +16,35 @@
   z-index: 5;
 }
 
+/* CSS entrance — plays at first paint so the hero (the LCP element) is never
+   held hidden waiting for JS. Global reduced-motion reset kills it. */
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.enter {
+  animation: heroIn 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+.enterD1 {
+  animation-delay: 0.08s;
+}
+
+.enterD2 {
+  animation-delay: 0.16s;
+}
+
+.enterD3 {
+  animation-delay: 0.26s;
+}
+
 .rowText {
   font-family: var(--font-anton), sans-serif;
   text-transform: uppercase;
