@@ -12,16 +12,14 @@ export default function Hero() {
           a JS entrance hides the largest text until after hydration); the
           velocity skew writes the inner .skew div's transform per frame —
           separate elements so the two never fight over one transform. */}
-      <div className={styles.enter}>
+      <div className={`${styles.enter} ${styles.marqueeRow} ${styles.rowOne}`}>
         <div className="skew">
           <Marquee duration={26}>
-            <span className={styles.rowText}>
-              Websites · Software · AI ·&nbsp;
-            </span>
+            <span className={styles.rowText}>Websites · Software · AI ·&nbsp;</span>
           </Marquee>
         </div>
       </div>
-      <div className={`${styles.enter} ${styles.enterD1}`}>
+      <div className={`${styles.enter} ${styles.enterD1} ${styles.marqueeRow} ${styles.rowTwo}`}>
         <div className="skew">
           <Marquee direction="right" duration={30}>
             <span className={`${styles.rowText} ${styles.outlined}`}>
@@ -30,7 +28,7 @@ export default function Hero() {
           </Marquee>
         </div>
       </div>
-      <div className={`${styles.enter} ${styles.enterD2}`}>
+      <div className={`${styles.enter} ${styles.enterD2} ${styles.marqueeRow} ${styles.rowThree}`}>
         <div className="skew">
           <Marquee duration={22}>
             <span className={`${styles.rowText} ${styles.hotText}`}>
@@ -44,9 +42,7 @@ export default function Hero() {
       <div className={styles.card}>
         <h1 className={`${styles.claim} ${styles.enter} ${styles.enterD2}`}>
           Techwise IQ — the AI-first engineering agency.{' '}
-          <span className={styles.highlight}>
-            We build it. We ship it. You own the outcome.
-          </span>
+          <span className={styles.highlight}>We build it. We ship it. You own the outcome.</span>
         </h1>
         <div className={`${styles.ctas} ${styles.enter} ${styles.enterD3}`}>
           <Button variant="primary" href="#contact">

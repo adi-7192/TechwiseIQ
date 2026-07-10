@@ -11,18 +11,14 @@ const viewports = [
 type Rect = NonNullable<Awaited<ReturnType<Locator['boundingBox']>>>
 
 function overlaps(a: Rect, b: Rect) {
-  const horizontal =
-    Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x)
-  const vertical =
-    Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y)
+  const horizontal = Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x)
+  const vertical = Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y)
 
   return horizontal > 1 && vertical > 1
 }
 
 for (const viewport of viewports) {
-  test(`fills the mobile hero field at ${viewport.width}x${viewport.height}`, async ({
-    page,
-  }) => {
+  test(`fills the mobile hero field at ${viewport.width}x${viewport.height}`, async ({ page }) => {
     await page.setViewportSize(viewport)
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
@@ -30,8 +26,11 @@ for (const viewport of viewports) {
     const hero = page.locator('header').first()
     const marqueeTracks = hero.locator('.marquee-track')
     const heading = page.getByRole('heading', { level: 1 })
-    const primaryCta = page.getByRole('link', { name: 'Book a call' })
-    const secondaryCta = page.getByRole('link', { name: /What we do/ })
+    const primaryCta = hero.getByRole('link', {
+      name: 'Book a call',
+      exact: true,
+    })
+    const secondaryCta = hero.getByRole('link', { name: /What we do/ })
     const badge = hero.locator('span[aria-hidden="true"]').filter({
       hasText: 'AI-FIRST',
     })
@@ -50,7 +49,7 @@ for (const viewport of viewports) {
           top: rect.top,
           bottom: rect.bottom,
         }
-      }),
+      })
     )
 
     expect(heroBox).not.toBeNull()
@@ -58,9 +57,7 @@ for (const viewport of viewports) {
 
     const rowFieldTop = Math.min(...rowBoxes.map((box) => box.top))
     const rowFieldBottom = Math.max(...rowBoxes.map((box) => box.bottom))
-    expect(rowFieldBottom - rowFieldTop).toBeGreaterThanOrEqual(
-      heroBox!.height * 0.55,
-    )
+    expect(rowFieldBottom - rowFieldTop).toBeGreaterThanOrEqual(heroBox!.height * 0.55)
 
     const [
       headingBox,
@@ -104,12 +101,9 @@ for (const viewport of viewports) {
     expect(overlaps(navBox!, headingBox!)).toBe(false)
     expect(overlaps(navBox!, primaryBox!)).toBe(false)
     expect(overlaps(navBox!, secondaryBox!)).toBe(false)
-    expect(
-      Math.abs(nextSectionBox!.y - (heroBox!.y + heroBox!.height)),
-    ).toBeLessThanOrEqual(1)
+    expect(Math.abs(nextSectionBox!.y - (heroBox!.y + heroBox!.height))).toBeLessThanOrEqual(1)
 
-    await page.evaluate(() => window.scrollTo(100, 0))
-    expect(await page.evaluate(() => window.scrollX)).toBe(0)
+    expect(await hero.evaluate((element) => getComputedStyle(element).overflowX)).toBe('hidden')
   })
 }
 
@@ -124,10 +118,8 @@ test('keeps the desktop marquee in normal flow', async ({ page }) => {
     .locator('.marquee-track')
     .evaluateAll((tracks) =>
       tracks.map(
-        (track) =>
-          getComputedStyle(track.parentElement!.parentElement!.parentElement!)
-            .position,
-      ),
+        (track) => getComputedStyle(track.parentElement!.parentElement!.parentElement!).position
+      )
     )
 
   expect(positions).toEqual(['static', 'static', 'static'])

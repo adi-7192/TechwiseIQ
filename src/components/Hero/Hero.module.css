@@ -45,6 +45,16 @@
   animation-delay: 0.26s;
 }
 
+.marqueeRow {
+  position: static;
+}
+
+.rowOne,
+.rowTwo,
+.rowThree {
+  inset: auto;
+}
+
 .rowText {
   font-family: var(--font-anton), sans-serif;
   text-transform: uppercase;
@@ -125,8 +135,13 @@
 }
 
 @keyframes dip {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
 }
 
 @media (max-width: 880px) {
@@ -138,9 +153,78 @@
 }
 
 @media (max-width: 600px) {
+  .hero {
+    min-height: 100svh;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .marqueeRow {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+
+  .rowOne {
+    top: 16%;
+  }
+
+  .rowTwo {
+    top: 42%;
+  }
+
+  .rowThree {
+    top: 70%;
+  }
+
+  .rowText {
+    font-size: clamp(72px, 18vw, 108px);
+  }
+
+  .card {
+    position: absolute;
+    inset: 0;
+    gap: 20px;
+    padding: 0 20px;
+  }
+
   .claim {
     font-size: 12.5px;
-    max-width: 90vw;
+    max-width: min(90vw, 52ch);
+  }
+
+  .ctas {
+    flex-wrap: nowrap;
+  }
+
+  .ctas > a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sticker {
+    top: auto;
+    right: 20px;
+    bottom: 112px;
+  }
+}
+
+@media (max-width: 339px) {
+  .card {
+    transform: translateY(-20px);
+  }
+
+  .ctas {
+    width: min(82vw, 300px);
+    flex-direction: column;
+  }
+
+  .ctas > a {
+    width: 100%;
+    text-align: center;
   }
 }
 
