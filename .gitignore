@@ -50,5 +50,8 @@ next-env.d.ts
 # isolated implementation worktrees
 .worktrees/
 
+# local visual brainstorming sessions
+.superpowers/
+
 # reference docs (source of truth lives in parent dir)
 docs/design-reference.html
