@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import FAQSection from '@/components/FAQSection'
+import ServiceMotion, { ServiceCurrent } from '@/components/ServiceMotion'
 import { CASE_STUDIES } from '@/data/case-studies'
 import type { ServiceContent } from '@/data/services'
 import ServiceMotif from './ServiceMotif'
@@ -20,6 +21,8 @@ export default function ServiceDetailPage({ service }: ServiceDetailPageProps) {
       className={`${styles.experience} ${styles[service.motif]}`}
       data-service-experience
     >
+      <ServiceMotion />
+      <ServiceCurrent />
       <section className={styles.hero}>
         <ServiceMotif motif={service.motif} />
         <div className={styles.heroInner} data-service-reveal>

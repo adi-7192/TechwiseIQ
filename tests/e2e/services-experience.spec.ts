@@ -38,6 +38,15 @@ test.describe('Services overview', () => {
       recommendation.getByRole('link', { name: /Explore AI Automation/ }),
     ).toHaveAttribute('href', '/services/ai')
   })
+
+  test('renders its final state with reduced motion', async ({ page }) => {
+    const experience = page.locator('[data-service-experience]')
+    await expect(experience).toHaveAttribute('data-motion', 'reduced')
+    await expect(page.locator('[data-service-reveal]').first()).toHaveAttribute(
+      'data-visible',
+      'true',
+    )
+  })
 })
 
 for (const route of detailRoutes) {

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ServiceMotion, { ServiceCurrent } from '@/components/ServiceMotion'
 import { CASE_STUDIES } from '@/data/case-studies'
 import { SERVICE_LIST } from '@/data/services'
 import ProblemNavigator from './ProblemNavigator'
@@ -14,6 +15,8 @@ const DELIVERY = [
 export default function ServicesOverview() {
   return (
     <div className={styles.experience} data-service-experience>
+      <ServiceMotion />
+      <ServiceCurrent />
       <section className={styles.hero}>
         <div className={styles.heroGhost} aria-hidden="true">
           FRICTION
