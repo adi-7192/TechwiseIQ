@@ -93,3 +93,39 @@ test('service structured data does not publish pricing', async ({ page }) => {
     /Offer|PriceSpecification|minPrice|priceCurrency/,
   )
 })
+
+test('navigator is keyboard operable and exposes the selected state', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/services')
+  const first = page.getByRole('link', {
+    name: /Our website is underperforming/,
+  })
+  const second = page.getByRole('link', {
+    name: /Manual work is eating the week/,
+  })
+
+  await first.focus()
+  await expect(first).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(second).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(second).toHaveAttribute('aria-current', 'true')
+  await expect(page.getByTestId('service-recommendation')).toContainText(
+    'AI Automation',
+  )
+})
+
+test('mobile primary actions meet the 44px target', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/services/web')
+  const box = await page
+    .getByRole('link', { name: /Start the conversation/ })
+    .last()
+    .boundingBox()
+
+  expect(box).not.toBeNull()
+  expect(box!.height).toBeGreaterThanOrEqual(44)
+})

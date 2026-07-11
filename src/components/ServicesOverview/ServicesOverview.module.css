@@ -175,6 +175,19 @@
   color: var(--ink);
   background: var(--sun);
   transform: rotate(1.4deg);
+  animation: recommendation-in 0.25s ease-out both;
+}
+
+@keyframes recommendation-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) rotate(1.4deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(1.4deg);
+  }
 }
 
 .recommendation::before {
@@ -346,6 +359,26 @@
   min-height: 330px;
   display: grid;
   place-items: center;
+  animation: visual-drift 6.5s ease-in-out infinite;
+}
+
+.software .serviceVisual {
+  animation-delay: -2s;
+}
+
+.ai .serviceVisual {
+  animation-delay: -4s;
+}
+
+@keyframes visual-drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .visualCore {
@@ -354,6 +387,11 @@
   position: relative;
   border: 3px solid currentColor;
   transform: rotate(-5deg);
+  transition: transform 0.28s ease;
+}
+
+.serviceAct:hover .visualCore {
+  transform: rotate(0deg) scale(1.025);
 }
 
 .visualCore i {
@@ -386,6 +424,10 @@
   transform: rotate(4deg);
 }
 
+.software:hover .visualCore {
+  transform: rotate(-2deg) scale(1.025);
+}
+
 .software .visualCore i {
   width: 74px;
   height: 74px;
@@ -399,6 +441,10 @@
 .ai .visualCore {
   border-radius: 50%;
   transform: none;
+}
+
+.ai:hover .visualCore {
+  transform: scale(1.025);
 }
 
 .ai .visualCore i {
@@ -610,4 +656,13 @@
   .textLink,
   .proofList a,
   .primaryCta { transition: none; }
+
+  .recommendation,
+  .serviceVisual {
+    animation: none;
+  }
+
+  .visualCore {
+    transition: none;
+  }
 }

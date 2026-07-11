@@ -32,6 +32,7 @@ export default function ProblemNavigator() {
         ))}
       </div>
       <div
+        key={problem.id}
         className={styles.recommendation}
         data-testid="service-recommendation"
         aria-live="polite"

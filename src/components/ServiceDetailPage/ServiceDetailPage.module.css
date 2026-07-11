@@ -122,6 +122,18 @@
   top: 52%;
   transform: translate(-50%, -50%);
   opacity: 0.16;
+  animation: motif-drift 7s ease-in-out infinite;
+}
+
+@keyframes motif-drift {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(-1deg);
+  }
+
+  50% {
+    transform: translate(-50%, calc(-50% - 10px)) rotate(1deg);
+  }
 }
 
 .motif i,
@@ -568,4 +580,8 @@
   .projectCopy a,
   .proofFallback a,
   .capabilityRiver article > span { transition: none; }
+
+  .motif {
+    animation: none;
+  }
 }
