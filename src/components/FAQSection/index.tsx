@@ -10,18 +10,22 @@ interface FAQ {
 
 interface FAQSectionProps {
   faqs: FAQ[]
+  heading?: string
+  testId?: string
 }
 
-export default function FAQSection({ faqs }: FAQSectionProps) {
+export default function FAQSection({
+  faqs,
+  heading = 'Clear answers. No sales fog.',
+  testId,
+}: FAQSectionProps) {
   const { openIndex, toggle, setBodyRef } = useAccordion(faqs.length)
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} data-testid={testId}>
       <div className="wrap">
-        <h2 className="sr-only">Common questions</h2>
-        <span className={styles.label} aria-hidden="true">
-          Common questions
-        </span>
+        <span className={styles.label}>Questions buyers actually ask</span>
+        <h2 className={styles.title}>{heading}</h2>
         <div className={styles.list}>
           {faqs.map((faq, i) => (
             <div

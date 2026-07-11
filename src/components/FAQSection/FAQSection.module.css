@@ -1,9 +1,10 @@
 .section {
-  padding: 96px 0;
-  border-top: var(--bd);
+  padding: 130px 0;
 }
 
 .label {
+  display: block;
+  text-align: center;
   font-family: var(--font-mono), monospace;
   font-size: 12px;
   text-transform: uppercase;
@@ -11,8 +12,20 @@
   color: var(--soft);
 }
 
+.title {
+  max-width: 12ch;
+  margin: 14px auto 58px;
+  text-align: center;
+  font-family: var(--font-anton), sans-serif;
+  font-size: clamp(48px, 7vw, 98px);
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+
 .list {
-  margin-top: 40px;
+  max-width: 980px;
+  margin: 0 auto;
   border-top: var(--bd);
 }
 
@@ -87,5 +100,19 @@
   .body {
     max-height: none !important;
     overflow: visible !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding: 96px 0;
+  }
+
+  .title {
+    margin-bottom: 42px;
+  }
+
+  .q {
+    font-size: 16px;
   }
 }
