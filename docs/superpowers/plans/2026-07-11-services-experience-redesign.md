@@ -113,7 +113,7 @@ for (const path of ['/services', ...detailRoutes.map((route) => route.path)]) {
 
 - [ ] **Step 2: Run the new spec and verify it fails for the missing experience**
 
-Run: `npx playwright test tests/e2e/services-experience.spec.ts --project=chromium`
+Run: `npx playwright test tests/e2e/services-experience.spec.ts`
 
 Expected: FAIL because the new heading, navigator, anchors, and test IDs do not exist.
 
@@ -394,7 +394,7 @@ Keep metadata but remove `RobotVideo`, page-local service arrays, and obsolete C
 
 - [ ] **Step 5: Run the overview tests**
 
-Run: `npx playwright test tests/e2e/services-experience.spec.ts --project=chromium --grep "Services overview|/services stays"`
+Run: `npx playwright test tests/e2e/services-experience.spec.ts --grep "Services overview|/services stays"`
 
 Expected: overview content tests PASS; detail tests remain failing.
 
@@ -555,7 +555,7 @@ test('renders the services experience in its final state with reduced motion', a
 })
 ```
 
-Run: `npx playwright test tests/e2e/services-experience.spec.ts --project=chromium --grep "reduced motion"`
+Run: `npx playwright test tests/e2e/services-experience.spec.ts --grep "reduced motion"`
 
 Expected: PASS.
 
@@ -616,7 +616,7 @@ test('service structured data does not publish pricing', async ({ page }) => {
 
 - [ ] **Step 4: Run all service experience tests**
 
-Run: `npx playwright test tests/e2e/services-experience.spec.ts --project=chromium`
+Run: `npx playwright test tests/e2e/services-experience.spec.ts`
 
 Expected: PASS for overview, navigator, all detail journeys, no-pricing assertions, reduced motion, and mobile overflow.
 
@@ -661,7 +661,7 @@ test('mobile primary actions meet the 44px target', async ({ page }) => {
 
 - [ ] **Step 2: Run the full new spec and fix only evidence-backed failures**
 
-Run: `npx playwright test tests/e2e/services-experience.spec.ts --project=chromium`
+Run: `npx playwright test tests/e2e/services-experience.spec.ts`
 
 Expected: PASS.
 

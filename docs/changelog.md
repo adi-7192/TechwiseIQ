@@ -4,6 +4,18 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-07-11 — Services experience redesign
+
+- **Problem-first overview:** replaced the mouse-scrub robot hero and sparse service rows with a centered bottleneck-led hero, progressive problem navigator, three full-width service acts, connected delivery story, real proof, and a focused CTA.
+- **Fluid visual system:** removed the box-grid treatment in favor of overlapping type, static diagonal scene transitions, asymmetric compositions, a single orange scroll current, and responsive Web/Software/AI diagrams.
+- **Distinct detail pages:** introduced one shared decision journey—fit signals, outcome flow, proof, capability river, connected process, FAQ, and CTA—with a responsive browser canvas for Web, system map for Software, and human-review workflow motif for AI.
+- **Shared content source:** centralized service copy, problem mappings, capabilities, processes, FAQs, proof relationships, metadata inputs, and JSON-LD in `src/data/services.ts`.
+- **Honest proof:** Web links to the two real case studies; Software and AI use an explicit Work-page fallback until matching case studies exist.
+- **No public service pricing:** removed price language from service metadata, FAQs, visible service content, and service structured data (`Offer`/`PriceSpecification`).
+- **Purposeful motion:** one GSAP ScrollTrigger controls the connected current; IntersectionObserver handles content reveals; hover/focus feedback covers problem links, diagrams, arrows, project rows, and pressed CTAs; reduced motion renders final static states.
+- **Accessibility and responsiveness:** keyboard-operable navigator, visible selected state, semantic headings/FAQs, decorative motifs hidden from assistive technology, 44px minimum primary actions, and overflow-safe 375px layouts.
+- **Regression coverage:** new Playwright suite covers the overview, problem matching, all three detail journeys, pricing-free structured data, reduced motion, keyboard selection, touch targets, and mobile overflow.
+
 ## 2026-07-10 — fix: full-height mobile hero marquee
 
 - **Full-field type:** the three kinetic marquee rows are distributed across the complete mobile hero rather than collapsing into a shallow band.
