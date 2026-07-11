@@ -83,3 +83,13 @@ for (const path of ['/services', ...detailRoutes.map((route) => route.path)]) {
     expect(overflow).toBeLessThanOrEqual(1)
   })
 }
+
+test('service structured data does not publish pricing', async ({ page }) => {
+  await page.goto('/services/web')
+  const jsonLd = await page
+    .locator('script[type="application/ld+json"]')
+    .allTextContents()
+  expect(jsonLd.join(' ')).not.toMatch(
+    /Offer|PriceSpecification|minPrice|priceCurrency/,
+  )
+})

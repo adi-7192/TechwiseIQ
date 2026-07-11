@@ -1,146 +1,36 @@
 import type { Metadata } from 'next'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import ServiceHero from '@/components/ServiceHero'
-import DeliverablesSection from '@/components/DeliverablesSection'
-import MiniProcess from '@/components/MiniProcess'
-import FAQSection from '@/components/FAQSection'
-import ProofStrip from '@/components/ProofStrip'
-import CTASection from '@/components/CTASection'
-import { ScrollAnimator } from '@/components/ui'
+import ServiceDetailPage from '@/components/ServiceDetailPage'
+import { createServiceJsonLd, SERVICES } from '@/data/services'
 
 export const metadata: Metadata = {
-  title: 'AI Automation & Enablement',
+  title: 'AI Automation',
   description:
-    'Workflow automation, AI assistants, document processing — concrete automations, not vague promises. AI audits from AED 6,500. Based in Dubai.',
+    'Workflow automation, AI assistants, document processing, and practical AI audits with visible human control. Based in Dubai.',
   alternates: { canonical: '/services/ai' },
   openGraph: {
-    title: 'AI Automation & Enablement | Techwise IQ',
+    title: 'AI Automation | Techwise IQ',
     description:
-      'Workflow automation, AI assistants, document processing — concrete automations, not vague promises. AI audits from AED 6,500.',
+      'Workflow automation, AI assistants, document processing, and practical AI audits with visible human control.',
     url: 'https://techwiseiq.com/services/ai',
   },
 }
 
-const DELIVERABLES = [
-  'Workflow automation',
-  'AI assistants on your data',
-  'Document processing + extraction',
-  'Email triage + routing',
-  'Report generation',
-  'WhatsApp Business flows',
-  'AI audit + roadmap',
-]
-
-const PROCESS = [
-  {
-    num: '01',
-    title: 'Audit',
-    body: 'Map your workflows. Rank automation opportunities by ROI. Deliver a written roadmap.',
-  },
-  {
-    num: '02',
-    title: 'Pilot',
-    body: 'One workflow automated end-to-end. Proof of value before scaling.',
-  },
-  {
-    num: '03',
-    title: 'Scale',
-    body: 'Roll out across workflows and teams. Integration with your existing tools.',
-  },
-  {
-    num: '04',
-    title: 'Monitor',
-    body: 'Performance tracking, error handling, continuous tuning. Automations that stay reliable.',
-  },
-]
-
-const FAQS = [
-  {
-    question: 'Where do I start with AI?',
-    answer:
-      'With an AI Audit. We map your workflows, rank automation opportunities by ROI, and deliver a written roadmap. Starts from AED 6,500 \u2014 creditable against the build if you proceed.',
-  },
-  {
-    question: 'What does AI automation cost?',
-    answer:
-      'Audits from AED 6,500. Single workflow automation from AED 14,000. AI assistants from AED 18,000. Every engagement gets a fixed scope.',
-  },
-  {
-    question: 'What kind of automations do you build?',
-    answer:
-      'Invoice processing, email triage, report generation, WhatsApp flows, document extraction, customer support assistants. Concrete workflows \u2014 not vague promises.',
-  },
-  {
-    question: 'Will AI replace our team?',
-    answer:
-      'No. It replaces the repetitive tasks your team hates. They spend time on decisions, not data entry.',
-  },
-  {
-    question: 'Do you work with our existing tools?',
-    answer:
-      'Yes. We integrate with your CRM, email, accounting software, WhatsApp Business, and whatever else runs your operations.',
-  },
-]
-
-const faqJsonLd = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'FAQPage',
-      mainEntity: FAQS.map((faq) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: faq.answer,
-        },
-      })),
-    },
-    {
-      '@type': 'Service',
-      '@id': 'https://techwiseiq.com/services/ai#service',
-      name: 'AI Automation & Enablement',
-      serviceType: 'AI Automation',
-      url: 'https://techwiseiq.com/services/ai',
-      provider: { '@id': 'https://techwiseiq.com/#organization' },
-      areaServed: ['Dubai', 'United Arab Emirates', 'Worldwide'],
-      description:
-        'Workflow automation, AI assistants on client data, document and email processing, and AI audits — concrete automations, not vague promises.',
-      offers: {
-        '@type': 'Offer',
-        priceCurrency: 'AED',
-        priceSpecification: {
-          '@type': 'PriceSpecification',
-          minPrice: 6500,
-          priceCurrency: 'AED',
-        },
-        description: 'AI audits starting from AED 6,500',
-      },
-    },
-  ],
-}
-
 export default function AIServicePage() {
+  const service = SERVICES.ai
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(createServiceJsonLd(service)),
+        }}
       />
-      <ScrollAnimator />
       <Nav />
       <main>
-        <ServiceHero
-          label="003"
-          title="AI Automation & Enablement"
-          description="We hunt the busywork in your workflows and kill it. Invoice processing, email triage, report generation, WhatsApp flows — AI where it helps, plain code where it doesn't."
-        />
-        <DeliverablesSection deliverables={DELIVERABLES} />
-        <MiniProcess steps={PROCESS} />
-        <ProofStrip service="ai" />
-        <FAQSection faqs={FAQS} />
-        <CTASection />
+        <ServiceDetailPage service={service} />
       </main>
       <Footer />
     </>
