@@ -6,6 +6,22 @@ test.describe('Work credibility page', () => {
     await page.goto('/work')
   })
 
+  test('renders a continuous client and concept exhibition', async ({
+    page,
+  }) => {
+    const experience = page.getByTestId('work-experience')
+
+    await expect(experience).toHaveAttribute('data-motion', 'reduced')
+    await expect(page.getByTestId('featured-project-rail')).toBeVisible()
+    await expect(page.locator('[data-featured-project]')).toHaveCount(2)
+    await expect(page.getByTestId('project-index')).toHaveCount(0)
+    await expect(page.getByTestId('concept-exhibition')).toBeVisible()
+    await expect(page.locator('[data-concept-stage]')).toHaveCount(3)
+    await expect(
+      page.locator('[data-work-reveal][data-visible="true"]'),
+    ).not.toHaveCount(0)
+  })
+
   test('presents real work, delivery proof, concepts, and working style', async ({
     page,
   }) => {

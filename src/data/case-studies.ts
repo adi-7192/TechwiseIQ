@@ -9,6 +9,7 @@ export const SERVICE_LABELS: Record<Service['id'], string> = {
 export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'aaskra-realty',
+    featured: true,
     title: 'AASKRA Realty',
     outcome:
       'Luxury positioning for a new Dubai real estate consultancy targeting high-net-worth investors',
@@ -68,6 +69,7 @@ export const CASE_STUDIES: CaseStudy[] = [
   },
   {
     slug: 'express-trade-financing',
+    featured: true,
     title: 'Express Trade Financing',
     outcome:
       'Institutional-grade digital presence for a boutique trade finance firm facilitating USD 200M+ in instruments',

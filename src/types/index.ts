@@ -17,6 +17,7 @@ export type WorkSummary = {
 
 export type CaseStudy = {
   slug: string
+  featured: boolean
   title: string
   outcome: string
   workSummary: WorkSummary
