@@ -1049,12 +1049,15 @@
 
 @media (hover: hover) and (pointer: fine) {
   .projectStage:hover .projectImage,
+  .projectStage:focus-within .projectImage,
   .indexedProject:hover .projectImage {
     transform: scale(1.025);
   }
 
   .projectStage:hover .projectTitle,
-  .conceptPublished:hover .conceptTitle {
+  .projectStage:focus-within .projectTitle,
+  .conceptPublished:hover .conceptTitle,
+  .conceptPublished:focus-visible .conceptTitle {
     color: transparent;
     -webkit-text-stroke: 2px currentColor;
   }

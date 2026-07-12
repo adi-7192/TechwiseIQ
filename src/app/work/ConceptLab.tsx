@@ -1,16 +1,21 @@
 import Image from 'next/image'
 import { CONCEPT_SITES, type ConceptSite } from '@/data/concept-sites'
 import styles from './work.module.css'
+import {
+  getConceptPresentationStatus,
+  type ConceptPresentationStatus,
+} from './concept-presentation'
 
 function ConceptCopy({
   concept,
   index,
-  published,
+  status,
 }: {
   concept: ConceptSite
   index: number
-  published: boolean
+  status: ConceptPresentationStatus
 }) {
+  const published = status === 'published'
   return (
     <div className={styles.conceptCopy}>
       <p className={styles.conceptIndex}>
@@ -29,7 +34,7 @@ function ConceptCopy({
             Open live HTML demo <span aria-hidden="true">↗</span>
           </>
         ) : (
-          'Brief pending'
+          status === 'unavailable' ? 'Demo unavailable' : 'Brief pending'
         )}
       </p>
     </div>
@@ -104,13 +109,9 @@ export default function ConceptLab() {
           data-testid="concept-exhibition"
         >
           {CONCEPT_SITES.map((concept, index) => {
-            const published = Boolean(
-              concept.status === 'published' &&
-                concept.previewImage &&
-                concept.demoPath,
-            )
+            const presentationStatus = getConceptPresentationStatus(concept)
 
-            if (published && concept.demoPath) {
+            if (presentationStatus === 'published' && concept.demoPath) {
               return (
                 <a
                   key={concept.slug}
@@ -124,7 +125,11 @@ export default function ConceptLab() {
                   aria-label={`Open ${concept.title} live HTML demo (opens in a new tab)`}
                 >
                   <ConceptPreview concept={concept} />
-                  <ConceptCopy concept={concept} index={index} published />
+                  <ConceptCopy
+                    concept={concept}
+                    index={index}
+                    status="published"
+                  />
                 </a>
               )
             }
@@ -134,14 +139,14 @@ export default function ConceptLab() {
                 key={concept.slug}
                 className={`${styles.conceptStage} ${styles.conceptDraft}`}
                 data-concept-stage
-                data-concept-status="draft"
+                data-concept-status={presentationStatus}
                 data-concept-index={index}
               >
                 <ConceptBlueprint />
                 <ConceptCopy
                   concept={concept}
                   index={index}
-                  published={false}
+                  status={presentationStatus}
                 />
               </article>
             )

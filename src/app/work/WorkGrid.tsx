@@ -3,30 +3,7 @@ import Link from 'next/link'
 import { CASE_STUDIES, SERVICE_LABELS } from '@/data/case-studies'
 import type { CaseStudy } from '@/types'
 import styles from './work.module.css'
-import { partitionProjects } from './work-projects'
-
-const pageTotal = CASE_STUDIES.reduce((total, caseStudy) => {
-  const pages = caseStudy.workSummary.proof.find(
-    (item) => item.label === 'pages',
-  )
-  return total + Number.parseInt(pages?.value ?? '0', 10)
-}, 0)
-
-const deliveryWeeks = CASE_STUDIES.map((caseStudy) =>
-  Number.parseInt(caseStudy.timeline, 10),
-).filter(Number.isFinite)
-
-const DELIVERY_METRICS = [
-  { value: String(pageTotal), label: 'Pages shipped' },
-  {
-    value: `${Math.min(...deliveryWeeks)}–${Math.max(...deliveryWeeks)}`,
-    label: 'Week launches',
-  },
-  {
-    value: String(CASE_STUDIES.filter((caseStudy) => caseStudy.liveUrl).length),
-    label: 'Live projects',
-  },
-]
+import { getDeliveryMetrics, partitionProjects } from './work-projects'
 
 function ProjectActions({ caseStudy }: { caseStudy: CaseStudy }) {
   return (
@@ -123,10 +100,14 @@ function FeaturedProject({
   )
 }
 
-function WorkMetrics() {
+function WorkMetrics({
+  metrics,
+}: {
+  metrics: ReturnType<typeof getDeliveryMetrics>
+}) {
   return (
     <dl className={styles.metrics} aria-label="Published work totals" data-work-reveal>
-      {DELIVERY_METRICS.map((metric) => (
+      {metrics.map((metric) => (
         <div key={metric.label} className={styles.metric}>
           <dd>{metric.value}</dd>
           <dt>{metric.label}</dt>
@@ -165,6 +146,9 @@ function IndexedProject({ caseStudy }: { caseStudy: CaseStudy }) {
 
 export default function WorkGrid() {
   const { featured, remaining } = partitionProjects(CASE_STUDIES)
+  if (featured.length === 0) return null
+
+  const deliveryMetrics = getDeliveryMetrics(CASE_STUDIES)
 
   return (
     <div className={styles.projectExperience}>
@@ -180,7 +164,7 @@ export default function WorkGrid() {
         ))}
       </div>
 
-      <WorkMetrics />
+      <WorkMetrics metrics={deliveryMetrics} />
 
       {remaining.length > 0 && (
         <section

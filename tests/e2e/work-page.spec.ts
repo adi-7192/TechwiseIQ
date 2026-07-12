@@ -39,6 +39,15 @@ test.describe('Work credibility page', () => {
       'data-motion',
       'active',
     )
+
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await expect(page.getByTestId('work-experience')).toHaveAttribute(
+      'data-motion',
+      'reduced',
+    )
+    await expect(
+      page.locator('[data-work-reveal]:not([data-visible="true"])'),
+    ).toHaveCount(0)
   })
 
   test('presents real work, delivery proof, concepts, and working style', async ({
