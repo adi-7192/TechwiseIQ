@@ -43,7 +43,7 @@ export default function WorkMotion() {
 
     const media = gsap.matchMedia()
     const context = gsap.context(() => {
-      media.add('(min-width: 1024px)', () => {
+      media.add('(min-width: 1024px) and (min-height: 760px)', () => {
         gsap.utils
           .toArray<HTMLElement>('[data-project-stage]')
           .forEach((stage, index) => {
