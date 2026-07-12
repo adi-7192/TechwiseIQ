@@ -1,3 +1,8 @@
+.experience {
+  position: relative;
+  overflow: clip;
+}
+
 .hero {
   padding: 168px 0 104px;
   border-bottom: var(--bd);
@@ -101,6 +106,152 @@
 
 .projects {
   margin-top: 64px;
+}
+
+.projectExperience {
+  margin-top: 64px;
+}
+
+.featuredRail,
+.projectTrack,
+.projectStage {
+  position: relative;
+}
+
+.projectTrack {
+  min-height: 100svh;
+}
+
+.projectStage {
+  display: grid;
+  min-height: 100svh;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+  grid-template-rows: auto 1fr;
+  align-items: center;
+  gap: 28px;
+  padding: 72px clamp(24px, 6vw, 84px);
+}
+
+.projectStageReverse .projectVisual {
+  grid-column: 2;
+}
+
+.projectStageReverse .projectIdentity {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.projectGhost {
+  position: absolute;
+  top: 8%;
+  right: 3%;
+  font-family: var(--font-anton), sans-serif;
+  font-size: clamp(140px, 24vw, 340px);
+  line-height: 0.75;
+  color: transparent;
+  -webkit-text-stroke: 2px color-mix(in srgb, var(--ink) 15%, transparent);
+}
+
+.projectIdentity {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+}
+
+.projectIdentity .projectTitle {
+  max-width: 10ch;
+}
+
+.proofCloud {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  grid-column: 1 / -1;
+  justify-content: center;
+}
+
+.proofCloud .proofItem {
+  min-width: 150px;
+  border: 2px solid var(--ink);
+  background: var(--sun);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.projectStory {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.projectStory > div:not(.projectActions) {
+  padding-top: 12px;
+  border-top: 2px solid var(--ink);
+}
+
+.projectStory > div > p:last-child {
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.projectStory .projectActions {
+  grid-column: 1 / -1;
+}
+
+.projectIndex {
+  margin-top: 96px;
+}
+
+.projectIndex > h3,
+.indexedCopy h4 {
+  font-family: var(--font-anton), sans-serif;
+  font-weight: 400;
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.projectIndex > h3 {
+  font-size: clamp(42px, 7vw, 92px);
+  text-align: center;
+}
+
+.projectIndexTrail {
+  display: grid;
+  gap: 72px;
+  margin-top: 48px;
+}
+
+.indexedProject {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: clamp(28px, 6vw, 84px);
+}
+
+.indexedVisual {
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+  border: var(--bd);
+}
+
+.indexedCopy h4 {
+  margin-top: 12px;
+  font-size: clamp(34px, 5vw, 64px);
+}
+
+.indexedCopy > p:not(.projectMeta) {
+  max-width: 48ch;
+  margin-top: 16px;
+  line-height: 1.55;
+  color: var(--ink-soft);
 }
 
 .project {
@@ -738,6 +889,39 @@
 }
 
 @media (max-width: 880px) {
+  .projectExperience {
+    margin-top: 42px;
+  }
+
+  .projectTrack {
+    min-height: 0;
+  }
+
+  .projectStage,
+  .indexedProject {
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .projectStage {
+    padding: 48px 24px 72px;
+  }
+
+  .projectStageReverse .projectVisual,
+  .projectStageReverse .projectIdentity {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .projectStory {
+    grid-template-columns: 1fr;
+  }
+
+  .indexedVisual {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
   .project,
   .projectReverse {
     grid-template-columns: 1fr;
@@ -797,6 +981,21 @@
 
   .projects {
     margin-top: 42px;
+  }
+
+  .projectStage {
+    gap: 22px;
+    padding: 36px 20px 64px;
+  }
+
+  .proofCloud {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .proofCloud .proofItem {
+    min-width: 0;
   }
 
   .projectContent {

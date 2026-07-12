@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import Marquee from '@/components/Marquee'
-import { ScrollAnimator } from '@/components/ui'
 import { CASE_STUDIES } from '@/data/case-studies'
 import { BOOKING_URL } from '@/lib/site'
 import ConceptLab from './ConceptLab'
@@ -77,24 +76,27 @@ export default function WorkPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ScrollAnimator />
       <Nav />
-      <main>
+      <main
+        className={styles.experience}
+        data-work-experience
+        data-testid="work-experience"
+      >
         <section className={styles.hero}>
           <div className="wrap">
-            <p className={styles.label} data-animate="slide-up">
+            <p className={styles.label} data-work-reveal>
               Our work / Our way
             </p>
-            <h1 className={styles.heroTitle} data-animate="slide-up">
+            <h1 className={styles.heroTitle} data-work-reveal>
               Proof, not <span>promises.</span>
             </h1>
-            <p className={styles.heroIntro} data-animate="slide-up">
+            <p className={styles.heroIntro} data-work-reveal>
               Real launches, clear decisions and a delivery model clients can
               understand before the first call.
             </p>
             <span
               className={styles.heroMarker}
-              data-animate="scale"
+              data-work-reveal
               aria-hidden="true"
             />
           </div>
@@ -115,10 +117,10 @@ export default function WorkPage() {
           <div className="wrap">
             <div className={styles.sectionIntro}>
               <p className={styles.label}>Selected work</p>
-              <h2 className={styles.sectionTitle} data-animate="slide-up">
+              <h2 className={styles.sectionTitle} data-work-reveal>
                 Built for real <span>business.</span>
               </h2>
-              <p className={styles.sectionBody} data-animate="slide-up">
+              <p className={styles.sectionBody} data-work-reveal>
                 Two industries, two distinct challenges, one consistent
                 approach: understand the business, make strong decisions and
                 ship.
@@ -132,18 +134,17 @@ export default function WorkPage() {
           <div className="wrap">
             <div className={styles.sectionIntro}>
               <p className={styles.label}>Capabilities demonstrated</p>
-              <h2 className={styles.sectionTitle} data-animate="slide-up">
+              <h2 className={styles.sectionTitle} data-work-reveal>
                 What the work <span>proves.</span>
               </h2>
-              <p className={styles.sectionBody} data-animate="slide-up">
+              <p className={styles.sectionBody} data-work-reveal>
                 Not a generic services list. These are capabilities visible in
                 the projects above.
               </p>
             </div>
             <div
               className={styles.capabilityGrid}
-              data-animate="slide-up"
-              data-stagger="0.08"
+              data-work-reveal
             >
               {CAPABILITIES.map(([title, body], index) => (
                 <div key={title} className={styles.capability}>
@@ -162,18 +163,17 @@ export default function WorkPage() {
           <div className="wrap">
             <div className={styles.sectionIntro}>
               <p className={styles.darkLabel}>How we work</p>
-              <h2 className={styles.darkTitle} data-animate="slide-up">
+              <h2 className={styles.darkTitle} data-work-reveal>
                 Clear from kickoff <span>to launch.</span>
               </h2>
-              <p className={styles.darkBody} data-animate="slide-up">
+              <p className={styles.darkBody} data-work-reveal>
                 A straightforward process, visible progress and direct
                 communication throughout.
               </p>
             </div>
             <div
               className={styles.processGrid}
-              data-animate="slide-up"
-              data-stagger="0.1"
+              data-work-reveal
             >
               {PROCESS.map(([number, title, body]) => (
                 <div key={number} className={styles.processStep}>
@@ -189,14 +189,14 @@ export default function WorkPage() {
         <section className={styles.principles}>
           <div className="wrap">
             <div className={styles.principlesGrid}>
-              <div data-animate="slide-left">
+              <div data-work-reveal>
                 <p className={styles.label}>What clients get</p>
                 <h2 className={styles.principleTitle}>Visible progress.</h2>
                 <ul className={styles.principleList}>
                   {CLIENTS_GET.map((item) => <li key={item}>{item}</li>)}
                 </ul>
               </div>
-              <div data-animate="slide-right">
+              <div data-work-reveal>
                 <p className={styles.label}>What we avoid</p>
                 <h2 className={styles.principleTitle}>Delivery theatre.</h2>
                 <ul className={styles.principleList}>
@@ -211,10 +211,10 @@ export default function WorkPage() {
           <div className="wrap">
             <div className={styles.sectionIntro}>
               <p className={styles.darkLabel}>Your project could be next</p>
-              <h2 className={styles.darkTitle} data-animate="slide-up">
+              <h2 className={styles.darkTitle} data-work-reveal>
                 Bring us the <span>problem.</span>
               </h2>
-              <p className={styles.darkBody} data-animate="slide-up">
+              <p className={styles.darkBody} data-work-reveal>
                 Start with a focused 20-minute call. You explain the challenge;
                 we explain how we would approach it.
               </p>
