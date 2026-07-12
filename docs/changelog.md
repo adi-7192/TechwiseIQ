@@ -4,6 +4,18 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-07-12 — Work continuous exhibition redesign
+
+- **Continuous exhibition canvas:** recomposed `/work` from bordered grids into one overlapping visual sequence with centered cinematic titles, image planes, detached proof objects, angled color fields, and shared handoffs between content moments.
+- **Scalable client portfolio:** added explicit featured metadata, a tested three-project cinematic cap, fallback selection when no feature flags exist, and a conditional image-led index for future projects.
+- **Cinematic project reel:** both current projects receive short desktop sticky stages with reversible GSAP image/title/proof movement; tablet, mobile, and reduced-motion modes remain in normal document flow.
+- **Concept Lab as portfolio:** promoted the three self-initiated concepts to large alternating exhibition stages with animated blueprint-ready structure, visible capability tags, honest draft states, and safe published preview/demo behavior.
+- **Demonstrated capabilities:** replaced the six-box capability grid with an open outline-type composition that grows directly out of client proof.
+- **Connected delivery story:** rebuilt process, principles, and CTA as a continuous route, opposing editorial groups, and a near-viewport closing takeover.
+- **Progressive enhancement:** one page-scoped Work motion component owns observers and GSAP cleanup; all content is server-rendered and visible if JavaScript or motion is unavailable.
+- **Accessibility and responsiveness:** preserved semantic projects and links, non-interactive drafts, reduced-motion final states, keyboard focus behavior, 44px controls, 16px mobile copy, and overflow-safe 375px layouts.
+- **Verification:** Node unit coverage for project partitioning, six Playwright Work-page tests, full ESLint and TypeScript checks, desktop/mobile Chrome visual inspection, and production build.
+
 ## 2026-07-11 — Services experience redesign
 
 - **Problem-first overview:** replaced the mouse-scrub robot hero and sparse service rows with a centered bottleneck-led hero, progressive problem navigator, three full-width service acts, connected delivery story, real proof, and a focused CTA.
