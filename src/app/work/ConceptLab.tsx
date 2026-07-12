@@ -19,7 +19,9 @@ function ConceptCopy({
       <h3 className={styles.conceptTitle}>{concept.title}</h3>
       <p className={styles.conceptSummary}>{concept.summary}</p>
       <ul className={styles.conceptTags} aria-label="Capabilities explored">
-        {concept.tags.map((tag) => <li key={tag}>{tag}</li>)}
+        {concept.tags.map((tag) => (
+          <li key={tag}>{tag}</li>
+        ))}
       </ul>
       <p className={published ? styles.conceptOpen : styles.conceptPending}>
         {published ? (
@@ -34,18 +36,61 @@ function ConceptCopy({
   )
 }
 
+function BrowserBar({ label }: { label: string }) {
+  return (
+    <div className={styles.browserBar} aria-hidden="true">
+      <span />
+      <span />
+      <span />
+      <b>{label}</b>
+    </div>
+  )
+}
+
+function ConceptPreview({ concept }: { concept: ConceptSite }) {
+  if (!concept.previewImage || !concept.demoPath) return null
+
+  return (
+    <div className={styles.conceptPreview}>
+      <BrowserBar label={concept.demoPath} />
+      <Image
+        src={concept.previewImage}
+        alt={`${concept.title} concept website preview`}
+        fill
+        sizes="(max-width: 767px) 100vw, 62vw"
+        className={styles.conceptImage}
+      />
+    </div>
+  )
+}
+
+function ConceptBlueprint() {
+  return (
+    <div className={styles.conceptPreview} aria-hidden="true">
+      <BrowserBar label="demo brief reserved" />
+      <div className={styles.blueprint}>
+        <span className={styles.blueprintNav} />
+        <span className={styles.blueprintHeadline} />
+        <span className={styles.blueprintCopy} />
+        <span className={styles.blueprintMedia} />
+        <span className={styles.blueprintButton} />
+      </div>
+    </div>
+  )
+}
+
 export default function ConceptLab() {
   if (CONCEPT_SITES.length === 0) return null
 
   return (
     <section className={styles.conceptLab} data-testid="concept-lab">
       <div className="wrap">
-        <div className={styles.sectionIntro}>
+        <div className={styles.sectionIntro} data-work-reveal>
           <p className={styles.label}>Concept Lab / Self-initiated</p>
-          <h2 className={styles.sectionTitle} data-animate="slide-up">
+          <h2 className={styles.sectionTitle}>
             What else could we <span>build?</span>
           </h2>
-          <p className={styles.sectionBody} data-animate="slide-up">
+          <p className={styles.sectionBody}>
             Reserved spaces for coded website explorations across industries,
             visual languages and interaction patterns.
           </p>
@@ -55,72 +100,50 @@ export default function ConceptLab() {
         </div>
 
         <div
-          className={styles.conceptGrid}
-          data-animate="slide-up"
-          data-stagger="0.08"
+          className={styles.conceptTrail}
+          data-testid="concept-exhibition"
         >
           {CONCEPT_SITES.map((concept, index) => {
-            if (
+            const published = Boolean(
               concept.status === 'published' &&
-              concept.previewImage &&
-              concept.demoPath
-            ) {
+                concept.previewImage &&
+                concept.demoPath,
+            )
+
+            if (published && concept.demoPath) {
               return (
                 <a
                   key={concept.slug}
                   href={concept.demoPath}
-                  className={`${styles.conceptCard} ${styles.conceptPublished}`}
+                  className={`${styles.conceptStage} ${styles.conceptPublished}`}
+                  data-concept-stage
+                  data-concept-status="published"
+                  data-concept-index={index}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Open ${concept.title} live HTML demo (opens in a new tab)`}
                 >
-                  <div className={styles.conceptPreview}>
-                    <div className={styles.browserBar} aria-hidden="true">
-                      <span /><span /><span />
-                      <b>{concept.demoPath}</b>
-                    </div>
-                    <Image
-                      src={concept.previewImage}
-                      alt={`${concept.title} concept website preview`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className={styles.conceptImage}
-                    />
-                  </div>
-                  <ConceptCopy
-                    concept={concept}
-                    index={index}
-                    published
-                  />
+                  <ConceptPreview concept={concept} />
+                  <ConceptCopy concept={concept} index={index} published />
                 </a>
               )
             }
 
             return (
-              <div
+              <article
                 key={concept.slug}
-                className={`${styles.conceptCard} ${styles.conceptDraft}`}
+                className={`${styles.conceptStage} ${styles.conceptDraft}`}
+                data-concept-stage
                 data-concept-status="draft"
+                data-concept-index={index}
               >
-                <div className={styles.conceptPreview} aria-hidden="true">
-                  <div className={styles.browserBar}>
-                    <span /><span /><span />
-                    <b>demo brief reserved</b>
-                  </div>
-                  <div className={styles.blueprint}>
-                    <span className={styles.blueprintNav} />
-                    <span className={styles.blueprintHeadline} />
-                    <span className={styles.blueprintCopy} />
-                    <span className={styles.blueprintMedia} />
-                    <span className={styles.blueprintButton} />
-                  </div>
-                </div>
+                <ConceptBlueprint />
                 <ConceptCopy
                   concept={concept}
                   index={index}
                   published={false}
                 />
-              </div>
+              </article>
             )
           })}
         </div>

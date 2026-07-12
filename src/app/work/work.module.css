@@ -488,6 +488,53 @@
   border-left: var(--bd);
 }
 
+.conceptTrail {
+  display: grid;
+  gap: clamp(64px, 10vw, 132px);
+  margin-top: 72px;
+}
+
+.conceptStage {
+  display: grid;
+  min-height: clamp(460px, 58vw, 700px);
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  overflow: hidden;
+  border: var(--bd);
+  background: var(--bone);
+  color: var(--ink);
+  box-shadow: 14px 14px 0 var(--hot);
+  transform: rotate(-1.5deg);
+}
+
+.conceptStage:nth-child(even) {
+  grid-template-columns: minmax(280px, 0.75fr) minmax(0, 1.25fr);
+  box-shadow: -14px 14px 0 var(--sun);
+  transform: rotate(1.5deg);
+}
+
+.conceptStage:nth-child(even) .conceptPreview {
+  order: 2;
+  border-right: 0;
+  border-left: var(--bd);
+}
+
+.conceptStage .conceptPreview {
+  min-height: 100%;
+  border-right: var(--bd);
+  border-bottom: 0;
+}
+
+.conceptStage .conceptCopy {
+  justify-content: center;
+  padding: clamp(28px, 5vw, 64px);
+}
+
+.conceptStage .conceptPending,
+.conceptStage .conceptOpen {
+  margin-right: 0;
+  margin-left: 0;
+}
+
 .conceptCard {
   display: flex;
   min-width: 0;
@@ -920,6 +967,24 @@
   .indexedVisual {
     min-height: 0;
     aspect-ratio: 16 / 10;
+  }
+
+  .conceptStage,
+  .conceptStage:nth-child(even) {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    transform: none;
+  }
+
+  .conceptStage:nth-child(even) .conceptPreview {
+    order: 0;
+    border-left: 0;
+  }
+
+  .conceptStage .conceptPreview {
+    min-height: 360px;
+    border-right: 0;
+    border-bottom: var(--bd);
   }
 
   .project,

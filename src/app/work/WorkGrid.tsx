@@ -65,6 +65,7 @@ function FeaturedProject({
       className={`${styles.projectStage} ${index % 2 === 1 ? styles.projectStageReverse : ''}`}
       data-project-stage
       data-project-index={index}
+      data-client-project
     >
       <span className={styles.projectGhost} aria-hidden="true">
         {String(index + 1).padStart(2, '0')}

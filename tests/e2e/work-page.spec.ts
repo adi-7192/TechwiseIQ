@@ -34,7 +34,7 @@ test.describe('Work credibility page', () => {
         name: 'Built for real business.',
       }),
     ).toBeVisible()
-    await expect(page.getByRole('article')).toHaveCount(2)
+    await expect(page.locator('[data-client-project]')).toHaveCount(2)
     await expect(page.getByText('21', { exact: true })).toBeVisible()
     await expect(page.getByText('Pages shipped', { exact: true })).toBeVisible()
     await expect(
@@ -75,13 +75,20 @@ test.describe('Work credibility page', () => {
   test('draft concept slots are honest and non-interactive', async ({ page }) => {
     const lab = page.getByTestId('concept-lab')
     await expect(lab.getByRole('link')).toHaveCount(0)
-    const draftSlots = lab.locator('[data-concept-status="draft"]')
+    const draftSlots = lab.locator('[data-concept-stage]')
     await expect(draftSlots).toHaveCount(3)
+    await expect(draftSlots.nth(0)).toHaveAttribute(
+      'data-concept-status',
+      'draft',
+    )
     await expect(draftSlots).toContainText([
       'Demo slot 01',
       'Demo slot 02',
       'Demo slot 03',
     ])
+    await expect(draftSlots.nth(0).getByText('Art direction')).toBeVisible()
+    await expect(draftSlots.nth(1).getByText('Data UI')).toBeVisible()
+    await expect(draftSlots.nth(2).getByText('Editorial UI')).toBeVisible()
     await expect(
       lab.getByText('Concept work — not client commissions'),
     ).toBeVisible()
