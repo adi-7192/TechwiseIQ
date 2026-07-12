@@ -6,6 +6,7 @@ import { CASE_STUDIES } from '@/data/case-studies'
 import { BOOKING_URL } from '@/lib/site'
 import ConceptLab from './ConceptLab'
 import WorkGrid from './WorkGrid'
+import WorkMotion from './WorkMotion'
 import styles from './work.module.css'
 
 export const metadata: Metadata = {
@@ -76,6 +77,7 @@ export default function WorkPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <WorkMotion />
       <Nav />
       <main
         className={styles.experience}

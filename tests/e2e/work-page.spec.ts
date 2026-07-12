@@ -22,6 +22,25 @@ test.describe('Work credibility page', () => {
     ).not.toHaveCount(0)
   })
 
+  test('enhances motion progressively and exposes the reduced fallback', async ({
+    page,
+  }) => {
+    await expect(page.getByTestId('work-experience')).toHaveAttribute(
+      'data-motion',
+      'reduced',
+    )
+    await expect(
+      page.locator('[data-work-reveal]:not([data-visible="true"])'),
+    ).toHaveCount(0)
+
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.reload()
+    await expect(page.getByTestId('work-experience')).toHaveAttribute(
+      'data-motion',
+      'active',
+    )
+  })
+
   test('presents real work, delivery proof, concepts, and working style', async ({
     page,
   }) => {

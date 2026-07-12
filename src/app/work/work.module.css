@@ -3,6 +3,25 @@
   overflow: clip;
 }
 
+:global([data-work-reveal]) {
+  opacity: 1;
+  transform: none;
+}
+
+:global([data-work-experience][data-motion='active'] [data-work-reveal]) {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.38s ease, transform 0.38s ease;
+}
+
+:global(
+    [data-work-experience][data-motion='active']
+      [data-work-reveal][data-visible='true']
+  ) {
+  opacity: 1;
+  transform: none;
+}
+
 .hero {
   padding: 168px 0 104px;
   border-bottom: var(--bd);
