@@ -12,7 +12,7 @@ function WebVisual() {
       <Image
         className={styles.webImage}
         src="/work/aaskra-hero.webp"
-        alt="AASKRA Realty website displayed on desktop and mobile screens"
+        alt="AASKRA Realty website interface"
         width={1440}
         height={900}
         sizes="(max-width: 767px) calc(100vw - 40px), 50vw"

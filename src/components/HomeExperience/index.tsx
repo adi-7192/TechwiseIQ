@@ -136,26 +136,28 @@ export default function HomeExperience() {
             ))}
           </dl>
 
-          <ol className={styles.processRoute}>
+          <div className={styles.processWrap}>
             <span
               className={styles.processCurrent}
               data-home-process-current
               aria-hidden="true"
             />
-            {PROCESS_STEPS.map(([number, title, body]) => (
-              <li key={number}>
-                <span
-                  className={styles.processMarker}
-                  data-home-process-marker
-                  aria-hidden="true"
-                >
-                  {number}
-                </span>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </li>
-            ))}
-          </ol>
+            <ol className={styles.processRoute}>
+              {PROCESS_STEPS.map(([number, title, body]) => (
+                <li key={number}>
+                  <span
+                    className={styles.processMarker}
+                    data-home-process-marker
+                    aria-hidden="true"
+                  >
+                    {number}
+                  </span>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
 
