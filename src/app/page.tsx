@@ -2,13 +2,7 @@ import type { Metadata } from 'next'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import Hero from '@/components/Hero'
-import Manifesto from '@/components/Manifesto'
-import ServicesSection from '@/components/ServicesSection'
-import Ticker from '@/components/Ticker'
-import ProcessSection from '@/components/ProcessSection'
-import ShoutSection from '@/components/ShoutSection'
-import CaseStudySection from '@/components/CaseStudySection'
-import CTASection from '@/components/CTASection'
+import HomeExperience from '@/components/HomeExperience'
 import { ScrollAnimator, VelocitySkewObserver } from '@/components/ui'
 
 export const metadata: Metadata = {
@@ -76,13 +70,7 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
-        <Manifesto />
-        <ServicesSection />
-        <Ticker />
-        <ProcessSection />
-        <ShoutSection />
-        <CaseStudySection />
-        <CTASection />
+        <HomeExperience />
       </main>
       <Footer />
     </>

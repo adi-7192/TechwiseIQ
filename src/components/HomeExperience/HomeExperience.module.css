@@ -1,0 +1,36 @@
+.experience {
+  background: var(--bone);
+}
+
+.problem,
+.servicesIntro,
+.serviceScene,
+.difference,
+.finalCta {
+  position: relative;
+}
+
+.inner,
+.serviceInner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.serviceLink,
+.ctaLink {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.serviceVisual {
+  min-height: 240px;
+}
+
+.softwareVisual,
+.aiVisual,
+.webVisual {
+  position: relative;
+  min-height: 240px;
+}
