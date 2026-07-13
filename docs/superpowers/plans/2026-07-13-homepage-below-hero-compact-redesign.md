@@ -92,6 +92,7 @@ git commit -m "test: define compact homepage experience contract"
 **Files:**
 - Create: `src/components/HomeExperience/home-content.ts`
 - Create: `src/components/HomeExperience/ServiceVisuals.tsx`
+- Create: `src/components/HomeExperience/HomeExperience.module.css`
 - Create: `src/components/HomeExperience/index.tsx`
 - Modify: `src/app/page.tsx`
 
@@ -177,13 +178,16 @@ Create `ServiceVisuals.tsx` exporting `ServiceVisual({ id })`. Render:
 
 Use CSS module classes passed from the same folder; do not add client directives or event handlers.
 
-- [ ] **Step 3: Create the semantic HomeExperience server component**
+- [ ] **Step 3: Create the minimal CSS Module required by the semantic component**
+
+Create `HomeExperience.module.css` with the class names used by `ServiceVisuals` and `HomeExperience`. Keep the initial rules limited to semantic visibility, normal document flow, and `min-height: 44px` for CTA/service links so Task 3 can demonstrate the responsive layout failure before the full visual system exists.
+
+- [ ] **Step 4: Create the semantic HomeExperience server component**
 
 Create `index.tsx` that:
 
-- imports `Link`, `BOOKING_URL`, `WHATSAPP_URL`, content constants, visuals, styles, and `HomeMotion`;
+- imports `Link`, `BOOKING_URL`, `WHATSAPP_URL`, content constants, visuals, and styles;
 - renders one root `<div data-testid="home-experience" data-home-experience>`;
-- renders `HomeMotion` as a leaf;
 - uses `<section>` for Problem, Services introduction, each service, Difference, and CTA;
 - renders service index and deliverables as lists;
 - uses one `h2` per top-level scene and `h3` for each service;
@@ -191,7 +195,7 @@ Create `index.tsx` that:
 - renders Book a call, WhatsApp, and Enquiry with the destinations required by Task 1;
 - marks diagrams and oversized numbers `aria-hidden="true"`.
 
-- [ ] **Step 4: Replace only the below-Hero composition in the route**
+- [ ] **Step 5: Replace only the below-Hero composition in the route**
 
 Modify `src/app/page.tsx` imports and JSX to keep:
 
@@ -208,19 +212,19 @@ Modify `src/app/page.tsx` imports and JSX to keep:
 
 Remove the route imports and render calls for `Manifesto`, `ServicesSection`, `Ticker`, `ProcessSection`, `ShoutSection`, `CaseStudySection`, and `CTASection`. Do not delete their component files.
 
-- [ ] **Step 5: Run the semantic test**
+- [ ] **Step 6: Run the semantic test**
 
 Run: `npx playwright test tests/e2e/home-experience.spec.ts --grep "keeps the hero"`
 
 Expected: PASS.
 
-- [ ] **Step 6: Run lint**
+- [ ] **Step 7: Run lint**
 
 Run: `npm run lint`
 
 Expected: PASS with no ESLint errors.
 
-- [ ] **Step 7: Commit server-rendered content**
+- [ ] **Step 8: Commit server-rendered content**
 
 ```bash
 git add src/app/page.tsx src/components/HomeExperience tests/e2e/home-experience.spec.ts
@@ -332,6 +336,7 @@ git commit -m "feat: style compact homepage experience"
 
 **Files:**
 - Create: `src/components/HomeExperience/HomeMotion.tsx`
+- Modify: `src/components/HomeExperience/index.tsx`
 - Modify: `src/components/HomeExperience/HomeExperience.module.css`
 - Modify: `tests/e2e/home-experience.spec.ts`
 
@@ -538,6 +543,8 @@ export default function HomeMotion() {
   return null
 }
 ```
+
+Import `HomeMotion` into `src/components/HomeExperience/index.tsx` and render it as the first child of the experience root. Keep all copy, links, lists, images, and diagram markup in the Server Component.
 
 The implementation must use these bounded values exactly or reduce them during visual polish. Do not add pinning, scroll snapping, width/height/top/left/filter animation, or independent ambient loops.
 
