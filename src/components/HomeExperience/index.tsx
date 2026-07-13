@@ -7,6 +7,7 @@ import {
   PROCESS_STEPS,
 } from './home-content'
 import ServiceVisual from './ServiceVisuals'
+import HomeMotion from './HomeMotion'
 import styles from './HomeExperience.module.css'
 
 export default function HomeExperience() {
@@ -16,6 +17,7 @@ export default function HomeExperience() {
       data-home-experience
       data-testid="home-experience"
     >
+      <HomeMotion />
       <section className={styles.problem} data-home-problem>
         <div className={styles.inner}>
           <div className={styles.problemGrid}>

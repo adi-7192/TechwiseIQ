@@ -119,3 +119,37 @@ for (const viewport of [
     }
   })
 }
+
+test('settles every reveal when reduced motion is requested', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+
+  const experience = page.getByTestId('home-experience')
+  await expect(experience).toHaveAttribute('data-motion', 'reduced')
+
+  const unsettled = await experience.locator('[data-home-reveal]').evaluateAll(
+    (elements) =>
+      elements.filter((element) => {
+        const style = window.getComputedStyle(element)
+        return style.opacity !== '1' || style.transform !== 'none'
+      }).length,
+  )
+  expect(unsettled).toBe(0)
+})
+
+test('reveals each scene as it enters the viewport', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/')
+
+  const experience = page.getByTestId('home-experience')
+  await expect(experience).toHaveAttribute('data-motion', 'active')
+
+  const webCopy = experience
+    .locator('[data-home-service="web"] [data-home-reveal]')
+    .first()
+  await webCopy.scrollIntoViewIfNeeded()
+  await expect(webCopy).toHaveAttribute('data-visible', 'true')
+  await expect(webCopy).toHaveCSS('opacity', '1')
+})

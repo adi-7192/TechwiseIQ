@@ -4,6 +4,23 @@
   overflow: clip;
 }
 
+.experience[data-motion="active"] [data-home-reveal] {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 620ms ease, transform 720ms cubic-bezier(0.2, 0.75, 0.25, 1);
+  will-change: opacity, transform;
+}
+
+.experience[data-motion="active"] [data-home-reveal][data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.experience[data-motion="reduced"] [data-home-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
 .problem,
 .servicesIntro,
 .serviceScene,
@@ -1029,6 +1046,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .experience [data-home-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
   .serviceIndex a,
   .serviceLink span,
   .ctaLink {
