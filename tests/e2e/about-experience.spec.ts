@@ -258,25 +258,29 @@ test('keeps active culture panels in one stable visual grid area', async ({
   )
 
   const panelsWrapper = experience.locator('[data-about-culture-panels]')
-  const wrapperBox = await panelsWrapper.boundingBox()
-  expect(wrapperBox).not.toBeNull()
-  expect(wrapperBox!.height).toBeGreaterThanOrEqual(100)
+  const wrapperBox = await panelsWrapper.evaluate((wrapper) => ({
+    width: (wrapper as HTMLElement).clientWidth,
+    height: (wrapper as HTMLElement).clientHeight,
+  }))
+  expect(wrapperBox.height).toBeGreaterThanOrEqual(100)
 
   const panelBoxes = await experience
     .locator('[data-about-culture-panel]')
     .evaluateAll((panels) =>
-      panels.map((panel) => {
-        const { x, y, width, height } = panel.getBoundingClientRect()
-        return { x, y, width, height }
-      }),
+      panels.map((panel) => ({
+        x: (panel as HTMLElement).offsetLeft,
+        y: (panel as HTMLElement).offsetTop,
+        width: (panel as HTMLElement).offsetWidth,
+        height: (panel as HTMLElement).offsetHeight,
+      })),
     )
   expect(panelBoxes).toHaveLength(3)
   for (const panelBox of panelBoxes) {
     expect(panelBox.height).toBeGreaterThanOrEqual(100)
-    expect(Math.abs(panelBox.x - wrapperBox!.x)).toBeLessThanOrEqual(2)
-    expect(Math.abs(panelBox.y - wrapperBox!.y)).toBeLessThanOrEqual(2)
-    expect(Math.abs(panelBox.width - wrapperBox!.width)).toBeLessThanOrEqual(2)
-    expect(Math.abs(panelBox.height - wrapperBox!.height)).toBeLessThanOrEqual(2)
+    expect(Math.abs(panelBox.x)).toBeLessThanOrEqual(2)
+    expect(Math.abs(panelBox.y)).toBeLessThanOrEqual(2)
+    expect(Math.abs(panelBox.width - wrapperBox.width)).toBeLessThanOrEqual(2)
+    expect(Math.abs(panelBox.height - wrapperBox.height)).toBeLessThanOrEqual(2)
   }
 })
 
@@ -288,4 +292,59 @@ test('uses accessible ink text on the hot CTA', async ({ page }) => {
   })
   await expect(cta).toHaveCSS('color', 'rgb(16, 16, 16)')
   await expect(cta).toHaveCSS('background-color', 'rgb(255, 77, 0)')
+})
+
+test('settles the complete About story for reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/about')
+
+  const experience = page.getByTestId('about-experience')
+  await expect(experience).toHaveAttribute('data-motion', 'reduced')
+
+  const panels = experience.locator('[data-about-culture-panel]')
+  await expect(panels).toHaveCount(3)
+  for (const panel of await panels.all()) {
+    await expect(panel).toHaveCSS('opacity', '1')
+  }
+})
+
+test('keeps About complete without JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false })
+  const page = await context.newPage()
+  await page.goto('/about')
+
+  await expect(page.getByTestId('about-experience')).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  await expect(page.locator('[data-about-culture-panel]')).toHaveCount(3)
+  await expect(
+    page.getByRole('link', { name: /bring us the business problem/i }),
+  ).toBeVisible()
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true)
+
+  await context.close()
+})
+
+test('activates the hero convergence when motion is allowed', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/about')
+
+  const experience = page.getByTestId('about-experience')
+  await expect(experience).toHaveAttribute('data-motion', 'active')
+
+  const fragment = experience.locator('[data-about-fragment]').first()
+  const before = await fragment.evaluate(
+    (element) => getComputedStyle(element).transform,
+  )
+  await page.evaluate(() => window.scrollTo(0, window.innerHeight * 0.35))
+  await page.waitForTimeout(250)
+  const after = await fragment.evaluate(
+    (element) => getComputedStyle(element).transform,
+  )
+
+  expect(after).not.toBe(before)
 })
