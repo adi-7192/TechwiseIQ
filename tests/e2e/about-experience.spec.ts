@@ -498,6 +498,69 @@ test('uses accessible ink text on the hot CTA', async ({ page }) => {
   await expect(cta).toHaveCSS('background-color', 'rgb(255, 77, 0)')
 })
 
+test('keeps both heading accents above large-text AA contrast', async ({
+  page,
+}) => {
+  await page.goto('/about')
+
+  const accents = await page
+    .getByTestId('about-experience')
+    .locator('[data-about-hero] h1 em, [data-about-closing] h2 em')
+    .evaluateAll((elements) => {
+      const parseColor = (color: string) => {
+        const channels = color.match(/[\d.]+/g)?.map(Number)
+        if (!channels || channels.length < 3) {
+          throw new Error(`Unable to parse color: ${color}`)
+        }
+        return [...channels.slice(0, 3), channels[3] ?? 1]
+      }
+      const luminance = (channels: number[]) => {
+        const [red, green, blue] = channels.slice(0, 3).map((channel) => {
+          const value = channel / 255
+          return value <= 0.04045
+            ? value / 12.92
+            : ((value + 0.055) / 1.055) ** 2.4
+        })
+        return 0.2126 * red + 0.7152 * green + 0.0722 * blue
+      }
+
+      return elements.map((element) => {
+        const foreground = getComputedStyle(element).color
+        let background = 'rgba(0, 0, 0, 0)'
+        let ancestor: Element | null = element
+        while (ancestor) {
+          const candidate = getComputedStyle(ancestor).backgroundColor
+          if (parseColor(candidate)[3] > 0) {
+            background = candidate
+            break
+          }
+          ancestor = ancestor.parentElement
+        }
+
+        const foregroundLuminance = luminance(parseColor(foreground))
+        const backgroundLuminance = luminance(parseColor(background))
+        const ratio =
+          (Math.max(foregroundLuminance, backgroundLuminance) + 0.05) /
+          (Math.min(foregroundLuminance, backgroundLuminance) + 0.05)
+
+        return {
+          background,
+          foreground,
+          label: element.closest('[data-about-hero]') ? 'hero' : 'closing',
+          ratio,
+        }
+      })
+    })
+
+  expect(accents).toHaveLength(2)
+  for (const accent of accents) {
+    expect.soft(
+      accent.ratio,
+      `${accent.label} accent ${accent.foreground} on ${accent.background}`,
+    ).toBeGreaterThanOrEqual(3)
+  }
+})
+
 test('settles the complete About story for reduced motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/about')
