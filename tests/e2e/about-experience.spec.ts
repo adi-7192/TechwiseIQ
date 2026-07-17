@@ -341,10 +341,234 @@ test('activates the hero convergence when motion is allowed', async ({ page }) =
     (element) => getComputedStyle(element).transform,
   )
   await page.evaluate(() => window.scrollTo(0, window.innerHeight * 0.35))
-  await page.waitForTimeout(250)
-  const after = await fragment.evaluate(
-    (element) => getComputedStyle(element).transform,
+  await expect
+    .poll(() =>
+      fragment.evaluate((element) => getComputedStyle(element).transform),
+    )
+    .not.toBe(before)
+})
+
+test('progresses the desktop underline monotonically through the hero', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/about')
+  await page.evaluate(() => window.scrollTo(0, 0))
+
+  const experience = page.getByTestId('about-experience')
+  const readUnderline = () =>
+    experience.evaluate((element) =>
+      Number.parseFloat(
+        getComputedStyle(element).getPropertyValue('--about-underline'),
+      ),
+    )
+
+  await expect
+    .poll(async () => Math.abs((await readUnderline()) - 0.12))
+    .toBeLessThanOrEqual(0.03)
+  const top = await readUnderline()
+
+  const heroRange = await experience.locator('[data-about-hero]').evaluate(
+    (hero) => {
+      const rect = hero.getBoundingClientRect()
+      const start = rect.top + window.scrollY
+      const distance = Math.max(rect.height - window.innerHeight, 1)
+      return {
+        middle: start + distance * 0.5,
+        end: start + distance,
+      }
+    },
   )
 
-  expect(after).not.toBe(before)
+  await page.evaluate((y) => window.scrollTo(0, y), heroRange.middle)
+  await expect
+    .poll(async () => {
+      const value = await readUnderline()
+      return value > 0.12 && value < 1
+    })
+    .toBe(true)
+  const middle = await readUnderline()
+
+  await page.evaluate((y) => window.scrollTo(0, y + 4), heroRange.end)
+  await expect
+    .poll(async () => Math.abs((await readUnderline()) - 1))
+    .toBeLessThanOrEqual(0.03)
+  const end = await readUnderline()
+
+  expect(middle).toBeGreaterThanOrEqual(top)
+  expect(end).toBeGreaterThanOrEqual(middle)
+})
+
+test('cleans up and reapplies About motion when preference changes', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/about')
+
+  const experience = page.getByTestId('about-experience')
+  const panels = experience.locator('[data-about-culture-panel]')
+  const animatedElements = experience.locator(
+    '[data-about-fragment], [data-about-path]',
+  )
+  const fragment = experience.locator('[data-about-fragment]').first()
+  const readUnderline = () =>
+    experience.evaluate((element) =>
+      Number.parseFloat(
+        getComputedStyle(element).getPropertyValue('--about-underline'),
+      ),
+    )
+
+  await expect(experience).toHaveAttribute('data-motion', 'active')
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(experience).toHaveAttribute('data-motion', 'reduced')
+  await expect(experience.locator('[data-about-fragment-field]')).toHaveCSS(
+    'display',
+    'none',
+  )
+  await expect
+    .poll(() =>
+      panels.evaluateAll((elements) =>
+        elements.every(
+          (element) => getComputedStyle(element).opacity === '1',
+        ),
+      ),
+    )
+    .toBe(true)
+  await expect
+    .poll(() =>
+      animatedElements.evaluateAll((elements) =>
+        elements.every((element) => {
+          const style = (element as HTMLElement).style
+          return style.transform === '' && style.opacity === ''
+        }),
+      ),
+    )
+    .toBe(true)
+
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await expect(experience).toHaveAttribute('data-motion', 'active')
+  await expect
+    .poll(async () => Math.abs((await readUnderline()) - 0.12))
+    .toBeLessThanOrEqual(0.03)
+
+  const before = await fragment.evaluate(
+    (element) => getComputedStyle(element).transform,
+  )
+  await page.evaluate(() => window.scrollTo(0, window.innerHeight * 0.35))
+  await expect
+    .poll(() =>
+      fragment.evaluate((element) => getComputedStyle(element).transform),
+    )
+    .not.toBe(before)
+})
+
+test('rebuilds About motion across the desktop breakpoint', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/about')
+
+  const experience = page.getByTestId('about-experience')
+  const cultureStage = experience.locator('[data-about-culture] > div')
+  const panels = experience.locator('[data-about-culture-panel]')
+  const panelsWrapper = experience.locator('[data-about-culture-panels]')
+
+  await expect(experience).toHaveAttribute('data-motion', 'active')
+  await expect(cultureStage).toHaveCSS('position', 'sticky')
+
+  await page.setViewportSize({ width: 768, height: 900 })
+  await expect
+    .poll(() =>
+      cultureStage.evaluate(
+        (element) => getComputedStyle(element).position,
+      ),
+    )
+    .toBe('relative')
+
+  const mobilePanelOffsets = await panels.evaluateAll((elements) =>
+    elements.map((element) => (element as HTMLElement).offsetTop),
+  )
+  expect(mobilePanelOffsets[1]).toBeGreaterThan(mobilePanelOffsets[0])
+  expect(mobilePanelOffsets[2]).toBeGreaterThan(mobilePanelOffsets[1])
+  for (const panel of await panels.all()) {
+    await panel.scrollIntoViewIfNeeded()
+    await expect
+      .poll(() =>
+        panel.evaluate(
+          (element) => Number.parseFloat(getComputedStyle(element).opacity),
+        ),
+      )
+      .toBeGreaterThan(0.95)
+  }
+
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await expect(experience).toHaveAttribute('data-motion', 'active')
+  await expect
+    .poll(() =>
+      cultureStage.evaluate(
+        (element) => getComputedStyle(element).position,
+      ),
+    )
+    .toBe('sticky')
+  await expect
+    .poll(() =>
+      panelsWrapper.evaluate(
+        (element) =>
+          (element as HTMLElement).clientWidth > 0 &&
+          (element as HTMLElement).clientHeight > 0,
+      ),
+    )
+    .toBe(true)
+  await expect
+    .poll(() =>
+      panels.evaluateAll((elements) =>
+        elements.every(
+          (element) =>
+            (element as HTMLElement).offsetWidth > 0 &&
+            (element as HTMLElement).offsetHeight > 0,
+        ),
+      ),
+    )
+    .toBe(true)
+})
+
+test('remounts one active About experience after client navigation', async ({
+  page,
+}) => {
+  const pageErrors: Error[] = []
+  page.on('pageerror', (error) => pageErrors.push(error))
+
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/about')
+
+  const experience = page.getByTestId('about-experience')
+  await expect(experience).toHaveCount(1)
+  await expect(experience).toHaveAttribute('data-motion', 'active')
+
+  await page
+    .getByRole('link', { name: 'Services', exact: true })
+    .first()
+    .click()
+  await expect(page).toHaveURL(/\/services$/)
+  await page.goBack()
+  await expect(page).toHaveURL(/\/about$/)
+
+  await expect(experience).toHaveCount(1)
+  await expect(experience).toHaveAttribute('data-motion', 'active')
+  await page.evaluate(() => window.scrollTo(0, 0))
+  const fragment = experience.locator('[data-about-fragment]').first()
+  const before = await fragment.evaluate(
+    (element) => getComputedStyle(element).transform,
+  )
+  await page.evaluate(() => window.scrollTo(0, window.innerHeight * 0.35))
+  await expect
+    .poll(() =>
+      fragment.evaluate((element) => getComputedStyle(element).transform),
+    )
+    .not.toBe(before)
+
+  expect(pageErrors).toHaveLength(0)
 })

@@ -37,18 +37,16 @@ export default function AboutMotion() {
     const applyMode = (reduced: boolean) => {
       disposeMode()
       gsap.set([...fragments, ...paths, ...panels, closing].filter(Boolean), {
-        clearProps: 'all',
+        clearProps: 'transform,opacity',
       })
 
       if (reduced) {
         root.dataset.motion = 'reduced'
-        root.style.setProperty('--about-underline', '1')
         disposeMode = () => {}
         return
       }
 
       root.dataset.motion = 'active'
-      root.style.setProperty('--about-underline', '.12')
       const media = gsap.matchMedia()
       const context = gsap.context(() => {
         gsap.fromTo(
@@ -95,8 +93,9 @@ export default function AboutMotion() {
               },
               0,
             )
-            heroTimeline.to(
+            heroTimeline.fromTo(
               root,
+              { '--about-underline': 0.12 },
               { '--about-underline': 1, duration: 0.7, ease: 'none' },
               0.15,
             )

@@ -4,6 +4,14 @@
   background: var(--bone);
 }
 
+.experience[data-motion='active'] {
+  --about-underline: 0.12;
+}
+
+.experience[data-motion='reduced'] {
+  --about-underline: 1;
+}
+
 .hero,
 .expertise,
 .culture,
