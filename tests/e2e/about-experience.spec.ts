@@ -145,6 +145,7 @@ test('keeps About proof qualitative and removes individual profiles', async ({
 for (const viewport of [
   { width: 375, height: 667 },
   { width: 768, height: 900 },
+  { width: 769, height: 900 },
   { width: 1440, height: 1000 },
 ]) {
   test(`keeps About centered and inside ${viewport.width}px`, async ({ page }) => {
@@ -161,6 +162,19 @@ for (const viewport of [
 
     const h1 = experience.getByRole('heading', { level: 1 })
     await expect(h1).toHaveCSS('text-align', 'center')
+    const h1Box = await h1.boundingBox()
+    expect(h1Box).not.toBeNull()
+    expect(
+      Math.abs(h1Box!.x + h1Box!.width / 2 - viewport.width / 2),
+    ).toBeLessThanOrEqual(2)
+
+    await experience.evaluate((element) =>
+      element.removeAttribute('data-motion'),
+    )
+    await expect(experience.locator('[data-about-fragment-field]')).toHaveCSS(
+      'display',
+      'none',
+    )
 
     const cta = experience.getByRole('link', {
       name: /bring us the business problem/i,
@@ -179,3 +193,99 @@ for (const viewport of [
     )
   })
 }
+
+test('keeps narrow-desktop fragments clear of core hero copy', async ({
+  page,
+}) => {
+  const viewport = { width: 769, height: 900 }
+  await page.setViewportSize(viewport)
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/about')
+
+  const experience = page.getByTestId('about-experience')
+  const h1Box = await experience
+    .getByRole('heading', { level: 1 })
+    .boundingBox()
+  const heroBodyBox = await experience
+    .locator('[data-about-hero] p')
+    .filter({ hasText: 'Techwise IQ turns business bottlenecks' })
+    .boundingBox()
+  expect(h1Box).not.toBeNull()
+  expect(heroBodyBox).not.toBeNull()
+
+  const fragments = experience.locator('[data-about-fragment]:visible')
+  expect(await fragments.count()).toBeGreaterThan(0)
+  for (const fragment of await fragments.all()) {
+    const fragmentBox = await fragment.boundingBox()
+    const fragmentText = await fragment.textContent()
+    expect(fragmentBox).not.toBeNull()
+    expect(
+      fragmentBox!.x,
+      `${fragmentText} starts outside the viewport`,
+    ).toBeGreaterThanOrEqual(0)
+    expect(
+      fragmentBox!.x + fragmentBox!.width,
+      `${fragmentText} ends outside the viewport`,
+    ).toBeLessThanOrEqual(viewport.width)
+
+    for (const [label, copyBox] of [
+      ['heading', h1Box!],
+      ['hero body', heroBodyBox!],
+    ] as const) {
+      const intersects =
+        fragmentBox!.x < copyBox.x + copyBox.width &&
+        fragmentBox!.x + fragmentBox!.width > copyBox.x &&
+        fragmentBox!.y < copyBox.y + copyBox.height &&
+        fragmentBox!.y + fragmentBox!.height > copyBox.y
+      expect(
+        intersects,
+        `${fragmentText} intersects the ${label}`,
+      ).toBe(false)
+    }
+  }
+})
+
+test('keeps active culture panels in one stable visual grid area', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 769, height: 900 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/about')
+
+  const experience = page.getByTestId('about-experience')
+  await experience.evaluate((element) =>
+    element.setAttribute('data-motion', 'active'),
+  )
+
+  const panelsWrapper = experience.locator('[data-about-culture-panels]')
+  const wrapperBox = await panelsWrapper.boundingBox()
+  expect(wrapperBox).not.toBeNull()
+  expect(wrapperBox!.height).toBeGreaterThanOrEqual(100)
+
+  const panelBoxes = await experience
+    .locator('[data-about-culture-panel]')
+    .evaluateAll((panels) =>
+      panels.map((panel) => {
+        const { x, y, width, height } = panel.getBoundingClientRect()
+        return { x, y, width, height }
+      }),
+    )
+  expect(panelBoxes).toHaveLength(3)
+  for (const panelBox of panelBoxes) {
+    expect(panelBox.height).toBeGreaterThanOrEqual(100)
+    expect(Math.abs(panelBox.x - wrapperBox!.x)).toBeLessThanOrEqual(2)
+    expect(Math.abs(panelBox.y - wrapperBox!.y)).toBeLessThanOrEqual(2)
+    expect(Math.abs(panelBox.width - wrapperBox!.width)).toBeLessThanOrEqual(2)
+    expect(Math.abs(panelBox.height - wrapperBox!.height)).toBeLessThanOrEqual(2)
+  }
+})
+
+test('uses accessible ink text on the hot CTA', async ({ page }) => {
+  await page.goto('/about')
+
+  const cta = page.getByTestId('about-experience').getByRole('link', {
+    name: /bring us the business problem/i,
+  })
+  await expect(cta).toHaveCSS('color', 'rgb(16, 16, 16)')
+  await expect(cta).toHaveCSS('background-color', 'rgb(255, 77, 0)')
+})

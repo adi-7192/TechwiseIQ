@@ -332,7 +332,7 @@
   margin-top: 30px;
   padding: 14px 18px;
   border: var(--bd);
-  color: var(--bone);
+  color: var(--ink);
   background: var(--hot);
   box-shadow: 5px 5px 0 var(--ink);
   font-family: var(--font-mono), monospace;
@@ -366,14 +366,22 @@
   .experience[data-motion='active'] .culturePanels {
     position: absolute;
     inset: 48% var(--about-gutter) auto;
+    display: grid;
     margin: 0;
     transform: translateY(-40%);
   }
 
   .experience[data-motion='active'] .culturePanel {
-    position: absolute;
-    inset: 0;
+    position: relative;
+    inset: auto;
+    grid-area: 1 / 1;
     border: 0;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 980px) {
+  .fragment:nth-child(5) {
+    display: none;
   }
 }
 
@@ -431,7 +439,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .experience[data-motion='reduced'] .fragmentField {
+  .fragmentField {
     display: none;
   }
 

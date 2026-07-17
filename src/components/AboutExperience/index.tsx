@@ -26,7 +26,11 @@ export default function AboutExperience() {
               <li key={problem}>{problem}</li>
             ))}
           </ul>
-          <div className={styles.fragmentField} aria-hidden="true">
+          <div
+            className={styles.fragmentField}
+            data-about-fragment-field
+            aria-hidden="true"
+          >
             {ABOUT_PROBLEMS.map((problem) => (
               <span
                 className={styles.fragment}
@@ -86,7 +90,7 @@ export default function AboutExperience() {
             </p>
             <h2 className="sr-only">Our operating culture</h2>
           </div>
-          <div className={styles.culturePanels}>
+          <div className={styles.culturePanels} data-about-culture-panels>
             {CULTURE_PRINCIPLES.map((principle, index) => (
               <article
                 className={styles.culturePanel}
