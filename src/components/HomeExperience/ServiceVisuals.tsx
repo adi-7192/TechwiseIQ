@@ -24,54 +24,80 @@ function WebVisual() {
 }
 
 function SoftwareVisual() {
-  const nodes = ['People', 'Data', 'Tools', 'Decisions']
+  const activities = [
+    ['New request', 'Assigned'],
+    ['Client approval', 'Ready'],
+    ['Project handoff', 'Done'],
+  ] as const
 
   return (
-    <div className={styles.softwareVisual} aria-hidden="true">
-      <div className={styles.systemLines}>
-        {[0, 1, 2].map((line) => (
-          <span key={line} data-home-system-line>
-            <i />
-          </span>
+    <div
+      className={styles.softwareDashboard}
+      data-home-software-dashboard
+      aria-hidden="true"
+    >
+      <div className={styles.softwareAppBar} />
+      <div className={styles.softwareSidebar}>
+        {[0, 1, 2, 3].map((item) => (
+          <i key={item} />
         ))}
       </div>
-      {nodes.map((node) => (
-        <span
-          key={node}
-          className={styles.systemNode}
-          data-node={node.toLowerCase()}
-          data-home-system-node
-        >
-          {node}
-        </span>
-      ))}
-      <span className={styles.systemCore} data-home-system-core>
-        One
-        <br />
-        system
-      </span>
+      <div className={styles.softwareAppMain}>
+        <strong>Operations overview</strong>
+        <div className={styles.softwareMetrics}>
+          <span>24</span>
+          <span>08</span>
+          <span>96%</span>
+        </div>
+        <div className={styles.softwareActivity}>
+          {activities.map(([label, status]) => (
+            <div key={label}>
+              <span>{label}</span>
+              <b data-home-software-status>{status}</b>
+            </div>
+          ))}
+        </div>
+      </div>
+      <span
+        className={styles.softwareCursor}
+        data-home-software-cursor
+      />
     </div>
   )
 }
 
 function AIVisual() {
+  const inputs = ['Inbox', 'Forms', 'Documents'] as const
+  const outputs = ['Update CRM', 'Draft reply', 'Build report'] as const
+
   return (
-    <div className={styles.aiVisual} aria-hidden="true">
-      <div className={styles.aiInput} data-home-ai-input>
-        <span>Inbox / documents</span>
-        <i />
-        <i />
-        <i />
+    <div
+      className={styles.aiOrchestration}
+      data-home-ai-orchestration
+      aria-hidden="true"
+    >
+      <div className={styles.aiStack}>
+        {inputs.map((input) => (
+          <span key={input} data-home-ai-input>
+            {input}
+          </span>
+        ))}
       </div>
-      <span className={styles.aiConnector} />
-      <div className={styles.aiReview} data-home-ai-review>
-        Human
-        <br />
-        review
+      <i className={styles.aiRail} />
+      <div className={styles.aiCore} data-home-ai-core>
+        <span>✦</span>
+        <strong>AI workflow</strong>
+        <small>Understand · Decide · Route</small>
       </div>
-      <div className={styles.aiResult} data-home-ai-result>
-        Useful action <span>→</span>
+      <i className={styles.aiRail} />
+      <div className={`${styles.aiStack} ${styles.aiOutputStack}`}>
+        {outputs.map((output) => (
+          <span key={output} data-home-ai-output>
+            {output}
+          </span>
+        ))}
       </div>
+      <i className={styles.aiSignal} data-home-ai-signal />
     </div>
   )
 }
