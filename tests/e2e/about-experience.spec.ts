@@ -141,3 +141,41 @@ test('keeps About proof qualitative and removes individual profiles', async ({
     await expect(main.getByText(forbidden)).toHaveCount(0)
   }
 })
+
+for (const viewport of [
+  { width: 375, height: 667 },
+  { width: 768, height: 900 },
+  { width: 1440, height: 1000 },
+]) {
+  test(`keeps About centered and inside ${viewport.width}px`, async ({ page }) => {
+    await page.setViewportSize(viewport)
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/about')
+
+    const experience = page.getByTestId('about-experience')
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= window.innerWidth,
+      ),
+    ).toBe(true)
+
+    const h1 = experience.getByRole('heading', { level: 1 })
+    await expect(h1).toHaveCSS('text-align', 'center')
+
+    const cta = experience.getByRole('link', {
+      name: /bring us the business problem/i,
+    })
+    const ctaBox = await cta.boundingBox()
+    expect(ctaBox).not.toBeNull()
+    expect(ctaBox!.height).toBeGreaterThanOrEqual(44)
+
+    await expect(experience.locator('[data-about-culture]')).toHaveCSS(
+      'background-color',
+      'rgb(16, 16, 16)',
+    )
+    await expect(experience.locator('[data-about-closing]')).toHaveCSS(
+      'background-color',
+      'rgb(255, 208, 47)',
+    )
+  })
+}
