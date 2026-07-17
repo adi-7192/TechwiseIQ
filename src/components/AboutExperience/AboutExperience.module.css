@@ -1,0 +1,53 @@
+.experience {
+  overflow: clip;
+  background: var(--bone);
+}
+
+.heroStage,
+.expertise,
+.culture,
+.closing {
+  position: relative;
+}
+
+.heroContent,
+.inner,
+.cultureStage,
+.closingContent {
+  width: min(100% - 40px, var(--max));
+  margin-inline: auto;
+}
+
+.fragmentField {
+  display: none;
+}
+
+.heroContent,
+.closingContent {
+  text-align: center;
+}
+
+.cta {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.hero,
+.fragment,
+.sceneLabel,
+.heroTitle,
+.heroBody,
+.scrollCue,
+.sectionTitle,
+.pathList,
+.path,
+.pathNumber,
+.pathArrow,
+.cultureIntro,
+.culturePanels,
+.culturePanel,
+.targetMotif,
+.closingTitle,
+.closingBody {
+}
