@@ -4,7 +4,9 @@ import Footer from '@/components/Footer'
 import Nav from '@/components/Nav'
 
 export const metadata: Metadata = {
-  title: 'About Techwise IQ | Business-First Engineering in Dubai',
+  title: {
+    absolute: 'About Techwise IQ | Business-First Engineering in Dubai',
+  },
   description:
     'Techwise IQ turns business bottlenecks into websites, custom software, and AI systems. Built in Dubai and trusted by businesses beyond borders.',
   alternates: { canonical: '/about' },

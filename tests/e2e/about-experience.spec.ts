@@ -4,6 +4,10 @@ test('renders the approved four-scene About story', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/about')
 
+  await expect(page).toHaveTitle(
+    'About Techwise IQ | Business-First Engineering in Dubai',
+  )
+
   const experience = page.getByTestId('about-experience')
   await expect(experience).toBeVisible()
   await expect(
@@ -13,7 +17,85 @@ test('renders the approved four-scene About story', async ({ page }) => {
     }),
   ).toBeVisible()
 
-  await expect(experience.locator(':scope > section')).toHaveCount(4)
+  const scenes = experience.locator(':scope > section')
+  await expect(scenes).toHaveCount(4)
+  await expect(
+    scenes.evaluateAll((sections) =>
+      sections.map((section) =>
+        [
+          'data-about-hero',
+          'data-about-expertise',
+          'data-about-culture',
+          'data-about-closing',
+        ].find((attribute) => section.hasAttribute(attribute)),
+      ),
+    ),
+  ).resolves.toEqual([
+    'data-about-hero',
+    'data-about-expertise',
+    'data-about-culture',
+    'data-about-closing',
+  ])
+
+  const problemList = experience.getByRole('list', {
+    name: 'Business bottlenecks we help resolve',
+  })
+  await expect(
+    problemList.locator('li').evaluateAll((items) =>
+      items.map((item) => item.textContent?.trim()),
+    ),
+  ).resolves.toEqual([
+    'Underperforming website',
+    'Manual daily work',
+    'Disconnected systems',
+    'Technical uncertainty',
+    'Growth bottlenecks',
+  ])
+
+  await expect(
+    experience.locator('[data-about-path]').evaluateAll((paths) =>
+      paths.map((path) => ({
+        problem: path.querySelector('strong')?.textContent?.trim(),
+        outcome: path.querySelector('p')?.textContent?.trim(),
+      })),
+    ),
+  ).resolves.toEqual([
+    {
+      problem: 'A website that undersells you',
+      outcome: 'A digital presence built to earn attention and action.',
+    },
+    {
+      problem: 'Work trapped in spreadsheets',
+      outcome: 'Software shaped around how your operation actually runs.',
+    },
+    {
+      problem: 'Repetitive work slowing people down',
+      outcome: 'AI automation with clear human control.',
+    },
+  ])
+
+  await expect(
+    experience.locator('[data-about-culture-panel]').evaluateAll((panels) =>
+      panels.map((panel) => ({
+        title: panel.querySelector('h3')?.textContent?.trim(),
+        body: panel.querySelector('p')?.textContent?.trim(),
+      })),
+    ),
+  ).resolves.toEqual([
+    {
+      title: 'Ownership',
+      body: 'We recommend the path and take responsibility for delivery.',
+    },
+    {
+      title: 'Clarity',
+      body: 'Plain language, written scope, and progress you can see.',
+    },
+    {
+      title: 'Momentum',
+      body: 'Fewer hand-offs. Working progress. Decisions turned into useful outcomes.',
+    },
+  ])
+
   await expect(
     experience.getByRole('heading', {
       name: /technology should make the business simpler/i,
@@ -31,6 +113,7 @@ test('renders the approved four-scene About story', async ({ page }) => {
   const cta = experience.getByRole('link', {
     name: /bring us the business problem/i,
   })
+  await expect(experience.getByRole('link')).toHaveCount(1)
   await expect(cta).toHaveAttribute('href', /wa\.me\/971567760667/)
 
   await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)

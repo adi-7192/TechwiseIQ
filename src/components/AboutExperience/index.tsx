@@ -64,7 +64,9 @@ export default function AboutExperience() {
           <ol className={styles.pathList}>
             {EXPERTISE_PATHS.map((path, index) => (
               <li className={styles.path} data-about-path key={path.problem}>
-                <span className={styles.pathNumber}>0{index + 1}</span>
+                <span className={styles.pathNumber} aria-hidden="true">
+                  0{index + 1}
+                </span>
                 <strong>{path.problem}</strong>
                 <span className={styles.pathArrow} aria-hidden="true">
                   →
@@ -91,7 +93,7 @@ export default function AboutExperience() {
                 data-about-culture-panel
                 key={principle.title}
               >
-                <span>0{index + 1}</span>
+                <span aria-hidden="true">0{index + 1}</span>
                 <h3>{principle.title}</h3>
                 <p>{principle.body}</p>
               </article>
