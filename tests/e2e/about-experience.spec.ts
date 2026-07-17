@@ -245,6 +245,56 @@ test('keeps narrow-desktop fragments clear of core hero copy', async ({
   }
 })
 
+test('keeps mobile fragments clear of core hero copy', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/about')
+
+  const experience = page.getByTestId('about-experience')
+  await expect(experience).toHaveAttribute('data-motion', 'active')
+  const fragments = experience.locator('[data-about-fragment]:visible')
+  await expect
+    .poll(() =>
+      fragments.evaluateAll((elements) =>
+        elements.every(
+          (element) => getComputedStyle(element).opacity === '1',
+        ),
+      ),
+    )
+    .toBe(true)
+
+  const h1Box = await experience
+    .getByRole('heading', { level: 1 })
+    .boundingBox()
+  const heroBodyBox = await experience
+    .locator('[data-about-hero] p')
+    .filter({ hasText: 'Techwise IQ turns business bottlenecks' })
+    .boundingBox()
+  expect(h1Box).not.toBeNull()
+  expect(heroBodyBox).not.toBeNull()
+
+  for (const fragment of await fragments.all()) {
+    const fragmentBox = await fragment.boundingBox()
+    const fragmentText = await fragment.textContent()
+    expect(fragmentBox).not.toBeNull()
+
+    for (const [label, copyBox] of [
+      ['heading', h1Box!],
+      ['hero body', heroBodyBox!],
+    ] as const) {
+      const intersects =
+        fragmentBox!.x < copyBox.x + copyBox.width &&
+        fragmentBox!.x + fragmentBox!.width > copyBox.x &&
+        fragmentBox!.y < copyBox.y + copyBox.height &&
+        fragmentBox!.y + fragmentBox!.height > copyBox.y
+      expect(
+        intersects,
+        `${fragmentText} intersects the ${label}`,
+      ).toBe(false)
+    }
+  }
+})
+
 test('keeps active culture panels in one stable visual grid area', async ({
   page,
 }) => {
@@ -282,6 +332,58 @@ test('keeps active culture panels in one stable visual grid area', async ({
     expect(Math.abs(panelBox.width - wrapperBox.width)).toBeLessThanOrEqual(2)
     expect(Math.abs(panelBox.height - wrapperBox.height)).toBeLessThanOrEqual(2)
   }
+})
+
+test('keeps each desktop culture beat in the sticky viewport', async ({
+  page,
+}) => {
+  const viewport = { width: 1440, height: 1000 }
+  await page.setViewportSize(viewport)
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/about')
+
+  const experience = page.getByTestId('about-experience')
+  await expect(experience).toHaveAttribute('data-motion', 'active')
+  const culture = experience.locator('[data-about-culture]')
+  const panels = culture.locator('[data-about-culture-panel]')
+  const panelsWrapper = culture.locator('[data-about-culture-panels]')
+  const cultureRange = await culture.evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    return {
+      start: rect.top + window.scrollY,
+      distance: Math.max(rect.height - window.innerHeight, 1),
+    }
+  })
+  const wrapperTops: number[] = []
+
+  for (const [activeIndex, progress] of [0.02, 0.5, 0.98].entries()) {
+    await page.evaluate(
+      (y) => window.scrollTo(0, y),
+      cultureRange.start + cultureRange.distance * progress,
+    )
+    await expect
+      .poll(() =>
+        panels.evaluateAll((elements) => {
+          const opacities = elements.map((element) =>
+            Number.parseFloat(getComputedStyle(element).opacity),
+          )
+          return opacities.indexOf(Math.max(...opacities))
+        }),
+      )
+      .toBe(activeIndex)
+
+    const wrapperBox = await panelsWrapper.boundingBox()
+    expect(wrapperBox).not.toBeNull()
+    expect(wrapperBox!.y).toBeGreaterThanOrEqual(0)
+    expect(wrapperBox!.y + wrapperBox!.height).toBeLessThanOrEqual(
+      viewport.height,
+    )
+    wrapperTops.push(wrapperBox!.y)
+  }
+
+  expect(Math.max(...wrapperTops) - Math.min(...wrapperTops)).toBeLessThanOrEqual(
+    2,
+  )
 })
 
 test('uses accessible ink text on the hot CTA', async ({ page }) => {
@@ -410,7 +512,7 @@ test('cleans up and reapplies About motion when preference changes', async ({
   const experience = page.getByTestId('about-experience')
   const panels = experience.locator('[data-about-culture-panel]')
   const animatedElements = experience.locator(
-    '[data-about-fragment], [data-about-path]',
+    '[data-about-fragment], [data-about-path], [data-about-culture-panel], [data-about-closing-content]',
   )
   const fragment = experience.locator('[data-about-fragment]').first()
   const readUnderline = () =>

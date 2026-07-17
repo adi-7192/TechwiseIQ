@@ -222,7 +222,7 @@
 
 .culture {
   min-height: 100svh;
-  overflow: hidden;
+  overflow: clip;
   color: var(--bone);
   background: var(--ink);
 }
@@ -407,6 +407,18 @@
   .fragment {
     padding: 7px 8px;
     font-size: 0.54rem;
+  }
+
+  .fragment:nth-child(1) {
+    top: 6%;
+  }
+
+  .fragment:nth-child(2) {
+    top: 8%;
+  }
+
+  .fragment:nth-child(3) {
+    bottom: 7%;
   }
 
   .fragment:nth-child(4),

@@ -4,6 +4,13 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-07-17 — About Complexity to Clarity
+
+- Replaced the legacy profile-style About page with a centered four-scene business narrative.
+- Added problem-to-outcome expertise paths and the Ownership / Clarity / Momentum culture sequence.
+- Added one progressive GSAP convergence showpiece with reduced-motion and no-JavaScript fallbacks.
+- Kept all trust claims qualitative and removed founder, individual, team-size, and invented-proof language.
+
 ## 2026-07-12 — Work continuous exhibition redesign
 
 - **Continuous exhibition canvas:** recomposed `/work` from bordered grids into one overlapping visual sequence with centered cinematic titles, image planes, detached proof objects, angled color fields, and shared handoffs between content moments.
