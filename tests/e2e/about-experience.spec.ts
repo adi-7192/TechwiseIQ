@@ -245,54 +245,146 @@ test('keeps narrow-desktop fragments clear of core hero copy', async ({
   }
 })
 
-test('keeps mobile fragments clear of core hero copy', async ({ page }) => {
-  await page.setViewportSize({ width: 375, height: 667 })
+for (const { viewport, expectedVisibleFragments } of [
+  { viewport: { width: 320, height: 568 }, expectedVisibleFragments: 0 },
+  { viewport: { width: 320, height: 667 }, expectedVisibleFragments: 0 },
+  { viewport: { width: 375, height: 667 }, expectedVisibleFragments: 3 },
+  { viewport: { width: 430, height: 932 }, expectedVisibleFragments: 3 },
+]) {
+  test(`keeps mobile fragments clear inside ${viewport.width}x${viewport.height}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport)
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.goto('/about')
+
+    const experience = page.getByTestId('about-experience')
+    await expect(experience).toHaveAttribute('data-motion', 'active')
+    const fragments = experience.locator('[data-about-fragment]')
+    await expect
+      .poll(() =>
+        fragments.evaluateAll((elements) => {
+          const visible = elements.filter((element) => {
+            const style = getComputedStyle(element)
+            const rect = element.getBoundingClientRect()
+            return (
+              style.display !== 'none' &&
+              style.visibility !== 'hidden' &&
+              style.visibility !== 'collapse' &&
+              rect.width > 0 &&
+              rect.height > 0
+            )
+          })
+          return (
+            visible.length === 0 ||
+            visible.every(
+              (element) =>
+                Number.parseFloat(getComputedStyle(element).opacity) >= 0.99,
+            )
+          )
+        }),
+      )
+      .toBe(true)
+
+    const visibleFragments = []
+    for (const fragment of await fragments.all()) {
+      const box = await fragment.boundingBox()
+      const displayed = await fragment.evaluate((element) => {
+        const style = getComputedStyle(element)
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          style.visibility !== 'collapse'
+        )
+      })
+      if (box && displayed) visibleFragments.push({ fragment, box })
+    }
+    expect(visibleFragments).toHaveLength(expectedVisibleFragments)
+
+    const h1Box = await experience
+      .getByRole('heading', { level: 1 })
+      .boundingBox()
+    const heroBodyBox = await experience
+      .locator('[data-about-hero] p')
+      .filter({ hasText: 'Techwise IQ turns business bottlenecks' })
+      .boundingBox()
+    const scrollCueBox = await experience
+      .locator('[data-about-hero] span')
+      .filter({ hasText: 'Scroll to bring the pieces together' })
+      .boundingBox()
+    expect(h1Box).not.toBeNull()
+    expect(heroBodyBox).not.toBeNull()
+    if (viewport.width <= 340 && viewport.height <= 620) {
+      expect(scrollCueBox).toBeNull()
+    } else {
+      expect(scrollCueBox).not.toBeNull()
+    }
+
+    for (const { fragment, box } of visibleFragments) {
+      const fragmentText = await fragment.textContent()
+      expect(
+        box.x,
+        `${fragmentText} starts outside the viewport`,
+      ).toBeGreaterThanOrEqual(0)
+      expect(
+        box.y,
+        `${fragmentText} starts above the viewport`,
+      ).toBeGreaterThanOrEqual(0)
+      expect(
+        box.x + box.width,
+        `${fragmentText} ends outside the viewport`,
+      ).toBeLessThanOrEqual(viewport.width)
+      expect(
+        box.y + box.height,
+        `${fragmentText} ends below the viewport`,
+      ).toBeLessThanOrEqual(viewport.height)
+
+      for (const [label, copyBox] of [
+        ['heading', h1Box!],
+        ['hero body', heroBodyBox!],
+        ...(scrollCueBox ? ([['scroll cue', scrollCueBox]] as const) : []),
+      ] as const) {
+        const intersects =
+          box.x < copyBox.x + copyBox.width &&
+          box.x + box.width > copyBox.x &&
+          box.y < copyBox.y + copyBox.height &&
+          box.y + box.height > copyBox.y
+        expect(intersects, `${fragmentText} intersects the ${label}`).toBe(
+          false,
+        )
+      }
+    }
+  })
+}
+
+test('keeps the fixed WhatsApp control clear of short-phone About copy', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 568 })
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.goto('/about')
 
   const experience = page.getByTestId('about-experience')
   await expect(experience).toHaveAttribute('data-motion', 'active')
-  const fragments = experience.locator('[data-about-fragment]:visible')
-  await expect
-    .poll(() =>
-      fragments.evaluateAll((elements) =>
-        elements.every(
-          (element) => getComputedStyle(element).opacity === '1',
-        ),
-      ),
-    )
-    .toBe(true)
-
-  const h1Box = await experience
-    .getByRole('heading', { level: 1 })
-    .boundingBox()
   const heroBodyBox = await experience
     .locator('[data-about-hero] p')
     .filter({ hasText: 'Techwise IQ turns business bottlenecks' })
     .boundingBox()
-  expect(h1Box).not.toBeNull()
+  const whatsappBox = await page
+    .getByRole('link', { name: 'Chat on WhatsApp' })
+    .boundingBox()
   expect(heroBodyBox).not.toBeNull()
+  expect(whatsappBox).not.toBeNull()
 
-  for (const fragment of await fragments.all()) {
-    const fragmentBox = await fragment.boundingBox()
-    const fragmentText = await fragment.textContent()
-    expect(fragmentBox).not.toBeNull()
-
-    for (const [label, copyBox] of [
-      ['heading', h1Box!],
-      ['hero body', heroBodyBox!],
-    ] as const) {
-      const intersects =
-        fragmentBox!.x < copyBox.x + copyBox.width &&
-        fragmentBox!.x + fragmentBox!.width > copyBox.x &&
-        fragmentBox!.y < copyBox.y + copyBox.height &&
-        fragmentBox!.y + fragmentBox!.height > copyBox.y
-      expect(
-        intersects,
-        `${fragmentText} intersects the ${label}`,
-      ).toBe(false)
-    }
-  }
+  const intersects =
+    heroBodyBox!.x < whatsappBox!.x + whatsappBox!.width &&
+    heroBodyBox!.x + heroBodyBox!.width > whatsappBox!.x &&
+    heroBodyBox!.y < whatsappBox!.y + whatsappBox!.height &&
+    heroBodyBox!.y + heroBodyBox!.height > whatsappBox!.y
+  expect(intersects).toBe(false)
+  expect(
+    whatsappBox!.y - (heroBodyBox!.y + heroBodyBox!.height),
+  ).toBeGreaterThanOrEqual(8)
 })
 
 test('keeps active culture panels in one stable visual grid area', async ({
@@ -371,6 +463,16 @@ test('keeps each desktop culture beat in the sticky viewport', async ({
         }),
       )
       .toBe(activeIndex)
+
+    const opacities = await panels.evaluateAll((elements) =>
+      elements.map((element) =>
+        Number.parseFloat(getComputedStyle(element).opacity),
+      ),
+    )
+    expect(opacities[activeIndex]).toBeGreaterThanOrEqual(0.8)
+    expect(
+      Math.max(...opacities.filter((_, index) => index !== activeIndex)),
+    ).toBeLessThanOrEqual(0.2)
 
     const wrapperBox = await panelsWrapper.boundingBox()
     expect(wrapperBox).not.toBeNull()
@@ -523,12 +625,34 @@ test('cleans up and reapplies About motion when preference changes', async ({
     )
 
   await expect(experience).toHaveAttribute('data-motion', 'active')
+  await page.evaluate(() => window.scrollTo(0, window.innerHeight * 0.35))
+  await expect
+    .poll(() =>
+      experience.evaluate(
+        (element) => element.style.getPropertyValue('--about-underline') !== '',
+      ),
+    )
+    .toBe(true)
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await expect(experience).toHaveAttribute('data-motion', 'reduced')
   await expect(experience.locator('[data-about-fragment-field]')).toHaveCSS(
     'display',
     'none',
   )
+  await expect
+    .poll(() =>
+      experience.evaluate((element) =>
+        element.style.getPropertyValue('--about-underline'),
+      ),
+    )
+    .toBe('')
+  await expect
+    .poll(() =>
+      experience.evaluate((element) =>
+        getComputedStyle(element).getPropertyValue('--about-underline').trim(),
+      ),
+    )
+    .toBe('1')
   await expect
     .poll(() =>
       panels.evaluateAll((elements) =>

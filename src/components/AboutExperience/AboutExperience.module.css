@@ -458,6 +458,24 @@
   }
 }
 
+@media (max-width: 340px) {
+  .fragmentField {
+    display: none;
+  }
+}
+
+@media (max-width: 340px) and (max-height: 620px) {
+  .heroStage {
+    place-items: start center;
+    padding-top: 76px;
+    padding-bottom: 48px;
+  }
+
+  .scrollCue {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fragmentField {
     display: none;
