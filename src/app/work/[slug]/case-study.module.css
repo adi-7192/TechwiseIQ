@@ -249,6 +249,19 @@
 }
 
 /* ─── Responsive ─── */
+/* 880 matches CTASection's split collapse on this same page — one seam,
+   and Anton stat values ("USD 200M+") crowd 3 third-width cells ≤880 */
+@media (max-width: 880px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+    border-top: var(--bd);
+  }
+
+  .stat {
+    border-bottom: var(--bd);
+  }
+}
+
 @media (max-width: 600px) {
   .hero {
     padding: 120px 0 64px;
@@ -265,15 +278,6 @@
 
   .deliverablesList {
     grid-template-columns: 1fr;
-  }
-
-  .statsGrid {
-    grid-template-columns: 1fr;
-    border-top: var(--bd);
-  }
-
-  .stat {
-    border-bottom: var(--bd);
   }
 
   .fullFrame {

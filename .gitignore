@@ -55,3 +55,6 @@ next-env.d.ts
 
 # reference docs (source of truth lives in parent dir)
 docs/design-reference.html
+
+# desktop baseline screenshots for the responsive overhaul (local artifact, 13MB)
+tests/e2e/baseline-desktop/

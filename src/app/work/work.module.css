@@ -1120,10 +1120,13 @@
 
   .projectStage {
     min-height: 0;
-    grid-template-rows: auto;
+    grid-template-rows: auto auto auto;
     padding: 110px 32px 120px;
   }
 
+  /* Desktop's identity-over-visual collage collapses badly against the
+     16/10 image at tablet widths — stack the rows instead, keeping the
+     right-aligned rhythm. Desktop (≥1024) keeps the overlap. */
   .projectVisual,
   .projectStageReverse .projectVisual {
     min-height: 0;
@@ -1134,16 +1137,22 @@
 
   .projectIdentity,
   .projectStageReverse .projectIdentity {
-    grid-column: 7 / 13;
-    grid-row: 1;
+    grid-column: 3 / 13;
+    grid-row: 2;
     text-align: right;
+    align-self: start;
   }
 
   .proofCloud,
   .projectStageReverse .proofCloud {
     grid-column: 5 / 13;
-    grid-row: 2;
+    grid-row: 3;
     justify-content: flex-end;
+  }
+
+  /* story keeps base grid-row: 3 — move it off the proofCloud's row */
+  .projectStory {
+    grid-row: 4;
   }
 
   .projectStageReverse .projectOutcome {

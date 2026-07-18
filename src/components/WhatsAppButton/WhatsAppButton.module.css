@@ -34,3 +34,17 @@
     box-shadow: var(--shadow);
   }
 }
+
+/* ─── Touch: 44px minimum target + safe-area clearance ─── */
+@media (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 880px) {
+  .btn {
+    right: 16px;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+  }
+}

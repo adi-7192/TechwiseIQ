@@ -113,7 +113,7 @@ export default function ServiceDetailPage({ service }: ServiceDetailPageProps) {
                         src={study.coverImage}
                         alt={`${study.title} website case study preview`}
                         fill
-                        sizes="(max-width: 760px) 90vw, 48vw"
+                        sizes="(max-width: 768px) 90vw, 48vw"
                       />
                     </div>
                   ) : null}

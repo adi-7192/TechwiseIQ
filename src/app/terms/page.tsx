@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import styles from './terms.module.css'
+import styles from '../legal.module.css'
 
 export const metadata: Metadata = {
   title: 'Terms of Service',

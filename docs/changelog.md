@@ -4,6 +4,18 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-07-18 — Site-wide mobile/tablet responsiveness overhaul
+
+Full audit + phased fix per `docs/responsive-audit-plan.md`. Desktop is pixel-identical throughout (verified by 1280/1440 full-page screenshot diffs against a pre-change baseline on all 13 routes).
+
+- **P0 overflow (root-caused, not masked):** breakable-email pattern (`<wbr>` + `overflow-wrap`, copied from Footer) applied to CTASection, contact sidebar, and privacy/terms body links; `/work` 768–1023px band re-rowed (image → identity → proof chips → story — desktop's intentional collage overlap untouched at ≥1024); About culture headings floor `clamp(64px→40px, 11vw, 160px)` (identical ≥582px, fixes "OWNERSHIP" on ≤364px phones).
+- **P1 touch:** nav burger hit area 36→44px (padding + negative margin — icon and nav height unchanged, X-geometry preserved); WhatsApp float `min-height: 44px` under `pointer: coarse` + safe-area-inset bottom ≤880; footer links ~25px tap boxes (WCAG 2.2 AA, Adi-approved density trade-off) in the ≤880 block; `useAccordion` now re-measures the open panel via ResizeObserver + resize listener (fixes clipped FAQ content after device rotation on `/services/*`).
+- **P2 tablet bands:** Hero `min-height: 100svh` fallback chain (fixes 601–880 browser-chrome band); Hero CTA column-switch raised 339→429px and forced `nowrap` removed; case-study `.statsGrid` → 1-col at ≤880 (matches CTASection's seam on the same page); services modules converged 760→768px (incl. the `sizes` hint); `.wrap` gutter `clamp(16px, 4vw, 24px)` (exactly 24px ≥600px); explicit `viewport` export in `layout.tsx`. About's 769/768 min/max pair reviewed — complementary, kept.
+- **P3 guardrails & hygiene:** `overflow-x: clip` on `html` + fallback chain on `body` (sticky-safe; `scrollWidth` still reports overflow so tests stay honest); deleted six dead component folders (Manifesto, ServicesSection, ProcessSection, ShoutSection, CaseStudySection, RobotVideo — imported nowhere; home renders Hero + HomeExperience); consolidated byte-identical privacy/terms CSS into shared `src/app/legal.module.css`; responsive conventions + canonical breakpoints (480/768/880/1024) documented in `AGENTS.md` and `globals.css`.
+- **Regression harness:** `tests/e2e/responsive.spec.ts` — 117 horizontal-overflow assertions (13 routes × 9 widths, 320→1440, reduced-motion, full-page scroll); `tests/e2e/desktop-baseline.spec.ts` (CAPTURE_BASELINE=1) for desktop screenshot locks; `playwright.config.ts` accepts `PW_BASE_URL` to reuse a running dev server (Next 16 single-instance lock).
+- **Verification:** ESLint 0 errors; production build passes; 175 Playwright tests pass (117 new + 58 pre-existing); desktop diff clean; Lighthouse a11y (mobile): home 100, /services/web 100, /work 96 — the /work 96 is **pre-existing** (color-contrast on heroTitle span + label-content-name-mismatch on project action links, unrelated to this work, flagged for follow-up); tap-target audit passes on all three.
+- **Left for Adi:** delete or keep orphaned `public/robot-scrub.mp4` + `robot-poster.webp` (RobotVideo component removed); the two pre-existing /work a11y findings above.
+
 ## 2026-07-17 — About Complexity to Clarity
 
 - Replaced the legacy profile-style About page with a centered four-scene business narrative.

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 /**
  * One-open-at-a-time accordion with max-height animation.
@@ -25,6 +25,30 @@ export function useAccordion(count: number) {
   function setBodyRef(i: number) {
     return stableRefCallbacks.current[i]
   }
+
+  // Re-measure the open panel when the viewport or its content reflows
+  // (rotation, resize, late-loading content) — the max-height was measured
+  // once at open time and would otherwise clip grown content.
+  useEffect(() => {
+    if (openIndex === null) return
+    const el = bodyRefs.current[openIndex]
+    if (!el) return
+
+    const sync = () => {
+      el.style.maxHeight = `${el.scrollHeight}px`
+    }
+
+    // Observe the children: the panel's own box is clamped by max-height,
+    // so it never reports content growth itself.
+    const ro = new ResizeObserver(sync)
+    Array.from(el.children).forEach(child => ro.observe(child))
+    window.addEventListener('resize', sync)
+
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', sync)
+    }
+  }, [openIndex])
 
   function toggle(i: number) {
     const isOpen = openIndex === i

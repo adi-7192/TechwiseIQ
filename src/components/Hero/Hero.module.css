@@ -1,5 +1,7 @@
 .hero {
+  /* svh fallback chain — vh overshoots under mobile browser chrome */
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -194,10 +196,6 @@
     max-width: min(90vw, 52ch);
   }
 
-  .ctas {
-    flex-wrap: nowrap;
-  }
-
   .ctas > a {
     min-height: 44px;
     display: inline-flex;
@@ -212,7 +210,8 @@
   }
 }
 
-@media (max-width: 339px) {
+/* two side-by-side CTAs get cramped below ~430px — stack them */
+@media (max-width: 429px) {
   .card {
     transform: translateY(-20px);
   }

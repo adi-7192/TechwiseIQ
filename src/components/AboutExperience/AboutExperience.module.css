@@ -262,7 +262,9 @@
   margin: 12px 0 0;
   color: var(--hot);
   font-family: var(--font-anton), sans-serif;
-  font-size: clamp(64px, 11vw, 160px);
+  /* 40px floor: identical to the old 64px floor at every viewport ≥582px,
+     but lets single words ("OWNERSHIP") fit ≤364px phones */
+  font-size: clamp(40px, 11vw, 160px);
   font-weight: 400;
   line-height: 0.84;
   text-transform: uppercase;

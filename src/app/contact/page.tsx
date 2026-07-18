@@ -53,7 +53,9 @@ export default function ContactPage() {
                       Email <span className={styles.methodArrow}>&rarr;</span>
                     </span>
                     <span className={styles.methodDetail}>
-                      Info@techwiseiqtechnologies.ae
+                      Info@
+                      <wbr />
+                      techwiseiqtechnologies.ae
                     </span>
                   </a>
                   <a

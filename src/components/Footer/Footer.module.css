@@ -115,6 +115,14 @@
     grid-template-columns: 1fr 1fr;
     gap: 36px 24px;
   }
+
+  /* ~25px tap boxes (WCAG 2.2 AA ≥24px), negative margins keep the mono
+     list density — Adi-approved trade-off vs full 44px */
+  .col a,
+  .legal a {
+    padding-block: 5px;
+    margin-block: -3px;
+  }
 }
 
 @media (max-width: 540px) {

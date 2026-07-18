@@ -187,6 +187,7 @@
   color: var(--soft);
   margin-top: 4px;
   display: block;
+  overflow-wrap: break-word;
 }
 
 .methodArrow {

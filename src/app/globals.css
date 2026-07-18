@@ -1,5 +1,16 @@
 @import 'tailwindcss';
 
+/*
+  ─── Responsive breakpoints (canonical scale) ───
+  All NEW or EDITED media queries use these values (max-width unless noted):
+    480px   small-phone spacing/stacking tweaks
+    768px   phone → tablet cutover (content modules)
+    880px   shell cutover — Nav burger, Footer 2-col, CTA/contact splits
+    1024px  tablet → desktop cutover (wide layouts)
+  Existing working files keep their current breakpoints (no churn rewrites).
+  Full strategy: docs/responsive-audit-plan.md §4.
+*/
+
 /* ─── Techwise IQ Design Tokens — Kinetic ─── */
 :root {
   --bone:      #F2F0E9;  /* warm cream — page bg, never pure white */
@@ -45,6 +56,9 @@
 html {
   scroll-behavior: smooth;
   height: 100%;
+  /* guardrail, not a fix — root-cause every horizontal overflow.
+     clip ≠ hidden: it can't become a scroll container (sticky-safe) */
+  overflow-x: clip;
 }
 
 body {
@@ -56,6 +70,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  overflow-x: clip;
   min-height: 100%;
 }
 
@@ -66,7 +81,9 @@ img { display: block; max-width: 100%; }
 .wrap {
   max-width: var(--max);
   margin: 0 auto;
-  padding: 0 24px;
+  /* 4vw ≥ 24px at every viewport ≥600px — desktop resolves to exactly 24px;
+     only small phones drop toward the 16px floor */
+  padding: 0 clamp(16px, 4vw, 24px);
 }
 
 /* ─── GSAP ScrollTrigger base ─── */
@@ -103,6 +120,13 @@ img { display: block; max-width: 100%; }
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* ─── Utilities ─── */
+/* Breakable long tokens (emails, URLs) — pair with a <wbr> after "@" in JSX.
+   Pattern source: Footer email (src/components/Footer). Inert when text fits. */
+.u-breakable {
+  overflow-wrap: break-word;
 }
 
 /* ─── Screen-reader only ─── */

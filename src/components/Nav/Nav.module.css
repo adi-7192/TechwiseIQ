@@ -108,14 +108,18 @@
   flex-direction: column;
   justify-content: center;
   gap: 7px;
-  width: 36px;
-  height: 36px;
+  /* 44px hit area; padding + negative margin keep the visible icon 36px
+     and the nav height unchanged. The X-state translateY(±5px) depends on
+     the 3px-line/7px-gap content-box geometry — do not resize the inside. */
+  width: 44px;
+  height: 44px;
+  padding: 4px;
+  margin: -4px;
   background: none;
   border: none;
   cursor: pointer;
   position: relative;
   z-index: 62;
-  padding: 0;
 }
 
 .burgerLine {

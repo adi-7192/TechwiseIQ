@@ -25,7 +25,9 @@ export default function CTASection() {
             >
               <span className={styles.channelType}>Email</span>
               <span className={styles.channelValue}>
-                Info@techwiseiqtechnologies.ae
+                Info@
+                <wbr />
+                techwiseiqtechnologies.ae
               </span>
             </a>
             <a

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Anton, Archivo, Space_Mono } from 'next/font/google'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import './globals.css'
@@ -23,6 +23,12 @@ const spaceMono = Space_Mono({
   variable: '--font-mono',
   display: 'swap',
 })
+
+// Explicit (matches Next's default) so responsive behavior is auditable
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
 
 export const metadata: Metadata = {
   title: {

@@ -543,7 +543,7 @@
   font-weight: 500;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
   .hero { min-height: 86svh; padding: 115px 24px 100px; }
   .hero h1 { font-size: clamp(56px, 17vw, 82px); }
   .motif { width: 92vw; height: 70vw; }
