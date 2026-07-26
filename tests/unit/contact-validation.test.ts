@@ -1,0 +1,68 @@
+import assert from 'node:assert/strict'
+import test from 'node:test'
+// @ts-expect-error Node's built-in TypeScript runner requires the file extension.
+import {
+  CONTACT_LIMITS,
+  validateContactSubmission,
+} from '../../src/app/contact/contact-validation.ts'
+
+const valid = {
+  name: 'Ada Lovelace',
+  email: 'ada@example.com',
+  company: 'Analytical Engines',
+  message: 'We need a new client portal.',
+  budget: 'AED 25,000 – 50,000',
+  website: '',
+}
+
+test('normalizes and accepts a valid submission', () => {
+  assert.deepEqual(validateContactSubmission(valid), {
+    ok: true,
+    data: valid,
+  })
+})
+
+test('returns the first missing required field', () => {
+  assert.deepEqual(validateContactSubmission({ ...valid, name: '   ' }), {
+    ok: false,
+    field: 'name',
+    message: 'Please enter your name.',
+  })
+})
+
+test('rejects malformed email addresses', () => {
+  assert.deepEqual(validateContactSubmission({ ...valid, email: 'ada@' }), {
+    ok: false,
+    field: 'email',
+    message: 'Please enter a valid email address.',
+  })
+})
+
+test('rejects values over every server-side limit', () => {
+  for (const field of ['name', 'email', 'company', 'message'] as const) {
+    const result = validateContactSubmission({
+      ...valid,
+      [field]: 'x'.repeat(CONTACT_LIMITS[field] + 1),
+    })
+    assert.equal(result.ok, false)
+    if (!result.ok) assert.equal(result.field, field)
+  }
+})
+
+test('rejects an invented budget value', () => {
+  const result = validateContactSubmission({
+    ...valid,
+    budget: 'AED 1',
+  })
+  assert.equal(result.ok, false)
+  if (!result.ok) assert.equal(result.field, 'budget')
+})
+
+test('preserves a filled honeypot for the action to suppress', () => {
+  const result = validateContactSubmission({
+    ...valid,
+    website: 'https://spam.example',
+  })
+  assert.equal(result.ok, true)
+  if (result.ok) assert.equal(result.data.website, 'https://spam.example')
+})
