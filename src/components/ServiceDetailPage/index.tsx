@@ -25,7 +25,7 @@ export default function ServiceDetailPage({ service }: ServiceDetailPageProps) {
       <ServiceCurrent />
       <section className={styles.hero}>
         <ServiceMotif motif={service.motif} />
-        <div className={styles.heroInner} data-service-reveal>
+        <div className={styles.heroInner}>
           <div className={styles.breadcrumb}>
             <Link href="/services">Services</Link>
             <span aria-hidden="true">/</span>

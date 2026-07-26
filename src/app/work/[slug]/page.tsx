@@ -82,8 +82,8 @@ export default async function CaseStudyPage({ params }: Props) {
               <span className={styles.sep}>/</span>
               <span className={styles.current}>{cs.title}</span>
             </div>
-            <h1 className={styles.title} data-animate="slide-up">{cs.title}</h1>
-            <p className={styles.outcome} data-animate="slide-up">{cs.outcome}</p>
+            <h1 className={styles.title}>{cs.title}</h1>
+            <p className={styles.outcome}>{cs.outcome}</p>
           </div>
         </section>
 

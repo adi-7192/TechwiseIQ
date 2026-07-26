@@ -19,12 +19,22 @@
 }
 
 :global([data-service-reveal]) {
+  opacity: 1;
+  transform: none;
+}
+
+:global(
+    [data-service-experience][data-motion='active'] [data-service-reveal]
+  ) {
   opacity: 0;
   transform: translateY(32px);
   transition: opacity 0.38s ease, transform 0.38s ease;
 }
 
-:global([data-service-reveal][data-visible='true']) {
+:global(
+    [data-service-experience][data-motion='active']
+      [data-service-reveal][data-visible='true']
+  ) {
   opacity: 1;
   transform: none;
 }

@@ -87,19 +87,18 @@ export default function WorkPage() {
       >
         <section className={styles.hero}>
           <div className="wrap">
-            <p className={styles.label} data-work-reveal>
+            <p className={styles.label}>
               Our work / Our way
             </p>
-            <h1 className={styles.heroTitle} data-work-reveal>
+            <h1 className={styles.heroTitle}>
               Proof, not <span>promises.</span>
             </h1>
-            <p className={styles.heroIntro} data-work-reveal>
+            <p className={styles.heroIntro}>
               Real launches, clear decisions and a delivery model clients can
               understand before the first call.
             </p>
             <span
               className={styles.heroMarker}
-              data-work-reveal
               aria-hidden="true"
             />
           </div>

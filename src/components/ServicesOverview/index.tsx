@@ -21,7 +21,7 @@ export default function ServicesOverview() {
         <div className={styles.heroGhost} aria-hidden="true">
           FRICTION
         </div>
-        <div className={styles.heroInner} data-service-reveal>
+        <div className={styles.heroInner}>
           <span className={styles.eyebrow}>Services / Start with the problem</span>
           <h1>
             What&apos;s slowing

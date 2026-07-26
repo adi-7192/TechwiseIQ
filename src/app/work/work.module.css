@@ -1192,6 +1192,10 @@
 }
 
 @media (max-width: 767px) {
+  .hero::before {
+    content: none;
+  }
+
   .hero {
     min-height: 100svh;
     padding: 122px 0 108px;
