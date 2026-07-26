@@ -1,10 +1,16 @@
 'use server'
 
 import { Resend } from 'resend'
+import {
+  readContactSubmission,
+  validateContactSubmission,
+  type ContactField,
+} from './contact-validation'
 
 export interface ContactFormState {
   success: boolean
   message: string
+  field?: ContactField
 }
 
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL ?? 'Info@techwiseiqtechnologies.ae'
@@ -21,18 +27,24 @@ export async function submitContact(
   _prev: ContactFormState,
   formData: FormData,
 ): Promise<ContactFormState> {
-  const name = formData.get('name') as string
-  const email = formData.get('email') as string
-  const company = formData.get('company') as string
-  const message = formData.get('message') as string
-  const budget = formData.get('budget') as string
+  const result = validateContactSubmission(readContactSubmission(formData))
 
-  if (!name?.trim() || !email?.trim() || !message?.trim() || !budget?.trim()) {
-    return { success: false, message: 'Please fill in all required fields.' }
+  if (!result.ok) {
+    return {
+      success: false,
+      message: result.message,
+      field: result.field,
+    }
   }
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return { success: false, message: 'Please enter a valid email address.' }
+  const { name, email, company, message, budget, website } = result.data
+
+  // Treat a populated honeypot as handled without disclosing the filter to bots.
+  if (website) {
+    return {
+      success: true,
+      message: 'Message sent. We’ll reply within 24 hours.',
+    }
   }
 
   if (!process.env.RESEND_API_KEY) {
@@ -47,15 +59,15 @@ export async function submitContact(
     const { error } = await resend.emails.send({
       from: FROM_EMAIL,
       to: TO_EMAIL,
-      replyTo: email.trim(),
-      subject: `New project inquiry — ${name.trim()} (${budget})`,
+      replyTo: email,
+      subject: `New project inquiry — ${name} (${budget})`,
       text: [
-        `Name: ${name.trim()}`,
-        `Email: ${email.trim()}`,
-        `Company: ${company?.trim() || '—'}`,
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Company: ${company || '—'}`,
         `Budget: ${budget}`,
         '',
-        message.trim(),
+        message,
         '',
         `Sent ${new Date().toISOString()} via techwiseiq.com contact form`,
       ].join('\n'),
