@@ -222,6 +222,11 @@
   margin-top: 8px;
 }
 
+.fullFrame:focus-visible {
+  outline: 3px solid var(--hot);
+  outline-offset: 4px;
+}
+
 .fullImg {
   display: block;
   width: 100%;

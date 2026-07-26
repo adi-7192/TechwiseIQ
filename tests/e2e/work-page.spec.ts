@@ -85,11 +85,13 @@ test.describe('Work credibility page', () => {
 
   test('links both projects to stable case-study pages', async ({ page }) => {
     await expect(
-      page.getByRole('link', { name: /Read AASKRA Realty case study/ }),
+      page.getByRole('link', {
+        name: /Read full case study.*AASKRA Realty/,
+      }),
     ).toHaveAttribute('href', '/work/aaskra-realty')
     await expect(
       page.getByRole('link', {
-        name: /Read Express Trade Financing case study/,
+        name: /Read full case study.*Express Trade Financing/,
       }),
     ).toHaveAttribute('href', '/work/express-trade-financing')
 

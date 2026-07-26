@@ -231,7 +231,13 @@ export default async function CaseStudyPage({ params }: Props) {
               <p className={styles.sectionLabel} data-animate="slide-up">
                 The full build — scroll the page we shipped
               </p>
-              <div className={styles.fullFrame} data-animate="slide-up">
+              <div
+                className={styles.fullFrame}
+                data-animate="slide-up"
+                role="region"
+                aria-label={`Full-page screenshot of the ${cs.title} website`}
+                tabIndex={0}
+              >
                 <Image
                   src={cs.fullPageImage.src}
                   alt={`Full-page screenshot of the ${cs.title} website`}
