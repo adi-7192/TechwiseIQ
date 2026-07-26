@@ -4,6 +4,7 @@ import Footer from '@/components/Footer'
 import Marquee from '@/components/Marquee'
 import { CASE_STUDIES } from '@/data/case-studies'
 import { BOOKING_URL } from '@/lib/site'
+import { socialMetadata } from '@/lib/metadata'
 import ConceptLab from './ConceptLab'
 import WorkGrid from './WorkGrid'
 import WorkMotion from './WorkMotion'
@@ -14,12 +15,12 @@ export const metadata: Metadata = {
   description:
     'Real projects, real decisions, real results. Case studies from Techwise IQ — web development, custom software, and AI automation.',
   alternates: { canonical: '/work' },
-  openGraph: {
+  ...socialMetadata({
     title: 'Work | Techwise IQ',
     description:
       'Real projects, real decisions, real results. Case studies from Techwise IQ.',
-    url: 'https://techwiseiq.com/work',
-  },
+    url: '/work',
+  }),
 }
 
 const jsonLd = {

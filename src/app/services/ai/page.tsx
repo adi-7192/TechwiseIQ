@@ -3,18 +3,19 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import ServiceDetailPage from '@/components/ServiceDetailPage'
 import { createServiceJsonLd, SERVICES } from '@/data/services'
+import { socialMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = {
   title: 'AI Automation',
   description:
     'Workflow automation, AI assistants, document processing, and practical AI audits with visible human control. Based in Dubai.',
   alternates: { canonical: '/services/ai' },
-  openGraph: {
+  ...socialMetadata({
     title: 'AI Automation | Techwise IQ',
     description:
       'Workflow automation, AI assistants, document processing, and practical AI audits with visible human control.',
-    url: 'https://techwiseiq.com/services/ai',
-  },
+    url: '/services/ai',
+  }),
 }
 
 export default function AIServicePage() {

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import AboutExperience from '@/components/AboutExperience'
 import Footer from '@/components/Footer'
 import Nav from '@/components/Nav'
+import { socialMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = {
   title: {
@@ -10,12 +11,12 @@ export const metadata: Metadata = {
   description:
     'Techwise IQ turns business bottlenecks into websites, custom software, and AI systems. Built in Dubai and trusted by businesses beyond borders.',
   alternates: { canonical: '/about' },
-  openGraph: {
+  ...socialMetadata({
     title: 'About Techwise IQ | Business-First Engineering in Dubai',
     description:
       'You bring the business goal. We make the technical path clear and take responsibility for delivery.',
-    url: 'https://techwiseiq.com/about',
-  },
+    url: '/about',
+  }),
 }
 
 const jsonLd = {

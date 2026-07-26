@@ -4,18 +4,19 @@ import Footer from '@/components/Footer'
 import Hero from '@/components/Hero'
 import HomeExperience from '@/components/HomeExperience'
 import { ScrollAnimator, VelocitySkewObserver } from '@/components/ui'
+import { socialMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = {
   title: 'Techwise IQ — Web, Software & AI Engineering | Dubai',
   description:
     'Dubai-based digital engineering agency. We build fast websites, custom software, and AI automations. Agencies sell hours. We sell outcomes.',
   alternates: { canonical: '/' },
-  openGraph: {
+  ...socialMetadata({
     title: 'Techwise IQ — Web, Software & AI Engineering | Dubai',
     description:
       'Dubai-based digital engineering agency. We build fast websites, custom software, and AI automations.',
-    url: 'https://techwiseiq.com',
-  },
+    url: '/',
+  }),
 }
 
 const jsonLd = {

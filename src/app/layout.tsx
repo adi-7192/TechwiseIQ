@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Anton, Archivo, Space_Mono } from 'next/font/google'
 import RouteFocusManager from '@/components/RouteFocusManager'
 import WhatsAppButton from '@/components/WhatsAppButton'
+import { socialMetadata } from '@/lib/metadata'
 import './globals.css'
 
 const anton = Anton({
@@ -39,11 +40,12 @@ export const metadata: Metadata = {
   description:
     'Dubai-based digital engineering agency. We build fast websites, custom software, and AI automations. Agencies sell hours. We sell outcomes.',
   metadataBase: new URL('https://techwiseiq.com'),
-  openGraph: {
-    siteName: 'Techwise IQ',
-    type: 'website',
-    locale: 'en_AE',
-  },
+  ...socialMetadata({
+    title: 'Techwise IQ — Web, Software & AI Engineering',
+    description:
+      'Dubai-based digital engineering agency. We build fast websites, custom software, and AI automations. Agencies sell hours. We sell outcomes.',
+    url: '/',
+  }),
 }
 
 // Privacy-friendly analytics (Plausible), enabled only when the domain is

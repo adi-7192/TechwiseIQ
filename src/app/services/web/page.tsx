@@ -3,18 +3,19 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import ServiceDetailPage from '@/components/ServiceDetailPage'
 import { createServiceJsonLd, SERVICES } from '@/data/services'
+import { socialMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = {
   title: 'Web Development',
   description:
     'Custom websites engineered to load fast, rank well, and turn visitor attention into action. Based in Dubai, serving clients worldwide.',
   alternates: { canonical: '/services/web' },
-  openGraph: {
+  ...socialMetadata({
     title: 'Web Development | Techwise IQ',
     description:
       'Custom websites engineered to load fast, rank well, and turn visitor attention into action.',
-    url: 'https://techwiseiq.com/services/web',
-  },
+    url: '/services/web',
+  }),
 }
 
 export default function WebServicePage() {

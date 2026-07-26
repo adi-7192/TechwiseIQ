@@ -11,6 +11,7 @@ import {
   SERVICE_LABELS,
   getCaseStudy,
 } from '@/data/case-studies'
+import { socialMetadata } from '@/lib/metadata'
 import styles from './case-study.module.css'
 
 interface Props {
@@ -30,11 +31,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${cs.title} \u2014 ${cs.outcome}`,
     description: cs.problem,
     alternates: { canonical: `/work/${cs.slug}` },
-    openGraph: {
+    ...socialMetadata({
       title: `${cs.title} | Techwise IQ`,
       description: cs.outcome,
-      url: `https://techwiseiq.com/work/${cs.slug}`,
-    },
+      url: `/work/${cs.slug}`,
+    }),
   }
 }
 

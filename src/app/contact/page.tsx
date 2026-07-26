@@ -3,6 +3,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { ScrollAnimator } from '@/components/ui'
 import { BOOKING_URL } from '@/lib/site'
+import { socialMetadata } from '@/lib/metadata'
 import ContactForm from './ContactForm'
 import styles from './contact.module.css'
 
@@ -11,12 +12,12 @@ export const metadata: Metadata = {
   description:
     'Tell us what\u2019s slowing you down. We\u2019ll reply with scope, timeline, and cost within 24 hours. Dubai-based, serving clients worldwide.',
   alternates: { canonical: '/contact' },
-  openGraph: {
+  ...socialMetadata({
     title: 'Contact | Techwise IQ',
     description:
       'Tell us what\u2019s slowing you down. Scope, timeline, and cost within 24 hours.',
-    url: 'https://techwiseiq.com/contact',
-  },
+    url: '/contact',
+  }),
 }
 
 export default function ContactPage() {
