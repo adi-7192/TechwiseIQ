@@ -4,6 +4,30 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-07-26 — Launch-readiness hardening
+
+- **UI and accessibility:** removed the redundant contact-page WhatsApp float,
+  corrected Services/Work contrast, made the 404 heading semantic, preserved
+  visible Work-link names, added route-heading focus, and exposed the case-study
+  screenshot scroller to keyboard users.
+- **Performance and metadata:** rendered critical route content immediately,
+  prioritized route LCP images, and completed Open Graph/Twitter metadata across
+  all public pages. Sequential mobile Lighthouse now scores 91–95 performance
+  and 100 accessibility/best-practices/SEO on all 12 routes.
+- **Contact reliability:** added server-side validation and limits, honeypot
+  suppression, honest Resend failures, invalid-field focus, inline errors, and
+  full value preservation after validation or delivery errors.
+- **Link safety:** removed the non-resolving AASKRA live-site action while
+  retaining the internal case study; verified the Express and WhatsApp targets.
+- **Verification:** added deterministic unit/lint scripts plus launch smoke,
+  accessibility, metadata/performance, contact, and live-domain regressions.
+  The complete responsive matrix covers 12 routes plus 404 at nine widths.
+- **Deployment:** code is a release candidate, but no Vercel preview or
+  production deployment exists because authentication and owner-controlled
+  integration gates are still missing.
+- **Report:** see
+  [`docs/launch-readiness-report-2026-07-26.md`](launch-readiness-report-2026-07-26.md).
+
 ## 2026-07-18 — Site-wide mobile/tablet responsiveness overhaul
 
 Full audit + phased fix per `docs/responsive-audit-plan.md`. Desktop is pixel-identical throughout (verified by 1280/1440 full-page screenshot diffs against a pre-change baseline on all 13 routes).
