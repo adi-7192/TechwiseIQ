@@ -28,6 +28,10 @@
   box-shadow: 2px 2px 0 var(--ink);
 }
 
+:global(body:has(main[data-contact-page])) .btn {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .btn:hover {
     transform: none;

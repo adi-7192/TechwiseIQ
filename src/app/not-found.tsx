@@ -24,7 +24,7 @@ export default function NotFound() {
           borderBottom: '3px solid var(--ink)',
         }}
       >
-        <p
+        <h1
           style={{
             fontFamily: 'var(--font-anton)',
             fontSize: 'clamp(120px, 20vw, 200px)',
@@ -35,7 +35,7 @@ export default function NotFound() {
           }}
         >
           404
-        </p>
+        </h1>
         <p
           style={{
             fontFamily: 'var(--font-archivo)',

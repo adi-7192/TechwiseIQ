@@ -24,7 +24,7 @@ export default function ContactPage() {
     <>
       <ScrollAnimator />
       <Nav />
-      <main>
+      <main data-contact-page>
         <section className={styles.hero}>
           <div className="wrap">
             <span className={styles.label}>Get in touch</span>
