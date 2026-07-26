@@ -51,6 +51,14 @@
   gap: 24px;
 }
 
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -132,6 +140,13 @@
   text-transform: uppercase;
   letter-spacing: 0.07em;
   color: var(--hot);
+}
+
+.fieldError {
+  margin-top: 8px;
+  color: #9d2500;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 /* ─── Sidebar ─── */

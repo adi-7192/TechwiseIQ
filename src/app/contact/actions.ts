@@ -5,12 +5,16 @@ import {
   readContactSubmission,
   validateContactSubmission,
   type ContactField,
+  type ContactSubmission,
 } from './contact-validation'
+
+type ContactFormValues = Omit<ContactSubmission, 'website'>
 
 export interface ContactFormState {
   success: boolean
   message: string
   field?: ContactField
+  values?: ContactFormValues
 }
 
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL ?? 'Info@techwiseiqtechnologies.ae'
@@ -27,13 +31,22 @@ export async function submitContact(
   _prev: ContactFormState,
   formData: FormData,
 ): Promise<ContactFormState> {
-  const result = validateContactSubmission(readContactSubmission(formData))
+  const submission = readContactSubmission(formData)
+  const values: ContactFormValues = {
+    name: submission.name,
+    email: submission.email,
+    company: submission.company,
+    message: submission.message,
+    budget: submission.budget,
+  }
+  const result = validateContactSubmission(submission)
 
   if (!result.ok) {
     return {
       success: false,
       message: result.message,
       field: result.field,
+      values,
     }
   }
 
@@ -51,7 +64,7 @@ export async function submitContact(
     console.error(
       'Contact form: RESEND_API_KEY is not set — submission was NOT delivered.',
     )
-    return { success: false, message: DELIVERY_FAILED_MESSAGE }
+    return { success: false, message: DELIVERY_FAILED_MESSAGE, values }
   }
 
   try {
@@ -75,11 +88,11 @@ export async function submitContact(
 
     if (error) {
       console.error('Contact form: Resend rejected the send:', error)
-      return { success: false, message: DELIVERY_FAILED_MESSAGE }
+      return { success: false, message: DELIVERY_FAILED_MESSAGE, values }
     }
   } catch (err) {
     console.error('Contact form: delivery failed:', err)
-    return { success: false, message: DELIVERY_FAILED_MESSAGE }
+    return { success: false, message: DELIVERY_FAILED_MESSAGE, values }
   }
 
   return {

@@ -1,18 +1,10 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useEffect } from 'react'
 import { Button } from '@/components/ui'
 import { submitContact, type ContactFormState } from './actions'
+import { BUDGETS, CONTACT_LIMITS } from './contact-validation'
 import styles from './contact.module.css'
-
-const BUDGETS = [
-  'Under AED 10,000',
-  'AED 10,000 \u2013 25,000',
-  'AED 25,000 \u2013 50,000',
-  'AED 50,000 \u2013 100,000',
-  'AED 100,000+',
-  'Not sure yet',
-]
 
 const initialState: ContactFormState = { success: false, message: '' }
 
@@ -21,6 +13,14 @@ export default function ContactForm() {
     submitContact,
     initialState,
   )
+
+  useEffect(() => {
+    if (!state.field) return
+    document.getElementById(state.field)?.focus()
+  }, [state])
+
+  const errorFor = (field: string) =>
+    state.field === field ? `${field}-error` : undefined
 
   if (state.success) {
     return (
@@ -31,11 +31,24 @@ export default function ContactForm() {
   }
 
   return (
-    <form action={formAction} className={styles.form}>
+    <form action={formAction} className={styles.form} noValidate>
       <div role="alert" aria-live="assertive">
         {state.message && !state.success && (
-          <p className={styles.error}>{state.message}</p>
+          <p id="form-error" className={styles.error}>
+            {state.message}
+          </p>
         )}
+      </div>
+
+      <div className={styles.honeypot} aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
       </div>
 
       <div className={styles.field}>
@@ -49,7 +62,16 @@ export default function ContactForm() {
           required
           className={styles.input}
           autoComplete="name"
+          maxLength={CONTACT_LIMITS.name}
+          defaultValue={state.values?.name}
+          aria-invalid={state.field === 'name' || undefined}
+          aria-describedby={errorFor('name')}
         />
+        {state.field === 'name' && (
+          <p id="name-error" className={styles.fieldError}>
+            {state.message}
+          </p>
+        )}
       </div>
 
       <div className={styles.field}>
@@ -63,7 +85,16 @@ export default function ContactForm() {
           required
           className={styles.input}
           autoComplete="email"
+          maxLength={CONTACT_LIMITS.email}
+          defaultValue={state.values?.email}
+          aria-invalid={state.field === 'email' || undefined}
+          aria-describedby={errorFor('email')}
         />
+        {state.field === 'email' && (
+          <p id="email-error" className={styles.fieldError}>
+            {state.message}
+          </p>
+        )}
       </div>
 
       <div className={styles.field}>
@@ -76,7 +107,16 @@ export default function ContactForm() {
           type="text"
           className={styles.input}
           autoComplete="organization"
+          maxLength={CONTACT_LIMITS.company}
+          defaultValue={state.values?.company}
+          aria-invalid={state.field === 'company' || undefined}
+          aria-describedby={errorFor('company')}
         />
+        {state.field === 'company' && (
+          <p id="company-error" className={styles.fieldError}>
+            {state.message}
+          </p>
+        )}
       </div>
 
       <div className={styles.field}>
@@ -90,7 +130,16 @@ export default function ContactForm() {
           required
           className={styles.textarea}
           rows={5}
+          maxLength={CONTACT_LIMITS.message}
+          defaultValue={state.values?.message}
+          aria-invalid={state.field === 'message' || undefined}
+          aria-describedby={errorFor('message')}
         />
+        {state.field === 'message' && (
+          <p id="message-error" className={styles.fieldError}>
+            {state.message}
+          </p>
+        )}
       </div>
 
       <div className={styles.field}>
@@ -102,7 +151,9 @@ export default function ContactForm() {
           name="budget"
           required
           className={styles.select}
-          defaultValue=""
+          defaultValue={state.values?.budget ?? ''}
+          aria-invalid={state.field === 'budget' || undefined}
+          aria-describedby={errorFor('budget')}
         >
           <option value="" disabled>
             Select a range
@@ -113,6 +164,11 @@ export default function ContactForm() {
             </option>
           ))}
         </select>
+        {state.field === 'budget' && (
+          <p id="budget-error" className={styles.fieldError}>
+            {state.message}
+          </p>
+        )}
       </div>
 
       <Button
