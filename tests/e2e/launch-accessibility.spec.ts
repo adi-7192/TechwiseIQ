@@ -53,7 +53,7 @@ test.describe('launch accessibility hardening', () => {
     ).toBeVisible()
     await expect(
       page.getByRole('link', {
-        name: /Visit live site.*AASKRA Realty.*opens in a new tab/i,
+        name: /Visit live site.*Express Trade Financing.*opens in a new tab/i,
       }),
     ).toBeVisible()
   })

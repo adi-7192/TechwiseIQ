@@ -102,6 +102,23 @@ test.describe('Work credibility page', () => {
     ).toHaveAttribute('target', '_blank')
   })
 
+  test('publishes live-site actions only for reachable project domains', async ({
+    page,
+  }) => {
+    await page.goto('/work/aaskra-realty')
+    await expect(
+      page.getByRole('link', { name: 'Visit site →' }),
+    ).toHaveCount(0)
+
+    await page.goto('/work/express-trade-financing')
+    const liveSite = page.getByRole('link', { name: 'Visit site →' })
+    await expect(liveSite).toHaveAttribute(
+      'href',
+      'https://www.expresstradefinancing.ae',
+    )
+    await expect(liveSite).toHaveAttribute('target', '_blank')
+  })
+
   test('draft concept slots are honest and non-interactive', async ({ page }) => {
     const lab = page.getByTestId('concept-lab')
     await expect(lab.getByRole('link')).toHaveCount(0)

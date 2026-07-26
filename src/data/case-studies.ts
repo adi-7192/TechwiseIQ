@@ -30,7 +30,6 @@ export const CASE_STUDIES: CaseStudy[] = [
     service: 'web',
     timeline: '6 weeks',
     stack: ['Next.js', 'React', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
-    liveUrl: 'https://www.aaskrarealestate.ae',
     coverImage: '/work/aaskra-hero.webp',
     problem:
       'AASKRA needed a digital presence that could compete with established Dubai real estate firms. They had RERA registration and developer relationships but no website \u2014 losing credibility with high-net-worth prospects who research online before engaging.',
