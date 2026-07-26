@@ -47,12 +47,19 @@
   margin: 18px 0 28px;
 }
 
-.hero h1 span,
 .bridge h2 span,
 .delivery h2 span,
 .proof h2 span,
 .finalCta h2 span {
   color: var(--hot);
+}
+
+.hero h1 span {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--hot);
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.08em;
 }
 
 .hero p,

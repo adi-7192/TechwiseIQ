@@ -11,9 +11,10 @@ function ProjectActions({ caseStudy }: { caseStudy: CaseStudy }) {
       <Link
         href={`/work/${caseStudy.slug}`}
         className={styles.projectPrimary}
-        aria-label={`Read ${caseStudy.title} case study`}
       >
-        Read full case study <span aria-hidden="true">→</span>
+        Read full case study
+        <span className="sr-only"> for {caseStudy.title}</span>{' '}
+        <span aria-hidden="true">→</span>
       </Link>
       {caseStudy.liveUrl && (
         <a
@@ -21,9 +22,13 @@ function ProjectActions({ caseStudy }: { caseStudy: CaseStudy }) {
           className={styles.projectSecondary}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label={`Visit ${caseStudy.title} live site (opens in a new tab)`}
         >
-          Visit live site <span aria-hidden="true">↗</span>
+          Visit live site
+          <span className="sr-only">
+            {' '}
+            for {caseStudy.title}, opens in a new tab
+          </span>{' '}
+          <span aria-hidden="true">↗</span>
         </a>
       )}
     </div>
