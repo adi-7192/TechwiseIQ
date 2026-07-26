@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Anton, Archivo, Space_Mono } from 'next/font/google'
+import RouteFocusManager from '@/components/RouteFocusManager'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import './globals.css'
 
@@ -61,6 +62,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body>
+        <RouteFocusManager />
         <WhatsAppButton />
         {children}
         {PLAUSIBLE_DOMAIN && (
