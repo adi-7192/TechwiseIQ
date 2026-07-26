@@ -60,6 +60,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${anton.variable} ${archivo.variable} ${spaceMono.variable}`}
       suppressHydrationWarning
     >

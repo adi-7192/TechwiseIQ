@@ -60,6 +60,7 @@ function FeaturedProject({
             fill
             sizes="(max-width: 767px) 100vw, (max-width: 1023px) 86vw, 62vw"
             loading={index === 0 ? 'eager' : 'lazy'}
+            fetchPriority={index === 0 ? 'high' : 'auto'}
             className={styles.projectImage}
           />
         )}

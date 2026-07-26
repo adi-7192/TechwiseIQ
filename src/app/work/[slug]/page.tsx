@@ -143,7 +143,8 @@ export default async function CaseStudyPage({ params }: Props) {
                   alt={`${cs.title} website screenshot`}
                   fill
                   sizes="(max-width: 1200px) 100vw, 1152px"
-                  priority
+                  loading="eager"
+                  fetchPriority="high"
                   className={styles.coverImg}
                 />
               </div>
