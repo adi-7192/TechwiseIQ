@@ -147,6 +147,7 @@ export default function ContactForm() {
           Budget range <span className={styles.required}>*</span>
         </label>
         <select
+          key={`${state.message}:${state.values?.budget ?? ''}`}
           id="budget"
           name="budget"
           required
