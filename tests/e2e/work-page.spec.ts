@@ -71,7 +71,7 @@ test.describe('Work credibility page', () => {
         name: 'What else could we build?',
       }),
     ).toBeVisible()
-    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(3)
+    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(2)
     await expect(
       page.getByRole('heading', {
         level: 2,
@@ -119,27 +119,96 @@ test.describe('Work credibility page', () => {
     await expect(liveSite).toHaveAttribute('target', '_blank')
   })
 
-  test('draft concept slots are honest and non-interactive', async ({ page }) => {
+  test('publishes TerraElix while keeping later concepts honest', async ({
+    page,
+  }) => {
     const lab = page.getByTestId('concept-lab')
-    await expect(lab.getByRole('link')).toHaveCount(0)
-    const draftSlots = lab.locator('[data-concept-stage]')
-    await expect(draftSlots).toHaveCount(3)
-    await expect(draftSlots.nth(0)).toHaveAttribute(
+    const slots = lab.locator('[data-concept-stage]')
+    await expect(slots).toHaveCount(3)
+    await expect(slots.nth(0)).toHaveAttribute(
       'data-concept-status',
-      'draft',
+      'published',
     )
-    await expect(draftSlots).toContainText([
-      'Demo slot 01',
-      'Demo slot 02',
-      'Demo slot 03',
-    ])
-    await expect(draftSlots.nth(0).getByText('Art direction')).toBeVisible()
-    await expect(draftSlots.nth(1).getByText('Data UI')).toBeVisible()
-    await expect(draftSlots.nth(2).getByText('Editorial UI')).toBeVisible()
+    await expect(slots.nth(1)).toHaveAttribute('data-concept-status', 'draft')
+    await expect(slots.nth(2)).toHaveAttribute('data-concept-status', 'draft')
+    await expect(
+      slots.nth(0).getByRole('heading', { name: 'TerraElix' }),
+    ).toBeVisible()
+    await expect(
+      slots.nth(0).getByRole('link', {
+        name: 'Open TerraElix live HTML demo (opens in a new tab)',
+      }),
+    ).toHaveAttribute('href', '/concepts/terra-elix/index.html')
+    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(2)
+    await expect(slots.nth(1).getByText('Data UI')).toBeVisible()
+    await expect(slots.nth(2).getByText('Editorial UI')).toBeVisible()
     await expect(
       lab.getByText('Concept work — not client commissions'),
     ).toBeVisible()
   })
+
+  test('runs the TerraElix live preview and respects reduced motion', async ({
+    page,
+  }) => {
+    const stage = page.locator('[data-concept-stage]').first()
+    await stage.scrollIntoViewIfNeeded()
+    const frame = stage.locator('iframe')
+    await expect(frame).toHaveAttribute(
+      'src',
+      '/concepts/terra-elix/index.html',
+    )
+    await expect(frame).toHaveAttribute('data-preview-state', 'ready')
+    const reducedY = await frame.evaluate(
+      (node: HTMLIFrameElement) => node.contentWindow?.scrollY ?? -1,
+    )
+    await page.waitForTimeout(1_200)
+    expect(
+      await frame.evaluate(
+        (node: HTMLIFrameElement) => node.contentWindow?.scrollY ?? -1,
+      ),
+    ).toBe(reducedY)
+
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.reload()
+    const activeStage = page.locator('[data-concept-stage]').first()
+    await activeStage.scrollIntoViewIfNeeded()
+    const activeFrame = activeStage.locator('iframe')
+    await expect(activeFrame).toHaveAttribute('data-preview-state', 'ready')
+    await expect
+      .poll(() =>
+        activeFrame.evaluate(
+          (node: HTMLIFrameElement) => node.contentWindow?.scrollY ?? 0,
+        ),
+      )
+      .toBeGreaterThan(0)
+
+    await page.getByTestId('featured-project-rail').scrollIntoViewIfNeeded()
+    const pausedY = await activeFrame.evaluate(
+      (node: HTMLIFrameElement) => node.contentWindow?.scrollY ?? -1,
+    )
+    await page.waitForTimeout(1_200)
+    const offscreenY = await activeFrame.evaluate(
+      (node: HTMLIFrameElement) => node.contentWindow?.scrollY ?? -1,
+    )
+    expect(Math.abs(offscreenY - pausedY)).toBeLessThanOrEqual(1)
+  })
+})
+
+test('keeps the full-demo action usable when a preview cannot load', async ({
+  page,
+}) => {
+  await page.route('**/concepts/terra-elix/index.html', (route) => route.abort())
+  await page.goto('/work')
+  const stage = page.locator('[data-concept-stage]').first()
+  await stage.scrollIntoViewIfNeeded()
+  await expect(stage.getByText('Preview unavailable')).toBeVisible({
+    timeout: 11_500,
+  })
+  await expect(
+    stage.getByRole('link', {
+      name: 'Open TerraElix live HTML demo (opens in a new tab)',
+    }),
+  ).toHaveAttribute('href', '/concepts/terra-elix/index.html')
 })
 
 test('keeps the work page inside a 375px viewport', async ({ page }) => {

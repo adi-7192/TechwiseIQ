@@ -1,6 +1,6 @@
-import Image from 'next/image'
 import { CONCEPT_SITES, type ConceptSite } from '@/data/concept-sites'
 import styles from './work.module.css'
+import LiveConceptPreview from './LiveConceptPreview'
 import {
   getConceptPresentationStatus,
   type ConceptPresentationStatus,
@@ -52,23 +52,6 @@ function BrowserBar({ label }: { label: string }) {
   )
 }
 
-function ConceptPreview({ concept }: { concept: ConceptSite }) {
-  if (!concept.previewImage || !concept.demoPath) return null
-
-  return (
-    <div className={styles.conceptPreview}>
-      <BrowserBar label={concept.demoPath} />
-      <Image
-        src={concept.previewImage}
-        alt={`${concept.title} concept website preview`}
-        fill
-        sizes="(max-width: 767px) 100vw, 62vw"
-        className={styles.conceptImage}
-      />
-    </div>
-  )
-}
-
 function ConceptBlueprint() {
   return (
     <div className={styles.conceptPreview} aria-hidden="true">
@@ -113,24 +96,31 @@ export default function ConceptLab() {
 
             if (presentationStatus === 'published' && concept.demoPath) {
               return (
-                <a
+                <article
                   key={concept.slug}
-                  href={concept.demoPath}
                   className={`${styles.conceptStage} ${styles.conceptPublished}`}
                   data-concept-stage
                   data-concept-status="published"
                   data-concept-index={index}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Open ${concept.title} live HTML demo (opens in a new tab)`}
                 >
-                  <ConceptPreview concept={concept} />
-                  <ConceptCopy
-                    concept={concept}
-                    index={index}
-                    status="published"
+                  <LiveConceptPreview
+                    demoPath={concept.demoPath}
+                    title={concept.title}
                   />
-                </a>
+                  <a
+                    href={concept.demoPath}
+                    className={styles.conceptPublishedLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open ${concept.title} live HTML demo (opens in a new tab)`}
+                  >
+                    <ConceptCopy
+                      concept={concept}
+                      index={index}
+                      status="published"
+                    />
+                  </a>
+                </article>
               )
             }
 

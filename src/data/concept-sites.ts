@@ -11,12 +11,15 @@ export type ConceptSite = {
 
 export const CONCEPT_SITES: ConceptSite[] = [
   {
-    slug: 'hospitality-concept',
-    title: 'Hospitality concept',
-    category: 'Luxury hospitality / restaurant',
-    summary: 'A reserved demo slot for an immersive hospitality experience.',
-    tags: ['Art direction', 'Booking UX', 'Motion'],
-    status: 'draft',
+    slug: 'terra-elix',
+    title: 'TerraElix',
+    category: 'Wellness / supplements',
+    summary:
+      'A cinematic plant-based supplement launch built around natural balance and clean energy.',
+    tags: ['Art direction', 'Responsive UI', 'Motion'],
+    demoPath: '/concepts/terra-elix/index.html',
+    previewMode: 'live-auto-scroll',
+    status: 'published',
   },
   {
     slug: 'saas-concept',
