@@ -54,6 +54,16 @@ test.describe('TerraElix concept', () => {
     expect(overflow).toBeLessThanOrEqual(1)
   })
 
+  test('switches to the specified tablet composition at 768px', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 768, height: 1024 })
+    await expect(page.locator('.desktop-nav')).toBeVisible()
+    await expect(page.locator('.menu-toggle')).toBeHidden()
+    await expect(page.locator('.hero-title')).toHaveCSS('font-size', '110px')
+    await expect(page.locator('.cta-row')).toHaveCSS('flex-direction', 'row')
+  })
+
   test('stops non-essential movement under reduced motion', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.reload()
