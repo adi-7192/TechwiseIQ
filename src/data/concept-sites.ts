@@ -4,8 +4,8 @@ export type ConceptSite = {
   category: string
   summary: string
   tags: string[]
-  previewImage?: string
   demoPath?: string
+  previewMode?: 'live-auto-scroll'
   status: 'draft' | 'published'
 }
 

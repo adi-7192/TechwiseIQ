@@ -7,18 +7,25 @@ test('keeps incomplete published concepts honest and noninteractive', () => {
   assert.equal(
     getConceptPresentationStatus({
       status: 'published',
-      previewImage: '/preview.webp',
+      demoPath: '/concepts/terra-elix/index.html',
+    }),
+    'unavailable',
+  )
+  assert.equal(
+    getConceptPresentationStatus({
+      status: 'published',
+      previewMode: 'live-auto-scroll',
     }),
     'unavailable',
   )
 })
 
-test('publishes a concept only when both required assets exist', () => {
+test('publishes a concept only with a demo and live preview mode', () => {
   assert.equal(
     getConceptPresentationStatus({
       status: 'published',
-      previewImage: '/preview.webp',
-      demoPath: '/concepts/demo/index.html',
+      demoPath: '/concepts/terra-elix/index.html',
+      previewMode: 'live-auto-scroll',
     }),
     'published',
   )

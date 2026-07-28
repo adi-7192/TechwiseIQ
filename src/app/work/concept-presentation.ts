@@ -2,7 +2,7 @@ export type ConceptPresentationStatus = 'draft' | 'published' | 'unavailable'
 
 type ConceptPresentationInput = {
   status: 'draft' | 'published'
-  previewImage?: string
+  previewMode?: 'live-auto-scroll'
   demoPath?: string
 }
 
@@ -10,5 +10,7 @@ export function getConceptPresentationStatus(
   concept: ConceptPresentationInput,
 ): ConceptPresentationStatus {
   if (concept.status === 'draft') return 'draft'
-  return concept.previewImage && concept.demoPath ? 'published' : 'unavailable'
+  return concept.previewMode === 'live-auto-scroll' && concept.demoPath
+    ? 'published'
+    : 'unavailable'
 }
