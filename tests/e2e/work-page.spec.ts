@@ -71,7 +71,7 @@ test.describe('Work credibility page', () => {
         name: 'What else could we build?',
       }),
     ).toBeVisible()
-    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(1)
+    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(0)
     await expect(
       page.getByRole('heading', {
         level: 2,
@@ -119,9 +119,7 @@ test.describe('Work credibility page', () => {
     await expect(liveSite).toHaveAttribute('target', '_blank')
   })
 
-  test('publishes TerraElix and mėntality while keeping Lumora honest', async ({
-    page,
-  }) => {
+  test('publishes all three live concept samples', async ({ page }) => {
     const lab = page.getByTestId('concept-lab')
     const slots = lab.locator('[data-concept-stage]')
     await expect(slots).toHaveCount(3)
@@ -133,7 +131,10 @@ test.describe('Work credibility page', () => {
       'data-concept-status',
       'published',
     )
-    await expect(slots.nth(2)).toHaveAttribute('data-concept-status', 'draft')
+    await expect(slots.nth(2)).toHaveAttribute(
+      'data-concept-status',
+      'published',
+    )
     await expect(
       slots.nth(0).getByRole('heading', { name: 'TerraElix' }),
     ).toBeVisible()
@@ -147,9 +148,14 @@ test.describe('Work credibility page', () => {
         name: 'Open mėntality live HTML demo (opens in a new tab)',
       }),
     ).toHaveAttribute('href', '/concepts/mentality/index.html')
-    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(1)
+    await expect(
+      slots.nth(2).getByRole('link', {
+        name: 'Open Lumora live HTML demo (opens in a new tab)',
+      }),
+    ).toHaveAttribute('href', '/concepts/lumora/index.html')
+    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(0)
     await expect(slots.nth(1).getByText('Glass UI')).toBeVisible()
-    await expect(slots.nth(2).getByText('Editorial UI')).toBeVisible()
+    await expect(slots.nth(2).getByText('Ambient video')).toBeVisible()
     await expect(
       lab.getByText('Concept work — not client commissions'),
     ).toBeVisible()
@@ -162,6 +168,14 @@ test.describe('Work credibility page', () => {
     await stage.scrollIntoViewIfNeeded()
     const frame = stage.locator('iframe')
     await expect(frame).toHaveAttribute('src', '/concepts/mentality/index.html')
+    await expect(frame).toHaveAttribute('data-preview-state', 'ready')
+  })
+
+  test('loads the Lumora live preview in its third stage', async ({ page }) => {
+    const stage = page.locator('[data-concept-stage]').nth(2)
+    await stage.scrollIntoViewIfNeeded()
+    const frame = stage.locator('iframe')
+    await expect(frame).toHaveAttribute('src', '/concepts/lumora/index.html')
     await expect(frame).toHaveAttribute('data-preview-state', 'ready')
   })
 

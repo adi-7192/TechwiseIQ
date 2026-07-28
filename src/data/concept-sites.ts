@@ -33,12 +33,14 @@ export const CONCEPT_SITES: ConceptSite[] = [
     status: 'published',
   },
   {
-    slug: 'commerce-concept',
-    title: 'Commerce concept',
-    category: 'E-commerce / lifestyle',
+    slug: 'lumora',
+    title: 'Lumora',
+    category: 'Mindfulness / focus',
     summary:
-      'A reserved demo slot for product storytelling and a focused shopping path.',
-    tags: ['E-commerce', 'Editorial UI', 'Product UX'],
-    status: 'draft',
+      'A cinematic focus experience that turns ambient worlds into a calm invitation to work with intention.',
+    tags: ['Cinematic UI', 'Ambient video', 'Interaction'],
+    demoPath: '/concepts/lumora/index.html',
+    previewMode: 'live-auto-scroll',
+    status: 'published',
   },
 ]
