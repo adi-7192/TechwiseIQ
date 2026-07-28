@@ -66,17 +66,31 @@ test.describe('Lumora concept', () => {
     const dawn = page.getByRole('button', { name: 'Quiet Dawn' })
 
     await expect(golden).toHaveAttribute('aria-pressed', 'true')
-    await woods.click()
+    const guardedState = await page.evaluate(() => {
+      const deepWoods = document.querySelector<HTMLButtonElement>(
+        '[data-scene-button="2"]',
+      )
+      const quietDawn = document.querySelector<HTMLButtonElement>(
+        '[data-scene-button="3"]',
+      )
+      deepWoods?.click()
+      quietDawn?.click()
+      return {
+        deepWoods: deepWoods?.getAttribute('aria-pressed'),
+        quietDawn: quietDawn?.getAttribute('aria-pressed'),
+      }
+    })
+    expect(guardedState).toEqual({
+      deepWoods: 'true',
+      quietDawn: 'false',
+    })
     await expect(woods).toHaveAttribute('aria-pressed', 'true')
     await expect(page.locator('.hero-content')).toHaveCSS(
       'color',
       'rgb(24, 44, 65)',
     )
 
-    await dawn.click()
-    await page.waitForTimeout(250)
-    await expect(woods).toHaveAttribute('aria-pressed', 'true')
-    await page.waitForTimeout(800)
+    await page.waitForTimeout(1_050)
     await dawn.click()
     await expect(dawn).toHaveAttribute('aria-pressed', 'true')
   })
