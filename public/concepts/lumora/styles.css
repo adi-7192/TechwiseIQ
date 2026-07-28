@@ -142,7 +142,6 @@ a {
 
 .content-layer {
   position: relative;
-  z-index: 2;
   display: flex;
   height: 100%;
   flex-direction: column;
@@ -150,6 +149,8 @@ a {
 }
 
 .site-nav {
+  position: relative;
+  z-index: 60;
   display: flex;
   min-height: 48px;
   align-items: center;
@@ -238,6 +239,8 @@ a {
 }
 
 .hero-content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -352,6 +355,8 @@ a {
 }
 
 .stats {
+  position: relative;
+  z-index: 2;
   display: flex;
   min-height: 38px;
   flex-wrap: wrap;

@@ -99,6 +99,13 @@ test.describe('Lumora concept', () => {
       'transition-delay',
       '0.15s',
     )
+    await expect(toggle).toHaveAccessibleName('Close menu')
+    await expect(toggle).toBeVisible()
+    await toggle.click()
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+
+    await toggle.click()
+    await expect(dialog).toBeVisible()
     await page.keyboard.press('Escape')
     await expect(toggle).toHaveAttribute('aria-expanded', 'false')
     await expect(toggle).toBeFocused()
