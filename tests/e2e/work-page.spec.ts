@@ -71,6 +71,11 @@ test.describe('Work credibility page', () => {
         name: 'What else could we build?',
       }),
     ).toBeVisible()
+    await expect(
+      page.getByText(
+        'Live coded website explorations across industries, visual languages and interaction patterns.',
+      ),
+    ).toBeVisible()
     await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(0)
     await expect(
       page.getByRole('heading', {

@@ -79,7 +79,7 @@ export default function ConceptLab() {
             What else could we <span>build?</span>
           </h2>
           <p className={styles.sectionBody}>
-            Reserved spaces for coded website explorations across industries,
+            Live coded website explorations across industries,
             visual languages and interaction patterns.
           </p>
           <p className={styles.conceptDisclosure}>
