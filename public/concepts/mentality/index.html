@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="mėntality offers calm, approachable information and resources for mental wellbeing."
+    />
+    <title>mėntality — Mental wellbeing resources</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Outfit:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+      <div class="nav-grid">
+        <a class="brand" href="#main-content" aria-label="mėntality">
+          <svg
+            class="brand-mark"
+            viewBox="0 0 34 34"
+            aria-hidden="true"
+          >
+            <path
+              d="M17 16.65C9.28 15.48 7.3 5.18 13.28 3.17c3.98-1.34 5.05 3.14 3.72 13.48Z"
+            />
+            <path
+              d="M17.35 17C18.52 9.28 28.82 7.3 30.83 13.28c1.34 3.98-3.14 5.05-13.48 3.72Z"
+            />
+            <path
+              d="M17 17.35c7.72 1.17 9.7 11.47 3.72 13.48-3.98 1.34-5.05-3.14-3.72-13.48Z"
+            />
+            <path
+              d="M16.65 17C15.48 24.72 5.18 26.7 3.17 20.72 1.83 16.74 6.31 15.67 16.65 17Z"
+            />
+          </svg>
+          <span>mėntality</span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="#service">service</a>
+          <a href="#resources">patient resources</a>
+          <a href="#about">about us</a>
+          <a href="#education">education center</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a class="find-help" href="#search">find help</a>
+          <a class="get-started" href="#search">get started <span>→</span></a>
+          <button
+            class="menu-toggle"
+            type="button"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div
+      class="mobile-menu"
+      id="mobile-menu"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site menu"
+      hidden
+    >
+      <nav aria-label="Mobile navigation">
+        <a href="#service">service</a>
+        <a href="#resources">patient resources</a>
+        <a href="#about">about us</a>
+        <a href="#education">education center</a>
+        <a href="#search">find help</a>
+      </nav>
+      <p>resources for a calmer mind</p>
+    </div>
+
+    <main id="main-content">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="video-field" aria-hidden="true">
+          <video
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260603_132049_036591b8-6e92-4760-b94c-a7ea6eef315c.mp4"
+            autoplay
+            loop
+            muted
+            playsinline
+          ></video>
+          <div class="video-mask"></div>
+        </div>
+
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1
+              id="hero-title"
+              aria-label="Mentality offers information and resources to help you manage your mental wellbeing."
+            >
+              <span class="heading-line heading-dark" aria-hidden="true"
+                >Mentality offers</span
+              >
+              <span class="heading-line heading-muted" aria-hidden="true"
+                >information</span
+              >
+              <span class="heading-line heading-muted" aria-hidden="true"
+                >and resources to help you manage</span
+              >
+              <span class="heading-line heading-muted" aria-hidden="true">
+                your
+                <span class="eye-pill"><span></span></span>
+                mental wellbeing.
+              </span>
+            </h1>
+
+            <form class="search-pill" id="search" action="#">
+              <label class="sr-only" for="mentality-search"
+                >Ask mėntality</label
+              >
+              <input
+                id="mentality-search"
+                name="question"
+                type="search"
+                placeholder="Ask me anything..."
+                autocomplete="off"
+              />
+              <button type="submit" aria-label="Submit question">
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M4 10h11M11 6l4 4-4 4" />
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="language-pill" aria-label="Language: Polish to English">
+          pl — en
+        </div>
+        <span class="edge-label edge-year">2024</span>
+        <span class="edge-label edge-tools">mental health tools</span>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
