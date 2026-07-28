@@ -22,13 +22,15 @@ export const CONCEPT_SITES: ConceptSite[] = [
     status: 'published',
   },
   {
-    slug: 'saas-concept',
-    title: 'SaaS product concept',
-    category: 'B2B SaaS / product platform',
+    slug: 'mentality',
+    title: 'mėntality',
+    category: 'Mental wellbeing',
     summary:
-      'A reserved demo slot for a technical product story and conversion journey.',
-    tags: ['Product story', 'Data UI', 'Conversion'],
-    status: 'draft',
+      'An editorial mental-health resource experience combining calm guidance with conversational discovery.',
+    tags: ['Editorial UI', 'Video', 'Glass UI'],
+    demoPath: '/concepts/mentality/index.html',
+    previewMode: 'live-auto-scroll',
+    status: 'published',
   },
   {
     slug: 'commerce-concept',

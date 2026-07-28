@@ -71,7 +71,7 @@ test.describe('Work credibility page', () => {
         name: 'What else could we build?',
       }),
     ).toBeVisible()
-    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(2)
+    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(1)
     await expect(
       page.getByRole('heading', {
         level: 2,
@@ -119,7 +119,7 @@ test.describe('Work credibility page', () => {
     await expect(liveSite).toHaveAttribute('target', '_blank')
   })
 
-  test('publishes TerraElix while keeping later concepts honest', async ({
+  test('publishes TerraElix and mėntality while keeping Lumora honest', async ({
     page,
   }) => {
     const lab = page.getByTestId('concept-lab')
@@ -129,7 +129,10 @@ test.describe('Work credibility page', () => {
       'data-concept-status',
       'published',
     )
-    await expect(slots.nth(1)).toHaveAttribute('data-concept-status', 'draft')
+    await expect(slots.nth(1)).toHaveAttribute(
+      'data-concept-status',
+      'published',
+    )
     await expect(slots.nth(2)).toHaveAttribute('data-concept-status', 'draft')
     await expect(
       slots.nth(0).getByRole('heading', { name: 'TerraElix' }),
@@ -139,12 +142,27 @@ test.describe('Work credibility page', () => {
         name: 'Open TerraElix live HTML demo (opens in a new tab)',
       }),
     ).toHaveAttribute('href', '/concepts/terra-elix/index.html')
-    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(2)
-    await expect(slots.nth(1).getByText('Data UI')).toBeVisible()
+    await expect(
+      slots.nth(1).getByRole('link', {
+        name: 'Open mėntality live HTML demo (opens in a new tab)',
+      }),
+    ).toHaveAttribute('href', '/concepts/mentality/index.html')
+    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(1)
+    await expect(slots.nth(1).getByText('Glass UI')).toBeVisible()
     await expect(slots.nth(2).getByText('Editorial UI')).toBeVisible()
     await expect(
       lab.getByText('Concept work — not client commissions'),
     ).toBeVisible()
+  })
+
+  test('loads the mėntality live preview in its second stage', async ({
+    page,
+  }) => {
+    const stage = page.locator('[data-concept-stage]').nth(1)
+    await stage.scrollIntoViewIfNeeded()
+    const frame = stage.locator('iframe')
+    await expect(frame).toHaveAttribute('src', '/concepts/mentality/index.html')
+    await expect(frame).toHaveAttribute('data-preview-state', 'ready')
   })
 
   test('runs the TerraElix live preview and respects reduced motion', async ({
