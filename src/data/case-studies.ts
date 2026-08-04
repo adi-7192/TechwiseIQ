@@ -31,16 +31,39 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: '6 weeks',
     stack: ['Next.js', 'React', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
     coverImage: '/work/aaskra-hero.webp',
+    coverCaption:
+      'An investor-first homepage built to establish authority before the first conversation.',
+    storyTitle: 'Trust before track record.',
     problem:
       'AASKRA needed a digital presence that could compete with established Dubai real estate firms. They had RERA registration and developer relationships but no website \u2014 losing credibility with high-net-worth prospects who research online before engaging.',
     constraints:
       'Tight timeline with a key industry event approaching. The site had to project institutional credibility from day one while the firm was still building its track record.',
-    approach: [
-      'Custom luxury design with cinematic loading sequence and animated hero \u2014 dark palette, gold accents, architectural photography',
-      'Built 6 interactive location profiles (Palm Jumeirah, Downtown, Dubai Hills, JBR, Creek Harbour, Business Bay) with real ROI and entry-price data',
-      '3 strategy pages (off-plan acquisition, buying, selling) structured around concrete process steps, not vague promises',
-      'Integrated WhatsApp Business and consultation booking for direct lead capture',
-      'Full SEO foundation: Schema.org (Organization, RealEstateAgent), OpenGraph, structured data, sitemap',
+    decisions: [
+      {
+        title: 'Establish the luxury signal',
+        body:
+          'Use a dark, gold-accented visual system, architectural photography, and restrained motion to create an institutional first impression.',
+      },
+      {
+        title: 'Make location data useful',
+        body:
+          'Build six location profiles around entry prices and ROI context so investors can compare real opportunities, not generic neighbourhood summaries.',
+      },
+      {
+        title: 'Turn services into routes',
+        body:
+          'Structure off-plan acquisition, buying, and selling around concrete process steps instead of broad promises.',
+      },
+      {
+        title: 'Shorten the path to a conversation',
+        body:
+          'Integrate WhatsApp Business and consultation booking where intent is highest, giving prospects a direct next step.',
+      },
+      {
+        title: 'Build trust into the foundation',
+        body:
+          'Ship structured data, social metadata, discovery files, and RERA-compliant legal pages as part of the launch rather than after it.',
+      },
     ],
     deliverables: [
       '11-page Next.js website with custom luxury design',
@@ -92,16 +115,39 @@ export const CASE_STUDIES: CaseStudy[] = [
     stack: ['Vite', 'JavaScript', 'CSS Animations', 'Google Analytics'],
     liveUrl: 'https://www.expresstradefinancing.ae',
     coverImage: '/work/etf-hero.webp',
+    coverCaption:
+      'A trust-first homepage that balances institutional weight with an approachable route to enquiry.',
+    storyTitle: 'Institutional weight, without the institution.',
     problem:
       'Express Trade Financing had facilitated over USD 200M in trade instruments across 25+ countries but had no website. Prospects in global trade \u2014 import/export firms, energy companies \u2014 expect a credible digital presence before engaging on six- and seven-figure deals.',
     constraints:
       'The firm needed to project the weight of a large institution while remaining approachable to mid-market SMEs. Content had to demonstrate real deal experience without disclosing confidential client details.',
-    approach: [
-      'Designed a professional, trust-first aesthetic with animated hero, global transaction map, and real market data',
-      'Wrote and structured 3 detailed case studies from real deals: USD 1M letter of credit, USD 600K bid bond, cross-border usance LC \u2014 concrete proof of capability',
-      'Built trade finance and SME support service pages with clear process explanations, not jargon',
-      'Journal section with market analysis articles for ongoing SEO and thought leadership',
-      'WhatsApp + consultation form integration for lead capture across time zones',
+    decisions: [
+      {
+        title: 'Lead with proof',
+        body:
+          "Anchor the experience in real market data, global transaction reach, and the firm's USD 200M+ track record.",
+      },
+      {
+        title: 'Make experience concrete',
+        body:
+          'Turn three real transactions into detailed case studies with values, timelines, and outcomes while protecting client confidentiality.',
+      },
+      {
+        title: 'Explain finance plainly',
+        body:
+          'Structure trade finance and SME support services around understandable processes rather than specialist jargon.',
+      },
+      {
+        title: 'Publish an informed point of view',
+        body:
+          'Create a journal for market analysis that supports ongoing discovery and demonstrates subject-matter expertise.',
+      },
+      {
+        title: 'Keep global enquiries close',
+        body:
+          'Use WhatsApp and consultation forms to create a direct response path for prospects operating across time zones.',
+      },
     ],
     deliverables: [
       '10-page website with custom design and animations',
@@ -130,4 +176,11 @@ export const CASE_STUDIES: CaseStudy[] = [
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
   return CASE_STUDIES.find((cs) => cs.slug === slug)
+}
+
+export function getNextCaseStudy(slug: string): CaseStudy | undefined {
+  const index = CASE_STUDIES.findIndex((caseStudy) => caseStudy.slug === slug)
+  if (index === -1 || CASE_STUDIES.length < 2) return undefined
+
+  return CASE_STUDIES[(index + 1) % CASE_STUDIES.length]
 }
