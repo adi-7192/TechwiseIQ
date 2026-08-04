@@ -112,11 +112,15 @@ test.describe('Work credibility page', () => {
   }) => {
     await page.goto('/work/aaskra-realty')
     await expect(
-      page.getByRole('link', { name: 'Visit site →' }),
+      page.getByRole('link', {
+        name: 'Visit the AASKRA Realty live site (opens in a new tab)',
+      }),
     ).toHaveCount(0)
 
     await page.goto('/work/express-trade-financing')
-    const liveSite = page.getByRole('link', { name: 'Visit site →' })
+    const liveSite = page.getByRole('link', {
+      name: 'Visit the Express Trade Financing live site (opens in a new tab)',
+    })
     await expect(liveSite).toHaveAttribute(
       'href',
       'https://www.expresstradefinancing.ae',
