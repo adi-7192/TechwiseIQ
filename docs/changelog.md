@@ -4,6 +4,18 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-08-04 — Pre-deploy final check + Vercel runbook
+
+- Ran full verification: lint clean, `next build` passes (19 Static/SSG routes),
+  13/13 unit tests, 229 e2e passed. One transient dev-server 500 on `/` under
+  parallel load proved non-reproducible (`launch-smoke --workers=1` = 14/14) and
+  cannot occur in production (static prerender).
+- **New:** `docs/vercel-deployment-2026-08-04.md` — deploy runbook + owner-controlled
+  pending items (env vars, domain, push, optional Node pin).
+- No code changes; site is code-ready to deploy for a client preview.
+
+---
+
 ## 2026-07-26 — Launch-readiness hardening
 
 - **UI and accessibility:** removed the redundant contact-page WhatsApp float,
@@ -260,12 +272,17 @@ Addressed all P0/P1/P2/P3 items from `pm-homepage-review-13-06-2026.md`.
 
 ## Pending / Deferred
 
+Status as of 2026-08-04. Done items removed; remaining are owner-controlled.
+Full deploy runbook: `docs/vercel-deployment-2026-08-04.md`.
+
 | Item | Blocked on |
 |------|-----------|
-| Booking link in CTASection | Calendly/Cal.com URL from Adi |
+| `RESEND_API_KEY` in Vercel env | Contact form delivery (code done; degrades gracefully if unset) |
+| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` in Vercel env | Analytics activation (script gated; only loads when set) |
+| Booking link → real Cal.com/Calendly URL | URL from Adi (`TODO(Adi)` in `src/lib/site.ts`; WhatsApp fallback live) |
 | `priceRange` in JSON-LD | Confirmed public-facing "starting from" figure |
-| `public/og-image.png` | Design: Anton wordmark on bone, 1200×630 |
-| Real favicon file | Design: TIQ lettermark on ink square |
-| Analytics (Plausible/Umami) | Setup + environment variable |
-| Contact form action | Server action / API route implementation |
-| About page content | Copy approval from Adi |
+| Custom domain `techwiseiq.com` | DNS + Vercel domain config (needed for public launch, not client preview) |
+
+Completed since the last table: contact form server action, OG image
+(`/opengraph-image`), favicon (`/icon`, `/apple-icon` via ImageResponse),
+analytics env-gating, and About page content.
