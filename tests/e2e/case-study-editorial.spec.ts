@@ -75,4 +75,55 @@ test.describe('Editorial Kinetic case studies', () => {
       }
     })
   }
+
+  test('uses the approved Kinetic chapter treatments on desktop', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/work/aaskra-realty')
+
+    const experience = page.getByTestId('case-study-experience')
+    const hero = experience.locator('section').first()
+    expect((await hero.boundingBox())!.height).toBeGreaterThanOrEqual(895)
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'AASKRA Realty' }),
+    ).toHaveCSS('font-family', /Anton/)
+    await expect(page.getByText('01 / The challenge')).toHaveCSS(
+      'color',
+      'rgb(154, 154, 146)',
+    )
+    await expect(page.getByTestId('case-study-system')).toHaveCSS(
+      'background-color',
+      'rgb(255, 208, 47)',
+    )
+  })
+
+  test('turns the proof and editorial grids into a deliberate mobile story', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/work/express-trade-financing')
+    await page.evaluate(() => document.fonts.ready)
+
+    const hero = page
+      .getByTestId('case-study-experience')
+      .locator('section')
+      .first()
+    expect((await hero.boundingBox())!.height).toBeGreaterThanOrEqual(839)
+
+    const proofItems = page.getByTestId('case-study-proof').locator('div')
+    const first = await proofItems.nth(0).boundingBox()
+    const second = await proofItems.nth(1).boundingBox()
+    expect(first).not.toBeNull()
+    expect(second).not.toBeNull()
+    expect(second!.y).toBeGreaterThan(first!.y + first!.height - 1)
+
+    const { scrollWidth, innerWidth } = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      innerWidth: window.innerWidth,
+    }))
+    expect(scrollWidth).toBeLessThanOrEqual(innerWidth + 1)
+  })
 })
