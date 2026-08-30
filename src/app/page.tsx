@@ -1,9 +1,7 @@
 import type { Metadata } from 'next'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
-import Hero from '@/components/Hero'
-import HomeExperience from '@/components/HomeExperience'
-import { ScrollAnimator, VelocitySkewObserver } from '@/components/ui'
+import ImmersiveShell from '@/components/immersive/ImmersiveShell'
+import { SiteHeader, SiteFooter } from '@/components/global'
+import ImmersiveHome from '@/components/immersive/home'
 import { socialMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = {
@@ -61,19 +59,16 @@ const jsonLd = {
 
 export default function Home() {
   return (
-    <>
+    <ImmersiveShell scene="intro">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ScrollAnimator />
-      <VelocitySkewObserver />
-      <Nav />
-      <main>
-        <Hero />
-        <HomeExperience />
+      <SiteHeader />
+      <main id="main">
+        <ImmersiveHome />
       </main>
-      <Footer />
-    </>
+      <SiteFooter />
+    </ImmersiveShell>
   )
 }

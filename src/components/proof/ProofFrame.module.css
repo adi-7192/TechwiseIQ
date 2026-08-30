@@ -1,0 +1,62 @@
+/* Shared shell for every proof object: a framed technical surface with a mono
+   label bar, an honest "illustrative" tag, and an optional caption. Static. */
+
+.wrap {
+  width: 100%;
+}
+
+.frame {
+  position: relative;
+  border: 1px solid var(--tw-line-soft);
+  border-radius: var(--tw-radius-proof);
+  background: var(--tw-surface);
+  box-shadow: 0 40px 90px rgb(0 0 0 / 0.45);
+  overflow: hidden;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.1rem;
+  border-bottom: 1px solid var(--tw-line);
+}
+.label {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--tw-muted);
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tw-muted);
+}
+.tag::before {
+  content: '';
+  width: 0.45em;
+  height: 0.45em;
+  border-radius: var(--tw-radius-control);
+  background: var(--tw-accent);
+}
+
+.body {
+  padding: clamp(1.1rem, 3vw, 2rem);
+}
+
+.caption {
+  margin-block-start: 1.1rem;
+  text-align: center;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.08em;
+  color: var(--tw-muted);
+  text-wrap: balance;
+}

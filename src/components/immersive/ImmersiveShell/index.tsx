@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { cn } from '@/lib/utils'
+import PersistentScene from '@/components/immersive/PersistentScene'
 
 /** Scene accents from docs/03_DESIGN_SYSTEM.md — one accent dominates per viewport. */
 export type SceneName = 'intro' | 'web' | 'automation' | 'apps' | 'advisory' | 'build'
@@ -37,6 +38,7 @@ export default function ImmersiveShell({
 
   return (
     <div className={cn('tw-world', className)} data-scene={scene} style={style}>
+      <PersistentScene />
       {children}
     </div>
   )

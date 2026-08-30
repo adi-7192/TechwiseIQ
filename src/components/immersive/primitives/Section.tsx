@@ -1,4 +1,4 @@
-import type { ElementType, ReactNode } from 'react'
+import type { CSSProperties, ElementType, ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import styles from './primitives.module.css'
 
@@ -14,8 +14,12 @@ type SectionProps = {
   id?: string
   className?: string
   innerClassName?: string
+  /** Inline style on the outer element — used to set a per-chapter `--tw-accent`. */
+  style?: CSSProperties
   'aria-label'?: string
   'aria-labelledby'?: string
+  /** Scene marker for the future persistent-scene observer (Phase 2/5). */
+  'data-scene'?: string
 }
 
 /**
@@ -32,14 +36,16 @@ export default function Section({
   id,
   className,
   innerClassName,
-  ...aria
+  style,
+  ...rest
 }: SectionProps) {
   const Tag = as ?? 'section'
   return (
     <Tag
       id={id}
       className={cn(styles.section, styles[density], ruled && styles.ruled, className)}
-      {...aria}
+      style={style}
+      {...rest}
     >
       <div className={cn(styles.inner, bleed && styles.bleed, innerClassName)}>
         {children}
