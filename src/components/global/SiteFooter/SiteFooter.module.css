@@ -1,0 +1,110 @@
+.footer {
+  position: relative;
+  border-top: 1px solid var(--tw-line);
+  background: var(--tw-bg);
+  color: var(--tw-fg);
+}
+
+.inner {
+  max-width: var(--tw-max);
+  margin-inline: auto;
+  padding: clamp(3.5rem, 8vh, 6rem) var(--tw-page-pad) clamp(2rem, 5vh, 3rem);
+}
+
+/* Sparse statement line, then a dense link grid — the rhythm the system asks for */
+.statement {
+  margin: 0 0 clamp(2.5rem, 6vh, 4rem);
+  max-width: 20ch;
+  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-size: var(--tw-type-h2);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+}
+.statement em {
+  color: var(--tw-accent);
+  font-style: normal;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: clamp(2rem, 5vw, 3.5rem);
+}
+
+.brandWordmark {
+  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.brandWordmark .mark {
+  color: var(--tw-accent);
+  margin-inline-start: 0.35em;
+}
+.brandMeta {
+  margin-block-start: 0.75rem;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tw-muted);
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.colHead {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--tw-muted);
+}
+.col a {
+  font-size: 0.9375rem;
+  color: var(--tw-fg);
+  overflow-wrap: break-word;
+  transition: color var(--tw-duration-micro) var(--tw-ease-out);
+  width: fit-content;
+}
+.col a:hover {
+  color: var(--tw-accent);
+}
+
+.bottom {
+  margin-block-start: clamp(2.5rem, 6vh, 4rem);
+  padding-block-start: 1.5rem;
+  border-top: 1px solid var(--tw-line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.1em;
+  color: var(--tw-muted);
+}
+.legal {
+  display: flex;
+  gap: 1.5rem;
+}
+.legal a:hover {
+  color: var(--tw-fg);
+}
+
+@media (max-width: 880px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}

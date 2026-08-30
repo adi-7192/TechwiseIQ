@@ -29,8 +29,65 @@
   --shadow-hot: 9px 9px 0 var(--hot);  /* hero claim card */
 }
 
+/*
+  ─── Techwise IQ Design Tokens — Immersive (redesign/immersive-system) ───
+  Dark technical operating-environment. Additive: the Kinetic tokens above are
+  still defined so un-migrated pages keep resolving their colours during the
+  page-by-page migration. The immersive world is applied via `.tw-world`
+  (ImmersiveShell) — NOT globally on <body> — until every route is migrated,
+  at which point the Kinetic layer is deleted and this becomes the base.
+  Source of truth: docs/03_DESIGN_SYSTEM.md + starter/design-tokens.css.
+*/
+:root {
+  /* Base surfaces */
+  --tw-bg:      #060706;  /* page background — near-black graphite */
+  --tw-surface: #101310;  /* raised panels, proof frames */
+  --tw-fg:      #F2F4EF;  /* primary foreground */
+  --tw-muted:   #8A918C;  /* secondary / meta text (AA on --tw-bg) */
+  --tw-line:    #252925;  /* 1px technical rules */
+  --tw-line-soft: rgb(242 244 239 / 0.10); /* hairline on floating artifacts */
+
+  /* Signal accents — never all in one viewport */
+  --tw-acid:    #C8FF54;  /* Techwise / web / advisory */
+  --tw-violet:  #695CFF;  /* automation */
+  --tw-orange:  #FF6540;  /* apps */
+  --tw-blue:    #70A8FF;  /* developer / build */
+
+  /* Light proof surfaces (real UI artifacts render on paper) */
+  --tw-paper:   #F3F3ED;
+  --tw-ink:     #101110;
+
+  /* Active scene accent — interpolated per chapter later; acid at rest */
+  --tw-accent:  var(--tw-acid);
+
+  /* Layout */
+  --tw-page-pad: clamp(18px, 4vw, 64px);
+  --tw-max:      1520px;
+
+  /* Radius — restrained: pills, proof frames, artifacts only */
+  --tw-radius-proof:    22px;
+  --tw-radius-artifact: 10px;
+  --tw-radius-control:  999px;
+
+  /* Motion */
+  --tw-ease-out:          cubic-bezier(.16, 1, .3, 1);
+  --tw-duration-micro:     220ms;
+  --tw-duration-component: 600ms;
+  --tw-duration-chapter:   900ms;
+
+  /* Type scale (fluid) — large display carries the design */
+  --tw-type-hero:      clamp(4.25rem, 10.5vw, 10.25rem);
+  --tw-type-chapter:   clamp(4rem, 8.7vw, 8.5rem);
+  --tw-type-statement: clamp(3rem, 6vw, 6rem);
+  --tw-type-h2:        clamp(2.2rem, 4vw, 4.5rem);
+  --tw-type-body-lg:   clamp(1.125rem, 0.6rem + 1vw, 1.375rem);
+  --tw-type-body:      clamp(0.95rem, 0.9rem + 0.3vw, 1.0625rem);
+  --tw-type-meta:      clamp(0.625rem, 0.55rem + 0.35vw, 0.75rem);
+}
+
 /* Tailwind v4 theme tokens (enables bg-hot, text-ink, etc.) */
 @theme {
+  /* Kinetic (legacy — retire when last route migrates) */
   --color-bone:      #F2F0E9;
   --color-ink:       #101010;
   --color-hot:       #FF4D00;
@@ -41,9 +98,22 @@
   --color-ink-soft:  #3A3933;
   --color-surface-open: #ECE9E0;
 
+  /* Immersive palette (utilities: bg-canvas, text-fg, border-line, …) */
+  --color-canvas:  #060706;
+  --color-surface: #101310;
+  --color-fg:      #F2F4EF;
+  --color-muted:   #8A918C;
+  --color-line:    #252925;
+  --color-acid:    #C8FF54;
+  --color-violet:  #695CFF;
+  --color-orange:  #FF6540;
+  --color-blue:    #70A8FF;
+
   --font-archivo: 'Archivo', sans-serif;
   --font-anton: 'Anton', sans-serif;
   --font-mono: 'Space Mono', monospace;
+  /* Immersive display grotesk (variable) — added in layout.tsx */
+  --font-display: 'Manrope', 'Archivo', sans-serif;
 }
 
 /* ─── Base Reset ─── */
@@ -146,4 +216,90 @@ img { display: block; max-width: 100%; }
 :focus-visible {
   outline: 3px solid var(--hot);
   outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   IMMERSIVE WORLD (redesign/immersive-system)
+   Scoped dark atmosphere. Applied by ImmersiveShell (`.tw-world`) so the
+   redesign can roll out route-by-route without breaking un-migrated Kinetic
+   pages. CSS/static fallback only — NO WebGL at this stage.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.tw-world {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background: var(--tw-bg);
+  color: var(--tw-fg);
+  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-size: clamp(16px, 0.9rem + 0.2vw, 17px);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Static atmosphere: a slow radial "scene light" + fine grain.
+   Both are decorative, pointer-inert, and behind all content (z:-1). */
+.tw-world::before,
+.tw-world::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Ambient scene glow — colour follows the active chapter accent.
+   Kept subtle; this is the CSS fallback for the future persistent WebGL scene. */
+.tw-world::before {
+  background:
+    radial-gradient(
+      70% 55% at 50% -10%,
+      color-mix(in oklab, var(--tw-accent) 14%, transparent) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      90% 70% at 85% 0%,
+      color-mix(in oklab, var(--tw-bg) 100%, #ffffff 4%) 0%,
+      transparent 55%
+    );
+  transition: background var(--tw-duration-chapter) var(--tw-ease-out);
+}
+
+/* Fine film grain (static SVG turbulence, low opacity, never over small text) */
+.tw-world::after {
+  opacity: 0.09;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Foreground content sits above atmosphere */
+.tw-world > * {
+  position: relative;
+  z-index: 0;
+}
+
+/* Content column — full-bleed sections opt out; inner rails use .tw-wrap */
+.tw-wrap {
+  width: 100%;
+  max-width: var(--tw-max);
+  margin-inline: auto;
+  padding-inline: var(--tw-page-pad);
+}
+
+/* Immersive focus ring (acid on dark) — overrides the Kinetic hot ring
+   only inside the immersive world so contrast stays correct on #060706. */
+.tw-world :focus-visible {
+  outline: 2px solid var(--tw-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Reduced motion: freeze the scene glow transition and any grain drift.
+   (The global reduce block above already kills animations/transitions;
+   this keeps the atmosphere fully lit and legible.) */
+@media (prefers-reduced-motion: reduce) {
+  .tw-world::before {
+    transition: none;
+  }
 }

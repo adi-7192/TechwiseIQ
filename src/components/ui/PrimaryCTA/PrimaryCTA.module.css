@@ -1,0 +1,81 @@
+.cta {
+  --_fg: var(--tw-ink);
+  --_bg: var(--tw-fg);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 0.85em 1.5em;
+  border: 1px solid transparent;
+  border-radius: var(--tw-radius-control);
+  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  color: var(--_fg);
+  background: var(--_bg);
+  transition:
+    transform var(--tw-duration-micro) var(--tw-ease-out),
+    background-color var(--tw-duration-micro) var(--tw-ease-out),
+    border-color var(--tw-duration-micro) var(--tw-ease-out),
+    color var(--tw-duration-micro) var(--tw-ease-out);
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+}
+
+.cta:active {
+  transform: translateY(0);
+}
+
+/* Primary — light background, dark text (no gradient) */
+.primary {
+  --_bg: var(--tw-fg);
+  --_fg: var(--tw-ink);
+}
+.primary:hover {
+  --_bg: var(--tw-accent);
+}
+
+/* Secondary — dark translucent surface with a technical border */
+.secondary {
+  --_bg: rgb(242 244 239 / 0.04);
+  --_fg: var(--tw-fg);
+  border-color: var(--tw-line);
+}
+.secondary:hover {
+  --_bg: rgb(242 244 239 / 0.08);
+  border-color: var(--tw-accent);
+  transform: translateY(-2px);
+}
+
+/* Ghost — text + arrow, minimal chrome for inline chapter links */
+.ghost {
+  --_bg: transparent;
+  --_fg: var(--tw-fg);
+  padding-inline: 0.25em;
+}
+.ghost:hover {
+  --_fg: var(--tw-accent);
+}
+
+.arrow {
+  transition: transform var(--tw-duration-micro) var(--tw-ease-out);
+}
+.cta:hover .arrow {
+  transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta,
+  .cta:hover,
+  .arrow,
+  .cta:hover .arrow {
+    transform: none;
+  }
+}

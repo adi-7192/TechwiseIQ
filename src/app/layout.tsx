@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Anton, Archivo, Space_Mono } from 'next/font/google'
+import { Anton, Archivo, Manrope, Space_Mono } from 'next/font/google'
 import RouteFocusManager from '@/components/RouteFocusManager'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import { socialMetadata } from '@/lib/metadata'
@@ -23,6 +23,16 @@ const spaceMono = Space_Mono({
   weight: ['400', '700'],
   subsets: ['latin'],
   variable: '--font-mono',
+  display: 'swap',
+})
+
+// Immersive display grotesk (variable, high x-height) — carries the large
+// chapter/hero type of the redesign. Added alongside the Kinetic faces during
+// the page-by-page migration; Anton is retired once no route references it.
+const manrope = Manrope({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-display',
   display: 'swap',
 })
 
@@ -61,7 +71,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${anton.variable} ${archivo.variable} ${spaceMono.variable}`}
+      className={`${anton.variable} ${archivo.variable} ${spaceMono.variable} ${manrope.variable}`}
       suppressHydrationWarning
     >
       <body>
