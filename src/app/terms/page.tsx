@@ -1,20 +1,28 @@
 import type { Metadata } from 'next'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
+import ImmersiveShell from '@/components/immersive/ImmersiveShell'
+import SiteFooter from '@/components/global/SiteFooter'
+import SiteHeader from '@/components/global/SiteHeader'
+import { socialMetadata } from '@/lib/metadata'
 import styles from '../legal.module.css'
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
   description: 'Terms of service for Techwise IQ Technologies — the conditions under which we provide our services.',
   alternates: { canonical: '/terms' },
+  ...socialMetadata({
+    title: 'Terms of Service | Techwise IQ',
+    description:
+      'The conditions under which Techwise IQ Technologies provides project, retainer, and consultation services.',
+    url: '/terms',
+  }),
 }
 
 export default function TermsPage() {
   return (
-    <>
-      <Nav />
-      <main className={styles.main}>
-        <div className="wrap">
+    <ImmersiveShell scene="advisory" withScene={false}>
+      <SiteHeader />
+      <main id="main" className={styles.main}>
+        <div className={styles.inner}>
           <h1 className={styles.title}>Terms of Service</h1>
           <p className={styles.updated}>Last updated: June 2026</p>
 
@@ -98,7 +106,7 @@ export default function TermsPage() {
           </section>
         </div>
       </main>
-      <Footer />
-    </>
+      <SiteFooter />
+    </ImmersiveShell>
   )
 }

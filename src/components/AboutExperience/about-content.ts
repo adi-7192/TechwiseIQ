@@ -35,3 +35,14 @@ export const CULTURE_PRINCIPLES = [
     body: 'Fewer hand-offs. Working progress. Decisions turned into useful outcomes.',
   },
 ] as const
+
+export const WORKING_MODEL = [
+  {
+    title: 'Direct ownership',
+    body: 'The people shaping the technical path stay close to the work and accountable for delivery.',
+  },
+  {
+    title: 'Small-studio speed',
+    body: 'Short decision paths keep useful work moving without layers of ceremony.',
+  },
+] as const

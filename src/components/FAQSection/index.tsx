@@ -23,7 +23,7 @@ export default function FAQSection({
 
   return (
     <section className={styles.section} data-testid={testId}>
-      <div className="wrap">
+      <div className="tw-wrap">
         <span className={styles.label}>Questions buyers actually ask</span>
         <h2 className={styles.title}>{heading}</h2>
         <div className={styles.list}>

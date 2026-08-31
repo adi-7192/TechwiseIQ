@@ -15,15 +15,21 @@ import styles from './home.module.css'
  */
 export default function SelectedWork() {
   const featured = CASE_STUDIES.filter(
-    (cs): cs is typeof cs & { coverImage: string } => Boolean(cs.featured && cs.coverImage),
+    (cs): cs is typeof cs & { coverImage: string } =>
+      Boolean(cs.featured && cs.coverImage),
   )
 
   return (
     <Section ruled density="dense" aria-labelledby="work-title">
-      <div className={styles.workHead}>
+      <div className={styles.workHead} data-home-reveal>
         <div>
           <SectionLabel index="05">Selected work</SectionLabel>
-          <DisplayHeading as="h2" size="h2" id="work-title" className={styles.chapterTitle}>
+          <DisplayHeading
+            as="h2"
+            size="h2"
+            id="work-title"
+            className={styles.chapterTitle}
+          >
             Real projects, shipped.
           </DisplayHeading>
         </div>
@@ -32,9 +38,13 @@ export default function SelectedWork() {
         </PrimaryCTA>
       </div>
 
-      <div className={styles.workGrid}>
+      <div className={styles.workGrid} data-home-reveal>
         {featured.map((cs) => (
-          <Link key={cs.slug} href={`/work/${cs.slug}`} className={styles.workCard}>
+          <Link
+            key={cs.slug}
+            href={`/work/${cs.slug}`}
+            className={styles.workCard}
+          >
             <div className={styles.workCover}>
               <Image
                 src={cs.coverImage}

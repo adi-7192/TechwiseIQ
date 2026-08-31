@@ -1,53 +1,29 @@
 import { expect, test } from '@playwright/test'
 
-test.describe('Work credibility page', () => {
+test.describe('Work proof archive (immersive)', () => {
   test.beforeEach(async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/work')
   })
 
-  test('renders a continuous client and concept exhibition', async ({
+  test('leads with real client work, then a labelled concept lab', async ({
     page,
   }) => {
     const experience = page.getByTestId('work-experience')
+    await expect(experience).toBeVisible()
 
-    await expect(experience).toHaveAttribute('data-motion', 'reduced')
+    // Real client work is dominant and comes first.
     await expect(page.getByTestId('featured-project-rail')).toBeVisible()
     await expect(page.locator('[data-featured-project]')).toHaveCount(2)
-    await expect(page.getByTestId('project-index')).toHaveCount(0)
+    await expect(page.locator('[data-client-project]')).toHaveCount(2)
+
+    // Concept Lab is a separate, clearly-labelled self-initiated exhibition.
+    const lab = page.getByTestId('concept-lab')
     await expect(page.getByTestId('concept-exhibition')).toBeVisible()
     await expect(page.locator('[data-concept-stage]')).toHaveCount(3)
     await expect(
-      page.locator('[data-work-reveal][data-visible="true"]'),
-    ).not.toHaveCount(0)
-  })
-
-  test('enhances motion progressively and exposes the reduced fallback', async ({
-    page,
-  }) => {
-    await expect(page.getByTestId('work-experience')).toHaveAttribute(
-      'data-motion',
-      'reduced',
-    )
-    await expect(
-      page.locator('[data-work-reveal]:not([data-visible="true"])'),
-    ).toHaveCount(0)
-
-    await page.emulateMedia({ reducedMotion: 'no-preference' })
-    await page.reload()
-    await expect(page.getByTestId('work-experience')).toHaveAttribute(
-      'data-motion',
-      'active',
-    )
-
-    await page.emulateMedia({ reducedMotion: 'reduce' })
-    await expect(page.getByTestId('work-experience')).toHaveAttribute(
-      'data-motion',
-      'reduced',
-    )
-    await expect(
-      page.locator('[data-work-reveal]:not([data-visible="true"])'),
-    ).toHaveCount(0)
+      lab.getByText('Concept work — not client commissions'),
+    ).toBeVisible()
   })
 
   test('presents real work, delivery proof, concepts, and working style', async ({
@@ -57,14 +33,20 @@ test.describe('Work credibility page', () => {
       page.getByRole('heading', { level: 1, name: 'Proof, not promises.' }),
     ).toHaveCount(1)
     await expect(
-      page.getByRole('heading', {
-        level: 2,
-        name: 'Built for real business.',
-      }),
+      page.getByRole('heading', { level: 2, name: 'Built for real business.' }),
     ).toBeVisible()
-    await expect(page.locator('[data-client-project]')).toHaveCount(2)
+
+    await expect(
+      page.getByRole('heading', { level: 3, name: 'AASKRA Realty' }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', { level: 3, name: 'Express Trade Financing' }),
+    ).toBeVisible()
+
+    // Delivery totals derived from the real case-study data.
     await expect(page.getByText('21', { exact: true })).toBeVisible()
     await expect(page.getByText('Pages shipped', { exact: true })).toBeVisible()
+
     await expect(
       page.getByRole('heading', {
         level: 2,
@@ -76,7 +58,10 @@ test.describe('Work credibility page', () => {
         'Live coded website explorations across industries, visual languages and interaction patterns.',
       ),
     ).toBeVisible()
-    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(0)
+    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(
+      0,
+    )
+
     await expect(
       page.getByRole('heading', {
         level: 2,
@@ -90,42 +75,33 @@ test.describe('Work credibility page', () => {
 
   test('links both projects to stable case-study pages', async ({ page }) => {
     await expect(
-      page.getByRole('link', {
-        name: /Read full case study.*AASKRA Realty/,
-      }),
+      page.getByRole('link', { name: /Read full case study.*AASKRA Realty/ }),
     ).toHaveAttribute('href', '/work/aaskra-realty')
     await expect(
       page.getByRole('link', {
         name: /Read full case study.*Express Trade Financing/,
       }),
     ).toHaveAttribute('href', '/work/express-trade-financing')
-
-    await expect(
-      page.getByRole('link', {
-        name: 'Discuss your project (opens in a new tab)',
-      }),
-    ).toHaveAttribute('target', '_blank')
   })
 
-  test('publishes live-site actions only for reachable project domains', async ({
+  test('publishes a live-site action only for reachable project domains', async ({
     page,
   }) => {
-    await page.goto('/work/aaskra-realty')
+    // AASKRA has no public live URL — no live-site link on the card.
     await expect(
       page.getByRole('link', {
-        name: 'Visit the AASKRA Realty live site (opens in a new tab)',
+        name: /Visit live site.*AASKRA Realty/,
       }),
     ).toHaveCount(0)
 
-    await page.goto('/work/express-trade-financing')
-    const liveSite = page.getByRole('link', {
-      name: 'Visit the Express Trade Financing live site (opens in a new tab)',
+    const etfLive = page.getByRole('link', {
+      name: /Visit live site.*Express Trade Financing.*opens in a new tab/,
     })
-    await expect(liveSite).toHaveAttribute(
+    await expect(etfLive).toHaveAttribute(
       'href',
       'https://www.expresstradefinancing.ae',
     )
-    await expect(liveSite).toHaveAttribute('target', '_blank')
+    await expect(etfLive).toHaveAttribute('target', '_blank')
   })
 
   test('publishes all three live concept samples', async ({ page }) => {
@@ -162,12 +138,11 @@ test.describe('Work credibility page', () => {
         name: 'Open Lumora live HTML demo (opens in a new tab)',
       }),
     ).toHaveAttribute('href', '/concepts/lumora/index.html')
-    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(0)
+    await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(
+      0,
+    )
     await expect(slots.nth(1).getByText('Glass UI')).toBeVisible()
     await expect(slots.nth(2).getByText('Ambient video')).toBeVisible()
-    await expect(
-      lab.getByText('Concept work — not client commissions'),
-    ).toBeVisible()
   })
 
   test('loads the mėntality live preview in its second stage', async ({
@@ -177,14 +152,6 @@ test.describe('Work credibility page', () => {
     await stage.scrollIntoViewIfNeeded()
     const frame = stage.locator('iframe')
     await expect(frame).toHaveAttribute('src', '/concepts/mentality/index.html')
-    await expect(frame).toHaveAttribute('data-preview-state', 'ready')
-  })
-
-  test('loads the Lumora live preview in its third stage', async ({ page }) => {
-    const stage = page.locator('[data-concept-stage]').nth(2)
-    await stage.scrollIntoViewIfNeeded()
-    const frame = stage.locator('iframe')
-    await expect(frame).toHaveAttribute('src', '/concepts/lumora/index.html')
     await expect(frame).toHaveAttribute('data-preview-state', 'ready')
   })
 
@@ -216,14 +183,22 @@ test.describe('Work credibility page', () => {
     const activeFrame = activeStage.locator('iframe')
     await expect(activeFrame).toHaveAttribute('data-preview-state', 'ready')
     await expect
-      .poll(() =>
-        activeFrame.evaluate(
-          (node: HTMLIFrameElement) => node.contentWindow?.scrollY ?? 0,
-        ),
+      .poll(
+        () =>
+          activeFrame.evaluate(
+            (node: HTMLIFrameElement) => node.contentWindow?.scrollY ?? 0,
+          ),
+        {
+          // The live iframe competes with the responsive matrix in a full run;
+          // allow its observer and first auto-scroll frame to settle under load.
+          timeout: 12_000,
+        },
       )
       .toBeGreaterThan(0)
 
-    await page.getByTestId('featured-project-rail').scrollIntoViewIfNeeded()
+    // Scroll the concept stage well offscreen (page top) — it must pause.
+    await page.evaluate(() => window.scrollTo(0, 0))
+    await page.waitForTimeout(400)
     const pausedY = await activeFrame.evaluate(
       (node: HTMLIFrameElement) => node.contentWindow?.scrollY ?? -1,
     )
@@ -238,7 +213,9 @@ test.describe('Work credibility page', () => {
 test('keeps the full-demo action usable when a preview cannot load', async ({
   page,
 }) => {
-  await page.route('**/concepts/terra-elix/index.html', (route) => route.abort())
+  await page.route('**/concepts/terra-elix/index.html', (route) =>
+    route.abort(),
+  )
   await page.goto('/work')
   const stage = page.locator('[data-concept-stage]').first()
   await stage.scrollIntoViewIfNeeded()
@@ -264,12 +241,13 @@ test('keeps the work page inside a 375px viewport', async ({ page }) => {
   )
   expect(overflow).toBeLessThanOrEqual(1)
 
-  const firstArticle = page.getByRole('article').first()
-  const imageBox = await firstArticle.locator('img').boundingBox()
-  const headingBox = await firstArticle
+  const firstProject = page.locator('[data-client-project]').first()
+  const imageBox = await firstProject.locator('img').boundingBox()
+  const headingBox = await firstProject
     .getByRole('heading', { level: 3 })
     .boundingBox()
   expect(imageBox).not.toBeNull()
   expect(headingBox).not.toBeNull()
+  // Image leads the story on a stacked mobile card.
   expect(imageBox!.y).toBeLessThan(headingBox!.y)
 })

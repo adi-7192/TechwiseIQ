@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.6em;
+  min-height: 44px; /* accessible tap target (WCAG 2.5.5) */
   padding: 0.85em 1.5em;
   border: 1px solid transparent;
   border-radius: var(--tw-radius-control);
@@ -58,6 +59,7 @@
 .ghost {
   --_bg: transparent;
   --_fg: var(--tw-fg);
+  min-height: 0; /* inline text link — not a tap-target pill */
   padding-inline: 0.25em;
 }
 .ghost:hover {

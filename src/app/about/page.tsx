@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import AboutExperience from '@/components/AboutExperience'
-import Footer from '@/components/Footer'
-import Nav from '@/components/Nav'
+import ImmersiveShell from '@/components/immersive/ImmersiveShell'
+import SiteFooter from '@/components/global/SiteFooter'
+import SiteHeader from '@/components/global/SiteHeader'
 import { socialMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = {
@@ -36,11 +37,13 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Nav />
-      <main>
-        <AboutExperience />
-      </main>
-      <Footer />
+      <ImmersiveShell scene="advisory">
+        <SiteHeader />
+        <main id="main">
+          <AboutExperience />
+        </main>
+        <SiteFooter />
+      </ImmersiveShell>
     </>
   )
 }

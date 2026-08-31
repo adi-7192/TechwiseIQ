@@ -1,10 +1,14 @@
 /* ═══════════════════════════════════════════════════════════════════════
    Immersive homepage — layout for the nine sections. Type/atmosphere come
    from globals `.tw-world` + the shared primitives; this file owns the
-   section-specific grids and rhythm. Static only (motion arrives in Phase 5).
+   section-specific grids and rhythm. Motion is progressive enhancement only.
    ═══════════════════════════════════════════════════════════════════════ */
 
 /* ─── 1 · Hero ─── */
+.experience {
+  position: relative;
+}
+
 .hero {
   position: relative;
   min-height: 100svh;
@@ -12,6 +16,7 @@
   place-items: center;
   padding-block: clamp(9rem, 18vh, 14rem) clamp(5rem, 10vh, 8rem);
   overflow: hidden;
+  scroll-margin-top: 5rem;
 }
 .heroInner {
   position: relative;
@@ -216,6 +221,15 @@
 }
 
 /* Capability matrix — dense 3-col grid of technical rules */
+.proofReveal {
+  margin-block-start: clamp(3rem, 7vh, 5rem);
+}
+
+.proofDepth {
+  transform-style: preserve-3d;
+  transform-origin: center;
+}
+
 .matrix {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -14,7 +14,9 @@ import styles from './home.module.css'
  * without any JavaScript.
  */
 export default function Chapter({ chapter }: { chapter: ChapterContent }) {
-  const accentStyle = { '--tw-accent': SCENE_ACCENT[chapter.scene] } as CSSProperties
+  const accentStyle = {
+    '--tw-accent': SCENE_ACCENT[chapter.scene],
+  } as CSSProperties
   const titleId = `chapter-${chapter.id}`
 
   return (
@@ -28,10 +30,15 @@ export default function Chapter({ chapter }: { chapter: ChapterContent }) {
       data-scene={chapter.scene}
       aria-labelledby={titleId}
     >
-      <div className={styles.chapterHead}>
+      <div className={styles.chapterHead} data-home-reveal>
         <div className={styles.chapterTitleWrap}>
           <SectionLabel index={chapter.index}>{chapter.kicker}</SectionLabel>
-          <DisplayHeading as="h2" size="chapter" id={titleId} className={styles.chapterTitle}>
+          <DisplayHeading
+            as="h2"
+            size="chapter"
+            id={titleId}
+            className={styles.chapterTitle}
+          >
             {chapter.title}
             <span className={styles.dot} aria-hidden="true" />
           </DisplayHeading>
@@ -55,9 +62,13 @@ export default function Chapter({ chapter }: { chapter: ChapterContent }) {
         </div>
       </div>
 
-      <ProofObject variant={chapter.proof} caption={chapter.proofCaption} />
+      <div className={styles.proofReveal} data-home-reveal>
+        <div className={styles.proofDepth} data-home-proof>
+          <ProofObject variant={chapter.proof} caption={chapter.proofCaption} />
+        </div>
+      </div>
 
-      <div className={styles.matrix}>
+      <div className={styles.matrix} data-home-reveal>
         {chapter.capabilities.map((cap) => (
           <article className={styles.cap} key={cap.type}>
             <span className={styles.capType}>{cap.type}</span>

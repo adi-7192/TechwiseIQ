@@ -11,7 +11,8 @@ export default defineConfig({
   reporter: 'list',
   use: {
     baseURL: externalBaseURL ?? 'http://127.0.0.1:3100',
-    channel: 'chrome',
+    // Use Playwright's pinned Chromium. System Chrome on macOS can leave
+    // inherited stdio pipes open after the browser exits, hanging all workers.
     trace: 'retain-on-failure',
   },
   webServer: externalBaseURL

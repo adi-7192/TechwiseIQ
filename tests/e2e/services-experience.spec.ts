@@ -39,13 +39,14 @@ test.describe('Services overview', () => {
     ).toHaveAttribute('href', '/services/ai')
   })
 
-  test('renders its final state with reduced motion', async ({ page }) => {
-    const experience = page.locator('[data-service-experience]')
-    await expect(experience).toHaveAttribute('data-motion', 'reduced')
-    await expect(page.locator('[data-service-reveal]').first()).toHaveAttribute(
-      'data-visible',
-      'true',
-    )
+  test('renders its full diagnostic state with reduced motion', async ({
+    page,
+  }) => {
+    // Static-first immersive build: everything is present without motion.
+    await expect(page.locator('[data-service-experience]')).toBeVisible()
+    await expect(page.getByTestId('problem-navigator')).toBeVisible()
+    await expect(page.getByTestId('service-recommendation')).toBeVisible()
+    await expect(page.locator('#service-web')).toBeVisible()
   })
 })
 
@@ -68,6 +69,18 @@ for (const route of detailRoutes) {
     await expect(page.getByText(/AED|starting from/i)).toHaveCount(0)
   })
 }
+
+test('initializes the persistent scene from the route shell', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/services/ai')
+
+  await expect(page.locator('.tw-world canvas')).toHaveAttribute(
+    'data-scene',
+    'automation',
+  )
+})
 
 for (const path of ['/services', ...detailRoutes.map((route) => route.path)]) {
   test(`${path} stays inside a 375px viewport`, async ({ page }) => {

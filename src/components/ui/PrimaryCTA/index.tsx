@@ -51,6 +51,7 @@ export default function PrimaryCTA(props: LinkProps | ButtonProps) {
 
   if (isLink(props)) {
     const { href, external, onClick } = props
+    const analyticsEvent = href === '/contact' ? 'cta_start_project' : undefined
     if (external || /^(https?:|mailto:|tel:)/.test(href)) {
       const isHttp = /^https?:/.test(href)
       return (
@@ -58,6 +59,7 @@ export default function PrimaryCTA(props: LinkProps | ButtonProps) {
           href={href}
           className={classes}
           onClick={onClick}
+          data-analytics-event={analyticsEvent}
           {...(isHttp ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
         >
           {inner}
@@ -65,7 +67,12 @@ export default function PrimaryCTA(props: LinkProps | ButtonProps) {
       )
     }
     return (
-      <Link href={href} className={classes} onClick={onClick}>
+      <Link
+        href={href}
+        className={classes}
+        onClick={onClick}
+        data-analytics-event={analyticsEvent}
+      >
         {inner}
       </Link>
     )

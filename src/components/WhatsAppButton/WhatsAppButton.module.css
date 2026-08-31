@@ -28,6 +28,10 @@
   box-shadow: 2px 2px 0 var(--ink);
 }
 
+.compactLabel {
+  display: none;
+}
+
 :global(body:has(main[data-contact-page])) .btn {
   display: none;
 }
@@ -50,5 +54,21 @@
   .btn {
     right: 16px;
     bottom: calc(20px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    min-width: 48px;
+    justify-content: center;
+    padding-inline: 10px;
+  }
+
+  .fullLabel {
+    display: none;
+  }
+
+  .compactLabel {
+    display: inline;
   }
 }

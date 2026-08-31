@@ -4,6 +4,197 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-08-31 — Full release QA pass
+
+Completed Prompt 13 across routes, navigation, forms, metadata, accessibility,
+WebGL fallback/lifecycle, responsive layouts, analytics, and browser history.
+
+- Added release-contract coverage for every rendered internal link, shared
+  header/footer/contact/legal destinations, browser back/forward behavior,
+  mobile menu focus trapping, visible skip-link focus, and a forced WebGL-
+  unavailable fallback.
+- Fixed the only application regression found: the globally fixed WhatsApp link
+  preceded page content in DOM order and intercepted the first Tab. It now
+  renders after page content while retaining the same fixed visual position.
+- Chromium full suite: 235 active tests pass, with 26 opt-in screenshot captures
+  skipped. Firefox critical suite: 23/23. WebKit: 22/23 critical checks (the
+  remaining link-Tab assertion depends on the macOS full-keyboard-access
+  preference) plus 39/39 route/overflow checks at 390, 834, and 1440px.
+- Still owner/environment gated: real Resend delivery, Plausible live ingestion,
+  and physical Safari/iOS/Android device sign-off.
+
+---
+
+## 2026-08-31 — Performance and mobile hardening
+
+Completed Prompt 12 with measured bundle/runtime changes rather than reducing
+the visual identity.
+
+- Deferred the persistent Three.js scene behind a client-only loader. Meaningful
+  DOM and the CSS atmosphere render first; Privacy, Terms, and 404 never mount
+  or transfer the WebGL scene. On the production build this saves 127KB of
+  transferred JavaScript on content-only routes (226KB vs 353KB scene-enabled).
+- Made the scene budget responsive at startup and after viewport changes:
+  mobile/coarse-pointer rendering uses DPR 1, a 700-point draw limit, lower wire
+  geometry, 30fps, and no pointer parallax; desktop caps DPR at 1.5 with 1800
+  points and 60fps. Reduced motion still renders one static frame with no RAF.
+- Retired the unused Anton font from the root loader and updated the error
+  boundary to Manrope, reducing generated font output from 276KB/18 files to
+  232KB/15 files.
+- Audited all real images: WebP sources have explicit intrinsic dimensions or
+  aspect-ratio containers, above-fold work images are prioritized, and below-
+  fold/case-study imagery remains lazy through `next/image`.
+- Production measurements at 390px: CLS 0; local LCP 40–76ms; worst observed
+  long task 80ms. Route-cycle tests retain one canvas and keep post-GC heap
+  growth below the regression budget.
+- Verification: performance/mobile E2E 6/6; full E2E 230 active tests green with
+  26 baseline captures intentionally skipped; production build and ESLint clean.
+
+---
+
+## 2026-08-31 — Complete SEO, forms, and analytics parity
+
+Completed Prompt 11 without changing routes, the contact backend, or the
+analytics provider.
+
+- Audited every public title, description, canonical, OG/Twitter image, heading,
+  sitemap entry, robots rule, internal destination, and existing JSON-LD block.
+  Added route-specific social metadata to Privacy and Terms; no unsupported
+  structured-data claims or pricing schema were introduced.
+- Preserved Plausible as the only analytics platform. Added one delegated,
+  privacy-safe event layer for `cta_start_project`, `cta_whatsapp`,
+  `contact_form_start`, `contact_form_submit`, `contact_form_success`,
+  `work_open`, `service_open`, and `concept_open`. Properties contain only the
+  current path and non-personal content slugs—never form contents.
+- Verified Contact validation, invalid-field focus, value retention, honest
+  Resend failure messaging, success rendering/event behavior, honeypot handling,
+  and in-flight duplicate-submit prevention. Real email delivery remains gated
+  by the owner-controlled `RESEND_API_KEY`.
+- Updated Privacy copy so it accurately describes selected anonymous interaction
+  events and explicitly states that enquiry contents are never sent to analytics.
+- Verification: ESLint clean; 15/15 unit tests; production build passes with all
+  19 routes; full E2E 224 active tests green with 26 baseline-capture tests
+  intentionally skipped; `git diff --check` clean.
+
+---
+
+## 2026-08-31 — Migrate About, Contact, legal, and 404 routes
+
+Completed Prompt 10 and moved the remaining public Next.js routes onto the
+immersive design system without changing their operational contracts.
+
+- Rebuilt `/about` around the approved content source and studio positioning:
+  direct ownership, clarity, momentum, small-studio speed, and no account-
+  management relay. The route remains qualitative and contains no founder or
+  freelancer biography.
+- Restyled `/contact` with the new dark form system and shared header/footer.
+  The Resend Server Action, server validation, environment variables, delivery
+  destinations, honeypot, and success/error behavior are unchanged.
+- Reskinned `/privacy`, `/terms`, and the semantic 404 with simple readable
+  typography. Added an explicit scene opt-out so these content-first routes use
+  no WebGL canvas while retaining the CSS atmosphere and shared chrome.
+- Compacted the fixed WhatsApp control below 480px so it obscures less content
+  while preserving its destination, accessible name, and 44px touch target.
+- Verification: ESLint clean; 15/15 unit tests; production build passes with all
+  19 routes; Prompt 10 E2E 14/14; full E2E 219 active tests green with 26
+  baseline-capture tests intentionally skipped; desktop/mobile visual QA.
+
+---
+
+## 2026-08-30 — Complete homepage choreography and repair redesign handoff gaps
+
+Completed the previously skipped Prompt 07 without changing the established
+architecture: the immersive homepage remains server-rendered/static-first and
+adds two small client boundaries for progressive motion and chapter navigation.
+
+- Added grouped GSAP reveals, subtle proof-object scroll depth and fine-pointer
+  tilt, restrained hero-artifact depth, and the existing chapter scene changes.
+  Reduced motion bypasses all enhanced motion; meaningful content stays visible
+  with JavaScript disabled.
+- Added a compact native-anchor chapter rail with scroll-synchronized active
+  state. On phones it remains swipeable and sits beside—never under—the existing
+  fixed WhatsApp control; geometry and viewport bounds are regression-tested.
+- Fixed non-home immersive routes resetting their WebGL renderer to `intro`:
+  `ImmersiveShell` now initializes the singleton from its route scene, and the
+  canvas publishes its resolved scene for regression coverage.
+- Restored `.env.example` with the real Resend/Plausible variables and optional
+  contact overrides; no secrets were added.
+- Corrected the handoff task board and technical decisions to reflect completed
+  Prompts 07–09 and the actual vanilla Three.js singleton architecture.
+- Stabilized the resource-heavy TerraElix preview assertion under full-suite
+  load. Switched Playwright's default from system Chrome to its pinned bundled
+  Chromium, avoiding a macOS Chrome teardown bug that left workers alive after
+  all tests completed.
+- Verification: ESLint clean; 15/15 unit tests; production build passes with all
+  19 routes; responsive desktop/mobile visual QA; focused E2E 31/31; full E2E
+  231 active tests green with 26 baseline-capture tests intentionally skipped.
+
+---
+
+## 2026-08-30 — Migrate the services routes to the immersive system
+
+Rebuilt `/services`, `/services/web`, `/services/software`, and `/services/ai`
+on the immersive `.tw-world` system (`ImmersiveShell` + `SiteHeader`/`SiteFooter`
++ shared primitives). URLs unchanged; `src/data/services.ts` remains the factual
+source (copy preserved).
+
+- `/services`: reframed as a **diagnosis tool, not a second homepage** — hero →
+  `ProblemNavigator` (the core friction-to-discipline tool, kept keyboard-
+  operable with its testids) → compact three-service directory (`#service-{id}`
+  anchors) → delivery spine → CTA.
+- `/services/{web,software,ai}`: 9-section immersive detail — hero, business
+  friction, transformation, **interactive proof object**, capabilities, delivery
+  model, real related work, FAQ, CTA. Each service leads with its own scene
+  accent (web=acid, software=orange, ai=violet).
+- Proof objects reused from the homepage set: web → `WebsiteProof`, software →
+  `OperationsConsoleDemo` (until a real custom-software case exists), ai →
+  `AutomationFlowDemo`. Web links strongly to both real case studies; software/
+  ai use an honest "our published work is web" fallback (no fabricated cases).
+- AI page makes the control model explicit next to the flow: deterministic rules
+  first, bounded AI judgment, human review, tool integrations, traceability.
+- `FAQSection` and `PrimaryCTA` restyled for the dark world; `PrimaryCTA` pills
+  now meet the 44px tap target (WCAG 2.5.5). Retired `ServiceMotion` and
+  `ServiceMotif` (static-first). Updated `services-experience.spec.ts` and the
+  `/services` assertion in `launch-accessibility.spec.ts`.
+- Verification: lint clean, `next build` passes (19 routes), 13/13 unit; e2e —
+  services (13) + launch + work + home specs green; full suite run.
+- Also realigned `home-experience.spec.ts`, which still asserted the retired
+  Kinetic homepage (marquee header, old h1, `data-home-*` service loops) and had
+  been failing since the homepage was migrated to the immersive system. Rewrote
+  it against the immersive home (hero, four proof chapters, real selected work,
+  operating model, contact CTAs; reduced-motion + no-JS + responsive).
+
+---
+
+## 2026-08-30 — Migrate proof-heavy routes to the immersive system
+
+Rebuilt `/work`, `/work/aaskra-realty`, and `/work/express-trade-financing` on
+the immersive `.tw-world` design system (`ImmersiveShell` + `SiteHeader`/
+`SiteFooter` + shared primitives), matching the migrated homepage. Content is
+unchanged — all facts, scope, timelines, stacks, and real screenshots
+(`/work/*.webp`) are preserved from `src/data/case-studies.ts`.
+
+- `/work`: leads with two visually dominant real client case studies (each with
+  its own signal accent), delivery totals derived from real data, then a clearly
+  separated, labelled **Concept Lab** (self-initiated) with the three live HTML
+  previews retained; how-we-work + CTA close the page.
+- `/work/[slug]`: cinematic evidence page — hero, project facts, problem +
+  constraints, key decisions, delivered scope + full-page build imagery, result,
+  stack, next case study, project CTA. Per-case accent: AASKRA → apps/orange,
+  Express → build/blue (scene glow matches).
+- New: `FeaturedWork.tsx`, `case-accent.ts`; retired `WorkGrid.tsx`,
+  `WorkMotion.tsx` (static-first, no GSAP on these routes). `ConceptLab.tsx` and
+  `LiveConceptPreview.tsx` kept; restyled for the dark world.
+- Tests: rewrote `work-page.spec.ts` and `case-study-editorial.spec.ts` for the
+  new structure (kept all factual/behavioral contracts — concept previews,
+  live-site rules, scroller region, next link); patched the `/work` portion of
+  `launch-accessibility.spec.ts`.
+- Verification: lint clean, `next build` passes (19 routes), 13/13 unit; e2e —
+  work-page + case-study + launch-{accessibility,performance,smoke} + responsive
+  (117 no-overflow) all green.
+
+---
+
 ## 2026-08-04 — Pre-deploy final check + Vercel runbook
 
 - Ran full verification: lint clean, `next build` passes (19 Static/SSG routes),

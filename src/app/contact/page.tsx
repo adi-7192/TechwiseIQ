@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
-import { ScrollAnimator } from '@/components/ui'
-import { BOOKING_URL } from '@/lib/site'
+import ImmersiveShell from '@/components/immersive/ImmersiveShell'
+import SectionLabel from '@/components/immersive/primitives/SectionLabel'
+import SiteFooter from '@/components/global/SiteFooter'
+import SiteHeader from '@/components/global/SiteHeader'
+import { BOOKING_URL, CONTACT_EMAIL, WHATSAPP_URL } from '@/lib/site'
 import { socialMetadata } from '@/lib/metadata'
 import ContactForm from './ContactForm'
 import styles from './contact.module.css'
@@ -22,17 +23,16 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <>
-      <ScrollAnimator />
-      <Nav />
-      <main data-contact-page>
+    <ImmersiveShell scene="advisory">
+      <SiteHeader />
+      <main id="main" data-contact-page>
         <section className={styles.hero}>
-          <div className="wrap">
-            <span className={styles.label}>Get in touch</span>
-            <h1 className={styles.title} data-animate="slide-up">
+          <div className="tw-wrap">
+            <SectionLabel>Get in touch / Dubai · Worldwide</SectionLabel>
+            <h1 className={styles.title}>
               Let&apos;s <span className={styles.titleAccent}>talk.</span>
             </h1>
-            <p className={styles.intro} data-animate="slide-up">
+            <p className={styles.intro}>
               Tell us what&apos;s slowing you down. We&apos;ll reply with scope,
               timeline, and cost &mdash; in writing, within 24 hours.
             </p>
@@ -40,16 +40,16 @@ export default function ContactPage() {
         </section>
 
         <section>
-          <div className="wrap">
+          <div className="tw-wrap">
             <div className={styles.grid}>
-              <div data-animate="slide-up">
+              <div>
                 <ContactForm />
               </div>
 
-              <aside className={styles.sidebar} data-animate="slide-up">
+              <aside className={styles.sidebar}>
                 <p className={styles.sideLabel}>Or reach out directly</p>
                 <div className={styles.contactMethods}>
-                  <a href="mailto:Info@techwiseiqtechnologies.ae" className={styles.method}>
+                  <a href={`mailto:${CONTACT_EMAIL}`} className={styles.method}>
                     <span className={styles.methodTitle}>
                       Email <span className={styles.methodArrow}>&rarr;</span>
                     </span>
@@ -60,7 +60,7 @@ export default function ContactPage() {
                     </span>
                   </a>
                   <a
-                    href="https://wa.me/971567760667"
+                    href={WHATSAPP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.method}
@@ -102,7 +102,7 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
-      <Footer />
-    </>
+      <SiteFooter />
+    </ImmersiveShell>
   )
 }

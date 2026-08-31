@@ -23,9 +23,9 @@ const CASES = [
   },
 ] as const
 
-test.describe('Editorial Kinetic case studies', () => {
+test.describe('Immersive case studies', () => {
   for (const caseStudy of CASES) {
-    test(`${caseStudy.title} renders the approved editorial story`, async ({
+    test(`${caseStudy.title} renders the full evidence page`, async ({
       page,
     }) => {
       await page.emulateMedia({ reducedMotion: 'reduce' })
@@ -37,16 +37,17 @@ test.describe('Editorial Kinetic case studies', () => {
         page.getByRole('heading', { level: 1, name: caseStudy.title }),
       ).toHaveCount(1)
 
+      // Project facts preserved.
+      await expect(page.getByText('Client', { exact: true })).toBeVisible()
+      await expect(page.getByText('Timeline', { exact: true })).toBeVisible()
+
       const proof = page.getByTestId('case-study-proof')
       for (const value of caseStudy.proof) {
         await expect(proof.getByText(value, { exact: true })).toBeVisible()
       }
 
       await expect(
-        page.getByRole('heading', {
-          level: 2,
-          name: caseStudy.storyTitle,
-        }),
+        page.getByRole('heading', { level: 2, name: caseStudy.storyTitle }),
       ).toBeVisible()
       await expect(
         page.getByTestId('case-study-decisions').getByRole('listitem'),
@@ -76,30 +77,26 @@ test.describe('Editorial Kinetic case studies', () => {
     })
   }
 
-  test('uses the approved Kinetic chapter treatments on desktop', async ({
-    page,
-  }) => {
+  test('gives each case study its own accent treatment', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    await page.goto('/work/aaskra-realty')
 
-    const experience = page.getByTestId('case-study-experience')
-    const hero = experience.locator('section').first()
-    expect((await hero.boundingBox())!.height).toBeGreaterThanOrEqual(895)
-    await expect(
-      page.getByRole('heading', { level: 1, name: 'AASKRA Realty' }),
-    ).toHaveCSS('font-family', /Anton/)
+    // AASKRA — apps/orange signal.
+    await page.goto('/work/aaskra-realty')
     await expect(page.getByText('01 / The challenge')).toHaveCSS(
       'color',
-      'rgb(154, 154, 146)',
+      'rgb(255, 101, 64)',
     )
-    await expect(page.getByTestId('case-study-system')).toHaveCSS(
-      'background-color',
-      'rgb(255, 208, 47)',
+
+    // Express Trade Financing — build/blue signal.
+    await page.goto('/work/express-trade-financing')
+    await expect(page.getByText('01 / The challenge')).toHaveCSS(
+      'color',
+      'rgb(112, 168, 255)',
     )
   })
 
-  test('turns the proof and editorial grids into a deliberate mobile story', async ({
+  test('keeps the proof and editorial grids inside a mobile viewport', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
@@ -107,13 +104,7 @@ test.describe('Editorial Kinetic case studies', () => {
     await page.goto('/work/express-trade-financing')
     await page.evaluate(() => document.fonts.ready)
 
-    const hero = page
-      .getByTestId('case-study-experience')
-      .locator('section')
-      .first()
-    expect((await hero.boundingBox())!.height).toBeGreaterThanOrEqual(839)
-
-    const proofItems = page.getByTestId('case-study-proof').locator('div')
+    const proofItems = page.getByTestId('case-study-proof').locator('> div')
     const first = await proofItems.nth(0).boundingBox()
     const second = await proofItems.nth(1).boundingBox()
     expect(first).not.toBeNull()

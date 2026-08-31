@@ -1,18 +1,20 @@
+import type { CSSProperties } from 'react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
-import CTASection from '@/components/CTASection'
-import { ScrollAnimator } from '@/components/ui'
+import ImmersiveShell from '@/components/immersive/ImmersiveShell'
+import { SiteHeader, SiteFooter } from '@/components/global'
+import PrimaryCTA from '@/components/ui/PrimaryCTA'
 import {
   CASE_STUDIES,
   SERVICE_LABELS,
   getCaseStudy,
   getNextCaseStudy,
 } from '@/data/case-studies'
+import { BOOKING_URL, WHATSAPP_URL } from '@/lib/site'
 import { socialMetadata } from '@/lib/metadata'
+import { CASE_ACCENT, CASE_SCENE } from '../case-accent'
 import styles from './case-study.module.css'
 
 interface Props {
@@ -29,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!cs) return {}
 
   return {
-    title: `${cs.title} \u2014 ${cs.outcome}`,
+    title: `${cs.title} — ${cs.outcome}`,
     description: cs.problem,
     alternates: { canonical: `/work/${cs.slug}` },
     ...socialMetadata({
@@ -45,6 +47,11 @@ export default async function CaseStudyPage({ params }: Props) {
   const cs = getCaseStudy(slug)
   if (!cs) notFound()
   const nextCaseStudy = getNextCaseStudy(slug)
+  const scene = CASE_SCENE[cs.slug] ?? 'web'
+  // The case accent may differ from the scene's default signal colour.
+  const accentStyle = {
+    '--tw-accent': `var(--tw-${CASE_ACCENT[cs.slug] ?? 'acid'})`,
+  } as CSSProperties
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
@@ -66,19 +73,21 @@ export default async function CaseStudyPage({ params }: Props) {
   }
 
   return (
-    <>
+    <ImmersiveShell scene={scene}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <ScrollAnimator />
-      <Nav />
+      <SiteHeader />
       <main
+        id="main"
         className={styles.experience}
+        style={accentStyle}
         data-testid="case-study-experience"
       >
-        <section className={styles.hero} data-ghost="PROOF">
-          <div className={styles.heroInner}>
+        {/* Hero */}
+        <section className={styles.hero}>
+          <div className={styles.wrap}>
             <div className={styles.breadcrumb}>
               <Link href="/work" className={styles.back}>
                 Work
@@ -97,23 +106,51 @@ export default async function CaseStudyPage({ params }: Props) {
           </div>
         </section>
 
+        {/* Project facts */}
+        <section className={styles.facts} aria-label="Project facts">
+          <div className={styles.wrap}>
+            <dl className={styles.factsGrid}>
+              <div className={styles.factItem}>
+                <dt>Client</dt>
+                <dd>{cs.client}</dd>
+              </div>
+              <div className={styles.factItem}>
+                <dt>Industry</dt>
+                <dd>{cs.industry}</dd>
+              </div>
+              <div className={styles.factItem}>
+                <dt>Service</dt>
+                <dd>{SERVICE_LABELS[cs.service]}</dd>
+              </div>
+              <div className={styles.factItem}>
+                <dt>Timeline</dt>
+                <dd>{cs.timeline}</dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        {/* Proof band */}
         {cs.stats && cs.stats.length > 0 && (
           <section className={styles.proofBand} aria-label="Project proof">
-            <dl className={styles.proofGrid} data-testid="case-study-proof">
-              {cs.stats.map((stat) => (
-                <div key={stat.label} className={styles.proofItem}>
-                  <dt>{stat.label}</dt>
-                  <dd>{stat.value}</dd>
-                </div>
-              ))}
-            </dl>
+            <div className={styles.wrap}>
+              <dl className={styles.proofGrid} data-testid="case-study-proof">
+                {cs.stats.map((stat) => (
+                  <div key={stat.label} className={styles.proofItem}>
+                    <dt>{stat.label}</dt>
+                    <dd>{stat.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           </section>
         )}
 
+        {/* Hero artifact — real cover imagery */}
         {cs.coverImage && (
           <section className={styles.visualChapter}>
-            <div className="wrap">
-              <div className={styles.coverFrame} data-animate="slide-up">
+            <div className={styles.wrap}>
+              <div className={styles.coverFrame}>
                 <Image
                   src={cs.coverImage}
                   alt={`${cs.title} homepage screenshot`}
@@ -132,37 +169,36 @@ export default async function CaseStudyPage({ params }: Props) {
           </section>
         )}
 
-        <section className={styles.challengeChapter}>
-          <div className={styles.chapterGrid}>
-            <div data-animate="slide-up">
-              <p className={styles.darkLabel}>01 / The challenge</p>
-              <h2>{cs.storyTitle}</h2>
-            </div>
-            <div className={styles.challengeCopy} data-animate="slide-up">
-              <article>
-                <h3>The problem</h3>
-                <p>{cs.problem}</p>
-              </article>
-              <article>
-                <h3>The constraint</h3>
-                <p>{cs.constraints}</p>
-              </article>
+        {/* Problem + constraints */}
+        <section className={styles.chapter}>
+          <div className={styles.wrap}>
+            <div className={styles.challengeGrid}>
+              <div>
+                <p className={styles.sectionLabel}>01 / The challenge</p>
+                <h2>{cs.storyTitle}</h2>
+              </div>
+              <div className={styles.challengeCopy}>
+                <article>
+                  <h3>The problem</h3>
+                  <p>{cs.problem}</p>
+                </article>
+                <article>
+                  <h3>The constraint</h3>
+                  <p>{cs.constraints}</p>
+                </article>
+              </div>
             </div>
           </div>
         </section>
 
-        <section className={styles.decisionsChapter}>
-          <div className="wrap">
+        {/* Key decisions */}
+        <section className={styles.chapter}>
+          <div className={styles.wrap}>
             <p className={styles.sectionLabel}>02 / The decisions</p>
-            <h2 className={styles.sectionTitle} data-animate="slide-up">
+            <h2 className={styles.sectionTitle}>
               What moved the work <span>forward.</span>
             </h2>
-            <ol
-              className={styles.decisionList}
-              data-testid="case-study-decisions"
-              data-animate="slide-up"
-              data-stagger="0.08"
-            >
+            <ol className={styles.decisionList} data-testid="case-study-decisions">
               {cs.decisions.map((decision, index) => (
                 <li key={decision.title}>
                   <span>{String(index + 1).padStart(2, '0')}</span>
@@ -174,21 +210,16 @@ export default async function CaseStudyPage({ params }: Props) {
           </div>
         </section>
 
-        <section
-          className={styles.systemChapter}
-          data-testid="case-study-system"
-        >
-          <div className="wrap">
+        {/* Delivered scope + full build imagery */}
+        <section className={styles.chapter} data-testid="case-study-system">
+          <div className={styles.wrap}>
             <p className={styles.sectionLabel}>03 / The shipped system</p>
-            <h2 className={styles.sectionTitle} data-animate="slide-up">
+            <h2 className={styles.sectionTitle}>
               One launch. <span>Every layer.</span>
             </h2>
             <div className={styles.systemGrid}>
               <div>
-                <ul
-                  className={styles.deliverableCloud}
-                  data-animate="slide-up"
-                >
+                <ul className={styles.deliverableCloud}>
                   {cs.deliverables.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -206,7 +237,7 @@ export default async function CaseStudyPage({ params }: Props) {
                 )}
               </div>
               {cs.fullPageImage && (
-                <div className={styles.browserFrame} data-animate="slide-up">
+                <div className={styles.browserFrame}>
                   <p>Full-page build / Scroll inside the frame ↓</p>
                   <div
                     className={styles.fullFrame}
@@ -219,7 +250,7 @@ export default async function CaseStudyPage({ params }: Props) {
                       alt={`Full-page screenshot of the ${cs.title} website`}
                       width={cs.fullPageImage.width}
                       height={cs.fullPageImage.height}
-                      sizes="(max-width: 1024px) 92vw, 56vw"
+                      sizes="(max-width: 880px) 92vw, 48vw"
                       className={styles.fullImg}
                     />
                   </div>
@@ -229,34 +260,38 @@ export default async function CaseStudyPage({ params }: Props) {
           </div>
         </section>
 
-        <section className={styles.resultChapter}>
-          <div className={styles.resultGrid}>
-            <div data-animate="slide-up">
-              <p className={styles.sectionLabel}>04 / The result</p>
-              <h2 className={styles.resultTitle}>
-                Credibility, <span>shipped.</span>
-              </h2>
-            </div>
-            <div data-animate="slide-up">
-              <p className={styles.resultCopy}>{cs.result}</p>
-              {cs.stats && (
-                <dl className={styles.resultStats}>
-                  {cs.stats.map((stat) => (
-                    <div key={stat.label}>
-                      <dt>{stat.label}</dt>
-                      <dd>{stat.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              )}
+        {/* Result */}
+        <section className={styles.chapter}>
+          <div className={styles.wrap}>
+            <div className={styles.resultGrid}>
+              <div>
+                <p className={styles.sectionLabel}>04 / The result</p>
+                <h2 className={styles.resultTitle}>
+                  Credibility, <span>shipped.</span>
+                </h2>
+              </div>
+              <div>
+                <p className={styles.resultCopy}>{cs.result}</p>
+                {cs.stats && (
+                  <dl className={styles.resultStats}>
+                    {cs.stats.map((stat) => (
+                      <div key={stat.label}>
+                        <dt>{stat.label}</dt>
+                        <dd>{stat.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+              </div>
             </div>
           </div>
         </section>
 
-        <section className={styles.stackChapter}>
-          <div className="wrap">
+        {/* Technology / stack */}
+        <section className={styles.chapter}>
+          <div className={styles.wrap}>
             <p className={styles.sectionLabel}>Built with</p>
-            <div className={styles.stackList} data-animate="slide-up">
+            <div className={styles.stackList}>
               {cs.stack.map((tech) => (
                 <span key={tech}>{tech}</span>
               ))}
@@ -264,9 +299,10 @@ export default async function CaseStudyPage({ params }: Props) {
           </div>
         </section>
 
+        {/* Next case study */}
         {nextCaseStudy && (
-          <section className={styles.nextChapter} data-ghost="NEXT">
-            <div className={styles.nextInner}>
+          <section className={styles.nextChapter}>
+            <div className={styles.wrap}>
               <p>Continue exploring</p>
               <h2>{nextCaseStudy.title}</h2>
               <Link
@@ -280,9 +316,33 @@ export default async function CaseStudyPage({ params }: Props) {
           </section>
         )}
 
-        <CTASection />
+        {/* Project CTA */}
+        <section className={styles.ctaChapter}>
+          <div className={styles.wrap}>
+            <div className={styles.ctaInner}>
+              <p className={styles.sectionLabel}>Start a project like this</p>
+              <h2 className={styles.ctaTitle}>Bring us the problem.</h2>
+              <p className={styles.ctaBody}>
+                Send the underperforming website, the manual workflow or the tool
+                idea nobody has framed properly yet. We&apos;ll tell you how we
+                would approach it.
+              </p>
+              <div className={styles.ctaActions}>
+                <PrimaryCTA href="/contact" variant="primary">
+                  Start a project
+                </PrimaryCTA>
+                <PrimaryCTA href={WHATSAPP_URL} variant="secondary">
+                  WhatsApp
+                </PrimaryCTA>
+                <PrimaryCTA href={BOOKING_URL} variant="ghost">
+                  Book a 20-minute call
+                </PrimaryCTA>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-      <Footer />
-    </>
+      <SiteFooter />
+    </ImmersiveShell>
   )
 }

@@ -28,7 +28,7 @@ export default function Error({
     >
       <p
         style={{
-          fontFamily: 'var(--font-anton)',
+          fontFamily: 'var(--font-display)',
           fontSize: 'clamp(64px, 12vw, 140px)',
           lineHeight: 1,
           color: 'var(--hot)',

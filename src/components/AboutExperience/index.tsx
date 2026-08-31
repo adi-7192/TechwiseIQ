@@ -1,9 +1,12 @@
+import Section from '@/components/immersive/primitives/Section'
+import SectionLabel from '@/components/immersive/primitives/SectionLabel'
+import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
+import PrimaryCTA from '@/components/ui/PrimaryCTA'
 import { BOOKING_URL } from '@/lib/site'
-import AboutMotion from './AboutMotion'
 import {
-  ABOUT_PROBLEMS,
   CULTURE_PRINCIPLES,
   EXPERTISE_PATHS,
+  WORKING_MODEL,
 } from './about-content'
 import styles from './AboutExperience.module.css'
 
@@ -14,114 +17,145 @@ export default function AboutExperience() {
       data-about-experience
       data-testid="about-experience"
     >
-      <AboutMotion />
-
-      <section className={styles.hero} data-about-hero>
-        <div className={styles.heroStage}>
-          <ul
-            className="sr-only"
-            aria-label="Business bottlenecks we help resolve"
+      <Section
+        as="section"
+        density="sparse"
+        className={styles.hero}
+        innerClassName={styles.heroInner}
+        data-scene="advisory"
+        aria-labelledby="about-title"
+      >
+        <div className={styles.heroCopy}>
+          <SectionLabel>About Techwise IQ / Dubai</SectionLabel>
+          <DisplayHeading
+            as="h1"
+            id="about-title"
+            size="hero"
+            className={styles.heroTitle}
           >
-            {ABOUT_PROBLEMS.map((problem) => (
-              <li key={problem}>{problem}</li>
-            ))}
-          </ul>
-          <div
-            className={styles.fragmentField}
-            data-about-fragment-field
-            aria-hidden="true"
-          >
-            {ABOUT_PROBLEMS.map((problem) => (
-              <span
-                className={styles.fragment}
-                data-about-fragment
-                key={problem}
-              >
-                {problem}
-              </span>
-            ))}
-          </div>
-          <div className={styles.heroContent}>
-            <p className={styles.sceneLabel}>About Techwise IQ / Dubai</p>
-            <h1 className={styles.heroTitle}>
-              We make complex <em>feel clear.</em>
-            </h1>
-            <p className={styles.heroBody}>
-              Techwise IQ turns business bottlenecks into websites, software
-              and AI systems that move the work forward. You bring the goal. We
-              own the technical path.
-            </p>
-            <span className={styles.scrollCue} aria-hidden="true">
-              Scroll to bring the pieces together ↓
-            </span>
-          </div>
+            We make complex <em>feel clear.</em>
+          </DisplayHeading>
         </div>
-      </section>
 
-      <section className={styles.expertise} data-about-expertise>
-        <div className={styles.inner}>
-          <p className={styles.sceneLabel}>What we bring to the problem</p>
-          <h2 className={styles.sectionTitle}>
-            Technology should make the business simpler—not give it more to
-            manage.
-          </h2>
-          <ol className={styles.pathList}>
-            {EXPERTISE_PATHS.map((path, index) => (
-              <li className={styles.path} data-about-path key={path.problem}>
-                <span className={styles.pathNumber} aria-hidden="true">
-                  0{index + 1}
-                </span>
-                <strong>{path.problem}</strong>
-                <span className={styles.pathArrow} aria-hidden="true">
-                  →
-                </span>
-                <p>{path.outcome}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className={styles.culture} data-about-culture>
-        <div className={styles.cultureStage}>
-          <div className={styles.cultureIntro}>
-            <p className={styles.sceneLabel}>
-              How we behave when the work gets real
-            </p>
-            <h2 className="sr-only">Our operating culture</h2>
-          </div>
-          <div className={styles.culturePanels} data-about-culture-panels>
-            {CULTURE_PRINCIPLES.map((principle, index) => (
-              <article
-                className={styles.culturePanel}
-                data-about-culture-panel
-                key={principle.title}
-              >
-                <span aria-hidden="true">0{index + 1}</span>
-                <h3>{principle.title}</h3>
-                <p>{principle.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.closing} data-about-closing>
-        <div className={styles.targetMotif} aria-hidden="true" />
-        <div className={styles.closingContent} data-about-closing-content>
-          <p className={styles.sceneLabel}>Dubai / Working beyond borders</p>
-          <h2 className={styles.closingTitle}>
-            Built in Dubai. <em>Working beyond borders.</em>
-          </h2>
-          <p className={styles.closingBody}>
-            Trusted by businesses in Dubai and beyond to turn important ideas
-            into working digital products.
+        <div className={styles.heroThesis}>
+          <p>
+            Techwise IQ turns business bottlenecks into websites, software,
+            and AI systems that move the work forward.
           </p>
-          <a className={styles.cta} href={BOOKING_URL}>
-            Bring us the business problem <span aria-hidden="true">→</span>
-          </a>
+          <p className={styles.heroPromise}>
+            You bring the goal. We own the technical path.
+          </p>
         </div>
-      </section>
+
+        <div className={styles.modelGrid} aria-label="How we work">
+          {WORKING_MODEL.map((item, index) => (
+            <article className={styles.modelCard} key={item.title}>
+              <span className={styles.index} aria-hidden="true">
+                0{index + 1}
+              </span>
+              <h2>{item.title}</h2>
+              <p>{item.body}</p>
+            </article>
+          ))}
+          <p className={styles.noRelay}>
+            One clear working relationship. No account-management relay.
+          </p>
+        </div>
+      </Section>
+
+      <Section
+        as="section"
+        ruled
+        density="dense"
+        className={styles.expertise}
+        aria-labelledby="about-expertise-title"
+      >
+        <div className={styles.sectionHead}>
+          <SectionLabel index="01">What we bring</SectionLabel>
+          <DisplayHeading
+            as="h2"
+            id="about-expertise-title"
+            size="statement"
+            className={styles.sectionTitle}
+          >
+            Technology should make the business simpler.
+          </DisplayHeading>
+          <p>Not give it more to manage.</p>
+        </div>
+
+        <ol className={styles.pathList}>
+          {EXPERTISE_PATHS.map((path, index) => (
+            <li className={styles.path} data-about-path key={path.problem}>
+              <span className={styles.index} aria-hidden="true">
+                0{index + 1}
+              </span>
+              <h3>{path.problem}</h3>
+              <span className={styles.pathArrow} aria-hidden="true">
+                →
+              </span>
+              <p>{path.outcome}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section
+        as="section"
+        ruled
+        density="sparse"
+        className={styles.culture}
+        aria-labelledby="about-culture-title"
+      >
+        <div className={styles.sectionHead}>
+          <SectionLabel index="02">How we behave</SectionLabel>
+          <DisplayHeading
+            as="h2"
+            id="about-culture-title"
+            size="statement"
+            className={styles.sectionTitle}
+          >
+            When the work gets <em>real.</em>
+          </DisplayHeading>
+        </div>
+
+        <div className={styles.principles}>
+          {CULTURE_PRINCIPLES.map((principle, index) => (
+            <article className={styles.principle} key={principle.title}>
+              <span className={styles.index} aria-hidden="true">
+                0{index + 1}
+              </span>
+              <h3>{principle.title}</h3>
+              <p>{principle.body}</p>
+            </article>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        as="section"
+        ruled
+        density="sparse"
+        className={styles.closing}
+        innerClassName={styles.closingInner}
+        aria-labelledby="about-closing-title"
+      >
+        <SectionLabel>Dubai / Working beyond borders</SectionLabel>
+        <DisplayHeading
+          as="h2"
+          id="about-closing-title"
+          size="statement"
+          className={styles.closingTitle}
+        >
+          Built in Dubai. <em>Working beyond borders.</em>
+        </DisplayHeading>
+        <p className={styles.closingBody}>
+          Trusted by businesses in Dubai and beyond to turn important ideas
+          into working digital products.
+        </p>
+        <PrimaryCTA href={BOOKING_URL} external>
+          Bring us the business problem
+        </PrimaryCTA>
+      </Section>
     </div>
   )
 }

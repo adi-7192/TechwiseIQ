@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
+import ImmersiveShell from '@/components/immersive/ImmersiveShell'
+import { SiteHeader, SiteFooter } from '@/components/global'
 import ServicesOverview from '@/components/ServicesOverview'
 import { socialMetadata } from '@/lib/metadata'
 
@@ -19,12 +19,12 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <>
-      <Nav />
-      <main>
+    <ImmersiveShell scene="intro">
+      <SiteHeader />
+      <main id="main">
         <ServicesOverview />
       </main>
-      <Footer />
-    </>
+      <SiteFooter />
+    </ImmersiveShell>
   )
 }

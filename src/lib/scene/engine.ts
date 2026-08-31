@@ -41,7 +41,7 @@ class SceneEngine {
   private pointMat!: THREE.PointsMaterial
   private wire!: THREE.Mesh
   private wireMat!: THREE.MeshBasicMaterial
-  private maxPoints = MAX_POINTS_DESKTOP
+  private pointLimit = MAX_POINTS_DESKTOP
 
   private state: EngineState
   private currentScene: SceneName = DEFAULT_SCENE
@@ -69,7 +69,7 @@ class SceneEngine {
     try {
       this.mobile =
         typeof window !== 'undefined' && window.matchMedia(MOBILE_QUERY).matches
-      this.maxPoints = this.mobile ? MAX_POINTS_MOBILE : MAX_POINTS_DESKTOP
+      this.pointLimit = this.mobile ? MAX_POINTS_MOBILE : MAX_POINTS_DESKTOP
       this.build(preset)
       this.supported = true
     } catch {
@@ -89,6 +89,7 @@ class SceneEngine {
 
     const canvas = this.renderer.domElement
     canvas.setAttribute('aria-hidden', 'true')
+    canvas.dataset.scene = DEFAULT_SCENE
     canvas.style.cssText =
       'position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block'
 
@@ -100,8 +101,10 @@ class SceneEngine {
     this.scene.add(this.group)
 
     // Point field distributed on a spherical shell.
-    const pos = new Float32Array(this.maxPoints * 3)
-    for (let i = 0; i < this.maxPoints; i++) {
+    // Keep one small desktop-capacity buffer so orientation/responsive changes
+    // can raise or lower the draw range without reallocating the point field.
+    const pos = new Float32Array(MAX_POINTS_DESKTOP * 3)
+    for (let i = 0; i < MAX_POINTS_DESKTOP; i++) {
       const a = Math.random() * Math.PI * 2
       const b = Math.acos(2 * Math.random() - 1)
       const r = 2.1 + Math.random() * 2.9
@@ -123,7 +126,7 @@ class SceneEngine {
     this.group.add(this.points)
 
     // One abstract wireframe generative form.
-    const knotGeo = new THREE.TorusKnotGeometry(1.5, 0.28, this.mobile ? 90 : 140, 12, 2, 3)
+    const knotGeo = this.createWireGeometry()
     this.wireMat = new THREE.MeshBasicMaterial({
       color: this.state.wireColor.clone(),
       wireframe: true,
@@ -134,18 +137,53 @@ class SceneEngine {
     this.group.add(this.wire)
 
     this.applyDensity(preset)
+    this.publishBudget()
+  }
+
+  private createWireGeometry() {
+    return new THREE.TorusKnotGeometry(
+      1.5,
+      0.28,
+      this.mobile ? 90 : 140,
+      12,
+      2,
+      3,
+    )
   }
 
   private applyPixelRatio() {
     const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1
     // Cap at 1.5; drop to 1 on constrained mobile.
     const cap = this.mobile ? 1 : 1.5
-    this.renderer.setPixelRatio(Math.min(dpr, cap))
+    const ratio = Math.min(dpr, cap)
+    this.renderer.setPixelRatio(ratio)
+    this.renderer.domElement.dataset.pixelRatio = String(ratio)
   }
 
   private applyDensity(preset: ScenePreset) {
-    const count = Math.floor(this.maxPoints * preset.particleDensity)
+    const count = Math.floor(this.pointLimit * preset.particleDensity)
     this.points.geometry.setDrawRange(0, count)
+    this.renderer.domElement.dataset.pointLimit = String(this.pointLimit)
+    this.renderer.domElement.dataset.pointCount = String(count)
+  }
+
+  private publishBudget() {
+    const canvas = this.renderer.domElement
+    canvas.dataset.mobile = String(this.mobile)
+    canvas.dataset.targetFps = String(this.mobile ? 30 : 60)
+    canvas.dataset.animationRunning = String(this.running)
+  }
+
+  private updateResponsiveBudget() {
+    const mobile = window.matchMedia(MOBILE_QUERY).matches
+    if (mobile === this.mobile) return
+    this.mobile = mobile
+    this.pointLimit = mobile ? MAX_POINTS_MOBILE : MAX_POINTS_DESKTOP
+    this.pointMat.size = mobile ? 0.03 : 0.026
+    this.wire.geometry.dispose()
+    this.wire.geometry = this.createWireGeometry()
+    this.applyDensity(this.state.target)
+    this.publishBudget()
   }
 
   private sizeToViewport() {
@@ -190,6 +228,7 @@ class SceneEngine {
   }
 
   setScene(name: SceneName) {
+    this.renderer.domElement.dataset.scene = name
     if (name === this.currentScene) return
     this.currentScene = name
     const preset = SCENE_PRESETS[name]
@@ -205,7 +244,9 @@ class SceneEngine {
     window.addEventListener('scroll', this.onScroll, { passive: true })
     document.addEventListener('visibilitychange', this.onVisibility)
     if (!this.reduced && !this.mobile) {
-      window.addEventListener('pointermove', this.onPointerMove, { passive: true })
+      window.addEventListener('pointermove', this.onPointerMove, {
+        passive: true,
+      })
     }
     this.listening = true
     this.onScroll()
@@ -221,6 +262,7 @@ class SceneEngine {
   }
 
   private onResize = () => {
+    this.updateResponsiveBudget()
     this.applyPixelRatio()
     this.sizeToViewport()
     if (this.reduced) this.renderStaticFrame()
@@ -249,9 +291,14 @@ class SceneEngine {
   private startLoop() {
     if (this.running || !this.supported) return
     this.running = true
+    this.renderer.domElement.dataset.animationRunning = 'true'
     this.lastTime = performance.now()
     const tick = (now: number) => {
       if (!this.running) return
+      if (this.mobile && now - this.lastTime < 1000 / 30) {
+        this.rafId = requestAnimationFrame(tick)
+        return
+      }
       this.frame(now)
       this.rafId = requestAnimationFrame(tick)
     }
@@ -260,6 +307,9 @@ class SceneEngine {
 
   private stopLoop() {
     this.running = false
+    if (this.supported) {
+      this.renderer.domElement.dataset.animationRunning = 'false'
+    }
     if (this.rafId != null) {
       cancelAnimationFrame(this.rafId)
       this.rafId = null
@@ -282,7 +332,8 @@ class SceneEngine {
 
     // Ambient movement.
     this.group.rotation.y += dt * 0.05
-    this.group.rotation.x = Math.sin(now * 0.00012) * 0.15 + this.pointer.y * 0.1
+    this.group.rotation.x =
+      Math.sin(now * 0.00012) * 0.15 + this.pointer.y * 0.1
     this.wire.rotation.x = now * 0.00006
     this.wire.rotation.z = now * 0.00009
 
@@ -293,8 +344,10 @@ class SceneEngine {
     // Pointer camera offset.
     this.pointer.x += (this.pointerTarget.x - this.pointer.x) * 0.05
     this.pointer.y += (this.pointerTarget.y - this.pointer.y) * 0.05
-    this.camera.position.x += (this.pointer.x * 0.34 - this.camera.position.x) * 0.03
-    this.camera.position.y += (-this.pointer.y * 0.22 - this.camera.position.y) * 0.03
+    this.camera.position.x +=
+      (this.pointer.x * 0.34 - this.camera.position.x) * 0.03
+    this.camera.position.y +=
+      (-this.pointer.y * 0.22 - this.camera.position.y) * 0.03
     this.camera.lookAt(0, 0, 0)
 
     this.renderer.render(this.scene, this.camera)

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { getSceneEngine } from '@/lib/scene/engine'
-import { DEFAULT_SCENE, resolveSceneName } from '@/lib/scene/presets'
+import { resolveSceneName } from '@/lib/scene/presets'
 
 /**
  * Controller for the persistent WebGL atmosphere. Mounts the shared canvas
@@ -14,7 +14,11 @@ import { DEFAULT_SCENE, resolveSceneName } from '@/lib/scene/presets'
  * leaving the CSS radial atmosphere as the working fallback. All meaningful
  * content stays in the DOM; this layer is decorative and `aria-hidden`.
  */
-export default function PersistentScene() {
+export default function PersistentScene({
+  initialScene,
+}: {
+  initialScene?: string
+}) {
   const mountRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -23,7 +27,7 @@ export default function PersistentScene() {
     if (!engine || !mount) return
 
     engine.attach(mount)
-    engine.setScene(DEFAULT_SCENE)
+    engine.setScene(resolveSceneName(initialScene))
 
     // Publish active scene from chapter markers (exclude the world root, which
     // always intersects). Whichever marker crosses the viewport middle wins.
@@ -35,7 +39,9 @@ export default function PersistentScene() {
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            engine.setScene(resolveSceneName(entry.target.getAttribute('data-scene')))
+            engine.setScene(
+              resolveSceneName(entry.target.getAttribute('data-scene')),
+            )
           }
         }
       },
@@ -47,7 +53,7 @@ export default function PersistentScene() {
       observer.disconnect()
       engine.detach(mount)
     }
-  }, [])
+  }, [initialScene])
 
-  return <div ref={mountRef} aria-hidden="true" />
+  return <div ref={mountRef} data-persistent-scene aria-hidden="true" />
 }

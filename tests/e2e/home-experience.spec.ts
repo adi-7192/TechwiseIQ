@@ -1,236 +1,224 @@
 import { expect, test } from '@playwright/test'
 
-test('keeps the hero and replaces the below-hero story', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/')
+/**
+ * The immersive homepage: a persistent-scene hero, four capability chapters
+ * (each with a static, interactive proof object), real selected work, the
+ * operating model, and a final CTA. Static-first with progressive motion, so
+ * the full experience remains present under reduced motion and without JavaScript.
+ */
 
-  await expect(
-    page.locator('header').first().locator('.marquee-track'),
-  ).toHaveCount(3)
-  await expect(page.getByRole('heading', { level: 1 })).toContainText(
-    'Techwise IQ — the AI-first engineering agency.',
-  )
+test.describe('Immersive homepage', () => {
+  test('renders the hero and four capability chapters', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/')
+    const main = page.locator('main#main')
 
-  const experience = page.getByTestId('home-experience')
-  await expect(experience).toBeVisible()
-  await expect(
-    experience.getByRole('heading', {
-      name: /shouldn.t feel this manual/i,
-    }),
-  ).toBeVisible()
+    // Hero — the single page h1 and both hero CTAs.
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'moves the work.',
+    )
+    await expect(
+      main.getByRole('link', { name: /Bring us the bottleneck/i }),
+    ).toHaveAttribute('href', '/contact')
+    await expect(
+      main.getByRole('link', { name: 'See the work' }),
+    ).toHaveAttribute('href', '/work')
 
-  const serviceLinks = [
-    ['Web Development', '/services/web'],
-    ['Custom Software', '/services/software'],
-    ['AI Automation', '/services/ai'],
-  ] as const
+    // Studio framing statement.
+    await expect(
+      main.getByRole('heading', { name: /business friction\./i }),
+    ).toBeVisible()
 
-  for (const [name, path] of serviceLinks) {
-    const link = experience.getByRole('link', {
-      name: new RegExp(`Explore ${name}`, 'i'),
-    })
-    await expect(link).toHaveAttribute('href', path)
-  }
+    // Four capability chapters, each linking to the right service page.
+    const chapters = [
+      {
+        id: '#websites',
+        link: 'Explore web development',
+        href: '/services/web',
+      },
+      {
+        id: '#automation',
+        link: 'Explore AI automation',
+        href: '/services/ai',
+      },
+      {
+        id: '#apps',
+        link: 'Explore custom software',
+        href: '/services/software',
+      },
+      { id: '#advisory', link: 'Explore AI services', href: '/services/ai' },
+    ] as const
 
-  await expect(
-    experience.getByText('Fixed scope', { exact: true }),
-  ).toBeVisible()
-  await expect(
-    experience.getByText('Weekly demos', { exact: true }),
-  ).toBeVisible()
-  await expect(
-    experience.getByRole('link', { name: /book a call/i }),
-  ).toHaveAttribute('href', /wa\.me\/971567760667/)
-  await expect(
-    experience.getByRole('link', { name: /whatsapp/i }),
-  ).toHaveAttribute('href', 'https://wa.me/971567760667')
-  await expect(
-    experience.getByRole('link', { name: /enquiry/i }),
-  ).toHaveAttribute('href', '/contact')
+    for (const chapter of chapters) {
+      await expect(main.locator(chapter.id)).toBeVisible()
+      await expect(
+        main.getByRole('link', { name: chapter.link }),
+      ).toHaveAttribute('href', chapter.href)
+    }
 
-  await expect(
-    experience.getByText('Selected work', { exact: true }),
-  ).toHaveCount(0)
-  await expect(experience.getByTestId('home-proof')).toHaveCount(0)
-})
+    // Each chapter carries one honest, illustrative proof object.
+    await expect(main.getByText('Illustrative', { exact: true })).toHaveCount(4)
+  })
 
-test('renders distinct software and AI service illustrations', async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/')
-
-  const experience = page.getByTestId('home-experience')
-  const software = experience.locator('[data-home-software-dashboard]')
-  const automation = experience.locator('[data-home-ai-orchestration]')
-
-  await expect(software).toBeVisible()
-  await expect(software.locator('[data-home-software-status]')).toHaveCount(3)
-  await expect(software.locator('[data-home-software-cursor]')).toHaveCount(1)
-
-  await expect(automation).toBeVisible()
-  await expect(automation.locator('[data-home-ai-input]')).toHaveCount(3)
-  await expect(automation.locator('[data-home-ai-output]')).toHaveCount(3)
-  await expect(automation.locator('[data-home-ai-core]')).toHaveCount(1)
-  await expect(automation.locator('[data-home-ai-signal]')).toHaveCount(1)
-
-  await expect(experience.locator('[data-home-system-node]')).toHaveCount(0)
-  await expect(experience.locator('[data-home-system-core]')).toHaveCount(0)
-  await expect(experience.locator('[data-home-ai-review]')).toHaveCount(0)
-  await expect(experience.locator('[data-home-ai-result]')).toHaveCount(0)
-})
-
-test('keeps service illustrations complete without JavaScript', async ({
-  browser,
-}) => {
-  const context = await browser.newContext({ javaScriptEnabled: false })
-  const page = await context.newPage()
-  await page.goto('/')
-
-  await expect(page.locator('[data-home-software-dashboard]')).toBeVisible()
-  await expect(page.locator('[data-home-ai-orchestration]')).toBeVisible()
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= window.innerWidth,
-    ),
-  ).toBe(true)
-
-  await context.close()
-})
-
-for (const viewport of [
-  { width: 375, height: 667 },
-  { width: 768, height: 900 },
-  { width: 1440, height: 1000 },
-]) {
-  test(`keeps the compact experience inside ${viewport.width}px`, async ({
+  test('keeps chapter navigation native, compact, and synchronized to scroll', async ({
     page,
   }) => {
-    await page.setViewportSize(viewport)
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.goto('/')
+
+    const nav = page.getByRole('navigation', { name: 'Page chapters' })
+    await expect(nav).toBeVisible()
+    await expect(nav.getByRole('link')).toHaveCount(5)
+    await expect(nav.getByRole('link', { name: 'Intro' })).toHaveAttribute(
+      'href',
+      '#top',
+    )
+    await expect(nav.getByRole('link', { name: 'Automation' })).toHaveAttribute(
+      'href',
+      '#automation',
+    )
+
+    await page.locator('#automation').scrollIntoViewIfNeeded()
+    await expect(nav.getByRole('link', { name: 'Automation' })).toHaveAttribute(
+      'aria-current',
+      'location',
+    )
+    expect(await page.evaluate(() => window.scrollX)).toBe(0)
+  })
+
+  test('removes enhanced motion when reduced motion is requested', async ({
+    page,
+  }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
 
-    const experience = page.getByTestId('home-experience')
-    await expect(experience).toBeVisible()
-    expect(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth <= window.innerWidth,
-      ),
-    ).toBe(true)
-
-    const ctas = experience.locator('[data-home-cta-link]')
-    await expect(ctas).toHaveCount(3)
-    for (const cta of await ctas.all()) {
-      const box = await cta.boundingBox()
-      expect(box).not.toBeNull()
-      expect(box!.height).toBeGreaterThanOrEqual(44)
-    }
-
-    const sections = experience.locator(':scope > section')
-    expect(await sections.count()).toBe(7)
-
-    await expect(experience.locator('[data-home-problem]')).toHaveCSS(
-      'background-color',
-      'rgb(16, 16, 16)',
+    await expect(page.locator('[data-home-experience]')).toHaveAttribute(
+      'data-home-motion',
+      'reduced',
     )
-    await expect(experience.locator('[data-home-service="software"]')).toHaveCSS(
-      'background-color',
-      'rgb(16, 16, 16)',
-    )
-    await expect(experience.locator('[data-home-service="ai"]')).toHaveCSS(
-      'background-color',
-      'rgb(255, 208, 47)',
-    )
-    await expect(sections.last()).toHaveCSS(
-      'background-color',
-      'rgb(255, 77, 0)',
-    )
-
-    const webCopy = experience
-      .locator('[data-home-service="web"] [data-home-reveal]')
-      .first()
-    const webVisual = experience.locator('[data-home-web-frame]')
-    const copyBox = await webCopy.boundingBox()
-    const visualBox = await webVisual.boundingBox()
-    expect(copyBox).not.toBeNull()
-    expect(visualBox).not.toBeNull()
-
-    if (viewport.width < 768) {
-      expect(copyBox!.y + copyBox!.height).toBeLessThanOrEqual(visualBox!.y)
-    } else {
-      expect(visualBox!.x).toBeGreaterThan(copyBox!.x)
-      expect(visualBox!.y).toBeLessThan(copyBox!.y + copyBox!.height)
-    }
+    await expect(page.locator('[data-home-reveal]').first()).toBeVisible()
   })
-}
 
-test('settles every reveal when reduced motion is requested', async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/')
+  test('leads with real work and the operating model', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await page.goto('/')
+    const main = page.locator('main#main')
 
-  const experience = page.getByTestId('home-experience')
-  await expect(experience).toHaveAttribute('data-motion', 'reduced')
+    await expect(
+      main.getByRole('heading', { name: 'Real projects, shipped.' }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('navigation', { name: 'Page chapters' }),
+    ).toBeVisible()
+    await expect(
+      main.getByRole('link', { name: /AASKRA Realty/ }).first(),
+    ).toHaveAttribute('href', '/work/aaskra-realty')
+    await expect(
+      main.getByRole('link', { name: /Express Trade Financing/ }).first(),
+    ).toHaveAttribute('href', '/work/express-trade-financing')
+    await expect(
+      main.getByRole('link', { name: 'See all work' }),
+    ).toHaveAttribute('href', '/work')
 
-  const unsettled = await experience.locator('[data-home-reveal]').evaluateAll(
-    (elements) =>
-      elements.filter((element) => {
-        const style = window.getComputedStyle(element)
-        return style.opacity !== '1' || style.transform !== 'none'
-      }).length,
-  )
-  expect(unsettled).toBe(0)
-})
+    // Operating model — the studio's four promises.
+    await expect(
+      main.getByRole('heading', { name: 'Small studio. Legible process.' }),
+    ).toBeVisible()
+    for (const promise of [
+      'Written scope',
+      'Weekly demos',
+      'Direct access',
+      'Clean ownership',
+    ]) {
+      await expect(main.getByText(promise, { exact: true })).toBeVisible()
+    }
 
-test('keeps service illustrations static when reduced motion is requested', async ({
-  page,
-}) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/')
+    // Final CTA preserves the real contact destinations.
+    await expect(
+      main.getByRole('link', { name: 'Start a project' }),
+    ).toHaveAttribute('href', '/contact')
+    await expect(main.getByRole('link', { name: 'WhatsApp' })).toHaveAttribute(
+      'href',
+      'https://wa.me/971567760667',
+    )
+    await expect(
+      main.getByRole('link', { name: /techwiseiqtechnologies\.ae/i }),
+    ).toHaveAttribute('href', /^mailto:/)
+  })
 
-  const softwareScene = page.locator('[data-home-service="software"]')
-  const aiScene = page.locator('[data-home-service="ai"]')
-
-  await expect(softwareScene).toHaveAttribute('data-loop-state', 'reduced')
-  await expect(aiScene).toHaveAttribute('data-loop-state', 'reduced')
-
-  for (const selector of [
-    '[data-home-software-dashboard]',
-    '[data-home-ai-orchestration]',
+  for (const viewport of [
+    { width: 375, height: 812 },
+    { width: 768, height: 1024 },
+    { width: 1440, height: 1000 },
   ]) {
-    const visual = page.locator(selector)
-    await expect(visual).toBeVisible()
-    await expect(visual).toHaveCSS('opacity', '1')
+    test(`stays inside the ${viewport.width}px viewport with accessible CTAs`, async ({
+      page,
+    }) => {
+      await page.setViewportSize(viewport)
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await page.goto('/')
+
+      const overflow = await page.evaluate(
+        () =>
+          document.documentElement.scrollWidth -
+          document.documentElement.clientWidth,
+      )
+      expect(overflow).toBeLessThanOrEqual(1)
+
+      // Hero pill CTAs meet the 44px tap target.
+      const heroCtas = page
+        .locator('main#main')
+        .getByRole('link', { name: /Bring us the bottleneck|See the work/ })
+      for (const cta of await heroCtas.all()) {
+        const box = await cta.boundingBox()
+        expect(box).not.toBeNull()
+        expect(box!.height).toBeGreaterThanOrEqual(44)
+        expect(box!.x).toBeGreaterThanOrEqual(0)
+        expect(box!.x + box!.width).toBeLessThanOrEqual(viewport.width + 1)
+      }
+
+      if (viewport.width === 375) {
+        const chapterNav = await page
+          .getByRole('navigation', { name: 'Page chapters' })
+          .boundingBox()
+        const whatsapp = await page
+          .getByRole('link', { name: /WhatsApp/i })
+          .last()
+          .boundingBox()
+        expect(chapterNav).not.toBeNull()
+        expect(whatsapp).not.toBeNull()
+        const controlsOverlap = !(
+          chapterNav!.x + chapterNav!.width <= whatsapp!.x ||
+          whatsapp!.x + whatsapp!.width <= chapterNav!.x ||
+          chapterNav!.y + chapterNav!.height <= whatsapp!.y ||
+          whatsapp!.y + whatsapp!.height <= chapterNav!.y
+        )
+        expect(controlsOverlap).toBe(false)
+      }
+    })
   }
-})
 
-test('reveals each scene as it enters the viewport', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.goto('/')
+  test('serves the critical experience without JavaScript', async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false })
+    const page = await context.newPage()
+    await page.goto('/')
+    const main = page.locator('main#main')
 
-  const experience = page.getByTestId('home-experience')
-  await expect(experience).toHaveAttribute('data-motion', 'active')
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+    await expect(main.locator('#websites')).toBeVisible()
+    await expect(main.locator('#advisory')).toBeVisible()
+    await expect(main.getByText('Illustrative', { exact: true })).toHaveCount(4)
+    await expect(
+      main.getByRole('heading', { name: 'Real projects, shipped.' }),
+    ).toBeVisible()
 
-  const webCopy = experience
-    .locator('[data-home-service="web"] [data-home-reveal]')
-    .first()
-  await webCopy.scrollIntoViewIfNeeded()
-  await expect(webCopy).toHaveAttribute('data-visible', 'true')
-  await expect(webCopy).toHaveCSS('opacity', '1')
-})
+    const noOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    )
+    expect(noOverflow).toBe(true)
 
-test('runs only the service loop that is in the viewport', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.goto('/')
-
-  const softwareScene = page.locator('[data-home-service="software"]')
-  const aiScene = page.locator('[data-home-service="ai"]')
-
-  await softwareScene.scrollIntoViewIfNeeded()
-  await expect(softwareScene).toHaveAttribute('data-loop-state', 'running')
-
-  await aiScene.scrollIntoViewIfNeeded()
-  await expect(aiScene).toHaveAttribute('data-loop-state', 'running')
-  await expect(softwareScene).toHaveAttribute('data-loop-state', 'paused')
+    await context.close()
+  })
 })
