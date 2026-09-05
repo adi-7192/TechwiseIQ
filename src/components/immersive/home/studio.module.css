@@ -3,26 +3,26 @@
   --tw-type-meta: 0.6875rem;
 }
 
-/* Pre-animation state, in effect at FIRST PAINT.
-   Without it the server HTML paints the finished page, then HomeMotion's effect
-   snaps everything back to the start of its entry animation — a visible flash on
-   every client-side navigation to `/`.
+/* Pre-animation state for the SCROLL REVEALS, in effect at FIRST PAINT.
+   Without it the server HTML paints them revealed and HomeMotion's effect then
+   snaps them back to the start of their animation — a visible flash on every
+   client-side navigation to `/`.
+
+   The hero is deliberately not covered here: its entrance is CSS
+   (HeroStage.module.css) and owns its own start frame from the first paint, so it
+   never waits on the bundle. These elements are all below the fold, where the
+   wait costs nothing.
 
    Three states on [data-home-experience]:
      static   server render / no JS / JS failed — everything visible (fail-open)
      pending  set before paint (bootstrap script in index.tsx, layout effect in
-              HomeMotion.tsx) — these rules hold the pre-animation frame
-     active   GSAP's inline styles own these elements; these rules stop matching,
+              HomeMotion.tsx) — this rule holds the pre-animation frame
+     active   GSAP's inline styles own these elements; the rule stops matching,
               which is what makes the tweens' trailing clearProps safe.
    Values mirror the `from` vars in HomeMotion.tsx exactly. */
-.experience[data-home-motion='pending'] [data-home-reveal],
-.experience[data-home-motion='pending'] [data-hero-support],
-.experience[data-home-motion='pending'] [data-home-artifact] {
+.experience[data-home-motion='pending'] [data-home-reveal] {
   opacity: 0;
   visibility: hidden;
-}
-.experience[data-home-motion='pending'] [data-hero-line] {
-  transform: translateY(115%) rotate(3deg);
 }
 .hero {
   position: relative;

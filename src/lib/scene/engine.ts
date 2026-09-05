@@ -84,6 +84,7 @@ class SceneEngine {
   private resizeObserver: ResizeObserver | null = null
   private visibility: IntersectionObserver | null = null
   private onScreen = true
+  private painted = false
 
   constructor() {
     try {
@@ -112,8 +113,13 @@ class SceneEngine {
 
     const canvas = this.renderer.domElement
     canvas.setAttribute('aria-hidden', 'true')
+    // Starts transparent and fades up once there is a first frame to show. The
+    // canvas is mounted at idle, several hundred ms after the hero has already
+    // begun animating, so appearing at full brightness read as a hard cut. The
+    // reduce block in globals.css drops the transition, which is correct there.
     canvas.style.cssText =
-      'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:block'
+      'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:block;' +
+      'opacity:0;transition:opacity 900ms var(--tw-ease-out)'
 
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(52, 1, 0.1, 60)
@@ -455,6 +461,13 @@ class SceneEngine {
     return clamp01((window.scrollY - this.heroTop) / this.heroHeight)
   }
 
+  /** Reveal the canvas once it has actually painted something. */
+  private markPainted() {
+    if (this.painted) return
+    this.painted = true
+    this.renderer.domElement.style.opacity = '1'
+  }
+
   private frame(now: number) {
     this.lastTime = now
     this.exit += (this.readExit() - this.exit) * 0.12
@@ -482,6 +495,7 @@ class SceneEngine {
     this.linkMat.opacity = 0.18 * fade
 
     this.renderer.render(this.scene, this.camera)
+    this.markPainted()
   }
 
   private renderStaticFrame() {
@@ -493,6 +507,7 @@ class SceneEngine {
     this.nodeMat.opacity = 0.9
     this.linkMat.opacity = 0.18
     this.renderer.render(this.scene, this.camera)
+    this.markPainted()
   }
 }
 

@@ -4,6 +4,56 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-09-05 — Hero entrance moved to CSS; scene fades in
+
+Follow-up to the entry-animation fix below. Adi: "the hero glitches and does not
+load smoothly in the beginning ... it should feel smooth and flawless even if I
+load it multiple times." Filmed the repeat-load path frame by frame (4x CPU,
+10Mbps, production build) rather than reasoning about it, which showed two
+defects that had nothing to do with animation weight:
+
+1. The hero was **completely blank from the first paint until ~330ms** — header
+   and WhatsApp button only. The entrance was a GSAP timeline, so it could not
+   begin until the bundle had downloaded, parsed and hydrated. On a first visit
+   the intro overlay hides that; on any repeat visit it is a dark empty screen
+   followed by a pop.
+2. The WebGL field **hard-cut in at full brightness** around 340–445ms, after the
+   headline had already started moving. It never faded.
+
+- **Hero entrance is now CSS** (`HeroStage.module.css`), on the same timings the
+  GSAP timeline used: lines wipe up from `translateY(115%) rotate(3deg)` over
+  1.15s staggered 0.13s; support copy fades up 18px over 0.85s from 0.35s,
+  staggered 0.1s; artifacts fade and scale from 0.88 over 1.2s from 0.2s. It
+  starts at the first paint instead of at hydration — measured at ~150ms rather
+  than ~330ms — and needs no JavaScript at all. Held at its first frame by
+  `animation-play-state: paused` while `html[data-intro='loading']`, so it cannot
+  be part-way through when the overlay lifts. The reduce block in globals.css
+  kills `animation` outright, which lands everything in its natural visible state.
+- **GSAP keeps only the continuous artifact drift**, started 1.7s in so the
+  artifacts are not still scaling while they begin to float. The three `.from()`
+  hero tweens are gone.
+- **`pending` now covers the scroll reveals only.** The hero owns its own start
+  frame through the CSS animation's `both` fill, so it is never hidden waiting on
+  the bundle — which also makes the intro-overlay exemption added earlier today
+  obsolete, and it is removed.
+- **The scene canvas fades in** (`engine.ts`): mounts at `opacity: 0` with a 900ms
+  transition and is revealed by `markPainted()` once it has actually rendered a
+  frame. Reused across navigations without re-fading.
+
+Verification: 26 full-page screenshots byte-identical to the pre-change baseline —
+the resting state is untouched, only the arrival changed. Lighthouse mobile
+91/100/100/100, LCP 3.5s, CLS 0, TBT 0ms (unchanged). Build passes 19/19, lint
+clean, 13 unit + 179 e2e + 15 home-experience pass, including two new tests: the
+hero must settle with the JS bundle blocked entirely, and must stay paused behind
+the overlay.
+
+Note on vocabulary: this puts the hero entrance in CSS keyframes rather than GSAP.
+GSAP remains the only DOM animation *library* and still owns everything
+scroll-linked and continuous; a first-paint entrance is the one thing it
+structurally cannot do, since it does not exist until the bundle runs.
+
+---
+
 ## 2026-09-05 — Home page: entry-animation flash fix and load pass
 
 Adi reported that switching to the home page "glitches" and asked for a

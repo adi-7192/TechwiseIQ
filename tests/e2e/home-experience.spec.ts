@@ -1,5 +1,12 @@
 import { expect, test } from '@playwright/test'
 
+/** A settled transform is the identity — either the keyword or, once a filled CSS
+ *  animation is holding its end frame, the equivalent matrix. */
+const settled = (n: Element) => {
+  const t = getComputedStyle(n).transform
+  return t === 'none' || t === 'matrix(1, 0, 0, 1, 0, 0)'
+}
+
 test('introduces three services before client evidence with useful destinations', async ({
   page,
 }) => {
@@ -153,10 +160,6 @@ test('the page and demo conclusions remain useful without JavaScript', async ({ 
  */
 
 test('the pre-animation state is applied before hydration, and fails open', async ({ page }) => {
-  // Skip the intro overlay: with it up there is deliberately no pre-state (see
-  // the bootstrap in immersive/home/index.tsx — nothing to hide behind an opaque
-  // overlay, and hiding the hero copy there would only delay LCP).
-  await page.addInitScript(() => sessionStorage.setItem('tw-intro-seen', '1'))
   // Block the JS bundle — but not the stylesheets, which live in the same
   // directory — so only the inline bootstrap script runs. That isolates the
   // first-paint state from anything React does afterwards.
@@ -210,23 +213,47 @@ test('handing the pre-animation state over to GSAP leaves nothing hidden', async
 
   // The hero settles too — its lines are clipped by the parent until they land.
   await expect
-    .poll(() =>
-      page
-        .locator('[data-hero-line]')
-        .first()
-        .evaluate((n) => getComputedStyle(n).transform),
-    )
-    .toBe('none')
+    .poll(() => page.locator('[data-hero-line]').first().evaluate(settled))
+    .toBe(true)
 })
 
-test('the intro overlay keeps the hero copy in the first paint', async ({ page }) => {
-  // While the overlay is up the hero is not visible anyway, so the pre-state must
-  // stay off — that first paint is what the browser records as LCP. Regression
-  // guard: arming it here cost ~2s of measured mobile LCP for no visual gain.
+test('the hero animates itself in without waiting for the bundle', async ({ page }) => {
+  // The entrance is CSS (HeroStage.module.css), not GSAP. Driven from JS it could
+  // not start until the bundle had booted, which left the hero blank for ~300ms of
+  // every load — a dark screen then a pop on any repeat visit, where the intro
+  // overlay is not there to cover it. With the bundle blocked entirely the hero
+  // must still play its entrance and end fully settled.
+  await page.addInitScript(() => sessionStorage.setItem('tw-intro-seen', '1'))
+  await page.route(
+    (url) => url.pathname.startsWith('/_next/static/') && url.pathname.endsWith('.js'),
+    (route) => route.abort(),
+  )
+  await page.goto('/')
+
+  const line = page.locator('[data-hero-line]').first()
+  const body = page.locator('[data-hero-support]').nth(1)
+
+  // Settles on its own, with no JavaScript running at all.
+  await expect.poll(() => line.evaluate(settled)).toBe(true)
+  await expect
+    .poll(() => body.evaluate((n) => parseFloat(getComputedStyle(n).opacity)))
+    .toBeGreaterThan(0.98)
+})
+
+test('the hero entrance holds until the intro overlay lifts', async ({ page }) => {
+  // Behind the overlay the hero must not be part-way through its entrance, or it
+  // pops in half-finished the moment the overlay clears.
   await page.goto('/')
   await expect(page.locator('[data-intro-overlay]')).toBeVisible()
-  await expect(page.locator('[data-home-experience]')).not.toHaveAttribute(
-    'data-home-motion',
-    'pending',
-  )
+  expect(
+    await page
+      .locator('[data-hero-line]')
+      .first()
+      .evaluate((n) => getComputedStyle(n).animationPlayState),
+  ).toBe('paused')
+
+  // And it does eventually run.
+  await expect
+    .poll(() => page.locator('[data-hero-line]').first().evaluate(settled), { timeout: 10000 })
+    .toBe(true)
 })

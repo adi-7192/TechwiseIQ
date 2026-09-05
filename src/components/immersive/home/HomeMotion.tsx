@@ -20,17 +20,12 @@ export default function HomeMotion() {
   useIsomorphicLayoutEffect(() => {
     const root = document.querySelector<HTMLElement>('[data-home-experience]')
     if (!root) return
-    // Hold the pre-animation frame while the tweens are built. On a hard load the
-    // inline bootstrap in index.tsx already did this during parse; on a client-side
-    // navigation this is the first chance, and it still precedes paint.
-    //
-    // Same exemption as the bootstrap: while the intro overlay covers the viewport
-    // there is no flash to prevent, and withholding the hero copy from the first
-    // paint would only delay the LCP the browser records.
-    if (
-      document.documentElement.dataset.intro !== 'loading' &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
+    // Hold the pre-animation frame for the scroll reveals while their triggers are
+    // built. On a hard load the inline bootstrap in index.tsx already did this during
+    // parse; on a client-side navigation this is the first chance, and it still
+    // precedes paint. The hero is not covered by this — its entrance is CSS and owns
+    // its own start frame from the first paint (HeroStage.module.css).
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       root.dataset.homeMotion = 'pending'
     }
     let refreshFrame = 0
@@ -70,63 +65,25 @@ export default function HomeMotion() {
             0
           )
         )
-        const intro = gsap.timeline({
-          paused: true,
-          onComplete: () => {
-            if (!document.hidden) drift.play()
-          },
-        })
-        intro
-          .from(
-            '[data-hero-line]',
-            {
-              yPercent: 115,
-              rotate: 3,
-              duration: 1.15,
-              stagger: 0.13,
-              ease: 'power4.out',
-              clearProps: 'transform',
-            },
-            0
-          )
-          .from(
-            '[data-hero-support]',
-            {
-              autoAlpha: 0,
-              y: 18,
-              duration: 0.85,
-              stagger: 0.1,
-              ease: 'power3.out',
-              clearProps: 'opacity,visibility,transform',
-            },
-            0.35
-          )
-          .from(
-            artifacts,
-            {
-              autoAlpha: 0,
-              scale: 0.88,
-              duration: 1.2,
-              stagger: 0.13,
-              ease: 'power3.out',
-              clearProps: 'opacity,visibility,scale',
-            },
-            0.2
-          )
-        // Every tween above renders its start values on creation, so GSAP's inline
-        // styles now hold the pre-animation frame. Handing over here — and not
-        // earlier — is what makes the tweens' trailing `clearProps` safe: if the
-        // CSS pre-state were still matching it would re-hide these elements the
-        // moment the inline styles were stripped.
+        // The hero entrance itself is CSS (HeroStage.module.css): driven from here
+        // it could not start until the bundle had booted, which left the hero blank
+        // for ~300ms of every load. GSAP keeps only the continuous drift, which has
+        // nothing to show until the artifacts have arrived anyway.
         root.dataset.homeMotion = 'active'
-        const start = () => intro.play()
-        if (document.documentElement.dataset.intro !== 'loading') start()
-        window.addEventListener('tw:intro-complete', start)
+
+        // Let the CSS entrance land before the float starts, so the artifacts are
+        // not still scaling up while they begin to drift.
+        const HERO_ENTRANCE_MS = 1700
+        let entranceDone = false
         let visible = true
         const sync = () => {
-          if (visible && !document.hidden && intro.progress() === 1) drift.play()
+          if (entranceDone && visible && !document.hidden) drift.play()
           else drift.pause()
         }
+        const startDrift = window.setTimeout(() => {
+          entranceDone = true
+          sync()
+        }, HERO_ENTRANCE_MS)
         const observer = new IntersectionObserver((entries) => {
           visible = entries[0].isIntersecting
           sync()
@@ -138,7 +95,7 @@ export default function HomeMotion() {
         // running it inline makes every other client component on this page wait.
         refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh())
         return () => {
-          window.removeEventListener('tw:intro-complete', start)
+          clearTimeout(startDrift)
           document.removeEventListener('visibilitychange', sync)
           observer.disconnect()
         }

@@ -330,3 +330,88 @@
     0 2px 18px var(--tw-bg),
     0 0 8px var(--tw-bg);
 }
+
+/* ─── Hero entrance ───────────────────────────────────────────────────────────
+   Deliberately CSS, not GSAP. Driven from JS the entrance could not begin until
+   the bundle had downloaded, parsed and hydrated, which left the hero blank for
+   ~300ms on every load — visible as a dark empty screen followed by a pop on any
+   repeat visit, where the intro overlay is not there to cover it. As CSS it runs
+   from the first paint, on the same timings the GSAP version used.
+
+   Only transform/opacity/scale are animated, so nothing here can shift layout
+   when the swap fonts land mid-animation.
+
+   While the intro overlay is up the hero is behind it and must not be part-way
+   through its entrance when the overlay lifts, so the animations hold at their
+   first frame until IntroPreloader flips html[data-intro] to 'ready'.
+
+   The reduce block in globals.css kills `animation` outright, which lands every
+   element in its natural, fully-visible state — the correct reduced-motion
+   result, and the same reason this needs no no-JS fallback. */
+
+@keyframes tw-hero-line {
+  from {
+    transform: translateY(115%) rotate(3deg);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes tw-hero-support {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes tw-hero-artifact {
+  from {
+    opacity: 0;
+    scale: 0.88;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.hero [data-hero-line] {
+  animation: tw-hero-line 1.15s var(--tw-ease-out) both;
+}
+.line:nth-of-type(2) [data-hero-line] {
+  animation-delay: 0.13s;
+}
+
+/* Staggered 0.1s apart from 0.35s, matching the timeline this replaced. */
+.hero [data-hero-support] {
+  animation: tw-hero-support 0.85s 0.35s var(--tw-ease-out) both;
+}
+.body[data-hero-support] {
+  animation-delay: 0.45s;
+}
+.actions[data-hero-support] {
+  animation-delay: 0.55s;
+}
+.bottom[data-hero-support] {
+  animation-delay: 0.65s;
+}
+
+.artifact {
+  animation: tw-hero-artifact 1.2s 0.2s var(--tw-ease-out) both;
+}
+.software {
+  animation-delay: 0.33s;
+}
+.automation {
+  animation-delay: 0.46s;
+}
+
+/* Held behind the intro overlay until it lifts. */
+:global(html[data-intro='loading']) .hero [data-hero-line],
+:global(html[data-intro='loading']) .hero [data-hero-support],
+:global(html[data-intro='loading']) .artifact {
+  animation-play-state: paused;
+}
