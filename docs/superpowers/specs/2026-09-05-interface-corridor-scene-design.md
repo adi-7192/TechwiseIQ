@@ -61,7 +61,7 @@ The three hero DOM cards become the **near end of the corridor**, not a layer on
 
 Each plate design is drawn **once** to an offscreen 2D canvas at 512×320 and used as a `CanvasTexture`. One `InstancedMesh` per design carries all instances of it.
 
-- **3 draw calls** for the entire corridor
+- **4 draw calls** for the entire corridor (three plate designs plus accent chips — see below)
 - **0 network bytes** — everything is procedural
 - UI anatomy is pixel-identical to the hero cards because it is drawn from the same token values
 
@@ -69,7 +69,11 @@ Material: `MeshBasicMaterial` with `alphaTest` (no `transparent: true`). `alphaT
 
 `THREE.Fog` set to `--tw-bg` (`#060706`) handles distance falloff so far plates dissolve into the world instead of popping at the far clip. This is scene fog, not a CSS gradient, and is therefore outside the `design-guard.sh` gradient rule.
 
-**New module:** `src/lib/scene/plates.ts` — owns texture generation and nothing else. Exports a function returning the three `CanvasTexture`s plus their aspect ratios. Testable and readable in isolation; the engine consumes it and does not know how a plate is drawn.
+**The accent is not baked into the texture.** A texture drawn once cannot recolour, and the accent must follow the active chapter (§6). So each plate texture carries only its chrome and muted UI elements, and the single accent element — the CTA chip, the highlighted code line, the final workflow chip — is a separate small quad rendered from a **fourth `InstancedMesh`** with a plain colour material that lerps toward the chapter accent on the existing interpolation schedule. Its per-instance transform is derived from the parent plate's transform plus a fixed offset per design.
+
+Total: **4 draw calls** — three plate designs plus the accent chips.
+
+**New module:** `src/lib/scene/plates.ts` — owns texture generation and nothing else. Exports the three `CanvasTexture`s, their shared aspect, and the per-design accent-chip offset/size that the engine needs to place the chips. Testable and readable in isolation; the engine consumes it and does not know how a plate is drawn.
 
 ### 5. Motion
 
@@ -110,7 +114,7 @@ All existing guarantees are preserved, not re-derived:
 
 **Mobile:** ~10 plates, no forward camera travel, composition pushed to the lower outside corner (the existing `composedX` / `composedY` / `composedScale` helpers).
 
-**Texture budget:** 3 × 512×320 RGBA ≈ 2MB VRAM, zero network cost.
+**Texture budget:** 3 × 512×320 RGBA ≈ 2MB VRAM, zero network cost. Textures are generated once per session alongside the singleton renderer, never per chapter.
 
 ### 9. What changes
 
