@@ -4,6 +4,31 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-09-05 — Scene rebuild + single demo progress bar
+
+Homepage review follow-up. Two defects fixed, nothing else in scope.
+
+- **Background scene.** Removed the `TorusKnotGeometry` core and its three orbit
+  rings from `lib/scene/engine.ts`. The per-chapter connected interface panels are
+  now the only form, with new `advisory` and `developer` layouts so those routes no
+  longer fall back to `intro`. `ScenePreset` gained `offsetX` / `offsetY` (places the
+  composition off each chapter's copy column) and `wireOpacity` (sparse chapters
+  carry it, dense service chapters recede to a texture). Phones get a lower-outside
+  placement at 0.78 scale / 45% opacity, since there is no empty column at 390px.
+  Wireframe secondaries brightened now that nothing sits in front of them.
+  Net effect: no body copy renders over scene geometry on any homepage section.
+- **Service demo progress.** `ServiceDemo` had two progress indicators stacked on
+  adjacent pixel rows — a 3px full-bleed cycle track above a 4-segment step bar,
+  each at a different fill position, reading as one broken bar. Merged into one:
+  each of the four segments now fills across its own stage (2.4s × 3, then 3.2s),
+  so the cycle timing and the step position come from a single element.
+- Verified: lint clean, `npm run build` passes, 19/19 routes prerender, full
+  Playwright suite green against the production build except two pre-existing
+  order-dependent flakes (`home-experience` playback, `performance-mobile` long
+  task) which pass in isolation and were confirmed to fail on unmodified code too.
+
+---
+
 ## 2026-08-31 — Immersive homepage refinement pass (depth, motion, pacing)
 
 Closed the gap between the built immersive homepage and the approved editions

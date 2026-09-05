@@ -62,12 +62,16 @@ export default function ServiceDemo({ kind }: { kind: Kind }) {
     tl.set(find(pieces), { autoAlpha: 0 }, 0)
     tl.set(find('[data-demo-content]'), { opacity: 1 }, 0)
     for (let i = 0; i < 4; i++) tl.call(() => setStep(i), [], i * STAGE_TIME)
-    tl.fromTo(
-      find('[data-cycle-progress]'),
-      { scaleX: 0 },
-      { scaleX: 1, duration: 10.4, ease: 'none' },
-      0
-    )
+    // One indicator, not two: each segment fills across its own stage, so the
+    // step position and the time inside that step read from the same bar.
+    find('[data-stage-fill]').forEach((fill, i) => {
+      tl.fromTo(
+        fill,
+        { scaleX: 0 },
+        { scaleX: 1, duration: i === 3 ? 3.2 : STAGE_TIME, ease: 'none' },
+        i * STAGE_TIME
+      )
+    })
     const reveal = (selector: string, at: number, stagger = 0.12) => {
       tl.fromTo(
         find(selector),
@@ -233,12 +237,11 @@ export default function ServiceDemo({ kind }: { kind: Kind }) {
         <span>{labels[kind][step]}</span>
         <span className={styles.statusDot} />
       </figcaption>
-      <div className={styles.cycleTrack} aria-hidden="true">
-        <i data-cycle-progress data-animated />
-      </div>
       <div className={styles.progress} aria-hidden="true">
         {labels[kind].map((label, i) => (
-          <span key={label} data-filled={i <= step} />
+          <span key={label} data-filled={i <= step}>
+            <i data-stage-fill data-animated />
+          </span>
         ))}
       </div>
       <div className={styles.controls}>

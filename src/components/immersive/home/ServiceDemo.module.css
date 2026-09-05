@@ -65,15 +65,24 @@
 .progress {
   display: flex;
   gap: 4px;
-  padding: 0 1.5rem;
+  padding: 0.35rem 1.5rem;
 }
 .progress > span {
   flex: 1;
-  height: 2px;
+  height: 3px;
   background: var(--tw-line);
+  overflow: hidden;
 }
-.progress > span[data-filled='true'] {
+.progress > span > i {
+  display: block;
+  height: 100%;
   background: var(--tw-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+/* Static/reduced-motion state: completed stages read as solid. */
+.progress > span[data-filled='true'] > i {
+  transform: scaleX(1);
 }
 .controls {
   display: flex;
@@ -799,18 +808,7 @@
   font-size: 0.625rem;
 }
 
-/* The demonstration has a visible time axis, a cursor and travelling data. */
-.cycleTrack {
-  height: 3px;
-  background: var(--tw-line);
-  overflow: hidden;
-}
-.cycleTrack > i {
-  display: block;
-  height: 100%;
-  background: var(--tw-accent);
-  transform-origin: left;
-}
+/* The demonstration has a cursor and travelling data. */
 .demoCursor {
   position: absolute;
   right: 28%;
@@ -855,9 +853,6 @@
 }
 .demo[data-playing='true'] .statusDot {
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--tw-accent) 12%, transparent);
-}
-.progress > span {
-  transition: background-color 0.6s;
 }
 .aiNode,
 .ruleNode,

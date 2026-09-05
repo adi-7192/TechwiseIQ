@@ -152,3 +152,35 @@ The user's follow-up supersedes the restrained hero and finite-demo direction ab
 - Demonstrations: GSAP timelines now loop while visible. Four overlapping beats assemble interface elements, adapt a website to mobile, move a cursor toward a CTA, assemble an operational app, reveal checks and approval, and move signals through an AI workflow. Each cycle holds its conclusion and fades before rebuilding. Pause remains available throughout the loop. Manual stepping and reduced-motion/no-JavaScript conclusions remain supported.
 - First-visit introduction: `IntroPreloader` uses “Think. Build. Move.” and Web/Software/AI modules, followed by a curtain exit into the hero animation. Once per tab, approximately 1.85 seconds, no fabricated load percentages. Reduced motion, anchor arrivals and unavailable storage bypass it. Keyboard, wheel or pointer input dismisses it. A JS timeout and CSS fail-open ensure it cannot permanently cover content.
 - Footer: a large linked project invitation, email, contact/navigation/service links, oversized wordmark and legal row. The homepage's separate final CTA is removed to avoid repeating the invitation. The global footer follows the same type, colour, radius and spacing vocabulary.
+
+## Scene revision — 2026-09-05 (Adi-approved)
+
+Supersedes the "woven geometry and three orbit paths" scene above. The generative
+core was a stock 3D form behind copy, which `anti-slop-checklist.md` forbids
+outright, and it rendered through body text on the services intro, Custom
+Software and Operating Model sections.
+
+- **The connected interface panels are now the only form.** `TorusKnotGeometry`,
+  the three orbit rings and their materials are deleted from `lib/scene/engine.ts`.
+  What remains is `createWireGeometry()`: five wireframe interface panels wired to
+  a hub, whose matching vertices interpolate between a browser layout (`web`), a
+  module grid (`apps`), a branching workflow (`automation`), an audit board
+  (`advisory`) and stacked source panes (`developer`). Signals still travel the hub
+  connections. The background is the thing we build, and it changes per chapter.
+- **The composition is placed off the copy column, per chapter.** `ScenePreset`
+  gains `offsetX` / `offsetY`: chapters with copy on the left push the composition
+  right, `apps` (copy on the right) pushes it left. The group eases between
+  placements instead of snapping.
+- **Scene weight follows the sparse/dense rhythm.** `ScenePreset.wireOpacity`:
+  sparse chapters that have room for it carry the composition (intro 0.45,
+  advisory/developer 0.5); the dense two-column service chapters already lead with
+  a foreground proof object, so the scene recedes to a texture there (0.3).
+- **Phones get their own placement.** No empty column exists at 390px, so the
+  composition is pushed to the lower outside corner (`composedX/Y/Scale`) at 0.78
+  scale and 45% of the line opacity.
+- Unchanged: one session-singleton renderer, DPR caps, mobile point/frame caps,
+  reduced-motion static frame, offscreen-tab pause, and the CSS atmosphere fallback.
+- `ServiceDemo` progress: the separate full-bleed cycle track is removed. The four
+  stage segments are the single indicator — each fills across its own stage, so
+  step position and time-within-step read from one bar instead of two abutting
+  bars that looked like a rendering fault.

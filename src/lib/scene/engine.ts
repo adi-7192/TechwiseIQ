@@ -35,9 +35,6 @@ class SceneEngine {
   private points!: THREE.Points
   private pointMat!: THREE.PointsMaterial
   private wire!: THREE.LineSegments
-  private core!: THREE.Group
-  private coreMat!: THREE.MeshBasicMaterial
-  private haloMat!: THREE.MeshBasicMaterial
   private dust!: THREE.Points
   private dustMat!: THREE.PointsMaterial
   private wireMat!: THREE.LineBasicMaterial
@@ -127,36 +124,8 @@ class SceneEngine {
     this.wire = new THREE.LineSegments(knotGeo, this.wireMat)
     this.group.add(this.wire)
 
-    // The visible kinetic core returns: a woven form and three orbital paths
-    // suggest connected systems while the panels explain each service.
-    this.core = new THREE.Group()
-    this.coreMat = new THREE.MeshBasicMaterial({
-      color: preset.accent,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.22,
-      depthWrite: false,
-    })
-    const woven = new THREE.Mesh(
-      new THREE.TorusKnotGeometry(1.6, 0.38, this.mobile ? 70 : 150, this.mobile ? 8 : 12, 2, 3),
-      this.coreMat
-    )
-    this.core.add(woven)
-    this.haloMat = new THREE.MeshBasicMaterial({
-      color: preset.accent,
-      transparent: true,
-      opacity: 0.26,
-      depthWrite: false,
-    })
-    for (let i = 0; i < 3; i++) {
-      const ring = new THREE.Mesh(
-        new THREE.TorusGeometry(2.25 + i * 0.13, 0.009, 4, this.mobile ? 70 : 130),
-        this.haloMat
-      )
-      ring.rotation.set(0.7 + i * 0.45, i * 0.8, i * 0.6)
-      this.core.add(ring)
-    }
-    this.scene.add(this.core)
+    // No generative core object: the connected interface panels above ARE the
+    // form (docs/anti-slop-checklist.md forbids a stock 3D blob behind copy).
     const dustPositions = new Float32Array(480 * 3)
     // Deterministic scatter makes the composition stable across hydration/reloads.
     for (let i = 0; i < 480; i++) {
@@ -172,7 +141,7 @@ class SceneEngine {
       color: preset.accent,
       size: 0.022,
       transparent: true,
-      opacity: 0.4,
+      opacity: 0.26,
       depthWrite: false,
     })
     this.dust = new THREE.Points(dustGeometry, this.dustMat)
@@ -193,12 +162,30 @@ class SceneEngine {
         [1.7, 1.2, -0.7, 1.3, 0.9],
         [-1.7, -1.3, -0.3, 1.3, 0.9],
       ],
+      // A browser window with a phone beside it and two content blocks feeding
+      // it — the shape of the thing we ship on the Websites chapter.
       web: [
-        [0, 0, 0, 3.8, 2.6],
-        [1.9, -0.7, 0.6, 1, 1.8],
-        [-1.1, 1.7, -0.7, 2.1, 0.8],
-        [1.1, 1.7, -0.7, 1.7, 0.8],
-        [-1.4, -1.8, -0.6, 2.1, 0.7],
+        [0, 0.15, 0, 3.8, 2.6],
+        [2.2, -0.9, 0.6, 0.95, 1.85],
+        [-1.3, 1.9, -0.7, 2, 0.75],
+        [1.2, 1.95, -0.7, 1.5, 0.75],
+        [-1.5, -1.85, -0.6, 2.1, 0.7],
+      ],
+      // An audit board: one working surface, findings pinned around it.
+      advisory: [
+        [0, 0.1, 0, 3.2, 2.1],
+        [-2.1, 1.7, -0.6, 1.5, 0.7],
+        [2.1, 1.7, -0.6, 1.5, 0.7],
+        [-2.1, -1.6, 0.3, 1.5, 0.7],
+        [2.1, -1.6, 0.3, 1.5, 0.7],
+      ],
+      // Source panes stacked over a build output.
+      developer: [
+        [0, 0.4, 0, 3, 2.3],
+        [-1.7, -1.7, 0.4, 2.4, 0.6],
+        [1.7, -1.7, 0.4, 2.4, 0.6],
+        [-1.9, 2.1, -0.6, 1.6, 0.6],
+        [1.9, 2.1, -0.6, 1.6, 0.6],
       ],
       apps: [
         [0, 0, 0, 2, 1.5],
@@ -454,34 +441,25 @@ class SceneEngine {
     this.pointMat.color.lerp(this.state.pointColor.set(t.accent), 0.02)
     this.wireMat.color.lerp(this.state.wireColor.set(t.secondary), 0.02)
     this.pointMat.opacity += (t.atmosphere * 0.75 - this.pointMat.opacity) * 0.02
-    this.coreMat.color.lerp(this.state.pointColor, 0.02)
-    this.haloMat.color.lerp(this.state.pointColor, 0.02)
     this.dustMat.color.lerp(this.state.pointColor, 0.02)
-    const intro = this.currentScene === 'intro'
-    this.coreMat.opacity += ((intro ? 0.13 : 0.075) - this.coreMat.opacity) * 0.035
-    this.haloMat.opacity += ((intro ? 0.24 : 0.11) - this.haloMat.opacity) * 0.035
-    this.wireMat.opacity += ((intro ? 0.12 : 0.48) - this.wireMat.opacity) * 0.035
-    this.core.rotation.y += dt * 0.1
-    this.core.rotation.z = Math.sin(now * 0.00012) * 0.14
-    this.core.rotation.x = Math.sin(now * 0.00016) * 0.16 + this.pointer.y * 0.15
-    this.core.children.forEach((ring, i) => {
-      if (i) ring.rotation.z += dt * 0.045 * (i % 2 ? 1 : -1)
-    })
-    const coreScale = (intro ? 1.3 : 0.95) * (this.mobile ? 0.8 : 1)
-    this.core.scale.setScalar(this.core.scale.x + (coreScale - this.core.scale.x) * 0.035)
-    this.core.position.x +=
-      ((intro ? 0 : this.currentScene === 'apps' ? -1.5 : 1.5) - this.core.position.x) * 0.03
+    // The panels are the only form now, so they carry the atmosphere — but stay
+    // faint enough that copy passing over them is never competing with a line.
+    this.wireMat.opacity += ((t.wireOpacity * (this.mobile ? 0.45 : 1)) - this.wireMat.opacity) * 0.035
     this.dust.rotation.y += dt * 0.025
     this.dust.rotation.x = Math.sin(now * 0.00008) * 0.08
-    this.group.scale.setScalar(this.group.scale.x + (t.objectScale - this.group.scale.x) * 0.03)
+    this.group.scale.setScalar(
+      this.group.scale.x + (this.composedScale(t) - this.group.scale.x) * 0.03
+    )
     this.camera.position.z += (t.cameraZ - this.camera.position.z) * 0.03
 
     // A stable architectural composition with restrained pointer and scroll depth.
     this.group.rotation.y = Math.sin(now * 0.00008) * 0.09 + this.pointer.x * 0.06
     this.group.rotation.x = -0.08 + this.pointer.y * 0.04
     this.group.rotation.z = -0.08
-    this.group.position.x = this.mobile ? 1.6 : this.currentScene === 'apps' ? -2.1 : 2.1
-    const driftTarget = (this.scrollProgress - 0.5) * -0.6
+    // Ease between chapter compositions instead of snapping, so the panels
+    // travel across the frame as the copy column swaps sides.
+    this.group.position.x += (this.composedX(t) - this.group.position.x) * 0.03
+    const driftTarget = this.composedY(t) + (this.scrollProgress - 0.5) * -0.6
     this.group.position.y += (driftTarget - this.group.position.y) * 0.05
     if (this.panelTarget) {
       const attribute = this.wire.geometry.getAttribute('position') as THREE.BufferAttribute
@@ -516,27 +494,41 @@ class SceneEngine {
     attribute.needsUpdate = true
   }
 
+  /**
+   * Composition placement for the active preset. A phone has no empty column
+   * for the panels to sit in — the copy runs full width — so there they are
+   * pushed to the lower outside corner and mostly off-frame instead.
+   */
+  private composedX(preset: ScenePreset) {
+    return this.mobile ? Math.sign(preset.offsetX) * 2.7 : preset.offsetX
+  }
+
+  private composedY(preset: ScenePreset) {
+    return this.mobile ? preset.offsetY - 1.5 : preset.offsetY
+  }
+
+  private composedScale(preset: ScenePreset) {
+    return preset.objectScale * (this.mobile ? 0.78 : 1)
+  }
+
   private renderStaticFrame() {
     if (!this.supported) return
     const t = this.state.target
     this.pointMat.color.set(t.accent)
     this.wireMat.color.set(t.secondary)
     this.pointMat.opacity = t.atmosphere * 0.75
-    this.coreMat.color.set(t.accent)
-    this.haloMat.color.set(t.accent)
+    this.wireMat.opacity = t.wireOpacity * (this.mobile ? 0.45 : 1)
     this.dustMat.color.set(t.accent)
-    this.core.scale.setScalar(this.mobile ? 0.8 : 1.3)
-    this.core.rotation.set(0.1, 0.4, 0.1)
-    this.group.scale.setScalar(t.objectScale)
+    this.group.scale.setScalar(this.composedScale(t))
     this.camera.position.set(0, 0, t.cameraZ)
     this.group.rotation.set(-0.08, 0.09, -0.08)
-    this.group.position.x = this.mobile ? 1.6 : this.currentScene === 'apps' ? -2.1 : 2.1
+    this.group.position.x = this.composedX(t)
     if (this.panelTarget) {
       const attribute = this.wire.geometry.getAttribute('position') as THREE.BufferAttribute
       attribute.copyArray(this.panelTarget)
       attribute.needsUpdate = true
     }
-    this.group.position.y = 0
+    this.group.position.y = this.composedY(t)
     this.camera.lookAt(0, 0, 0)
     this.updateSignals(0)
     this.renderer.render(this.scene, this.camera)
