@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import ProofFrame from './ProofFrame'
+import ProofFrame, { type ProofSurface } from './ProofFrame'
 import styles from './AutomationFlowDemo.module.css'
 
 /* Deterministic sample record — the same output every render, no live model. */
@@ -66,6 +66,7 @@ function Arrow() {
 type AutomationFlowDemoProps = {
   caption?: string
   className?: string
+  surface?: ProofSurface
 }
 
 /**
@@ -77,11 +78,13 @@ type AutomationFlowDemoProps = {
 export default function AutomationFlowDemo({
   caption = 'Inputs, rules, model judgment and actions stay explicit — and a person still owns the edge cases.',
   className,
+  surface = 'dark',
 }: AutomationFlowDemoProps) {
   return (
     <ProofFrame
       label="flow / lead-intake"
       caption={caption}
+      surface={surface}
       className={className}
       aria-label="Illustrative automation flow: input, deterministic rules, AI judgment, system action, and human review"
     >

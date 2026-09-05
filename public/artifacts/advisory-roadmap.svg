@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+<rect width="1200" height="760" rx="24" fill="#f6f6f1"/>
+
+<rect x="60" y="54" width="1080" height="650" rx="24" fill="#fff"/>
+<text x="98" y="112" font-family="Arial" font-size="18" fill="#777">90-DAY BUILD ROADMAP</text>
+<text x="98" y="168" font-family="Arial" font-size="34" font-weight="700" fill="#111">From opportunity → operating system</text>
+<line x1="120" y1="340" x2="1050" y2="340" stroke="#111" stroke-width="4"/>
+<g font-family="Arial">
+<circle cx="190" cy="340" r="24" fill="#c8ff54" stroke="#111" stroke-width="3"/><text x="145" y="398" font-size="18" font-weight="700" fill="#111">Frame</text><text x="128" y="430" font-size="14" fill="#666">Week 1–2</text>
+<circle cx="435" cy="340" r="24" fill="#645cff" stroke="#111" stroke-width="3"/><text x="382" y="398" font-size="18" font-weight="700" fill="#111">Prototype</text><text x="380" y="430" font-size="14" fill="#666">Week 3–4</text>
+<circle cx="704" cy="340" r="24" fill="#ff6540" stroke="#111" stroke-width="3"/><text x="676" y="398" font-size="18" font-weight="700" fill="#111">Ship</text><text x="648" y="430" font-size="14" fill="#666">Week 5–8</text>
+<circle cx="980" cy="340" r="24" fill="#111"/><text x="938" y="398" font-size="18" font-weight="700" fill="#111">Operate</text><text x="922" y="430" font-size="14" fill="#666">Week 9–12</text>
+</g>
+<rect x="100" y="520" width="980" height="112" rx="18" fill="#f1f1ec"/><text x="132" y="565" font-family="Arial" font-size="15" fill="#777">DECISION RULE</text><text x="132" y="603" font-family="Arial" font-size="22" font-weight="700" fill="#111">Do not automate what you cannot explain operationally.</text>
+
+</svg>

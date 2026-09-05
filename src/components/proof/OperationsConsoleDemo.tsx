@@ -1,4 +1,4 @@
-import ProofFrame from './ProofFrame'
+import ProofFrame, { type ProofSurface } from './ProofFrame'
 import styles from './OperationsConsoleDemo.module.css'
 
 type Status = 'queued' | 'review' | 'approved'
@@ -35,6 +35,7 @@ const CHECKS = [
 type OperationsConsoleDemoProps = {
   caption?: string
   className?: string
+  surface?: ProofSurface
 }
 
 /**
@@ -47,6 +48,7 @@ type OperationsConsoleDemoProps = {
 export default function OperationsConsoleDemo({
   caption = 'One console around a real sequence of work: queue, review the checks, approve or return.',
   className,
+  surface = 'dark',
 }: OperationsConsoleDemoProps) {
   const awaiting = QUEUE.filter((r) => r.status !== 'approved').length
   const selected = QUEUE.find((r) => r.selected)
@@ -55,6 +57,7 @@ export default function OperationsConsoleDemo({
     <ProofFrame
       label="console / operations"
       caption={caption}
+      surface={surface}
       className={className}
       aria-label="Illustrative operations console with a review and approval queue"
     >

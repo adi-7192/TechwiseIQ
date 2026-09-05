@@ -4,6 +4,7 @@ import SectionLabel from '@/components/immersive/primitives/SectionLabel'
 import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
 import PrimaryCTA from '@/components/ui/PrimaryCTA'
 import ProofObject from '@/components/proof'
+import ChapterArtifacts from './ChapterArtifacts'
 import { SCENE_ACCENT, type ChapterContent } from './home-content'
 import styles from './home.module.css'
 
@@ -54,17 +55,24 @@ export default function Chapter({ chapter }: { chapter: ChapterContent }) {
             </span>
             <span className={styles.to}>{chapter.transformation.to}</span>
           </p>
-          <div className={styles.chapterLink}>
-            <PrimaryCTA href={chapter.link.href} variant="ghost">
-              {chapter.link.label}
-            </PrimaryCTA>
-          </div>
+          {chapter.link && (
+            <div className={styles.chapterLink}>
+              <PrimaryCTA href={chapter.link.href} variant="ghost">
+                {chapter.link.label}
+              </PrimaryCTA>
+            </div>
+          )}
         </div>
       </div>
 
       <div className={styles.proofReveal} data-home-reveal>
+        <ChapterArtifacts scene={chapter.scene} />
         <div className={styles.proofDepth} data-home-proof>
-          <ProofObject variant={chapter.proof} caption={chapter.proofCaption} />
+          <ProofObject
+            variant={chapter.proof}
+            caption={chapter.proofCaption}
+            surface="light"
+          />
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import SceneLoader from '@/components/immersive/SceneLoader'
+import SmoothScroll from '@/components/immersive/SmoothScroll'
 
 /** Scene accents from docs/03_DESIGN_SYSTEM.md — one accent dominates per viewport. */
 export type SceneName =
@@ -47,6 +48,7 @@ export default function ImmersiveShell({
 
   return (
     <div className={cn('tw-world', className)} data-scene={scene} style={style}>
+      <SmoothScroll feedScene={withScene} />
       {withScene && <SceneLoader initialScene={scene} />}
       {children}
     </div>

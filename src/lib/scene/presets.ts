@@ -32,12 +32,12 @@ export type ScenePreset = {
 export const DEFAULT_SCENE: SceneName = 'intro'
 
 export const SCENE_PRESETS: Record<SceneName, ScenePreset> = {
-  intro: { accent: 0x76967d, secondary: 0x283f34, particleDensity: 1, cameraZ: 8.5, objectScale: 1, atmosphere: 0.7 },
-  web: { accent: 0xc8ff54, secondary: 0x355443, particleDensity: 1, cameraZ: 8.2, objectScale: 1.05, atmosphere: 0.8 },
-  automation: { accent: 0x695cff, secondary: 0x322f66, particleDensity: 0.95, cameraZ: 8.4, objectScale: 1, atmosphere: 0.78 },
-  apps: { accent: 0xff6540, secondary: 0x5d2d22, particleDensity: 0.9, cameraZ: 8.3, objectScale: 1.08, atmosphere: 0.76 },
-  advisory: { accent: 0xc9ff59, secondary: 0x5b6d35, particleDensity: 1, cameraZ: 8.5, objectScale: 1, atmosphere: 0.8 },
-  developer: { accent: 0x70a8ff, secondary: 0x203b63, particleDensity: 0.95, cameraZ: 8.6, objectScale: 1.02, atmosphere: 0.75 },
+  intro: { accent: 0x8fb39a, secondary: 0x30493c, particleDensity: 1, cameraZ: 8.5, objectScale: 1, atmosphere: 0.82 },
+  web: { accent: 0xc8ff54, secondary: 0x3f6a4f, particleDensity: 1, cameraZ: 8.2, objectScale: 1.05, atmosphere: 0.95 },
+  automation: { accent: 0x7d72ff, secondary: 0x3a3676, particleDensity: 0.98, cameraZ: 8.4, objectScale: 1, atmosphere: 0.92 },
+  apps: { accent: 0xff6540, secondary: 0x6e3527, particleDensity: 0.94, cameraZ: 8.3, objectScale: 1.08, atmosphere: 0.9 },
+  advisory: { accent: 0xd0ff68, secondary: 0x6a7d3e, particleDensity: 1, cameraZ: 8.5, objectScale: 1, atmosphere: 0.95 },
+  developer: { accent: 0x70a8ff, secondary: 0x274871, particleDensity: 0.98, cameraZ: 8.6, objectScale: 1.02, atmosphere: 0.9 },
 }
 
 /** DOM `data-scene` strings may use "build" as an alias for developer. */

@@ -1,113 +1,154 @@
-# Techwise IQ Design System — "Kinetic"
+# Techwise IQ Design System — "Immersive"
 
-Source of truth for the production build. Visual reference: `design-mockups-11-06-2026/design-e-kinetic-12-06-2026.html` (also copied to `website/docs/design-reference.html`).
+Source of truth for the production build (branch `redesign/immersive-system`, migration complete through Phase 9 — see `techwise-iq-build-handoff/TASKS.md`). This replaces the retired "Kinetic" system (Anton uppercase, bone/ink/hot brutalist). Kinetic tokens and a handful of unreferenced components (`ui/Button`, `ui/StickerBadge`, `ui/VelocitySkewObserver`, `ui/ScrollAnimator`, `ui/PlaceholderImage`) still exist on disk for historical reasons but are **dead code** — no live route imports them. Do not build on them; they're pending deletion in the Release checklist.
 
-The personality: **type IS the design.** Massive moving typography carries the energy; color is hot and confident; structure is hard-edged. Pop elements (stickers, geometric shapes, sun yellow) are seasoning, never the meal. Photography is optional and rare — when the type works, images are decoration.
+Design thesis (`techwise-iq-build-handoff/docs/03_DESIGN_SYSTEM.md`): Techwise IQ should feel like an **operating environment for better systems** — dark technical atmosphere, unusually large typography, crisp interface artifacts, sparse chapter openings, dense capability matrices, controlled color shifts, spatial depth. It must **not** read as cyberpunk, gaming, generic SaaS, "AI neon," or a corporate consultancy deck.
 
 ## 1. Color tokens
 
+All tokens live in `src/app/globals.css` (`:root` + Tailwind `@theme`), prefixed `--tw-*` for the immersive layer:
+
 ```css
-:root {
-  --bone: #F2F0E9;  /* warm cream — page background, never pure white */
-  --ink:  #101010;  /* near-black — text, borders, dark sections */
-  --hot:  #FF4D00;  /* hot orange — PRIMARY accent: CTAs, highlights, ticker bg */
-  --sun:  #FFD02F;  /* pop yellow — SECONDARY accent: stickers, hover fills. Sparing. */
-  --paper:#FFFFFF;  /* card surfaces if ever needed */
-  --soft: #66635B;  /* muted labels on light bg — darkened from #7A776E 2026-07-10 for WCAG AA (5.3:1 on bone) */
-  --soft-dark: #9A9A92; /* muted text on ink bg */
-}
+--tw-bg:      #060706;  /* page background — near-black graphite */
+--tw-surface: #101310;  /* raised panels, proof frames */
+--tw-fg:      #F2F4EF;  /* primary foreground */
+--tw-muted:   #8A918C;  /* secondary / meta text (AA on --tw-bg) */
+--tw-line:    #252925;  /* 1px technical rules */
+--tw-line-soft: rgb(242 244 239 / 0.10); /* hairline on floating artifacts */
+
+/* Signal accents — one dominates per viewport, never all at once */
+--tw-acid:    #C8FF54;  /* Techwise / web / advisory */
+--tw-violet:  #695CFF;  /* automation */
+--tw-orange:  #FF6540;  /* apps */
+--tw-blue:    #70A8FF;  /* developer / build */
+
+/* Light proof surfaces (product-demo interiors, not page background) */
+--tw-paper:   #F3F3ED;
+--tw-ink:     #101110;
+
+--tw-accent:  var(--tw-acid);  /* set per-scene via inline style on ImmersiveShell */
 ```
 
 Usage rules:
-- Hot orange is the workhorse accent. Sun yellow appears at most 2–3 times per page (sticker badge, one hover state, one shape). If yellow starts competing with orange, cut yellow.
-- Dark (`--ink`) sections are emphasis moments — max 1–2 per page (statement section, optionally footer).
-- Text pairs that pass contrast: ink/bone, bone/ink, bone/hot (large text only — Anton ≥ 24px), ink/sun. **Never** hot-on-bone for body text, never sun text on bone.
+- Exactly one signal accent active per viewport (`--tw-accent`, set by `ImmersiveShell`'s `scene` prop and read by proof objects, buttons, focus rings). Never mix acid + violet + orange + blue in one screen.
+- `--tw-paper`/`--tw-ink` are for proof-object interiors only (a demo "product surface" floating inside the dark world) — never the page background.
+- Text pairs that pass contrast: `--tw-fg` on `--tw-bg`/`--tw-surface`, `--tw-muted` on `--tw-bg` (AA verified). Never small text at low contrast against the atmosphere/grain layer.
 
 ## 2. Typography
 
-| Role | Font | Usage |
-|---|---|---|
-| Display | **Anton** | All headings + kinetic rows. Always uppercase. letter-spacing +0.005em. Never bold (single weight). |
-| Body / UI | **Archivo** 500–700 | Paragraphs, buttons text |
-| Labels / technical | **Space Mono** 400, 700 | Section labels, list items, claim card, tickers. Uppercase, +0.07em tracking |
+| Role | Font | Variable | Usage |
+|---|---|---|---|
+| Display | **Manrope** (variable grotesk) | `--font-display` | Hero, chapter titles, statements, h2 |
+| Body/UI | **Archivo** | `--font-archivo` | Paragraphs, buttons, capability matrix copy |
+| Labels/mono | **Space Mono** | `--font-mono` | Section eyebrows (`SectionLabel`), proof-frame labels, meta |
 
-Load via `next/font/google`, self-hosted output, `display: swap`. No other families — ever.
+Loaded via `next/font/google` in `layout.tsx` (`Archivo, Manrope, Space_Mono`). **Anton is retired** — removed from `layout.tsx` imports entirely; do not reintroduce it.
 
-Type scale:
+Type scale (`globals.css`):
 
 ```
-kinetic rows: clamp(64px, 12.5vw, 176px) / 0.94
-h1/h2 giant (service rows, statement): clamp(34px, 6–7vw, 86–100px) / 0.95–0.96
-h2 section: clamp(30px, 4.6vw, 62px) / 1.04
-h3: 17–21px uppercase Anton
-body: 16.5px / 1.55
-mono labels: 11.5–13px uppercase
+hero:      clamp(4.25rem, 10.5vw, 10.25rem)
+chapter:   clamp(4rem, 8.7vw, 8.5rem)
+statement: clamp(3rem, 6vw, 6rem)
+h2:        clamp(2.2rem, 4vw, 4.5rem)
+body-lg:   clamp(1.125rem, 0.6rem + 1vw, 1.375rem)
+body:      clamp(0.95rem, 0.9rem + 0.3vw, 1.0625rem)
+meta:      clamp(0.625rem, 0.55rem + 0.35vw, 0.75rem)
 ```
 
-Display tricks (max one per element):
-- `.outline` — transparent fill, 2px ink stroke (hover state for service rows, ghost numbers)
-- strike-through reveal — 0.12em hot bar, scaleX(0)→1, origin left
-- highlight word in `--hot` or `--sun`
+Size is decoupled from semantic element via `DisplayHeading` (`variant="hero" | "chapter" | "statement" | "h2"`, `as` prop for the actual tag) — never invent a new clamp stop inline.
 
-## 3. Structure & borders
+## 3. Structure, borders, radius
 
-- Border: `3px solid var(--ink)`. Section dividers, buttons, badges, accordion rows.
-- Hard shadows, never blurred: `4–5px offset var(--ink)` on buttons/chips, `9px var(--hot)` on the hero claim card. Hover = translate into the shadow (pressed effect).
-- Radius: **0 everywhere.** Circles are allowed only as decorative geometric shapes.
-- Container: max-width 1200px, 24px side padding.
-- Section padding: 96–120px vertical for set-piece sections; the services accordion is edge-to-edge full-bleed with internal `.wrap`.
+- Borders: **1px** technical rules, `var(--tw-line)` (`#252925`) on solid surfaces, `var(--tw-line-soft)` (10% white) on floating artifacts. No 3px Kinetic borders.
+- Radius is **not** zero everywhere — it's a controlled three-step scale:
+  - `--tw-radius-proof: 22px` — large proof objects (the demo "product" surfaces)
+  - `--tw-radius-artifact: 10px` — floating artifacts, small cards
+  - `--tw-radius-control: 999px` — buttons/pills (`PrimaryCTA`)
+  - Everything else (section wrappers, text blocks, technical rules) stays square. Don't make every content block a rounded rectangle — radius signals "this is an interface," not decoration.
+- Container: `--tw-max: 1520px`, page padding `--tw-page-pad: clamp(18px, 4vw, 64px)`.
+- Grid: 12-column conceptual grid; chapter openers are often a 6/6 split; dense capability grids are 3-col desktop / 1-col mobile.
+- Section rhythm (`Section` primitive, `density` prop): `sparse` (hero, chapter title, final CTA) vs `dense` (feature matrices, proof metadata, work lists) vs `flush`. **Never stack many medium-density sections in a row.**
 
 ## 4. Components (matches `src/components/`)
 
-**Nav** — fixed (not sticky-bordered), transparent with bone fade-out gradient (the one permitted gradient — it's functional, not decorative). Anton wordmark with hot "IQ", single mono CTA chip with hot shadow.
+**Global shell:**
+- `global/SiteHeader` — compact mono nav, hide-on-scroll, solid technical surface when scrolled (no glass/blur), skip-link, focus trap.
+- `global/SiteFooter` — all contact/legal links preserved, dark restyle.
+- `global/MobileNav` — full-screen overlay, focus trap + return, Esc, scroll-lock.
 
-**KineticRows (Hero)** — 3 stacked full-bleed marquee rows: solid ink / outlined / hot orange. Opposing directions, 22–30s linear loops. Centered claim card: ink bg, mono type, rotate(-2deg), 9px hot shadow. Sticker badge top-right: sun bg, 3px border, rotate(7deg), slow wobble.
+**Immersive primitives (`immersive/primitives`):**
+- `Section` — sparse/dense/flush rhythm, content rail, optional `bleed`/`ruled`, `data-scene` marker for the scene observer.
+- `SectionLabel` — mono eyebrow label.
+- `DisplayHeading` — hero/chapter/statement/h2, element decoupled from size.
+- `ImmersiveShell` — establishes `.tw-world` (dark atmosphere + `--tw-accent` per `scene` prop), mounts `SmoothScroll` and `SceneLoader`. Wrap any route that should feel like part of the world; pass `withScene={false}` for content-first routes (legal, 404) to skip the WebGL layer.
 
-**Manifesto** — one giant Anton paragraph; words start at 14% opacity and "light up" sequentially as the section scrolls through the viewport. Key word in hot.
+**Scene (`immersive/PersistentScene`, `lib/scene/*`):** one session-singleton Three.js renderer (vanilla Three, not React Three Fiber), re-parented across route navigation instead of remounted. `lib/scene/presets.ts` maps each `SceneName` (`intro | web | automation | apps | advisory | developer`) to a muted point-field tint + wireframe secondary + camera/density/atmosphere values — colors are always muted hex ints, never neon-saturated. `data-scene` attributes on `Section` publish the active chapter; an IntersectionObserver drives interpolation. Full ownership detail in `frontend-specialist`'s brief.
 
-**ServiceRows** — full-bleed accordion rows with 3px top borders. Row: mono number (hot) + giant Anton title + hot arrow (appears on hover, rotates 45°→135° when open). Hover: title hollows to outline, row indents 22px. Open: bg shifts to #ECE9E0, body grid = description + mono deliverables list. One open at a time. Rows are buttons (keyboard accessible, aria-expanded).
+**Proof objects (`components/proof/`):** DOM/CSS/SVG demonstrations, not screenshots. Shared `ProofFrame` (bordered surface, mono label bar, honest "Illustrative" tag, optional caption, `surface="dark"|"light"`, accent follows ambient `--tw-accent`). Concrete demos: `WebsiteProof`, `AutomationFlowDemo`, `OperationsConsoleDemo`, `OpportunityMapDemo`, `BuildProof`, dispatched via `proof/index.tsx` (`<ProofObject variant=... />`). All state is deterministic sample data — never a fake live metric.
 
-**Ticker** — full-bleed hot-orange strip, 3px borders, mono uppercase marquee of proof phrases ("Fixed scope ★ Demos every Friday ★ …"). Max one per page; it replaces the old StatsStrip concept — slogans, not numbers, so nothing to fabricate.
+**Homepage (`immersive/home/`):** `HomeHero` (real `<h1>`, static floating artifacts, shed below 768px), `Chapter` (reusable chapter shell: `SectionLabel` + `DisplayHeading` + `ProofObject` + capability matrix), `ChapterNav` (compact persistent nav, scroll-synced active state, native hash anchors), `SelectedWork` (real case studies only), `OperatingModel`, `FinalCta`, `ChapterArtifacts`, `HomeMotion` (GSAP client boundary — see §5).
 
-**ProcessSection** — 4 columns, 3px vertical rules; ghost Anton numbers (outline) that fill hot on hover; Anton h3 + short body.
-
-**ShoutSection (statement)** — ink bg, giant Anton claim, strike-through reveal on the negated word ("hours."), highlight word in sun. Floating bordered geometric shapes (hot circle, sun square), slow bob. Max 2 shapes.
-
-**CTASection (contact)** — mono kicker + giant Anton mailto (hover: hot underline wipes in left→right, text turns hot) + row of bordered mono chips (WhatsApp, booking, location) with sun hover fill.
-
-**Footer** — 3px top border, two mono lines. Quiet.
-
-**Buttons (ui/)** — mono 700 uppercase 13px, 3px border, hard ink shadow, hot bg (primary) or bone bg (secondary). Hover: translate(3px,3px), shadow shrinks.
+**Buttons (`ui/PrimaryCTA`):** pill control (`--tw-radius-control`). `primary` = light bg / dark text, `secondary` = dark translucent + technical border, `ghost` = inline text link. Polymorphic: `Link` for internal routes, plain `<a>` for external (mailto/wa.me/http) with `external` + `rel`, or `<button>`. No gradients, ever.
 
 ## 5. Motion
 
-Vocabulary (everything on the page uses only these):
-- Marquee loops: 22–30s linear, infinite. Hero rows + ticker only.
-- Scroll reveals (GSAP ScrollTrigger via `ScrollAnimator`, `data-animate`): `slide-up` (default), `slide-left`, `slide-right`, `scale`, `rotate-x` — 0.8s `power3.out`, fire once at top 85%; sibling stagger via `data-stagger` (0.08–0.15s). *(Ratified 2026-07-09, replaces the legacy `.rv` IntersectionObserver reveals — that system is deleted.)*
-- Scrub parallax (`data-parallax`, GSAP scrub): sparing, decorative strips only (e.g. ticker). *(Ratified 2026-07-09.)*
-- Hover micro-interactions: pressed-shadow buttons, outline-hollow titles, arrow slides.
-- Accordion: max-height transition, 0.5s same curve.
-- Decorative idle: sticker wobble 5s, shape bob 6–7s.
-- Particle field background (`FluidParticles`, Home hero only): see prior ratification.
+Four primitives only (`techwise-iq-build-handoff/docs/04_MOTION_AND_3D_SPEC.md`) — motion exists to make the site feel like **one continuous technical world**, not an effects checklist:
 
-**The showpiece (one per page):**
-- Home: velocity skew — kinetic rows skew with scroll velocity (`skewY`, clamped ±7°, lerp 0.12, rAF loop). Skew and GSAP entrance live on separate wrapper elements — never write two systems to one element's `transform`.
-- /services: mouse-scrub robot video (`RobotVideo`) — self-hosted mp4 (dense keyframes for seek-smoothness) + webp poster, `muted playsInline preload="metadata" aria-hidden`, scrub disabled under reduced motion. *(Ratified 2026-07-09.)*
-- Other pages get NO showpiece until one is deliberately designed.
+1. **Ambient persistence** — the WebGL scene lives across the whole page, moves slowly, never demands attention.
+2. **Chapter transition** — scene color/density/form interpolates gradually as a chapter enters; title + proof object enter with restrained depth.
+3. **Proof-object depth** — the central proof object moves slightly relative to scroll; supporting artifacts move at a different depth ratio (parallax, not sway).
+4. **Reveal** — text/dense content use consistent vertical or clip reveals.
 
-Rules:
-- transform/opacity only. No layout-triggering properties, no filter animation.
-- `prefers-reduced-motion: reduce` → all animation off, marquees static, manifesto fully lit, accordions open-capable, page fully readable. Already proven in the mockup — port it faithfully.
-- JS animation isolated in hooks/components (`ScrollAnimator`, `useVelocitySkew`, `useAccordion`) — never inline copy-paste.
+Architecture: **GSAP is the sole DOM animation library** (`gsap` + `@gsap/react`) — no Framer Motion. **Lenis** (`lenis`) drives smooth scroll via `immersive/SmoothScroll.tsx`, feeding scene state (`feedScene` prop on `ImmersiveShell`). Do not add a second scroll or animation library without updating this doc and getting sign-off — that's a vocabulary expansion.
+
+Timing:
+```
+micro:     160–240ms
+component: 400–650ms
+chapter:   700–1100ms
+ambient:   8–30s loops
+easing:    cubic-bezier(.16, 1, .3, 1)
+```
+
+Reduced motion (`prefers-reduced-motion: reduce`): no smooth scroll (Lenis disabled), no parallax, scene freezes to a single static frame (no RAF loop), no infinite artifact drift, content appears directly or with minimal fade. This is implemented at the token/CSS layer (`.tw-world` reduced-motion block in `globals.css`) and in the scene engine (renders one static frame, no loop) — verify both, don't assume one covers the other.
+
+Performance budget: one WebGL renderer (session singleton, guarded against duplicates on Fast Refresh/navigation), DPR capped `min(devicePixelRatio, 1.5)` desktop / `1` on constrained mobile, signal count capped (4 mobile / 8 desktop; reusable buffers of 32 / 100 points), target 60fps desktop / 30–60fps mobile, never block scrolling, no bloom/post-processing in v1. WebGL failure must fall back to the CSS radial atmosphere + grain — the site must never render blank.
 
 ## 6. Accessibility
 
-- Service accordion rows: `<button>` semantics, `aria-expanded`, Enter/Space toggle, visible focus = 3px hot outline offset 2px.
-- Kinetic rows + ticker are decorative: `aria-hidden="true"`, real h1 lives in the claim card (visually styled, semantically first).
-- Contrast rules in §1. Touch targets ≥ 44px. Marquees pause under reduced motion.
-- Small text on hot backgrounds is always ink, never bone (bone-on-hot ≈ 2.6:1, fails WCAG AA below large Anton sizes). Applies to ticker, primary buttons, chips, hover states. *(Ratified 2026-07-09.)*
-- Test the manifesto lit-words effect with a screen reader — content must read as one normal paragraph.
+- DOM carries all meaningful content, navigation, interaction, and accessibility — the scene canvas is `aria-hidden`, `pointer-events: none`, purely decorative.
+- Real `<h1>` lives in `HomeHero`, not in decorative chapter titles alone.
+- Chapter nav: native hash anchors, keyboard operable, visible focus (acid focus ring, scoped inside `.tw-world`), scroll-synced `aria-current`.
+- Skip link precedes all other focusable elements (including the global WhatsApp control — this was a real bug, fixed in Phase 9; don't regress it).
+- Touch targets ≥44px. Mobile sheds 30–60% of floating artifacts and shrinks spatial depth — verify by reading the actual breakpoint CSS, not assuming.
+- Proof objects are labelled figures (`ProofFrame`'s `aria-label`) with an honest "Illustrative" tag — never presented as real live data.
+- Contrast: `--tw-fg`/`--tw-muted` on `--tw-bg` verified AA; grain/atmosphere layer must never sit at meaningful opacity over small text (`0.06–0.12` cap).
 
 ## 7. Don'ts (anti-slop)
 
-No decorative gradients (nav fade exempt). No blurred shadows or glows. No rounded corners. No Inter/Roboto. No photography in the hero — type carries it. If photos appear elsewhere (case studies): 3px ink border + hard shadow, no filters required. No emoji in UI. No third accent color. No second showpiece. No carousel anything. When tempted to add an effect, re-read §5's vocabulary — if it's not listed, it doesn't ship.
+Full checklist: `docs/anti-slop-checklist.md`. System-specific don'ts from the design brief:
+No generic glass cards everywhere. No neon purple+blue gradient as a default "AI" identity. No meaningless KPI dashboards. No random particle explosions. No 3D spheres behind every heading. No tiny low-contrast copy. No endless logo/testimonial blocks without evidence. No rounded-card overload — radius is reserved for proof objects, floating artifacts, and CTAs (§3). No second scroll/animation library. No fabricated metrics in proof objects — sample data must read as sample data.
+
+
+## Homepage refinement — 2026-09-05
+
+Approved direction: hero → compact service introduction → Websites → Custom Software → AI Automation & Advisory → Selected Work → working relationship → contact. Client evidence deliberately follows the three services.
+
+- `home/studio.module.css` composes the homepage with existing type stops: chapter-scale h1 on large desktops, hero scale on phones, h2 for service headings. Manrope display, Archivo copy, Space Mono metadata; the headline accent is acid. Service scene accents remain local.
+- `HomeHero` is an interface composition with a protected text column, visible project/work links, and stacked illustrative website/software/workflow panels. Phone layouts place the interface composition below the text and actions.
+- `ServiceStories` replaces the five homepage chapter instances and capability matrices. Legacy Chapter/ChapterNav/proof components remain on disk; they are not mounted on the homepage.
+- `ServiceDemo` adds finite four-stage demonstrations, built as accessible DOM/CSS with a GSAP timeline. They start in view, pause offscreen or in a hidden tab, and allow replay, pause and manual stepping. Software's manual path includes approving a sample request. Reduced motion renders the finished example and permits manual steps without animation. Without JavaScript, the completed example remains visible and controls stay hidden.
+- The WebGL knot and particle field are replaced with five connected interface outlines. Matching vertices interpolate between browser, software-module and branching-workflow layouts. Small signals travel along the connections. Keep this geometry quiet behind the foreground interfaces. The session singleton, CSS fallback, DPR caps and mobile frame cap remain.
+- Lenis duration is 0.85s, driven by the GSAP ticker; native mobile touch remains. Scene loading is dynamic so text-only routes do not fetch Three.js through the scroll controller. Scene, homepage reveals and demos react to live reduced-motion changes.
+- The persistent WhatsApp action now uses the immersive surface, border and pill tokens. The bottom chapter dock is removed from the homepage.
+
+## Motion and footer revision — 2026-09-05
+
+The user's follow-up supersedes the restrained hero and finite-demo direction above:
+
+- Hero: centred chapter-scale display typography, clipped line entrances, floating interface fragments and a visible kinetic WebGL core. `HeroStage.module.css` owns the hero; the service layouts continue to use `studio.module.css`. Supporting copy and both hero actions stay readable and clear of the artifacts.
+- Scene: woven geometry and three orbit paths return behind the hero, alongside the service-specific interface panels. Ambient dust is capped at 480 desktop / 160 mobile, in addition to the 8 / 4 travelling connection signals. Initial mobile geometry uses fewer segments. The same renderer, DPR caps, reduced-motion behaviour and offscreen-tab pause remain.
+- Demonstrations: GSAP timelines now loop while visible. Four overlapping beats assemble interface elements, adapt a website to mobile, move a cursor toward a CTA, assemble an operational app, reveal checks and approval, and move signals through an AI workflow. Each cycle holds its conclusion and fades before rebuilding. Pause remains available throughout the loop. Manual stepping and reduced-motion/no-JavaScript conclusions remain supported.
+- First-visit introduction: `IntroPreloader` uses “Think. Build. Move.” and Web/Software/AI modules, followed by a curtain exit into the hero animation. Once per tab, approximately 1.85 seconds, no fabricated load percentages. Reduced motion, anchor arrivals and unavailable storage bypass it. Keyboard, wheel or pointer input dismisses it. A JS timeout and CSS fail-open ensure it cannot permanently cover content.
+- Footer: a large linked project invitation, email, contact/navigation/service links, oversized wordmark and legal row. The homepage's separate final CTA is removed to avoid repeating the invitation. The global footer follows the same type, colour, radius and spacing vocabulary.

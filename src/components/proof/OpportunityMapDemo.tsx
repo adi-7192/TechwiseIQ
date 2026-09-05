@@ -1,4 +1,4 @@
-import ProofFrame from './ProofFrame'
+import ProofFrame, { type ProofSurface } from './ProofFrame'
 import styles from './OpportunityMapDemo.module.css'
 
 type Tier = 'build' | 'next' | 'test' | 'later'
@@ -41,6 +41,7 @@ const LEGEND: Tier[] = ['build', 'next', 'test', 'later']
 type OpportunityMapDemoProps = {
   caption?: string
   className?: string
+  surface?: ProofSurface
 }
 
 /**
@@ -52,11 +53,13 @@ type OpportunityMapDemoProps = {
 export default function OpportunityMapDemo({
   caption = 'Value against feasibility, risk called out per item — turned into a build order, not a wishlist.',
   className,
+  surface = 'dark',
 }: OpportunityMapDemoProps) {
   return (
     <ProofFrame
       label="map / ai-opportunities"
       caption={caption}
+      surface={surface}
       className={className}
       aria-label="Illustrative AI opportunity map plotting value against feasibility with risk labelled"
     >

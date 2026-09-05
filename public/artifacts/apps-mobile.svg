@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+<rect width="1200" height="760" rx="24" fill="#f6f6f1"/>
+
+<rect x="360" y="55" width="480" height="650" rx="68" fill="#111"/>
+<rect x="385" y="82" width="430" height="594" rx="46" fill="#f2f2ed"/>
+<rect x="520" y="99" width="160" height="24" rx="12" fill="#111"/>
+<text x="425" y="175" font-family="Arial" font-size="22" font-weight="700" fill="#111">Field approvals</text>
+<rect x="425" y="214" width="350" height="122" rx="20" fill="#fff"/><text x="451" y="255" font-family="Arial" font-size="15" fill="#666">NEW REQUEST</text><text x="451" y="294" font-family="Arial" font-size="22" font-weight="700" fill="#111">AED 18,400</text><circle cx="729" cy="272" r="25" fill="#c8ff54"/>
+<rect x="425" y="360" width="350" height="122" rx="20" fill="#645cff"/><text x="451" y="405" font-family="Arial" font-size="15" fill="#ddd">AI SUMMARY</text><text x="451" y="446" font-family="Arial" font-size="20" font-weight="700" fill="#fff">Low risk · docs complete</text>
+<rect x="425" y="520" width="166" height="64" rx="32" fill="#111"/><text x="470" y="560" font-family="Arial" font-size="17" fill="#fff">Approve</text><rect x="609" y="520" width="166" height="64" rx="32" fill="#fff" stroke="#111" stroke-width="2"/><text x="660" y="560" font-family="Arial" font-size="17" fill="#111">Review</text>
+
+</svg>

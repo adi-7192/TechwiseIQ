@@ -95,6 +95,7 @@ test('retains meaningful DOM and CSS atmosphere when WebGL is unavailable', asyn
   await page.addInitScript(() => {
     const original = HTMLCanvasElement.prototype.getContext
     HTMLCanvasElement.prototype.getContext = function getContext(
+      this: HTMLCanvasElement,
       contextId: string,
       ...args: unknown[]
     ) {
@@ -106,10 +107,10 @@ test('retains meaningful DOM and CSS atmosphere when WebGL is unavailable', asyn
   await page.goto('/')
   await expect(page.locator('.tw-world')).toBeVisible()
   await expect(
-    page.getByRole('heading', { level: 1, name: /Technology that moves the work/i }),
+    page.getByRole('heading', { level: 1, name: /Technology that/i }),
   ).toBeVisible()
   await expect(page.locator('[data-persistent-scene] canvas')).toHaveCount(0)
-  await expect(page.getByRole('link', { name: 'Bring us the bottleneck' })).toBeVisible()
+  await expect(page.locator('#top').getByRole('link', { name: 'Start a project' })).toBeVisible()
 })
 
 test('keeps shared navigation, contact, legal, and indexing contracts', async ({

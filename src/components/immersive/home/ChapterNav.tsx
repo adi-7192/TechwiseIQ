@@ -9,6 +9,7 @@ const CHAPTER_LINKS = [
   { id: 'automation', label: 'Automation' },
   { id: 'apps', label: 'Apps' },
   { id: 'advisory', label: 'Advisory' },
+  { id: 'build', label: 'Build' },
 ] as const
 
 /** Native anchors keep hash history, keyboard behavior, and no-JS navigation. */

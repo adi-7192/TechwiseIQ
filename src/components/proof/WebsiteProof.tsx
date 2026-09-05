@@ -1,4 +1,4 @@
-import ProofFrame from './ProofFrame'
+import ProofFrame, { type ProofSurface } from './ProofFrame'
 import styles from './WebsiteProof.module.css'
 
 /* Qualitative proof tiles — evidence types, never fabricated numbers. */
@@ -48,6 +48,7 @@ function TileIcon({ name }: { name: string }) {
 type WebsiteProofProps = {
   caption?: string
   className?: string
+  surface?: ProofSurface
 }
 
 /**
@@ -59,11 +60,13 @@ type WebsiteProofProps = {
 export default function WebsiteProof({
   caption = 'How the page argues: one sharp promise, real evidence, a single next action.',
   className,
+  surface = 'dark',
 }: WebsiteProofProps) {
   return (
     <ProofFrame
       label="preview / marketing-site"
       caption={caption}
+      surface={surface}
       className={className}
       aria-label="Illustrative marketing site showing positioning, proof and a single call to action"
     >

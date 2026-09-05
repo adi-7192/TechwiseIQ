@@ -33,9 +33,6 @@ export default function FinalCta() {
           <PrimaryCTA href={FINAL_CTA.secondary.href} variant="secondary">
             {FINAL_CTA.secondary.label}
           </PrimaryCTA>
-          <PrimaryCTA href={FINAL_CTA.ghost.href} variant="ghost" arrow={false}>
-            {FINAL_CTA.ghost.label}
-          </PrimaryCTA>
         </div>
       </div>
     </Section>

@@ -31,7 +31,7 @@ for (const viewport of viewports) {
       .first()
     const heading = page.getByRole('heading', { level: 1 })
     const ctas = hero.getByRole('link', {
-      name: /Bring us the bottleneck|See the work/,
+      name: /Start a project|Explore our work/,
     })
     const header = page.locator('header').first()
     const whatsapp = page.getByRole('link', { name: 'Chat on WhatsApp' })
@@ -87,9 +87,9 @@ test('keeps the desktop hero and its CTAs in view', async ({ page }) => {
 
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   await expect(
-    hero.getByRole('link', { name: /Bring us the bottleneck/ }),
+    hero.getByRole('link', { name: /Start a project/ }),
   ).toBeVisible()
-  await expect(hero.getByRole('link', { name: 'See the work' })).toBeVisible()
+  await expect(hero.getByRole('link', { name: 'Explore our work' })).toBeVisible()
 
   const overflow = await page.evaluate(
     () =>

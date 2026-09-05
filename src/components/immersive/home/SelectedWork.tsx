@@ -14,22 +14,22 @@ import styles from './home.module.css'
  * so this block leads with real proof.
  */
 export default function SelectedWork() {
-  const featured = CASE_STUDIES.filter(
-    (cs): cs is typeof cs & { coverImage: string } =>
-      Boolean(cs.featured && cs.coverImage),
+  const featured = CASE_STUDIES.filter((cs): cs is typeof cs & { coverImage: string } =>
+    Boolean(cs.featured && cs.coverImage)
   )
 
   return (
-    <Section ruled density="dense" aria-labelledby="work-title">
+    <Section
+      id="selected-work"
+      ruled
+      density="dense"
+      data-scene="intro"
+      aria-labelledby="work-title"
+    >
       <div className={styles.workHead} data-home-reveal>
         <div>
-          <SectionLabel index="05">Selected work</SectionLabel>
-          <DisplayHeading
-            as="h2"
-            size="h2"
-            id="work-title"
-            className={styles.chapterTitle}
-          >
+          <SectionLabel index="04">Selected work</SectionLabel>
+          <DisplayHeading as="h2" size="h2" id="work-title" className={styles.chapterTitle}>
             Real projects, shipped.
           </DisplayHeading>
         </div>
@@ -40,16 +40,18 @@ export default function SelectedWork() {
 
       <div className={styles.workGrid} data-home-reveal>
         {featured.map((cs) => (
-          <Link
-            key={cs.slug}
-            href={`/work/${cs.slug}`}
-            className={styles.workCard}
-          >
+          <Link key={cs.slug} href={`/work/${cs.slug}`} className={styles.workCard}>
             <div className={styles.workCover}>
               <Image
-                src={cs.coverImage}
+                src={cs.slug === 'aaskra-realty' ? '/work/aaskra-desktop.webp' : cs.coverImage}
                 alt={`${cs.title} — ${cs.coverCaption}`}
-                fill
+                width={1440}
+                height={cs.slug === 'aaskra-realty' ? 7327 : 960}
+                style={
+                  cs.slug === 'aaskra-realty'
+                    ? { width: '100%', height: 'auto' }
+                    : { width: '100%', height: '100%', objectFit: 'cover' }
+                }
                 sizes="(max-width: 880px) 100vw, 50vw"
               />
             </div>
@@ -59,7 +61,7 @@ export default function SelectedWork() {
                 <span>{SERVICE_LABELS[cs.service]}</span>
                 <span>{cs.timeline}</span>
               </p>
-              <p className={styles.workTitle}>{cs.title}</p>
+              <h3 className={styles.workTitle}>{cs.title}</h3>
               <p className={styles.workOutcome}>{cs.outcome}</p>
               <dl className={styles.workProof}>
                 {cs.workSummary.proof.map((stat) => (

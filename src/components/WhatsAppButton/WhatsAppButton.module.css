@@ -72,3 +72,19 @@
     display: inline;
   }
 }
+
+/* The persistent contact control uses the immersive system across the site. */
+.btn {
+  background: var(--tw-surface);
+  color: var(--tw-fg);
+  border: 1px solid var(--tw-line);
+  border-radius: var(--tw-radius-control);
+  box-shadow: 0 6px 24px rgb(0 0 0 / .2);
+  font-size: 11px;
+  font-weight: 400;
+  min-height: 44px;
+  transition: border-color 200ms, color 200ms;
+}
+.btn:hover { transform: none; border-color: var(--tw-acid); color: var(--tw-acid); box-shadow: 0 6px 24px rgb(0 0 0 / .2); }
+
+:global(html[data-intro='loading']) .btn { visibility: hidden; }

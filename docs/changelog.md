@@ -4,6 +4,44 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-08-31 — Immersive homepage refinement pass (depth, motion, pacing)
+
+Closed the gap between the built immersive homepage and the approved editions
+reference, which had drifted flat/conventional. Additive refinement only — every
+route, real case study, proof-demo, form, SEO and reduced-motion behaviour
+preserved.
+
+- **Smooth scroll (one driver):** added Lenis (`SmoothScroll.tsx`, duration 1.05)
+  advanced from GSAP's single ticker; Lenis scroll drives `ScrollTrigger.update`
+  and feeds the WebGL atmosphere's drift via `engine.setScrollProgress`. Guarded
+  by reduced-motion (live `change` listener), native anchors, and native touch
+  (`syncTouch:false`). `feedScene` gate keeps the renderer off content-only routes.
+- **Proof objects as light heroes:** `ProofFrame` gained a `surface="light"`
+  variant that remaps interior tokens (via `color-mix` on palette tokens) to an
+  off-white product surface with a hard floating shadow — flips all four
+  interactive demos with no per-demo CSS rewrite. Proof stage widened with
+  perspective + `translateZ` depth.
+- **Floating artifacts:** 15 tailored reference SVGs added to `public/artifacts`;
+  new `ChapterArtifacts` places 3–5 parallaxing fragments around each chapter
+  proof (`[data-chapter-artifact]` scrub, desktop-only — hidden and untriggered
+  below 1081px).
+- **Scene presence:** stronger point opacity/atmosphere, wider scroll drift,
+  more distinct per-chapter accents; still NormalBlending (no glow), DPR cap,
+  static reduced-motion frame.
+- **Hero:** 3D orbit (perspective + per-chip Z depth) and a fifth light "panel"
+  fragment introducing the light-surface language above the fold.
+- **New Developer/Build chapter** (`BUILD_CHAPTER` + `BuildProof` using
+  `dev-hero.svg`): a fifth, service-linkless engineering-credibility beat before
+  Selected Work that closes the scene arc on developer blue. Added to `ChapterNav`.
+- **Selected Work transition:** honest "illustrative → real, shipped" bridge
+  marker, enlarged AASKRA/ETF covers (3:2) and outcome stats; scene continuous.
+- **Pacing:** sculpted sparse → spectacular proof → dense matrix rhythm within
+  each chapter.
+- Updated `home-experience` assertions for the fifth chapter (5 proofs, 6 nav
+  links). Chromium suite: 235 active tests green, 26 opt-in captures skipped;
+  lint + build clean. Homepage reviewed at 1440px and 390px and under reduced
+  motion.
+
 ## 2026-08-31 — Full release QA pass
 
 Completed Prompt 13 across routes, navigation, forms, metadata, accessibility,

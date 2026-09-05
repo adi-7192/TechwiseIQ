@@ -32,7 +32,7 @@ export default function PersistentScene({
     // Publish active scene from chapter markers (exclude the world root, which
     // always intersects). Whichever marker crosses the viewport middle wins.
     const markers = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-scene]'),
+      document.querySelectorAll<HTMLElement>('main [data-scene]'),
     ).filter((el) => !el.classList.contains('tw-world'))
 
     const observer = new IntersectionObserver(

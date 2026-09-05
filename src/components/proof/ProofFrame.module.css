@@ -9,9 +9,29 @@
   position: relative;
   border: 1px solid var(--tw-line-soft);
   border-radius: var(--tw-radius-proof);
-  background: var(--tw-surface);
+  background: var(--proof-frame-bg, var(--tw-surface));
   box-shadow: 0 40px 90px rgb(0 0 0 / 0.45);
   overflow: hidden;
+}
+
+/* Light "product" surface: remap the interior tokens the demos already read so
+   the whole proof re-themes to off-white with no per-demo CSS edits. Colours are
+   mixed from existing palette tokens (paper / ink) to stay on-palette. The
+   heavier hard-edged shadow makes it read as a bright object lifted out of the
+   dark scene — the visual hero of its chapter. */
+.light {
+  --proof-frame-bg: var(--tw-paper);
+  --tw-surface: color-mix(in srgb, var(--tw-paper) 55%, var(--paper));
+  --tw-fg: var(--tw-ink);
+  --tw-muted: color-mix(in srgb, var(--tw-ink) 52%, var(--tw-paper));
+  --tw-line: color-mix(in srgb, var(--tw-ink) 16%, transparent);
+  --tw-line-soft: color-mix(in srgb, var(--tw-ink) 10%, transparent);
+  color: var(--tw-ink);
+  border-color: color-mix(in srgb, var(--tw-ink) 12%, transparent);
+  box-shadow:
+    0 2px 0 color-mix(in srgb, var(--paper) 80%, transparent) inset,
+    0 44px 120px rgb(0 0 0 / 0.6),
+    0 8px 24px rgb(0 0 0 / 0.35);
 }
 
 .bar {

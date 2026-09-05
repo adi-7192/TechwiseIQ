@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import ImmersiveShell from '@/components/immersive/ImmersiveShell'
 import { SiteHeader, SiteFooter } from '@/components/global'
 import ImmersiveHome from '@/components/immersive/home'
+import IntroPreloader from '@/components/immersive/home/IntroPreloader'
 import { socialMetadata } from '@/lib/metadata'
 
 export const metadata: Metadata = {
@@ -60,6 +61,7 @@ const jsonLd = {
 export default function Home() {
   return (
     <ImmersiveShell scene="intro">
+      <IntroPreloader />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

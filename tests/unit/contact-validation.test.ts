@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-// @ts-expect-error Node's built-in TypeScript runner requires the file extension.
 import {
   CONTACT_LIMITS,
   validateContactSubmission,
+// @ts-expect-error Node's built-in TypeScript runner requires the file extension.
 } from '../../src/app/contact/contact-validation.ts'
 
 const valid = {

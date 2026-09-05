@@ -66,50 +66,83 @@
   white-space: nowrap;
 }
 
-/* Hero floating artifacts — decorative, static, shed on small screens */
+/* Hero floating artifacts — decorative, static, shed on small screens. The
+   orbit is a 3D stage: each chip sits at a different Z depth (via the standalone
+   `translate` property so GSAP keeps `transform` for pointer/scroll parallax),
+   giving the first viewport real dimensional depth. */
 .heroOrbit {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
+  perspective: 1300px;
+  transform-style: preserve-3d;
 }
 .orbitChip {
   position: absolute;
-  width: clamp(120px, 12vw, 168px);
+  width: clamp(120px, 12vw, 172px);
   padding: 0.5rem;
   border: 1px solid var(--tw-line-soft);
   border-radius: var(--tw-radius-artifact);
   background: color-mix(in oklab, var(--tw-surface) 86%, #000 14%);
   box-shadow: 0 30px 70px rgb(0 0 0 / 0.5);
+  translate: 0 0 var(--z, 0px);
 }
 .orbitChip svg {
   display: block;
   width: 100%;
   height: auto;
 }
+/* Light proof-surface fragment — brighter, lifted further forward. */
+.orbitChipLight {
+  padding: 0;
+  overflow: hidden;
+  border-color: rgb(16 17 16 / 0.12);
+  background: var(--tw-paper);
+  box-shadow:
+    0 38px 90px rgb(0 0 0 / 0.55),
+    0 6px 18px rgb(0 0 0 / 0.35);
+}
 .o1 {
-  left: 3%;
-  top: 20%;
-  rotate: -7deg;
+  left: 2%;
+  top: 18%;
+  rotate: -8deg;
+  --z: -120px;
 }
 .o2 {
-  right: 4%;
-  top: 16%;
-  rotate: 6deg;
+  right: 3%;
+  top: 13%;
+  rotate: 7deg;
+  --z: -60px;
 }
 .o3 {
-  left: 8%;
-  bottom: 12%;
-  rotate: 4deg;
+  left: 6%;
+  bottom: 11%;
+  rotate: 5deg;
+  --z: -180px;
 }
 .o4 {
-  right: 8%;
-  bottom: 15%;
-  rotate: -5deg;
+  right: 7%;
+  bottom: 14%;
+  rotate: -6deg;
+  --z: -30px;
+}
+.o5 {
+  right: 15%;
+  top: 26%;
+  rotate: 4deg;
+  --z: 40px;
+}
+@media (max-width: 1200px) {
+  .o5 {
+    right: 4%;
+    top: 60%;
+  }
 }
 @media (max-width: 1024px) {
   .o3,
-  .o4 {
+  .o4,
+  .o5 {
     display: none;
   }
 }
@@ -220,21 +253,34 @@
   }
 }
 
-/* Capability matrix — dense 3-col grid of technical rules */
+/* Proof stage — the spectacular beat of the chapter. The proof is a defined,
+   centred object (not full-bleed) lifted out of the dark scene, with room around
+   it for floating artifacts. Generous air before and after separates the sparse
+   head and the dense matrix: sparse → spectacular → dense. */
 .proofReveal {
-  margin-block-start: clamp(3rem, 7vh, 5rem);
+  position: relative;
+  margin-block-start: clamp(4.5rem, 11vh, 9rem);
+  padding-block: clamp(1rem, 4vh, 3.5rem);
+  perspective: 1500px;
+  display: flex;
+  justify-content: center;
 }
 
 .proofDepth {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 940px;
   transform-style: preserve-3d;
   transform-origin: center;
+  will-change: transform;
 }
 
 .matrix {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   border-top: 1px solid var(--tw-line);
-  margin-block-start: clamp(3rem, 7vh, 5rem);
+  margin-block-start: clamp(4rem, 9vh, 7rem);
 }
 .cap {
   padding: 1.75rem 1.5rem 2.25rem 0;
@@ -293,6 +339,22 @@
 }
 
 /* ─── 7 · Selected work ─── */
+/* Deliberate bridge: the immersive chapters above are honestly labelled
+   illustrative; this hands off to real, shipped evidence so the lower half
+   reads as a change of register, not a generic agency template. */
+.workBridge {
+  max-width: 62ch;
+  margin-block-end: clamp(2.5rem, 6vh, 4rem);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  line-height: 1.7;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tw-muted);
+}
+.workBridgeReal {
+  color: var(--tw-fg);
+}
 .workHead {
   display: flex;
   flex-wrap: wrap;
@@ -303,8 +365,8 @@
 .workGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-  margin-block-start: clamp(2.5rem, 6vh, 4rem);
+  gap: clamp(1.75rem, 3.5vw, 3rem);
+  margin-block-start: clamp(3rem, 7vh, 4.5rem);
 }
 .workCard {
   display: flex;
@@ -323,12 +385,16 @@
 }
 .workCover {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
   border-bottom: 1px solid var(--tw-line);
 }
 .workCover :global(img) {
   object-fit: cover;
+  transition: transform var(--tw-duration-chapter) var(--tw-ease-out);
+}
+.workCard:hover .workCover :global(img) {
+  transform: scale(1.03);
 }
 .workBody {
   display: flex;
@@ -347,10 +413,10 @@
   color: var(--tw-muted);
 }
 .workTitle {
-  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
   font-weight: 700;
   line-height: 1.02;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 .workOutcome {
   font-size: var(--tw-type-body);
@@ -367,7 +433,7 @@
 }
 .proofValue {
   display: block;
-  font-size: 1.35rem;
+  font-size: clamp(1.5rem, 2.4vw, 1.85rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--tw-fg);
@@ -493,3 +559,17 @@
   gap: 0.85rem;
   margin-block-start: clamp(2rem, 4vh, 2.75rem);
 }
+
+/* Homepage refinement: quiet evidence, readable details, and consistent rhythm. */
+.workCover { aspect-ratio: 2 / 1; }
+.workMeta, .proofLabel, .workCta, .promiseIndex { font-size: .6875rem; }
+.workTitle { line-height: 1.1; }
+.workOutcome, .promiseBody { font-family: var(--font-archivo), sans-serif; }
+.ctaTitle .tail { color: var(--tw-acid); }
+@media (max-width: 880px) { .promise + .promise { border-left: 0; padding-inline-start: 0; }.promise:nth-child(2n) { padding-inline-start: 1.5rem; border-left: 1px solid var(--tw-line); } }
+@media (max-width: 480px) { .promise:nth-child(2n) { padding-inline-start: 0; border-left: 0; } }
+
+.workBody { flex: 1; }
+.workProof { margin-block-start: auto; }
+.workOutcome { margin-block-end: .75rem; }
+.workCta { margin-block-start: 0; }

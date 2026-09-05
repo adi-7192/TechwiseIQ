@@ -1,227 +1,80 @@
 import SectionLabel from '@/components/immersive/primitives/SectionLabel'
-import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
 import PrimaryCTA from '@/components/ui/PrimaryCTA'
-import { HERO } from './home-content'
-import styles from './home.module.css'
+import styles from './HeroStage.module.css'
 
-/* Tiny static hero artifacts — abstract system marks, purely decorative. */
-function ChipRoadmap() {
-  return (
-    <svg viewBox="0 0 148 92" role="img" aria-hidden="true">
-      <line x1="18" y1="24" x2="130" y2="24" stroke="var(--tw-line)" />
-      <line x1="18" y1="48" x2="130" y2="48" stroke="var(--tw-line)" />
-      <line x1="18" y1="72" x2="130" y2="72" stroke="var(--tw-line)" />
-      <rect
-        x="18"
-        y="19"
-        width="46"
-        height="10"
-        rx="3"
-        fill="var(--tw-accent)"
-      />
-      <rect
-        x="72"
-        y="43"
-        width="34"
-        height="10"
-        rx="3"
-        fill="rgb(242 244 239 / 0.14)"
-      />
-      <rect
-        x="34"
-        y="67"
-        width="40"
-        height="10"
-        rx="3"
-        fill="rgb(242 244 239 / 0.14)"
-      />
-    </svg>
-  )
-}
-function ChipCode() {
-  return (
-    <svg viewBox="0 0 148 92" role="img" aria-hidden="true">
-      <rect
-        x="14"
-        y="16"
-        width="60"
-        height="6"
-        rx="3"
-        fill="rgb(242 244 239 / 0.16)"
-      />
-      <rect
-        x="26"
-        y="30"
-        width="88"
-        height="6"
-        rx="3"
-        fill="rgb(242 244 239 / 0.10)"
-      />
-      <rect
-        x="26"
-        y="44"
-        width="54"
-        height="6"
-        rx="3"
-        fill="var(--tw-accent)"
-      />
-      <rect
-        x="26"
-        y="58"
-        width="72"
-        height="6"
-        rx="3"
-        fill="rgb(242 244 239 / 0.10)"
-      />
-      <rect
-        x="14"
-        y="72"
-        width="40"
-        height="6"
-        rx="3"
-        fill="rgb(242 244 239 / 0.16)"
-      />
-    </svg>
-  )
-}
-function ChipScore() {
-  return (
-    <svg viewBox="0 0 148 92" role="img" aria-hidden="true">
-      <circle
-        cx="34"
-        cy="46"
-        r="22"
-        fill="none"
-        stroke="var(--tw-line)"
-        strokeWidth="6"
-      />
-      <path
-        d="M34 24 a22 22 0 0 1 19 33"
-        fill="none"
-        stroke="var(--tw-accent)"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
-      <rect
-        x="72"
-        y="34"
-        width="58"
-        height="7"
-        rx="3"
-        fill="rgb(242 244 239 / 0.14)"
-      />
-      <rect
-        x="72"
-        y="50"
-        width="40"
-        height="7"
-        rx="3"
-        fill="rgb(242 244 239 / 0.10)"
-      />
-    </svg>
-  )
-}
-function ChipFlow() {
-  return (
-    <svg viewBox="0 0 148 92" role="img" aria-hidden="true">
-      <rect
-        x="12"
-        y="34"
-        width="30"
-        height="24"
-        rx="4"
-        fill="none"
-        stroke="var(--tw-line)"
-      />
-      <rect
-        x="59"
-        y="34"
-        width="30"
-        height="24"
-        rx="4"
-        fill="none"
-        stroke="var(--tw-line)"
-      />
-      <rect
-        x="106"
-        y="34"
-        width="30"
-        height="24"
-        rx="4"
-        fill="none"
-        stroke="var(--tw-accent)"
-      />
-      <line x1="42" y1="46" x2="59" y2="46" stroke="var(--tw-line)" />
-      <line x1="89" y1="46" x2="106" y2="46" stroke="var(--tw-line)" />
-    </svg>
-  )
-}
-
-/** Section 1 — immersive hero. Real page <h1> lives here. */
 export default function HomeHero() {
   return (
-    <section
-      id="top"
-      className={styles.hero}
-      data-scene="intro"
-      aria-labelledby="hero-title"
-    >
-      <div className={styles.heroOrbit} aria-hidden="true">
-        <div
-          className={`${styles.orbitChip} ${styles.o1}`}
-          data-home-artifact
-          data-depth="0.8"
-        >
-          <ChipRoadmap />
+    <section id="top" className={styles.hero} data-scene="intro" aria-labelledby="hero-title">
+      <div className={styles.orbit} aria-hidden="true">
+        <div className={`${styles.artifact} ${styles.website}`} data-home-artifact>
+          <span className={styles.artifactLabel}>01 / WEB EXPERIENCE</span>
+          <div className={styles.sitePreview}>
+            <span>FORM®</span>
+            <b>
+              A different
+              <br />
+              perspective.
+            </b>
+            <i />
+            <small>EXPLORE WHAT’S NEXT ↗</small>
+          </div>
         </div>
-        <div
-          className={`${styles.orbitChip} ${styles.o2}`}
-          data-home-artifact
-          data-depth="1.1"
-        >
-          <ChipScore />
+        <div className={`${styles.artifact} ${styles.software}`} data-home-artifact>
+          <span className={styles.artifactLabel}>02 / SOFTWARE SYSTEMS</span>
+          <div className={styles.code}>
+            <span>&lt;your-next-move&gt;</span>
+            <span>&nbsp; design.withPurpose()</span>
+            <span>&nbsp; build.forPeople()</span>
+            <span>&lt;/your-next-move&gt;</span>
+          </div>
+          <div className={styles.artifactFoot}>
+            <i /> Built around your business
+          </div>
         </div>
-        <div
-          className={`${styles.orbitChip} ${styles.o3}`}
-          data-home-artifact
-          data-depth="0.65"
-        >
-          <ChipFlow />
-        </div>
-        <div
-          className={`${styles.orbitChip} ${styles.o4}`}
-          data-home-artifact
-          data-depth="0.95"
-        >
-          <ChipCode />
-        </div>
-      </div>
-
-      <div className={styles.heroInner} data-home-reveal>
-        <SectionLabel className={styles.heroSup}>{HERO.sup}</SectionLabel>
-        <DisplayHeading
-          as="h1"
-          size="hero"
-          id="hero-title"
-          className={styles.heroTitle}
-        >
-          {HERO.titleLead}
-          <span className={styles.tail}>{HERO.titleTail}</span>
-        </DisplayHeading>
-        <p className={styles.heroSupport}>{HERO.support}</p>
-        <div className={styles.heroActions}>
-          <PrimaryCTA href={HERO.primary.href} variant="primary">
-            {HERO.primary.label}
-          </PrimaryCTA>
-          <PrimaryCTA href={HERO.secondary.href} variant="secondary">
-            {HERO.secondary.label}
-          </PrimaryCTA>
+        <div className={`${styles.artifact} ${styles.automation}`} data-home-artifact>
+          <span className={styles.artifactLabel}>03 / CONNECTED WORKFLOWS</span>
+          <div className={styles.flow}>
+            <span>Input</span>
+            <i>→</i>
+            <span>Think</span>
+            <i>→</i>
+            <b>Action</b>
+          </div>
+          <div className={styles.artifactFoot}>
+            <i /> Ideas into working systems
+          </div>
         </div>
       </div>
-
-      <span className={styles.scrollNote} aria-hidden="true">
-        {HERO.scrollNote} ↓
-      </span>
+      <div className={`tw-wrap ${styles.content}`}>
+        <div data-hero-support>
+          <SectionLabel>Techwise IQ / Dubai · Worldwide</SectionLabel>
+        </div>
+        <h1 id="hero-title" className={styles.title}>
+          <span className={styles.line}>
+            <span data-hero-line>Technology that</span>
+          </span>
+          <span className={styles.line}>
+            <em data-hero-line>moves the work.</em>
+          </span>
+        </h1>
+        <p className={styles.body} data-hero-support>
+          Websites that make an impression. Software that fits.
+          <br className={styles.desktopBreak} /> AI that puts your business in motion.
+        </p>
+        <div className={styles.actions} data-hero-support>
+          <PrimaryCTA href="/contact">Start a project</PrimaryCTA>
+          <PrimaryCTA href="/work" variant="secondary">
+            Explore our work
+          </PrimaryCTA>
+        </div>
+      </div>
+      <div className={`tw-wrap ${styles.bottom}`} data-hero-support>
+        <span>IDEA → INTERFACE → IMPACT</span>
+        <a href="#services">
+          Discover what we build <span aria-hidden="true">↓</span>
+        </a>
+        <span>SCROLL TO EXPLORE</span>
+      </div>
     </section>
   )
 }

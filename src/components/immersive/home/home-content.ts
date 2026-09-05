@@ -11,9 +11,14 @@ import { BOOKING_URL, CONTACT_EMAIL, WHATSAPP_URL } from '@/lib/site'
  * `@/data/case-studies`, surfaced by SelectedWork).
  */
 
-export type Scene = 'web' | 'automation' | 'apps' | 'advisory'
+export type Scene = 'web' | 'automation' | 'apps' | 'advisory' | 'developer'
 
-export type ProofVariant = 'website' | 'automation' | 'console' | 'opportunity'
+export type ProofVariant =
+  | 'website'
+  | 'automation'
+  | 'console'
+  | 'opportunity'
+  | 'build'
 
 export type Capability = {
   type: string
@@ -32,7 +37,8 @@ export type ChapterContent = {
   transformation: { from: string; to: string }
   proof: ProofVariant
   proofCaption: string
-  link: { href: string; label: string }
+  /** Optional — the engineering chapter is a credibility beat, not a service. */
+  link?: { href: string; label: string }
   capabilities: readonly Capability[]
 }
 
@@ -42,6 +48,7 @@ export const SCENE_ACCENT: Record<Scene, string> = {
   automation: 'var(--tw-violet)',
   apps: 'var(--tw-orange)',
   advisory: 'var(--tw-acid)',
+  developer: 'var(--tw-blue)',
 }
 
 export const HERO = {
@@ -249,10 +256,63 @@ export const CHAPTERS: readonly ChapterContent[] = [
   },
 ]
 
+/**
+ * Engineering credibility beat — placed after the four service chapters and
+ * before real shipped work. Not a fifth service; it's the "and then we actually
+ * ship it" chapter that closes the scene's colour arc on developer blue. No
+ * fabricated metrics — the claims are about engineering discipline.
+ */
+export const BUILD_CHAPTER: ChapterContent = {
+  id: 'build',
+  scene: 'developer',
+  index: '05',
+  kicker: 'Engineering',
+  title: 'Build',
+  thesis: 'The last 20% is where a prototype becomes a system.',
+  thesisBody:
+    'Anyone can demo the happy path. Trust is earned in the edge cases, the deploys, the tests and the handover—the work that decides whether software survives contact with real use.',
+  transformation: { from: 'Convincing demo', to: 'System you can run' },
+  proof: 'build',
+  proofCaption:
+    'Illustrative build view — the unglamorous 20% that decides whether software lasts.',
+  capabilities: [
+    {
+      type: 'Testing',
+      head: 'Cover the paths that actually break',
+      body: 'Automated checks on the flows real users hit—not a green badge for its own sake.',
+    },
+    {
+      type: 'Deployment',
+      head: 'Ship on purpose, not by hand',
+      body: 'Repeatable deploys and previews so releasing is boring—the way it should be.',
+    },
+    {
+      type: 'Performance',
+      head: 'Fast on real devices and networks',
+      body: 'Budgets enforced in the build and measured on 4G, not just a fast laptop.',
+    },
+    {
+      type: 'Observability',
+      head: 'Know when something moves',
+      body: 'Logs and signals that tell you what happened before a customer has to.',
+    },
+    {
+      type: 'Security',
+      head: 'Safe defaults, least privilege',
+      body: 'Handle input, secrets and access as if the internet is hostile—because it is.',
+    },
+    {
+      type: 'Ownership',
+      head: 'You keep the keys',
+      body: 'Code, accounts and infrastructure in your name, documented for whoever comes next.',
+    },
+  ],
+}
+
 export const OPERATING_MODEL = {
   index: 'Operating model',
-  title: 'Small studio. Legible process.',
-  body: 'Small-studio speed comes from reducing translation layers between thinking and making—not from skipping product discipline.',
+  title: 'A clear plan. A working product.',
+  body: 'Work directly with the people designing and building your product. Know what comes next, see real progress, and keep ownership of what we ship.',
   promises: [
     ['Written scope', 'Timeline and cost agreed before the build starts.'],
     ['Weekly demos', 'Progress you can click, every week—not status decks.'],
@@ -264,9 +324,9 @@ export const OPERATING_MODEL = {
 export const FINAL_CTA = {
   index: 'Start here',
   titleLead: 'Bring the problem.',
-  titleTail: 'We’ll find the build.',
+  titleTail: 'Let’s make it work.',
   support:
-    'You don’t need a polished brief. Send the awkward workflow, the underperforming website, the internal tool idea or the AI opportunity nobody has framed properly yet.',
+    'An idea, a frustrating workflow, or a website you’ve outgrown. Tell us where you want to go. You don’t need a polished brief.',
   primary: { href: '/contact', label: 'Start a project' },
   secondary: { href: WHATSAPP_URL, label: 'WhatsApp' },
   ghost: { href: `mailto:${CONTACT_EMAIL}`, label: CONTACT_EMAIL },

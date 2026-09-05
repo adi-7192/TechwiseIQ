@@ -131,6 +131,28 @@ html {
   overflow-x: clip;
 }
 
+/* Lenis smooth-scroll driver (SmoothScroll.tsx). While Lenis is active it owns
+   the scroll position, so the native `scroll-behavior: smooth` above must yield
+   to avoid double-easing. `data-lenis-prevent` opts a nested scroller out.
+   When Lenis is absent (reduced motion / unsupported) none of these apply and
+   native smooth scroll remains. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
 body {
   background: var(--bone);
   color: var(--ink);
@@ -253,11 +275,13 @@ img { display: block; max-width: 100%; }
    Kept subtle; this is the CSS fallback for the future persistent WebGL scene. */
 .tw-world::before {
   background:
+    /* scene-glow-ok — the one sanctioned atmosphere gradient, see design-system.md §7 */
     radial-gradient(
       70% 55% at 50% -10%,
       color-mix(in oklab, var(--tw-accent) 14%, transparent) 0%,
       transparent 60%
     ),
+    /* scene-glow-ok */
     radial-gradient(
       90% 70% at 85% 0%,
       color-mix(in oklab, var(--tw-bg) 100%, #ffffff 4%) 0%,
@@ -292,6 +316,7 @@ img { display: block; max-width: 100%; }
 .tw-world :focus-visible {
   outline: 2px solid var(--tw-accent);
   outline-offset: 3px;
+  /* focus-ring-ok — outline radius, not a content-radius stop */
   border-radius: 2px;
 }
 
