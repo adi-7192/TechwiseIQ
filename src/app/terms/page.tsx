@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <ImmersiveShell scene="advisory" withScene={false}>
+    <ImmersiveShell scene="advisory">
       <SiteHeader />
       <main id="main" className={styles.main}>
         <div className={styles.inner}>

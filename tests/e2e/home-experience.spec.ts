@@ -139,3 +139,94 @@ test('the page and demo conclusions remain useful without JavaScript', async ({ 
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await context.close()
 })
+
+/*
+ * The home page used to paint its fully-revealed layout and only then run
+ * HomeMotion's effect, which snapped everything back to the start of the entry
+ * animation — a visible flash on every client-side navigation to `/`. The
+ * pre-animation state now lands before paint: an inline bootstrap script in
+ * immersive/home/index.tsx on a hard load, HomeMotion's layout effect on a
+ * client-side navigation.
+ *
+ * These assert the mechanism rather than trying to catch the frame — a
+ * rAF sampler races hydration and cannot detect a one-frame flash reliably.
+ */
+
+test('the pre-animation state is applied before hydration, and fails open', async ({ page }) => {
+  // Skip the intro overlay: with it up there is deliberately no pre-state (see
+  // the bootstrap in immersive/home/index.tsx — nothing to hide behind an opaque
+  // overlay, and hiding the hero copy there would only delay LCP).
+  await page.addInitScript(() => sessionStorage.setItem('tw-intro-seen', '1'))
+  // Block the JS bundle — but not the stylesheets, which live in the same
+  // directory — so only the inline bootstrap script runs. That isolates the
+  // first-paint state from anything React does afterwards.
+  await page.route(
+    (url) => url.pathname.startsWith('/_next/static/') && url.pathname.endsWith('.js'),
+    (route) => route.abort(),
+  )
+  await page.goto('/')
+
+  const world = page.locator('[data-home-experience]')
+  await expect(world).toHaveAttribute('data-home-motion', 'pending')
+  await expect(page.locator('[data-home-reveal]').first()).toBeHidden()
+
+  // Nothing may leave the page stuck in `pending`: the bootstrap arms a failsafe.
+  await expect(world).toHaveAttribute('data-home-motion', 'static', { timeout: 6000 })
+  await expect(page.locator('[data-home-reveal]').first()).toBeVisible()
+})
+
+test('the pre-animation state is never armed when scripts do not run', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false })
+  const page = await context.newPage()
+  await page.goto('/')
+  await expect(page.locator('[data-home-experience]')).toHaveAttribute(
+    'data-home-motion',
+    'static',
+  )
+  await expect(page.locator('[data-home-reveal]').first()).toBeVisible()
+  await context.close()
+})
+
+test('handing the pre-animation state over to GSAP leaves nothing hidden', async ({ page }) => {
+  // The reveal tweens end with `clearProps`. If the CSS pre-state were still
+  // matching when the inline styles are stripped it would re-hide the element,
+  // so the `pending` -> `active` handover has to happen at tween-build time.
+  await page.goto('/about')
+  await page.click('header a[aria-label="Techwise IQ — home"]')
+
+  const world = page.locator('[data-home-experience]')
+  await expect(world).toHaveAttribute('data-home-motion', 'active')
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+
+  const reveals = page.locator('[data-home-reveal]')
+  for (let i = 0; i < (await reveals.count()); i++) {
+    const el = reveals.nth(i)
+    await el.scrollIntoViewIfNeeded()
+    await expect(el).toBeVisible()
+    await expect
+      .poll(async () => el.evaluate((n) => parseFloat(getComputedStyle(n).opacity)))
+      .toBeGreaterThan(0.98)
+  }
+
+  // The hero settles too — its lines are clipped by the parent until they land.
+  await expect
+    .poll(() =>
+      page
+        .locator('[data-hero-line]')
+        .first()
+        .evaluate((n) => getComputedStyle(n).transform),
+    )
+    .toBe('none')
+})
+
+test('the intro overlay keeps the hero copy in the first paint', async ({ page }) => {
+  // While the overlay is up the hero is not visible anyway, so the pre-state must
+  // stay off — that first paint is what the browser records as LCP. Regression
+  // guard: arming it here cost ~2s of measured mobile LCP for no visual gain.
+  await page.goto('/')
+  await expect(page.locator('[data-intro-overlay]')).toBeVisible()
+  await expect(page.locator('[data-home-experience]')).not.toHaveAttribute(
+    'data-home-motion',
+    'pending',
+  )
+})

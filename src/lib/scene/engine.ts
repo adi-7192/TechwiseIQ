@@ -1,28 +1,53 @@
 import * as THREE from 'three'
-import { DEFAULT_SCENE, SCENE_PRESETS, type SceneName, type ScenePreset } from './presets'
 
 /**
- * Persistent WebGL atmosphere — ONE renderer for the whole session.
+ * Hero depth field — ONE renderer for the whole session, mounted behind the
+ * home hero only.
  *
- * The engine is a module singleton (stashed on globalThis so Fast Refresh in
- * dev never spins up a second renderer). React's <PersistentScene> is only a
- * thin controller: it `attach()`es the shared canvas into the current
- * `.tw-world` and `detach()`es on unmount. Route changes therefore re-parent the
- * same canvas rather than creating a new renderer — satisfying the spec's
- * "one persistent renderer / no duplicate canvases" rule.
+ * This replaces the site-wide persistent atmosphere. The canvas is no longer a
+ * fixed full-viewport layer following chapter `data-scene` markers; it is an
+ * absolutely-positioned layer inside a single hero container, and the loop is
+ * gated by an IntersectionObserver so the GPU is idle the moment the hero
+ * leaves the viewport. Every other route and chapter keeps the CSS radial
+ * atmosphere in globals.css, which was always the working fallback.
  *
- * If WebGL is unavailable, `getSceneEngine()` returns null and the CSS radial
- * atmosphere in globals.css remains the (fully usable) fallback.
+ * Composition (docs/design-system.md §5, docs/anti-slop-checklist.md):
+ * a receding lattice of clustered nodes with faint links between them — the
+ * depth of a system you are looking into, not decorative stardust. Points are
+ * generated deterministically so the frame is identical across hydration and
+ * reloads, and near-centre nodes are shaded down in the vertex data so hero
+ * copy never sits on top of a bright point (no CSS vignette gradient needed).
+ *
+ * If WebGL is unavailable `getSceneEngine()` returns null and the CSS
+ * atmosphere alone carries the hero.
  */
 
-const MAX_POINTS_DESKTOP = 100
-const MAX_POINTS_MOBILE = 32
+const NODES_DESKTOP = 900
+const NODES_MOBILE = 300
+/** Nodes per cluster: one anchor plus five satellites drawn around it. */
+const CLUSTER = 6
 const MOBILE_QUERY = '(max-width: 768px), (pointer: coarse)'
 
-type EngineState = {
-  target: ScenePreset
-  pointColor: THREE.Color
-  wireColor: THREE.Color
+/** Field extents in world units. Depth is what sells the parallax. */
+const SPAN_X = 26
+const SPAN_Y = 16
+const DEPTH = 22
+
+/** Muted graphite-green at rest, acid only on the few live nodes. */
+const COLOR_NODE = 0x8fb39a
+const COLOR_LIVE = 0xc8ff54
+const COLOR_LINK = 0x4c7360
+
+const CAMERA_Z = 6.4
+
+/** Deterministic pseudo-random — stable across hydration, reload and SSR. */
+function rand(index: number, salt: number) {
+  const value = Math.sin(index * 127.1 + salt * 311.7) * 43758.5453
+  return value - Math.floor(value)
+}
+
+function clamp01(value: number) {
+  return value < 0 ? 0 : value > 1 ? 1 : value
 }
 
 class SceneEngine {
@@ -32,44 +57,39 @@ class SceneEngine {
   private scene!: THREE.Scene
   private camera!: THREE.PerspectiveCamera
   private group!: THREE.Group
-  private points!: THREE.Points
-  private pointMat!: THREE.PointsMaterial
-  private wire!: THREE.LineSegments
-  private dust!: THREE.Points
-  private dustMat!: THREE.PointsMaterial
-  private wireMat!: THREE.LineBasicMaterial
-  private pointLimit = MAX_POINTS_DESKTOP
-  private panelTarget: Float32Array | null = null
+  private nodes!: THREE.Points
+  private nodeMat!: THREE.PointsMaterial
+  private links!: THREE.LineSegments
+  private linkMat!: THREE.LineBasicMaterial
 
-  private state: EngineState
-  private currentScene: SceneName = DEFAULT_SCENE
+  private nodeCount = NODES_DESKTOP
+  private mobile = false
+  private reduced = false
 
   private rafId: number | null = null
   private running = false
-  private reduced = false
-  private mobile = false
   private lastTime = 0
 
   private readonly pointer = { x: 0, y: 0 }
   private readonly pointerTarget = { x: 0, y: 0 }
-  private scrollProgress = 0
-  private externalScroll = false
+  /** 0 while the hero fills the viewport, 1 once it has scrolled fully past. */
+  private exit = 0
+
   private container: HTMLElement | null = null
+  /** Hero box in document space, so the loop never has to measure it per frame. */
+  private heroTop = 0
+  private heroHeight = 1
   private listening = false
   private motionMedia: MediaQueryList | null = null
+  private resizeObserver: ResizeObserver | null = null
+  private visibility: IntersectionObserver | null = null
+  private onScreen = true
 
   constructor() {
-    const preset = SCENE_PRESETS[DEFAULT_SCENE]
-    this.state = {
-      target: preset,
-      pointColor: new THREE.Color(preset.accent),
-      wireColor: new THREE.Color(preset.secondary),
-    }
-
     try {
       this.mobile = typeof window !== 'undefined' && window.matchMedia(MOBILE_QUERY).matches
-      this.pointLimit = this.mobile ? MAX_POINTS_MOBILE : MAX_POINTS_DESKTOP
-      this.build(preset)
+      this.nodeCount = this.mobile ? NODES_MOBILE : NODES_DESKTOP
+      this.build()
       this.supported = true
     } catch {
       this.supported = false
@@ -77,153 +97,139 @@ class SceneEngine {
   }
 
   // ── Build the (single) scene graph ──────────────────────────────────────
-  private build(preset: ScenePreset) {
+  private build() {
     this.renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: false,
-      powerPreference: 'high-performance',
+      // Deliberately not 'high-performance': that forces the discrete GPU on
+      // dual-GPU machines — a context-creation stall and a battery cost — for a
+      // decorative field of a few hundred points the integrated GPU renders
+      // without noticing.
+      powerPreference: 'default',
     })
     this.renderer.setClearColor(0x000000, 0) // transparent: CSS bg shows through
     this.applyPixelRatio()
 
     const canvas = this.renderer.domElement
     canvas.setAttribute('aria-hidden', 'true')
-    canvas.dataset.scene = DEFAULT_SCENE
     canvas.style.cssText =
-      'position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block'
+      'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:block'
 
     this.scene = new THREE.Scene()
-    this.camera = new THREE.PerspectiveCamera(52, 1, 0.1, 100)
-    this.camera.position.z = preset.cameraZ
+    this.camera = new THREE.PerspectiveCamera(52, 1, 0.1, 60)
+    this.camera.position.z = CAMERA_Z
 
     this.group = new THREE.Group()
     this.scene.add(this.group)
 
-    // A small reusable buffer carries signals along the interface connections.
-    const pos = new Float32Array(MAX_POINTS_DESKTOP * 3)
-    const geo = new THREE.BufferGeometry()
-    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
-    this.pointMat = new THREE.PointsMaterial({
-      size: this.mobile ? 0.032 : 0.03,
-      color: this.state.pointColor.clone(),
+    const { positions, colors, linkPositions } = this.createField(NODES_DESKTOP)
+
+    const nodeGeo = new THREE.BufferGeometry()
+    nodeGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    nodeGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    this.nodeMat = new THREE.PointsMaterial({
+      size: this.mobile ? 0.034 : 0.042,
+      vertexColors: true,
       transparent: true,
-      opacity: preset.atmosphere * 0.75,
+      opacity: 0.9,
       depthWrite: false,
       // NormalBlending (default) — no additive glow, per the anti-glow rule.
     })
-    this.points = new THREE.Points(geo, this.pointMat)
-    this.group.add(this.points)
+    this.nodes = new THREE.Points(nodeGeo, this.nodeMat)
+    this.group.add(this.nodes)
 
-    // Connected interface outlines, composed for the active service.
-    const knotGeo = this.createWireGeometry()
-    this.wireMat = new THREE.LineBasicMaterial({
-      color: this.state.wireColor.clone(),
+    const linkGeo = new THREE.BufferGeometry()
+    linkGeo.setAttribute('position', new THREE.BufferAttribute(linkPositions, 3))
+    this.linkMat = new THREE.LineBasicMaterial({
+      color: COLOR_LINK,
       transparent: true,
-      opacity: 0.5,
-    })
-    this.wire = new THREE.LineSegments(knotGeo, this.wireMat)
-    this.group.add(this.wire)
-
-    // No generative core object: the connected interface panels above ARE the
-    // form (docs/anti-slop-checklist.md forbids a stock 3D blob behind copy).
-    const dustPositions = new Float32Array(480 * 3)
-    // Deterministic scatter makes the composition stable across hydration/reloads.
-    for (let i = 0; i < 480; i++) {
-      const a = i * 2.399963,
-        y = 1 - (i / 479) * 2,
-        radius = Math.sqrt(1 - y * y)
-      const r = 3.2 + Math.sin(i * 17.3) * 1.2
-      dustPositions.set([Math.cos(a) * radius * r, y * r, Math.sin(a) * radius * r], i * 3)
-    }
-    const dustGeometry = new THREE.BufferGeometry()
-    dustGeometry.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3))
-    this.dustMat = new THREE.PointsMaterial({
-      color: preset.accent,
-      size: 0.022,
-      transparent: true,
-      opacity: 0.26,
+      opacity: 0.18,
       depthWrite: false,
     })
-    this.dust = new THREE.Points(dustGeometry, this.dustMat)
-    this.scene.add(this.dust)
+    this.links = new THREE.LineSegments(linkGeo, this.linkMat)
+    this.group.add(this.links)
 
-    this.applyDensity(preset)
+    this.applyDensity()
     this.publishBudget()
   }
 
-  /** Five interface planes keep matching vertices, so service changes can
-   * interpolate the same lightweight geometry instead of swapping renderers. */
-  private createWireGeometry(name: SceneName = this.currentScene) {
-    const layouts: Record<string, number[][]> = {
-      intro: [
-        [0, 0, 0, 3.4, 2.2],
-        [-1.6, 1.4, -1, 2.1, 1.2],
-        [1.7, -0.9, 0.8, 2.1, 1.1],
-        [1.7, 1.2, -0.7, 1.3, 0.9],
-        [-1.7, -1.3, -0.3, 1.3, 0.9],
-      ],
-      // A browser window with a phone beside it and two content blocks feeding
-      // it — the shape of the thing we ship on the Websites chapter.
-      web: [
-        [0, 0.15, 0, 3.8, 2.6],
-        [2.2, -0.9, 0.6, 0.95, 1.85],
-        [-1.3, 1.9, -0.7, 2, 0.75],
-        [1.2, 1.95, -0.7, 1.5, 0.75],
-        [-1.5, -1.85, -0.6, 2.1, 0.7],
-      ],
-      // An audit board: one working surface, findings pinned around it.
-      advisory: [
-        [0, 0.1, 0, 3.2, 2.1],
-        [-2.1, 1.7, -0.6, 1.5, 0.7],
-        [2.1, 1.7, -0.6, 1.5, 0.7],
-        [-2.1, -1.6, 0.3, 1.5, 0.7],
-        [2.1, -1.6, 0.3, 1.5, 0.7],
-      ],
-      // Source panes stacked over a build output.
-      developer: [
-        [0, 0.4, 0, 3, 2.3],
-        [-1.7, -1.7, 0.4, 2.4, 0.6],
-        [1.7, -1.7, 0.4, 2.4, 0.6],
-        [-1.9, 2.1, -0.6, 1.6, 0.6],
-        [1.9, 2.1, -0.6, 1.6, 0.6],
-      ],
-      apps: [
-        [0, 0, 0, 2, 1.5],
-        [-2, 1.2, -0.5, 1.5, 1.1],
-        [2, 1.2, -0.5, 1.5, 1.1],
-        [-2, -1.2, 0.2, 1.5, 1.1],
-        [2, -1.2, 0.2, 1.5, 1.1],
-      ],
-      automation: [
-        [0, 0, 0, 2, 1.2],
-        [0, 1.8, -0.6, 2, 1],
-        [-1.5, -1.7, 0.3, 1.7, 1],
-        [1.5, -1.7, 0.3, 1.7, 1],
-        [2.6, 0.3, -0.8, 1.2, 0.8],
-      ],
+  /**
+   * Clustered lattice: every group of `CLUSTER` nodes is one anchor plus
+   * satellites scattered around it, with two links back to the anchor. The
+   * result reads as connected systems receding into depth rather than as an
+   * even spray of dust.
+   *
+   * Vertex colour carries both the depth falloff and the centre "well" that
+   * keeps hero copy legible, so no CSS overlay gradient is required.
+   */
+  private createField(count: number) {
+    const positions = new Float32Array(count * 3)
+    const colors = new Float32Array(count * 3)
+    const links: number[] = []
+
+    // Unpack the two base tints once. Building this field runs on the main
+    // thread right after hydration, so the per-node path stays allocation-free
+    // (no Color instances, no clone/multiplyScalar) and never becomes a long task.
+    const nodeR = ((COLOR_NODE >> 16) & 255) / 255
+    const nodeG = ((COLOR_NODE >> 8) & 255) / 255
+    const nodeB = (COLOR_NODE & 255) / 255
+    const liveR = ((COLOR_LIVE >> 16) & 255) / 255
+    const liveG = ((COLOR_LIVE >> 8) & 255) / 255
+    const liveB = (COLOR_LIVE & 255) / 255
+
+    let anchorX = 0
+    let anchorY = 0
+    let anchorZ = 0
+
+    for (let i = 0; i < count; i++) {
+      const slot = i % CLUSTER
+      let x: number
+      let y: number
+      let z: number
+
+      if (slot === 0) {
+        anchorX = (rand(i, 2) - 0.5) * SPAN_X
+        anchorY = (rand(i, 3) - 0.5) * SPAN_Y
+        anchorZ = -rand(i, 4) * DEPTH
+        x = anchorX
+        y = anchorY
+        z = anchorZ
+      } else {
+        // Satellites stay inside a small radius so clusters read as one object.
+        x = anchorX + (rand(i, 5) - 0.5) * 2.4
+        y = anchorY + (rand(i, 6) - 0.5) * 2.4
+        z = anchorZ + (rand(i, 7) - 0.5) * 1.8
+        if (slot <= 2) {
+          links.push(anchorX, anchorY, anchorZ, x, y, z)
+        }
+      }
+
+      positions[i * 3] = x
+      positions[i * 3 + 1] = y
+      positions[i * 3 + 2] = z
+
+      // Depth falloff: the far end of the corridor fades toward the background.
+      const depth = clamp01(-z / DEPTH)
+      const depthFade = 1 - depth * 0.72
+      const nearness = 1 - depth
+
+      // Soft well through the middle of the near layers, where the h1 sits.
+      const nx = x / (SPAN_X * 0.5)
+      const ny = y / (SPAN_Y * 0.5)
+      const radial = Math.min(1, Math.sqrt(nx * nx + ny * ny) / 0.6)
+      const legibility = 1 - nearness * (1 - radial) * 0.85
+
+      const shade = depthFade * legibility
+      // A sparse minority of nodes carry the acid signal; the rest stay muted.
+      const isLive = slot === 0 && rand(i, 8) > 0.86
+      const level = isLive ? Math.min(1, shade * 1.25) : shade
+      const offset = i * 3
+      colors[offset] = (isLive ? liveR : nodeR) * level
+      colors[offset + 1] = (isLive ? liveG : nodeG) * level
+      colors[offset + 2] = (isLive ? liveB : nodeB) * level
     }
-    const layout = layouts[name] ?? layouts.intro
-    const vertices: number[] = []
-    const line = (a: number[], b: number[]) => vertices.push(...a, ...b)
-    layout.forEach(([x, y, z, w, h], i) => {
-      const left = x - w / 2,
-        right = x + w / 2,
-        top = y + h / 2,
-        bottom = y - h / 2
-      line([left, top, z], [right, top, z])
-      line([right, top, z], [right, bottom, z])
-      line([right, bottom, z], [left, bottom, z])
-      line([left, bottom, z], [left, top, z])
-      line([left, top - h * 0.2, z], [right, top - h * 0.2, z])
-      line([left + w * 0.12, y, z], [left + w * 0.68, y, z])
-      line([left + w * 0.12, y - h * 0.15, z], [left + w * 0.44, y - h * 0.15, z])
-      // Every panel connects to the central interface.
-      const center = layout[0]
-      line([x, bottom, z], [center[0], center[1], center[2] - 0.15 - i * 0.03])
-    })
-    const geometry = new THREE.BufferGeometry()
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
-    return geometry
+
+    return { positions, colors, linkPositions: new Float32Array(links) }
   }
 
   private applyPixelRatio() {
@@ -235,15 +241,15 @@ class SceneEngine {
     this.renderer.domElement.dataset.pixelRatio = String(ratio)
   }
 
-  private applyDensity(preset: ScenePreset) {
-    const count = Math.min(
-      this.mobile ? 4 : 8,
-      Math.floor(this.pointLimit * preset.particleDensity)
-    )
-    this.points.geometry.setDrawRange(0, count)
-    this.dust?.geometry.setDrawRange(0, this.mobile ? 160 : 480)
-    this.renderer.domElement.dataset.pointLimit = String(this.pointLimit)
-    this.renderer.domElement.dataset.pointCount = String(count)
+  private applyDensity() {
+    this.nodeCount = this.mobile ? NODES_MOBILE : NODES_DESKTOP
+    this.nodes.geometry.setDrawRange(0, this.nodeCount)
+    // Two links per cluster, and clusters are drawn in generation order, so the
+    // link range tracks the node range exactly.
+    this.links.geometry.setDrawRange(0, Math.floor(this.nodeCount / CLUSTER) * 4)
+    const canvas = this.renderer.domElement
+    canvas.dataset.pointLimit = String(this.mobile ? NODES_MOBILE : NODES_DESKTOP)
+    canvas.dataset.pointCount = String(this.nodeCount)
   }
 
   private publishBudget() {
@@ -257,21 +263,34 @@ class SceneEngine {
     const mobile = window.matchMedia(MOBILE_QUERY).matches
     if (mobile === this.mobile) return
     this.mobile = mobile
-    this.pointLimit = mobile ? MAX_POINTS_MOBILE : MAX_POINTS_DESKTOP
-    this.pointMat.size = mobile ? 0.03 : 0.026
-    this.wire.geometry.dispose()
-    this.wire.geometry = this.createWireGeometry()
-    this.applyDensity(this.state.target)
+    this.nodeMat.size = mobile ? 0.034 : 0.042
+    this.applyDensity()
     this.publishBudget()
   }
 
-  private sizeToViewport() {
-    if (typeof window === 'undefined') return
-    const w = window.innerWidth
-    const h = window.innerHeight
-    this.renderer.setSize(w, h, false)
-    this.camera.aspect = w / h
+  private sizeToContainer() {
+    const container = this.container
+    if (!container) return
+    const width = Math.max(1, container.clientWidth)
+    const height = Math.max(1, container.clientHeight)
+    this.renderer.setSize(width, height, false)
+    this.camera.aspect = width / height
     this.camera.updateProjectionMatrix()
+    this.measureContainer()
+  }
+
+  /**
+   * Cache the hero's document-space box. Called from the same places that
+   * already relayout — attach, resize, the ResizeObserver, and each time the
+   * hero re-enters the viewport — so the render loop can read scroll progress
+   * arithmetically instead of measuring.
+   */
+  private measureContainer() {
+    const container = this.container
+    if (!container) return
+    const rect = container.getBoundingClientRect()
+    this.heroTop = rect.top + window.scrollY
+    this.heroHeight = Math.max(1, rect.height)
   }
 
   // ── Public controller API ───────────────────────────────────────────────
@@ -283,7 +302,7 @@ class SceneEngine {
     this.reduced =
       typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    this.sizeToViewport()
+    this.sizeToContainer()
     this.addListeners()
 
     if (this.reduced) {
@@ -305,62 +324,56 @@ class SceneEngine {
     this.container = null
   }
 
-  /**
-   * Feed scroll progress (0–1) from the shared smooth-scroll driver so the
-   * atmosphere drifts off the same source as ScrollTrigger — one scroll driver,
-   * no duplicate reads. While an external source is active the engine's own
-   * passive scroll listener no-ops; it re-arms as the fallback if the driver
-   * detaches (reduced motion / no Lenis).
-   */
-  setScrollProgress(progress: number) {
-    this.externalScroll = true
-    this.scrollProgress = Math.min(1, Math.max(0, progress))
-    if (this.reduced) this.renderStaticFrame()
-  }
-
-  releaseScrollSource() {
-    this.externalScroll = false
-    this.onScroll()
-  }
-
-  setScene(name: SceneName) {
-    this.renderer.domElement.dataset.scene = name
-    if (name === this.currentScene) return
-    this.currentScene = name
-    const geometry = this.createWireGeometry(name)
-    this.panelTarget = new Float32Array(geometry.getAttribute('position').array)
-    geometry.dispose()
-    const preset = SCENE_PRESETS[name]
-    this.state.target = preset
-    this.applyDensity(preset)
-    if (this.reduced) this.renderStaticFrame() // reflect scene without animating
-  }
-
   // ── Listeners ─────────────────────────────────────────────────────────────
   private addListeners() {
-    if (this.listening || typeof window === 'undefined') return
+    if (this.listening || typeof window === 'undefined' || !this.container) return
+
     window.addEventListener('resize', this.onResize, { passive: true })
-    window.addEventListener('scroll', this.onScroll, { passive: true })
     document.addEventListener('visibilitychange', this.onVisibility)
+
     this.motionMedia = window.matchMedia('(prefers-reduced-motion: reduce)')
     this.motionMedia.addEventListener('change', this.onMotionPreference)
+
     if (!this.reduced && !this.mobile) {
-      window.addEventListener('pointermove', this.onPointerMove, {
-        passive: true,
-      })
+      window.addEventListener('pointermove', this.onPointerMove, { passive: true })
     }
+
+    this.resizeObserver = new ResizeObserver(() => {
+      this.sizeToContainer()
+      if (this.reduced) this.renderStaticFrame()
+    })
+    this.resizeObserver.observe(this.container)
+
+    // The whole point of a hero-scoped scene: no GPU work once it is offscreen.
+    this.visibility = new IntersectionObserver(
+      ([entry]) => {
+        this.onScreen = entry.isIntersecting
+        if (!this.onScreen) this.stopLoop()
+        else if (!this.reduced && !document.hidden) {
+          // Re-measure on re-entry: cheap, and it self-corrects the cached box
+          // after any layout change that didn't resize the container itself.
+          this.measureContainer()
+          this.startLoop()
+        }
+      },
+      { threshold: 0 },
+    )
+    this.visibility.observe(this.container)
+
     this.listening = true
-    this.onScroll()
   }
 
   private removeListeners() {
     if (!this.listening || typeof window === 'undefined') return
     window.removeEventListener('resize', this.onResize)
-    window.removeEventListener('scroll', this.onScroll)
     document.removeEventListener('visibilitychange', this.onVisibility)
     this.motionMedia?.removeEventListener('change', this.onMotionPreference)
     this.motionMedia = null
     window.removeEventListener('pointermove', this.onPointerMove)
+    this.resizeObserver?.disconnect()
+    this.resizeObserver = null
+    this.visibility?.disconnect()
+    this.visibility = null
     this.listening = false
   }
 
@@ -371,34 +384,29 @@ class SceneEngine {
       this.stopLoop()
       this.renderStaticFrame()
     } else {
-      if (!this.mobile)
+      if (!this.mobile) {
         window.addEventListener('pointermove', this.onPointerMove, { passive: true })
-      if (this.container && !document.hidden) this.startLoop()
+      }
+      if (this.container && this.onScreen && !document.hidden) this.startLoop()
     }
   }
 
   private onResize = () => {
     this.updateResponsiveBudget()
     this.applyPixelRatio()
-    this.sizeToViewport()
+    this.sizeToContainer()
     if (this.reduced) this.renderStaticFrame()
   }
 
-  private onScroll = () => {
-    if (typeof window === 'undefined' || this.externalScroll) return
-    const max = Math.max(1, document.body.scrollHeight - window.innerHeight)
-    this.scrollProgress = window.scrollY / max
-  }
-
-  private onPointerMove = (e: PointerEvent) => {
-    this.pointerTarget.x = e.clientX / window.innerWidth - 0.5
-    this.pointerTarget.y = e.clientY / window.innerHeight - 0.5
+  private onPointerMove = (event: PointerEvent) => {
+    this.pointerTarget.x = event.clientX / window.innerWidth - 0.5
+    this.pointerTarget.y = event.clientY / window.innerHeight - 0.5
   }
 
   private onVisibility = () => {
     if (document.hidden) {
       this.stopLoop()
-    } else if (!this.reduced && this.container) {
+    } else if (!this.reduced && this.container && this.onScreen) {
       this.startLoop()
     }
   }
@@ -432,105 +440,58 @@ class SceneEngine {
     }
   }
 
-  private frame(now: number) {
-    const dt = Math.min(0.05, (now - this.lastTime) / 1000)
-    this.lastTime = now
-    const t = this.state.target
-
-    // Colour interpolation (slow).
-    this.pointMat.color.lerp(this.state.pointColor.set(t.accent), 0.02)
-    this.wireMat.color.lerp(this.state.wireColor.set(t.secondary), 0.02)
-    this.pointMat.opacity += (t.atmosphere * 0.75 - this.pointMat.opacity) * 0.02
-    this.dustMat.color.lerp(this.state.pointColor, 0.02)
-    // The panels are the only form now, so they carry the atmosphere — but stay
-    // faint enough that copy passing over them is never competing with a line.
-    this.wireMat.opacity += ((t.wireOpacity * (this.mobile ? 0.45 : 1)) - this.wireMat.opacity) * 0.035
-    this.dust.rotation.y += dt * 0.025
-    this.dust.rotation.x = Math.sin(now * 0.00008) * 0.08
-    this.group.scale.setScalar(
-      this.group.scale.x + (this.composedScale(t) - this.group.scale.x) * 0.03
-    )
-    this.camera.position.z += (t.cameraZ - this.camera.position.z) * 0.03
-
-    // A stable architectural composition with restrained pointer and scroll depth.
-    this.group.rotation.y = Math.sin(now * 0.00008) * 0.09 + this.pointer.x * 0.06
-    this.group.rotation.x = -0.08 + this.pointer.y * 0.04
-    this.group.rotation.z = -0.08
-    // Ease between chapter compositions instead of snapping, so the panels
-    // travel across the frame as the copy column swaps sides.
-    this.group.position.x += (this.composedX(t) - this.group.position.x) * 0.03
-    const driftTarget = this.composedY(t) + (this.scrollProgress - 0.5) * -0.6
-    this.group.position.y += (driftTarget - this.group.position.y) * 0.05
-    if (this.panelTarget) {
-      const attribute = this.wire.geometry.getAttribute('position') as THREE.BufferAttribute
-      const positions = attribute.array as Float32Array
-      for (let i = 0; i < positions.length; i++)
-        positions[i] += (this.panelTarget[i] - positions[i]) * Math.min(1, dt * 3)
-      attribute.needsUpdate = true
-    }
-
-    // Pointer camera offset.
-    this.pointer.x += (this.pointerTarget.x - this.pointer.x) * 0.05
-    this.pointer.y += (this.pointerTarget.y - this.pointer.y) * 0.05
-    this.camera.position.x += (this.pointer.x * 0.34 - this.camera.position.x) * 0.03
-    this.camera.position.y += (-this.pointer.y * 0.22 - this.camera.position.y) * 0.03
-    this.camera.lookAt(0, 0, 0)
-
-    this.updateSignals(now)
-    this.renderer.render(this.scene, this.camera)
-  }
-
-  private updateSignals(now: number) {
-    const paths = this.wire.geometry.getAttribute('position').array
-    const attribute = this.points.geometry.getAttribute('position') as THREE.BufferAttribute
-    const positions = attribute.array as Float32Array
-    for (let i = 0; i < 8; i++) {
-      const offset = ((i % 4) + 1) * 48 + 42
-      const progress = (now * 0.00014 + i * 0.23) % 1
-      for (let axis = 0; axis < 3; axis++)
-        positions[i * 3 + axis] =
-          paths[offset + axis] + (paths[offset + 3 + axis] - paths[offset + axis]) * progress
-    }
-    attribute.needsUpdate = true
-  }
-
   /**
-   * Composition placement for the active preset. A phone has no empty column
-   * for the panels to sit in — the copy runs full width — so there they are
-   * pushed to the lower outside corner and mostly off-frame instead.
+   * Hero exit progress, derived from the cached box in `measureContainer()`.
+   * This used to call getBoundingClientRect() here — inside the render loop —
+   * which forced a full layout on every single frame the hero was on screen.
+   * Same value, no measurement.
+   *
+   * Still not a scroll listener: this runs inside a loop that is already
+   * scheduled and already stops when the hero is offscreen, so it adds no second
+   * scroll source alongside Lenis (docs/design-system.md — one scroll driver).
    */
-  private composedX(preset: ScenePreset) {
-    return this.mobile ? Math.sign(preset.offsetX) * 2.7 : preset.offsetX
+  private readExit() {
+    if (!this.container) return 0
+    return clamp01((window.scrollY - this.heroTop) / this.heroHeight)
   }
 
-  private composedY(preset: ScenePreset) {
-    return this.mobile ? preset.offsetY - 1.5 : preset.offsetY
-  }
+  private frame(now: number) {
+    this.lastTime = now
+    this.exit += (this.readExit() - this.exit) * 0.12
 
-  private composedScale(preset: ScenePreset) {
-    return preset.objectScale * (this.mobile ? 0.78 : 1)
+    // Slow ambient drift. No wrap, no respawn — the field breathes rather than
+    // travels, which keeps it quiet behind display type.
+    this.group.rotation.z = Math.sin(now * 0.00003) * 0.05
+    this.group.position.z = Math.sin(now * 0.00007) * 0.6
+
+    // Pointer parallax: the camera moves through the field, so near clusters
+    // shift further than far ones and the depth reads as real.
+    this.pointer.x += (this.pointerTarget.x - this.pointer.x) * 0.045
+    this.pointer.y += (this.pointerTarget.y - this.pointer.y) * 0.045
+    this.camera.position.x += (this.pointer.x * 1.6 - this.camera.position.x) * 0.04
+    this.camera.position.y += (-this.pointer.y * 1.05 - this.camera.position.y) * 0.04
+
+    // As the hero scrolls away the camera pushes into the corridor and the
+    // field fades out, so nothing is being rendered under the next chapter.
+    const targetZ = CAMERA_Z - this.exit * 4.5
+    this.camera.position.z += (targetZ - this.camera.position.z) * 0.06
+    this.camera.lookAt(0, 0, -DEPTH * 0.35)
+
+    const fade = 1 - this.exit * 0.95
+    this.nodeMat.opacity = 0.9 * fade
+    this.linkMat.opacity = 0.18 * fade
+
+    this.renderer.render(this.scene, this.camera)
   }
 
   private renderStaticFrame() {
     if (!this.supported) return
-    const t = this.state.target
-    this.pointMat.color.set(t.accent)
-    this.wireMat.color.set(t.secondary)
-    this.pointMat.opacity = t.atmosphere * 0.75
-    this.wireMat.opacity = t.wireOpacity * (this.mobile ? 0.45 : 1)
-    this.dustMat.color.set(t.accent)
-    this.group.scale.setScalar(this.composedScale(t))
-    this.camera.position.set(0, 0, t.cameraZ)
-    this.group.rotation.set(-0.08, 0.09, -0.08)
-    this.group.position.x = this.composedX(t)
-    if (this.panelTarget) {
-      const attribute = this.wire.geometry.getAttribute('position') as THREE.BufferAttribute
-      attribute.copyArray(this.panelTarget)
-      attribute.needsUpdate = true
-    }
-    this.group.position.y = this.composedY(t)
-    this.camera.lookAt(0, 0, 0)
-    this.updateSignals(0)
+    this.group.rotation.z = 0
+    this.group.position.z = 0
+    this.camera.position.set(0, 0, CAMERA_Z)
+    this.camera.lookAt(0, 0, -DEPTH * 0.35)
+    this.nodeMat.opacity = 0.9
+    this.linkMat.opacity = 0.18
     this.renderer.render(this.scene, this.camera)
   }
 }

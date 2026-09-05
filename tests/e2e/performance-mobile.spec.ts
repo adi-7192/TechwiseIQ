@@ -10,10 +10,10 @@ test('uses the intentionally reduced mobile scene budget', async ({ browser }) =
   const page = await context.newPage()
   await page.goto('/')
 
-  const canvas = page.locator('[data-persistent-scene] canvas')
+  const canvas = page.locator('[data-hero-scene] canvas')
   await expect(canvas).toHaveCount(1)
   await expect(canvas).toHaveAttribute('data-mobile', 'true')
-  await expect(canvas).toHaveAttribute('data-point-limit', '32')
+  await expect(canvas).toHaveAttribute('data-point-limit', '300')
   await expect(canvas).toHaveAttribute('data-pixel-ratio', '1')
   await expect(canvas).toHaveAttribute('data-target-fps', '30')
   await expect(canvas).toHaveAttribute('data-animation-running', 'true')
@@ -32,15 +32,15 @@ test('caps high-DPR desktop rendering without dropping the full scene', async ({
   const page = await context.newPage()
   await page.goto('/')
 
-  const canvas = page.locator('[data-persistent-scene] canvas')
+  const canvas = page.locator('[data-hero-scene] canvas')
   await expect(canvas).toHaveAttribute('data-mobile', 'false')
-  await expect(canvas).toHaveAttribute('data-point-limit', '100')
+  await expect(canvas).toHaveAttribute('data-point-limit', '900')
   await expect(canvas).toHaveAttribute('data-pixel-ratio', '1.5')
   await expect(canvas).toHaveAttribute('data-target-fps', '60')
 
   await page.setViewportSize({ width: 390, height: 844 })
   await expect(canvas).toHaveAttribute('data-mobile', 'true')
-  await expect(canvas).toHaveAttribute('data-point-limit', '32')
+  await expect(canvas).toHaveAttribute('data-point-limit', '300')
   await expect(canvas).toHaveAttribute('data-pixel-ratio', '1')
   await expect(canvas).toHaveAttribute('data-target-fps', '30')
 
@@ -51,7 +51,7 @@ test('freezes the scene completely for reduced motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
 
-  const canvas = page.locator('[data-persistent-scene] canvas')
+  const canvas = page.locator('[data-hero-scene] canvas')
   await expect(canvas).toHaveAttribute('data-animation-running', 'false')
   await expect(page.locator('[data-home-experience]')).toHaveAttribute(
     'data-home-motion',
@@ -59,23 +59,27 @@ test('freezes the scene completely for reduced motion', async ({ page }) => {
   )
 })
 
-test('does not load or retain WebGL on content-only routes', async ({ page }) => {
-  await page.goto('/privacy')
-  await expect(page.locator('canvas')).toHaveCount(0)
-  await expect(page.locator('[data-persistent-scene]')).toHaveCount(0)
-  const privacyScripts = await page.evaluate(() =>
-    performance
-      .getEntriesByType('resource')
-      .map((entry) => entry.name)
-      .filter((name) => name.includes('/_next/static/chunks/')),
-  )
+test('loads WebGL only for the home hero, never on other routes', async ({ page }) => {
+  const loadedChunks = () =>
+    page.evaluate(() =>
+      performance
+        .getEntriesByType('resource')
+        .map((entry) => entry.name)
+        .filter((name) => name.includes('/_next/static/chunks/')),
+    )
 
-  await page.goto('/about')
-  await expect(page.locator('[data-persistent-scene] canvas')).toHaveCount(1)
-  await page.goto('/terms')
-  await expect(page.locator('canvas')).toHaveCount(0)
+  for (const route of ['/privacy', '/about', '/services/ai', '/work']) {
+    await page.goto(route)
+    await expect(page.locator('canvas')).toHaveCount(0)
+    await expect(page.locator('[data-hero-scene]')).toHaveCount(0)
+    expect(
+      (await loadedChunks()).some((name) => /three/i.test(name)),
+      `three.js must not load on ${route}`,
+    ).toBe(false)
+  }
 
-  expect(privacyScripts.some((name) => /three/i.test(name))).toBe(false)
+  await page.goto('/')
+  await expect(page.locator('[data-hero-scene] canvas')).toHaveCount(1)
 })
 
 test('keeps one canvas and bounded heap across repeated route changes', async ({
@@ -87,10 +91,12 @@ test('keeps one canvas and bounded heap across repeated route changes', async ({
   await session.send('HeapProfiler.collectGarbage')
   const before = await session.send('Runtime.getHeapUsage')
 
+  // The renderer is a session singleton that is detached and re-attached, never
+  // rebuilt — leaving the hero must drop the canvas without leaking a context.
   for (let index = 0; index < 4; index += 1) {
     await page.getByRole('link', { name: 'About' }).first().click()
     await expect(page).toHaveURL(/\/about$/)
-    await expect(page.locator('canvas')).toHaveCount(1)
+    await expect(page.locator('canvas')).toHaveCount(0)
     await page.getByLabel('Techwise IQ — home').click()
     await expect(page).toHaveURL(/\/$/)
     await expect(page.locator('canvas')).toHaveCount(1)

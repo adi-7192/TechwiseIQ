@@ -2,12 +2,11 @@
 
 import dynamic from 'next/dynamic'
 
-const PersistentScene = dynamic(
-  () => import('@/components/immersive/PersistentScene'),
-  { ssr: false },
-)
+const HeroScene = dynamic(() => import('@/components/immersive/HeroScene'), {
+  ssr: false,
+})
 
-/** Load the decorative Three.js scene only after the useful DOM has hydrated. */
-export default function SceneLoader({ initialScene }: { initialScene: string }) {
-  return <PersistentScene initialScene={initialScene} />
+/** Load the decorative Three.js hero field only after the useful DOM hydrates. */
+export default function SceneLoader({ className }: { className?: string }) {
+  return <HeroScene className={className} />
 }

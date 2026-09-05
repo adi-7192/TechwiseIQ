@@ -109,7 +109,7 @@ test('retains meaningful DOM and CSS atmosphere when WebGL is unavailable', asyn
   await expect(
     page.getByRole('heading', { level: 1, name: /Technology that/i }),
   ).toBeVisible()
-  await expect(page.locator('[data-persistent-scene] canvas')).toHaveCount(0)
+  await expect(page.locator('[data-hero-scene] canvas')).toHaveCount(0)
   await expect(page.locator('#top').getByRole('link', { name: 'Start a project' })).toBeVisible()
 })
 

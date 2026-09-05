@@ -4,6 +4,111 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-09-05 — Home page: entry-animation flash fix and load pass
+
+Adi reported that switching to the home page "glitches" and asked for a
+performance pass that changes nothing visible.
+
+The glitch was not animation load — it was a missing pre-animation state. The
+server HTML painted the fully-revealed page, then `HomeMotion`'s `useEffect` ran
+*after* that paint and snapped everything back to the start of its entry
+animation. Measured before the fix: **21 of 21** tracked elements (hero lines,
+hero support copy, floating artifacts, every `[data-home-reveal]` block) painted
+visible and were then hidden. On a first load the intro overlay covered that
+frame; on a client-side navigation nothing did. `data-home-experience` already
+carried `data-home-motion="static"` as the hook for this and nothing consumed it.
+
+- **Pre-animation state (`studio.module.css`, `home/index.tsx`, `HomeMotion.tsx`).**
+  Three-state machine on `[data-home-experience]`: `static` (server render / no JS
+  — everything visible, fail-open) → `pending` (pre-animation frame, set before
+  paint) → `active` (GSAP's inline styles own the elements). `pending` is armed by
+  an inline bootstrap script during parse on a hard load and by a layout effect on
+  a client-side navigation. The handover to `active` happens after the tweens are
+  built, which is what keeps their trailing `clearProps` from re-hiding anything.
+  **After: 0 of 21 elements flash.**
+- **Not armed behind the intro overlay.** While `html[data-intro='loading']` the
+  hero sits behind an opaque full-viewport overlay, so there is no flash to
+  prevent — and withholding the hero copy from the first paint costs LCP, which is
+  measured on that paragraph. Arming it there cost ~2s of mobile LCP (5.5s vs 3.5s)
+  for no visual gain; the exemption is covered by a regression test.
+- **Off the hydration commit.** `/` mounted 8+ client components in one commit.
+  The three `ServiceDemo` timelines (~20 tweens and several `querySelectorAll`
+  passes each, two of them far below the fold) are now built on approach via a
+  `rootMargin: '400px'` observer; playback still starts at `threshold: 0.3`, so the
+  demos still begin at step 0 when you reach them. `ScrollTrigger.refresh()` (a
+  full-document reflow) moved into a `requestAnimationFrame`, and
+  `ScrollTrigger.config({ ignoreMobileResize: true })` stops the mobile URL bar
+  from triggering a refresh mid-scroll.
+- **One Lenis, not one per route.** `ImmersiveShell` is per-route, so two shells
+  can briefly coexist during a navigation and each instantiate its own Lenis,
+  fighting over the same wheel events. `SmoothScroll` now reference-counts a
+  module-level instance.
+- **Render loop (`lib/scene/engine.ts`).** `readExit()` called
+  `getBoundingClientRect()` *inside every rAF frame* — a forced layout per frame
+  for as long as the hero was on screen. The hero box is now cached by
+  `measureContainer()` (attach, resize, ResizeObserver, re-entry) and exit progress
+  derived from `window.scrollY`. `powerPreference` dropped from
+  `'high-performance'` to `'default'`: forcing the discrete GPU for a few hundred
+  decorative points costs a context-creation stall and battery.
+- **Dead CSS removed.** 100 unreferenced rules — `studio.module.css` 652→260
+  lines, `home.module.css` 576→424 — including a `perspective: 1400px` stage and
+  two rotated panels with `0 35px 70px` shadows that no component rendered.
+
+**Verification.** 26 full-page screenshots (13 routes × 1280/1440) byte-identical
+before and after. Lighthouse mobile 91/100/100/100 (was 88–93), LCP 3.4–3.5s (was
+3.2–3.7s), CLS 0, TBT 0–10ms (was 20–140ms); desktop 100, LCP 0.7s. Build passes,
+19/19 routes prerender, lint clean, 13 unit + 179 e2e pass. Four regression tests
+added to `home-experience.spec.ts`.
+
+**Still open.** Mobile Lighthouse is 91, not the ≥95 the budget states, and LCP
+3.4s against a <1.8s target — both pre-existing. The cause is design timing, not
+code: the intro overlay holds for up to 2.6s and the hero intro tween runs 1.15s
+after it, so the hero copy cannot be the LCP before ~3.4s on throttled mobile.
+Shortening that is a motion-vocabulary decision and needs Adi's sign-off.
+
+---
+
+## 2026-09-05 — Hero depth field replaces the site-wide WebGL scene
+
+Adi supplied a 21st.dev "galaxy interactive hero" reference (hosted Spline scene)
+and asked for it in the hero background, in a form that respects the design
+system. The reference was **not** integrated as shipped — `@splinetool/react-spline`
+is a second WebGL runtime (~1MB JS) streaming an asset we do not own from
+`prod.spline.design`, and its look (indigo/purple identity, `backdrop-filter`
+blur, two overlay gradients, a fake app screenshot, a duplicate navbar, the
+banned word "Elevate") collides with the design system on six separate counts.
+Per the "external components are never pasted in" rule the idea was extracted —
+depth, pointer parallax, a field that frames the headline — and rebuilt in our
+own engine. Adi chose this over installing Spline, and chose hero-only scope.
+
+- **Scope.** WebGL now exists on exactly one surface. `lib/scene/presets.ts`,
+  `immersive/PersistentScene` and `tests/unit/scene-presets.test.ts` are deleted;
+  `immersive/HeroScene` replaces them and is mounted by `HomeHero`, not by
+  `ImmersiveShell`. `ImmersiveShell` loses `withScene` (its `scene` prop now only
+  picks the CSS accent) and `SmoothScroll` loses `feedScene`. Every non-home route
+  runs on the CSS radial atmosphere, which was always the designed fallback.
+- **Composition.** `lib/scene/engine.ts` rewritten: a receding lattice of ~150
+  deterministic clusters (anchor + five satellites, two links back) in muted
+  graphite-green with acid on a sparse minority of anchors. Reads as connected
+  systems in depth rather than decorative sparkle — the line `anti-slop-checklist.md`
+  draws. The legibility "well" behind the `h1` is baked into vertex colours, so no
+  overlay gradient was needed and the gradient ban holds.
+- **Motion.** Slow ambient breathing, pointer parallax, and a scroll-linked exit
+  (camera pushes in, field fades out as the hero leaves). Exit progress is read off
+  the container rect inside the already-scheduled render loop rather than via a
+  scroll listener, so Lenis stays the single scroll driver.
+- **Budget.** Field construction is allocation-free and deferred to
+  `requestIdleCallback`, so it never sits on the hydration critical path. 900 nodes
+  desktop / 300 mobile. The loop is gated by an `IntersectionObserver` on the hero,
+  so scrolling past it stops GPU work entirely — cheaper than the old always-on
+  fixed canvas. Three.js is code-split behind the home route; `/privacy`, `/about`,
+  `/services/ai` and `/work` now download none of it (asserted in
+  `performance-mobile.spec.ts`).
+- **Tests.** `performance-mobile`, `services-experience` and `release-qa` updated
+  from the site-wide contract to the hero-scoped one. Full suite: 243 passed.
+
+---
+
 ## 2026-09-05 — Scene rebuild + single demo progress bar
 
 Homepage review follow-up. Two defects fixed, nothing else in scope.

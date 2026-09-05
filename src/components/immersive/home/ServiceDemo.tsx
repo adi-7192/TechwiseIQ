@@ -33,6 +33,8 @@ const names: Record<Kind, string> = { web: 'Website', software: 'Software', ai: 
 export default function ServiceDemo({ kind }: { kind: Kind }) {
   const root = useRef<HTMLElement>(null)
   const timeline = useRef<gsap.core.Timeline | null>(null)
+  /** Set by the effect; lets the controls build the timeline if they are reached first. */
+  const ensureTimeline = useRef<(() => gsap.core.Timeline) | null>(null)
   const manualPause = useRef(false)
   const inView = useRef(false)
   const [step, setStep] = useState(3)
@@ -47,107 +49,137 @@ export default function ServiceDemo({ kind }: { kind: Kind }) {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
     let started = false
     const find = (selector: string) => Array.from(element.querySelectorAll<HTMLElement>(selector))
-    const tl = gsap.timeline({
-      paused: true,
-      repeat: -1,
-      repeatDelay: 0.4,
-      defaults: { immediateRender: false },
-    })
-    const pieces =
-      kind === 'web'
-        ? '[data-build-piece], [data-phone], [data-demo-cursor], [data-demo-notification]'
-        : kind === 'software'
-          ? '[data-app-piece], [data-review], [data-check], [data-approved]'
-          : '[data-flow-input], [data-flow-node], [data-extracted], [data-rule], [data-output], [data-packet]'
-    tl.set(find(pieces), { autoAlpha: 0 }, 0)
-    tl.set(find('[data-demo-content]'), { opacity: 1 }, 0)
-    for (let i = 0; i < 4; i++) tl.call(() => setStep(i), [], i * STAGE_TIME)
-    // One indicator, not two: each segment fills across its own stage, so the
-    // step position and the time inside that step read from the same bar.
-    find('[data-stage-fill]').forEach((fill, i) => {
-      tl.fromTo(
-        fill,
-        { scaleX: 0 },
-        { scaleX: 1, duration: i === 3 ? 3.2 : STAGE_TIME, ease: 'none' },
-        i * STAGE_TIME
-      )
-    })
-    const reveal = (selector: string, at: number, stagger = 0.12) => {
-      tl.fromTo(
-        find(selector),
-        { autoAlpha: 0, y: 22, scale: 0.97 },
-        { autoAlpha: 1, y: 0, scale: 1, duration: 0.95, stagger, ease: 'power3.inOut' },
-        at
-      )
+
+    /**
+     * Building this costs ~20 tweens and half a dozen querySelectorAll passes.
+     * Three demos do it, and two of them sit well below the fold, so doing it at
+     * mount put the whole cost on `/`'s hydration commit for no benefit. It is
+     * built on approach instead (see `prebuild` below) — early enough that the
+     * demo is always ready before it can be seen or reached.
+     */
+    const build = () => {
+      const tl = gsap.timeline({
+        paused: true,
+        repeat: -1,
+        repeatDelay: 0.4,
+        defaults: { immediateRender: false },
+      })
+      const pieces =
+        kind === 'web'
+          ? '[data-build-piece], [data-phone], [data-demo-cursor], [data-demo-notification]'
+          : kind === 'software'
+            ? '[data-app-piece], [data-review], [data-check], [data-approved]'
+            : '[data-flow-input], [data-flow-node], [data-extracted], [data-rule], [data-output], [data-packet]'
+      tl.set(find(pieces), { autoAlpha: 0 }, 0)
+      tl.set(find('[data-demo-content]'), { opacity: 1 }, 0)
+      for (let i = 0; i < 4; i++) tl.call(() => setStep(i), [], i * STAGE_TIME)
+      // One indicator, not two: each segment fills across its own stage, so the
+      // step position and the time inside that step read from the same bar.
+      find('[data-stage-fill]').forEach((fill, i) => {
+        tl.fromTo(
+          fill,
+          { scaleX: 0 },
+          { scaleX: 1, duration: i === 3 ? 3.2 : STAGE_TIME, ease: 'none' },
+          i * STAGE_TIME
+        )
+      })
+      const reveal = (selector: string, at: number, stagger = 0.12) => {
+        tl.fromTo(
+          find(selector),
+          { autoAlpha: 0, y: 22, scale: 0.97 },
+          { autoAlpha: 1, y: 0, scale: 1, duration: 0.95, stagger, ease: 'power3.inOut' },
+          at
+        )
+      }
+      if (kind === 'web') {
+        reveal('[data-build-piece]', 0.15, 0.42)
+        tl.fromTo(
+          find('[data-phone]'),
+          { autoAlpha: 0, x: 45, y: 20, rotation: 10 },
+          { autoAlpha: 1, x: 0, y: 0, rotation: 5, duration: 1.4, ease: 'power3.inOut' },
+          2.4
+        )
+        tl.fromTo(
+          find('[data-demo-cursor]'),
+          { autoAlpha: 0, x: -60, y: -40 },
+          { autoAlpha: 1, x: 0, y: 0, duration: 1.25, ease: 'power2.inOut' },
+          4.55
+        )
+        tl.to(
+          find('[data-demo-button]'),
+          { scale: 1.1, duration: 0.35, yoyo: true, repeat: 1, ease: 'sine.inOut' },
+          5.8
+        )
+        reveal('[data-demo-notification]', 7.1)
+        tl.to(find('[data-demo-cursor]'), { autoAlpha: 0, duration: 0.4 }, 7)
+      } else if (kind === 'software') {
+        reveal('[data-app-piece]', 0.15, 0.32)
+        reveal('[data-review]', 2.45)
+        reveal('[data-check]', 4.85, 0.45)
+        reveal('[data-approved]', 7.2)
+        tl.fromTo(
+          find('[data-scan]'),
+          { scaleX: 0 },
+          { scaleX: 1, duration: 1.7, ease: 'power2.inOut' },
+          4.7
+        )
+      } else {
+        reveal('[data-flow-input]', 0.2)
+        reveal('[data-flow-node]', 2.45)
+        reveal('[data-extracted]', 3.3, 0.25)
+        reveal('[data-rule]', 4.85)
+        reveal('[data-output]', 7.2, 0.22)
+        tl.fromTo(
+          find('[data-packet]'),
+          { yPercent: -120, autoAlpha: 0 },
+          { yPercent: 240, autoAlpha: 1, duration: 1.3, stagger: 2.4, ease: 'none' },
+          1.7
+        )
+      }
+      // Hold the completed result, then dissolve into the next construction cycle.
+      tl.to(find('[data-demo-content]'), { opacity: 0.35, duration: 0.5, ease: 'sine.inOut' }, 10.4)
+      tl.to({}, { duration: 0.1 }, 10.9)
+      return tl
     }
-    if (kind === 'web') {
-      reveal('[data-build-piece]', 0.15, 0.42)
-      tl.fromTo(
-        find('[data-phone]'),
-        { autoAlpha: 0, x: 45, y: 20, rotation: 10 },
-        { autoAlpha: 1, x: 0, y: 0, rotation: 5, duration: 1.4, ease: 'power3.inOut' },
-        2.4
-      )
-      tl.fromTo(
-        find('[data-demo-cursor]'),
-        { autoAlpha: 0, x: -60, y: -40 },
-        { autoAlpha: 1, x: 0, y: 0, duration: 1.25, ease: 'power2.inOut' },
-        4.55
-      )
-      tl.to(
-        find('[data-demo-button]'),
-        { scale: 1.1, duration: 0.35, yoyo: true, repeat: 1, ease: 'sine.inOut' },
-        5.8
-      )
-      reveal('[data-demo-notification]', 7.1)
-      tl.to(find('[data-demo-cursor]'), { autoAlpha: 0, duration: 0.4 }, 7)
-    } else if (kind === 'software') {
-      reveal('[data-app-piece]', 0.15, 0.32)
-      reveal('[data-review]', 2.45)
-      reveal('[data-check]', 4.85, 0.45)
-      reveal('[data-approved]', 7.2)
-      tl.fromTo(
-        find('[data-scan]'),
-        { scaleX: 0 },
-        { scaleX: 1, duration: 1.7, ease: 'power2.inOut' },
-        4.7
-      )
-    } else {
-      reveal('[data-flow-input]', 0.2)
-      reveal('[data-flow-node]', 2.45)
-      reveal('[data-extracted]', 3.3, 0.25)
-      reveal('[data-rule]', 4.85)
-      reveal('[data-output]', 7.2, 0.22)
-      tl.fromTo(
-        find('[data-packet]'),
-        { yPercent: -120, autoAlpha: 0 },
-        { yPercent: 240, autoAlpha: 1, duration: 1.3, stagger: 2.4, ease: 'none' },
-        1.7
-      )
-    }
-    // Hold the completed result, then dissolve into the next construction cycle.
-    tl.to(find('[data-demo-content]'), { opacity: 0.35, duration: 0.5, ease: 'sine.inOut' }, 10.4)
-    tl.to({}, { duration: 0.1 }, 10.9)
-    timeline.current = tl
+
+    /** The timeline, built at most once. `timeline.current` is what the controls use. */
+    const ensure = () => (timeline.current ??= build())
+    ensureTimeline.current = ensure
+
     const syncPlayback = () => {
-      if (media.matches || !inView.current || document.hidden || manualPause.current) tl.pause()
-      else tl.play()
-      element.dataset.playing = String(
+      const playing =
         !media.matches && inView.current && !document.hidden && !manualPause.current
-      )
+      if (playing) ensure().play()
+      else timeline.current?.pause()
+      element.dataset.playing = String(playing)
     }
     const onPreference = () => {
       setReduced(media.matches)
       if (media.matches) {
-        tl.pause()
+        timeline.current?.pause()
         gsap.set(find('[data-animated]'), { clearProps: 'all' })
         element.dataset.playing = 'false'
         setStep(3)
       } else if (started) {
-        tl.restart()
+        ensure().restart()
         syncPlayback()
       }
     }
+
+    // Build on approach, not at mount — a frame's worth of work, done while the
+    // demo is still off screen, so it never lands on hydration or on the frame
+    // the demo becomes visible. Playback still starts at `threshold: 0.3` below,
+    // so the demo is untouched visually: it begins at step 0 when you reach it.
+    const prebuild = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting) return
+        prebuild.disconnect()
+        ensure()
+      },
+      { rootMargin: '400px 0px' }
+    )
+    prebuild.observe(element)
+
     const observer = new IntersectionObserver(
       (entries) => {
         inView.current = entries[0].isIntersecting
@@ -156,7 +188,7 @@ export default function ServiceDemo({ kind }: { kind: Kind }) {
         if (!started && inView.current) {
           started = true
           if (media.matches) setStep(3)
-          else tl.restart()
+          else ensure().restart()
         }
         syncPlayback()
       },
@@ -166,12 +198,14 @@ export default function ServiceDemo({ kind }: { kind: Kind }) {
     media.addEventListener('change', onPreference)
     document.addEventListener('visibilitychange', syncPlayback)
     return () => {
+      prebuild.disconnect()
       observer.disconnect()
-      tl.kill()
+      timeline.current?.kill()
       gsap.set(find('[data-animated]'), { clearProps: 'all' })
       timeline.current = null
       media.removeEventListener('change', onPreference)
       document.removeEventListener('visibilitychange', syncPlayback)
+      ensureTimeline.current = null
     }
   }, [kind])
 
@@ -184,17 +218,17 @@ export default function ServiceDemo({ kind }: { kind: Kind }) {
       setStep(0)
       return
     }
-    timeline.current?.restart()
+    ensureTimeline.current?.().restart()
   }
   function togglePause() {
     manualPause.current = !manualPause.current
     setPaused(manualPause.current)
     if (root.current) root.current.dataset.playing = String(!manualPause.current)
     if (manualPause.current) timeline.current?.pause()
-    else if (inView.current && !document.hidden) timeline.current?.play()
+    else if (inView.current && !document.hidden) ensureTimeline.current?.().play()
   }
   function advance() {
-    timeline.current?.pause()
+    ensureTimeline.current?.().pause()
     manualPause.current = true
     setPaused(true)
     const next = step === 3 ? 0 : step + 1

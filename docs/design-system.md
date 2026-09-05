@@ -81,9 +81,9 @@ Size is decoupled from semantic element via `DisplayHeading` (`variant="hero" | 
 - `Section` — sparse/dense/flush rhythm, content rail, optional `bleed`/`ruled`, `data-scene` marker for the scene observer.
 - `SectionLabel` — mono eyebrow label.
 - `DisplayHeading` — hero/chapter/statement/h2, element decoupled from size.
-- `ImmersiveShell` — establishes `.tw-world` (dark atmosphere + `--tw-accent` per `scene` prop), mounts `SmoothScroll` and `SceneLoader`. Wrap any route that should feel like part of the world; pass `withScene={false}` for content-first routes (legal, 404) to skip the WebGL layer.
+- `ImmersiveShell` — establishes `.tw-world` (dark atmosphere + `--tw-accent` per `scene` prop) and mounts `SmoothScroll`. Wrap any route that should feel like part of the world. It no longer mounts WebGL: `scene` selects the CSS accent only, and there is no `withScene` prop.
 
-**Scene (`immersive/PersistentScene`, `lib/scene/*`):** one session-singleton Three.js renderer (vanilla Three, not React Three Fiber), re-parented across route navigation instead of remounted. `lib/scene/presets.ts` maps each `SceneName` (`intro | web | automation | apps | advisory | developer`) to a muted point-field tint + wireframe secondary + camera/density/atmosphere values — colors are always muted hex ints, never neon-saturated. `data-scene` attributes on `Section` publish the active chapter; an IntersectionObserver drives interpolation. Full ownership detail in `frontend-specialist`'s brief.
+**Scene (`immersive/HeroScene`, `lib/scene/engine.ts`):** one session-singleton Three.js renderer (vanilla Three, not React Three Fiber), mounted **behind the home hero only** — see "Hero depth field" below. Every other route and chapter runs on the CSS radial atmosphere in `globals.css`, which was always the designed fallback. `data-scene` markers on `Section`/`ImmersiveShell` still publish the chapter accent for CSS; nothing reads them for WebGL any more.
 
 **Proof objects (`components/proof/`):** DOM/CSS/SVG demonstrations, not screenshots. Shared `ProofFrame` (bordered surface, mono label bar, honest "Illustrative" tag, optional caption, `surface="dark"|"light"`, accent follows ambient `--tw-accent`). Concrete demos: `WebsiteProof`, `AutomationFlowDemo`, `OperationsConsoleDemo`, `OpportunityMapDemo`, `BuildProof`, dispatched via `proof/index.tsx` (`<ProofObject variant=... />`). All state is deterministic sample data — never a fake live metric.
 
@@ -128,7 +128,7 @@ Performance budget: one WebGL renderer (session singleton, guarded against dupli
 ## 7. Don'ts (anti-slop)
 
 Full checklist: `docs/anti-slop-checklist.md`. System-specific don'ts from the design brief:
-No generic glass cards everywhere. No neon purple+blue gradient as a default "AI" identity. No meaningless KPI dashboards. No random particle explosions. No 3D spheres behind every heading. No tiny low-contrast copy. No endless logo/testimonial blocks without evidence. No rounded-card overload — radius is reserved for proof objects, floating artifacts, and CTAs (§3). No second scroll/animation library. No fabricated metrics in proof objects — sample data must read as sample data.
+No hosted third-party 3D scenes (Spline and friends) — a second WebGL runtime, an asset we do not own, and a bundle we cannot budget for. No generic glass cards everywhere. No neon purple+blue gradient as a default "AI" identity. No meaningless KPI dashboards. No random particle explosions. No 3D spheres behind every heading. No tiny low-contrast copy. No endless logo/testimonial blocks without evidence. No rounded-card overload — radius is reserved for proof objects, floating artifacts, and CTAs (§3). No second scroll/animation library. No fabricated metrics in proof objects — sample data must read as sample data.
 
 
 ## Homepage refinement — 2026-09-05
@@ -184,3 +184,18 @@ Software and Operating Model sections.
   stage segments are the single indicator — each fills across its own stage, so
   step position and time-within-step read from one bar instead of two abutting
   bars that looked like a rendering fault.
+
+
+## Hero depth field — 2026-09-05
+
+Supersedes the site-wide persistent scene described above and in the two 2026-09-05 sections. Approved by Adi after reviewing a hosted-Spline "galaxy hero" reference: the *idea* (depth, pointer parallax, a field that frames the headline) was kept; the implementation was rebuilt in our own engine because the reference brought a second WebGL runtime, an indigo/purple identity, blur and two overlay gradients — all banned here.
+
+**Scope.** WebGL now exists on exactly one surface: the home hero. `HomeHero` mounts `SceneLoader` → `HeroScene`, which attaches the singleton canvas into a hero-local `.scene` layer (`position: absolute`, not `fixed`). `lib/scene/presets.ts`, `immersive/PersistentScene` and the chapter `IntersectionObserver` that drove per-chapter interpolation are deleted.
+
+**Composition.** A receding lattice of ~150 clustered nodes (one anchor plus five satellites, two links back to the anchor), generated deterministically from a `sin`-hash so the frame is identical across hydration and reloads. It reads as connected systems seen in depth, not as decorative stardust — the distinction `anti-slop-checklist.md` draws. Muted graphite-green `0x8fb39a` at rest, acid `0xc8ff54` on a sparse minority of anchors, link lines at `0x4c7360` / 0.18 opacity. Normal blending only, no additive glow.
+
+**Legibility without a gradient.** The centre "well" that keeps the `h1` clear of bright points is baked into the **vertex colours** — near-centre nodes are shaded down at build time — so no CSS overlay gradient is needed and the gradient ban holds. The hero `h1` also carries the same `--tw-bg` text-shadow backing the body copy already had.
+
+**Motion.** Slow ambient breathing (z-rotation and z-drift on sine), pointer parallax through the field, and a scroll-linked exit: the camera pushes into the corridor and the field fades to ~5% as the hero leaves. Hero exit progress is read off the container rect **inside the already-scheduled render loop** — deliberately not a scroll listener, so Lenis remains the one scroll driver. `SmoothScroll` no longer feeds the engine and has no `feedScene` prop.
+
+**Budget.** Field construction is allocation-free (no per-node `THREE.Color`) and deferred to `requestIdleCallback`, so it never lands on the hydration critical path. 900 nodes desktop / 300 mobile; DPR capped at 1.5 (1 on mobile); 30fps cap on mobile. The render loop is gated by an `IntersectionObserver` on the hero container — scrolling past the hero stops GPU work entirely, and leaving the route detaches the canvas. Reduced motion renders a single static frame with no RAF loop. Three.js is code-split behind the home route: no other route downloads it.

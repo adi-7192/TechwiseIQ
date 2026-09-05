@@ -2,6 +2,28 @@
   position: relative;
   --tw-type-meta: 0.6875rem;
 }
+
+/* Pre-animation state, in effect at FIRST PAINT.
+   Without it the server HTML paints the finished page, then HomeMotion's effect
+   snaps everything back to the start of its entry animation — a visible flash on
+   every client-side navigation to `/`.
+
+   Three states on [data-home-experience]:
+     static   server render / no JS / JS failed — everything visible (fail-open)
+     pending  set before paint (bootstrap script in index.tsx, layout effect in
+              HomeMotion.tsx) — these rules hold the pre-animation frame
+     active   GSAP's inline styles own these elements; these rules stop matching,
+              which is what makes the tweens' trailing clearProps safe.
+   Values mirror the `from` vars in HomeMotion.tsx exactly. */
+.experience[data-home-motion='pending'] [data-home-reveal],
+.experience[data-home-motion='pending'] [data-hero-support],
+.experience[data-home-motion='pending'] [data-home-artifact] {
+  opacity: 0;
+  visibility: hidden;
+}
+.experience[data-home-motion='pending'] [data-hero-line] {
+  transform: translateY(115%) rotate(3deg);
+}
 .hero {
   position: relative;
   min-height: 100vh;
@@ -11,14 +33,6 @@
   justify-content: center;
   padding-top: 8rem;
   overflow: clip;
-}
-.heroGrid {
-  display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: 2rem;
-  align-items: center;
-  flex: 1;
-  padding-block: 2rem 4rem;
 }
 .heroCopy {
   position: relative;
@@ -40,109 +54,12 @@
   color: var(--tw-acid);
   font-style: normal;
 }
-.heroArrow {
-  display: inline-block;
-  color: var(--tw-acid);
-  margin-left: 0.25em;
-  font-weight: 400;
-  font-size: 0.8em;
-  vertical-align: 0.05em;
-}
-.heroBody {
-  font-family: var(--font-archivo), sans-serif;
-  font-size: var(--tw-type-body-lg);
-  line-height: 1.6;
-  max-width: 35ch;
-  color: var(--tw-fg);
-}
 .actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
   align-items: center;
   margin-top: 2rem;
-}
-.heroNote {
-  margin-top: 1.5rem;
-  font-size: 0.8125rem;
-  color: var(--tw-muted);
-}
-.heroBottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  min-height: 5.5rem;
-  border-top: 1px solid var(--tw-line);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.6875rem;
-  color: var(--tw-muted);
-}
-.heroBottom a {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  min-height: 44px;
-  color: var(--tw-fg);
-}
-.heroBottom a span {
-  color: var(--tw-acid);
-  font-size: 1.3rem;
-}
-.heroStage {
-  position: relative;
-  min-width: 0;
-  height: 560px;
-  perspective: 1400px;
-  isolation: isolate;
-}
-.stageCoordinates {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  color: var(--tw-muted);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
-  letter-spacing: 0.1em;
-}
-.stageRails {
-  position: absolute;
-  inset: 3rem -1rem;
-  border-inline: 1px solid var(--tw-line);
-  transform: rotate(-7deg);
-}
-.stageRails::before,
-.stageRails::after {
-  content: '';
-  position: absolute;
-  left: -2rem;
-  right: -2rem;
-  height: 1px;
-  background: var(--tw-line);
-}
-.stageRails::before {
-  top: 20%;
-}
-.stageRails::after {
-  bottom: 15%;
-}
-.browserPanel {
-  position: absolute;
-  top: 100px;
-  width: 95%;
-  left: 0;
-  background: var(--tw-paper);
-  color: var(--tw-ink);
-  border: 1px solid var(--tw-line-soft);
-  border-radius: var(--tw-radius-artifact);
-  overflow: hidden;
-  transform: rotateY(-9deg) rotateZ(-5deg);
-  box-shadow: 0 35px 70px rgb(0 0 0 / 0.4);
-  z-index: 2;
 }
 .browserBar {
   display: flex;
@@ -156,166 +73,6 @@
 .browserBar > span:first-child {
   letter-spacing: 0.3em;
   opacity: 0.45;
-}
-.browserContent {
-  padding: 1.25rem 1.75rem;
-}
-.browserNav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.5625rem;
-}
-.browserNav b {
-  font-size: 1.125rem;
-  letter-spacing: -0.06em;
-}
-.browserNav b span {
-  font-size: 0.6rem;
-  margin-left: 0.2rem;
-}
-.paperLabel {
-  display: block;
-  margin-top: 2rem;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.5rem;
-  letter-spacing: 0.13em;
-}
-.browserHeadline {
-  font-family: var(--font-display), sans-serif;
-  font-size: 2.8rem;
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.065em;
-  margin: 0.75rem 0 1.1rem;
-}
-.architecture {
-  height: 110px;
-  position: relative;
-  overflow: hidden;
-  background: color-mix(in srgb, var(--tw-ink) 15%, var(--tw-paper));
-}
-.architecture i {
-  position: absolute;
-  width: 28%;
-  height: 170%;
-  top: -15%;
-  background: var(--tw-paper);
-  transform: rotate(-32deg);
-  border-right: 12px solid color-mix(in srgb, var(--tw-ink) 28%, var(--tw-paper));
-  box-shadow: 16px 0 30px rgb(0 0 0 / 0.14);
-}
-.architecture i:nth-child(1) {
-  left: 12%;
-}
-.architecture i:nth-child(2) {
-  left: 47%;
-}
-.architecture i:nth-child(3) {
-  left: 82%;
-}
-.architecture span {
-  position: absolute;
-  bottom: 0.6rem;
-  left: 0.7rem;
-  font-size: 0.5rem;
-  font-family: var(--font-mono), monospace;
-  background: var(--tw-paper);
-  padding: 0.2rem 0.4rem;
-}
-.browserFoot {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  font-size: 0.5rem;
-  padding-top: 0.8rem;
-}
-.backPanel {
-  position: absolute;
-  right: -1%;
-  top: 37px;
-  width: 74%;
-  padding: 1.3rem;
-  background: var(--tw-surface);
-  border: 1px solid var(--tw-line);
-  border-radius: var(--tw-radius-artifact);
-  transform: rotate(6deg);
-  z-index: 1;
-}
-.micro {
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
-  letter-spacing: 0.06em;
-  color: var(--tw-muted);
-}
-.miniRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 0.75rem;
-  font-size: 0.7rem;
-}
-.miniRow b {
-  font-size: 0.625rem;
-  font-weight: 500;
-  color: var(--tw-acid);
-}
-.flowPanel {
-  position: absolute;
-  right: -1%;
-  bottom: 21px;
-  width: 76%;
-  background: var(--tw-surface);
-  border: 1px solid var(--tw-line);
-  border-radius: var(--tw-radius-artifact);
-  padding: 1.2rem 1.4rem;
-  z-index: 3;
-  transform: rotate(3deg);
-  box-shadow: 0 24px 50px rgb(0 0 0 / 0.35);
-}
-.miniFlow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  font-size: 0.75rem;
-}
-.miniFlow > span {
-  padding: 0.5rem 0.6rem;
-  border: 1px solid var(--tw-line);
-  border-radius: var(--tw-radius-artifact);
-}
-.miniFlow i {
-  font-style: normal;
-  color: var(--tw-muted);
-}
-.miniFlow .flowDone {
-  color: var(--tw-acid);
-  border-color: color-mix(in srgb, var(--tw-acid) 30%, var(--tw-line));
-}
-.flowCaption {
-  margin-top: 1rem;
-  font-size: 0.625rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--tw-muted);
-}
-.signalDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--tw-acid);
-}
-.stageCaption {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.5625rem;
-  letter-spacing: 0.12em;
-  color: var(--tw-muted);
 }
 .servicesIntro {
   padding-block: 4.5rem;
@@ -429,35 +186,9 @@
   }
 }
 @media (max-width: 1024px) {
-  .heroGrid {
-    gap: 1.5rem;
-  }
-  .heroStage {
-    height: 480px;
-  }
-  .browserHeadline {
-    font-size: 2rem;
-  }
-  .browserContent {
-    padding: 1rem;
-  }
-  .architecture {
-    height: 90px;
-  }
-  .flowPanel {
-    width: 90%;
-    bottom: 25px;
-    padding: 1rem;
-  }
-  .backPanel {
-    width: 87%;
-  }
   .heroCopy > span {
     max-width: 32ch;
     line-height: 1.7;
-  }
-  .heroBottom {
-    font-size: 0.625rem;
   }
   .introGrid {
     grid-template-columns: 1.5fr 1fr;
@@ -476,51 +207,13 @@
   .hero {
     padding-top: 6rem;
   }
-  .heroGrid {
-    grid-template-columns: 1fr;
-    padding-block: 1rem 2rem;
-    gap: 2.5rem;
-  }
   .heroTitle {
     font-size: var(--tw-type-hero);
     margin-top: 1.5rem;
   }
-  .heroBody {
-    max-width: 36ch;
-    font-size: 1.0625rem;
-  }
-  .heroStage {
-    width: min(100%, 530px);
-    justify-self: center;
-    height: 500px;
-  }
   .heroCopy > span {
     max-width: none;
     font-size: 0.625rem;
-  }
-  .heroNote {
-    font-size: 0.75rem;
-  }
-  .heroBottom > span {
-    display: none;
-  }
-  .heroBottom {
-    justify-content: flex-start;
-    min-height: 4.5rem;
-  }
-  .heroBottom a {
-    justify-content: space-between;
-    width: 100%;
-  }
-  .browserHeadline {
-    font-size: 2.6rem;
-  }
-  .browserContent {
-    padding: 1.25rem;
-  }
-  .flowPanel {
-    width: 77%;
-    bottom: 5px;
   }
   .introGrid {
     grid-template-columns: 1fr;
@@ -554,74 +247,11 @@
   }
 }
 @media (max-width: 480px) {
-  .heroStage {
-    height: 430px;
-  }
-  .browserPanel {
-    top: 95px;
-    width: 96%;
-  }
-  .browserHeadline {
-    font-size: 2.1rem;
-  }
-  .browserContent {
-    padding: 1rem;
-  }
-  .paperLabel {
-    margin-top: 1.25rem;
-  }
-  .browserNav > span {
-    font-size: 0.4375rem;
-  }
-  .architecture {
-    height: 85px;
-  }
-  .browserFoot {
-    font-size: 0.4375rem;
-  }
-  .backPanel {
-    padding: 0.9rem;
-    top: 40px;
-  }
-  .flowPanel {
-    bottom: 0;
-    width: 85%;
-    padding: 0.9rem;
-  }
-  .miniFlow {
-    font-size: 0.625rem;
-  }
-  .miniFlow > span {
-    padding: 0.4rem;
-  }
-  .flowCaption {
-    font-size: 0.5625rem;
-  }
-  .stageCaption {
-    display: none;
-  }
   .actions {
     gap: 0.4rem;
   }
   .heroTitle {
     letter-spacing: -0.055em;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .browserPanel,
-  .backPanel,
-  .flowPanel {
-    transform: none;
-  }
-}
-@media (min-width: 769px) {
-  .heroBottom {
-    padding-right: 180px;
-  }
-}
-@media (max-width: 768px) {
-  .heroBottom {
-    padding-right: 100px;
   }
 }
 .actions > a {

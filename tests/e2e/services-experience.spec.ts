@@ -12,13 +12,13 @@ test.describe('Services overview', () => {
     await page.goto('/services')
   })
 
-  test('starts with the bottleneck and keeps every service visible', async ({
+  test('introduces the offer and keeps every service visible', async ({
     page,
   }) => {
     await expect(
       page.getByRole('heading', {
         level: 1,
-        name: "What's slowing you down?",
+        name: "Your next move. Built right.",
       }),
     ).toHaveCount(1)
     await expect(page.getByTestId('problem-navigator')).toBeVisible()
@@ -70,16 +70,19 @@ for (const route of detailRoutes) {
   })
 }
 
-test('initializes the persistent scene from the route shell', async ({
+test('carries the route accent on the shell without a WebGL scene', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/services/ai')
 
-  await expect(page.locator('.tw-world canvas')).toHaveAttribute(
+  // WebGL is hero-only now; service routes run on the CSS atmosphere, whose
+  // accent is published by the shell's data-scene marker.
+  await expect(page.locator('.tw-world').first()).toHaveAttribute(
     'data-scene',
     'automation',
   )
+  await expect(page.locator('canvas')).toHaveCount(0)
 })
 
 for (const path of ['/services', ...detailRoutes.map((route) => route.path)]) {
