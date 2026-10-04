@@ -1,20 +1,28 @@
 import type { Metadata } from 'next'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
+import ImmersiveShell from '@/components/immersive/ImmersiveShell'
+import SiteFooter from '@/components/global/SiteFooter'
+import SiteHeader from '@/components/global/SiteHeader'
+import { socialMetadata } from '@/lib/metadata'
 import styles from '../legal.module.css'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'Privacy policy for Techwise IQ Technologies — how we collect, use, and protect your data.',
   alternates: { canonical: '/privacy' },
+  ...socialMetadata({
+    title: 'Privacy Policy | Techwise IQ',
+    description:
+      'How Techwise IQ Technologies collects, uses, and protects contact information.',
+    url: '/privacy',
+  }),
 }
 
 export default function PrivacyPage() {
   return (
-    <>
-      <Nav />
-      <main className={styles.main}>
-        <div className="wrap">
+    <ImmersiveShell scene="advisory">
+      <SiteHeader />
+      <main id="main" className={styles.main}>
+        <div className={styles.inner}>
           <h1 className={styles.title}>Privacy Policy</h1>
           <p className={styles.updated}>Last updated: June 2026</p>
 
@@ -34,7 +42,8 @@ export default function PrivacyPage() {
               When you contact us via email, WhatsApp, or our contact form, we collect the
               information you provide — name, email address, phone number, and the details
               of your enquiry. We do not collect data through cookies or tracking scripts
-              beyond privacy-respecting analytics (page views only, no cross-site tracking).
+              beyond privacy-respecting analytics (page views and selected interaction
+              events only, no form contents and no cross-site tracking).
             </p>
           </section>
 
@@ -72,8 +81,9 @@ export default function PrivacyPage() {
             <h2 className={styles.heading}>Third-party services</h2>
             <p>
               Our site may use privacy-friendly analytics (such as Plausible or Umami) that
-              collect no personal data and set no cookies. WhatsApp enquiries are handled by
-              Meta Platforms under their own privacy policy.
+              set no cookies. These analytics may record page views and selected button or
+              form-state interactions, but never the contents of your enquiry. WhatsApp
+              enquiries are handled by Meta Platforms under their own privacy policy.
             </p>
           </section>
 
@@ -87,7 +97,7 @@ export default function PrivacyPage() {
           </section>
         </div>
       </main>
-      <Footer />
-    </>
+      <SiteFooter />
+    </ImmersiveShell>
   )
 }

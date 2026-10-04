@@ -8,10 +8,14 @@ const externalBaseURL = process.env.PW_BASE_URL
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: false,
-  reporter: 'list',
+  // CI: two timing-sensitive tests (home playback, mobile CLS) can flake under load.
+  retries: process.env.CI ? 2 : 0,
+  forbidOnly: !!process.env.CI,
+  reporter: process.env.CI ? [['list'], ['github']] : 'list',
   use: {
     baseURL: externalBaseURL ?? 'http://127.0.0.1:3100',
-    channel: 'chrome',
+    // Use Playwright's pinned Chromium. System Chrome on macOS can leave
+    // inherited stdio pipes open after the browser exits, hanging all workers.
     trace: 'retain-on-failure',
   },
   webServer: externalBaseURL

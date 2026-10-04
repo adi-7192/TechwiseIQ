@@ -15,6 +15,11 @@ export type WorkSummary = {
   proof: { value: string; label: string }[]
 }
 
+export type CaseStudyDecision = {
+  title: string
+  body: string
+}
+
 export type CaseStudy = {
   slug: string
   featured: boolean
@@ -28,9 +33,11 @@ export type CaseStudy = {
   stack: string[]
   liveUrl?: string
   coverImage?: string
+  coverCaption: string
+  storyTitle: string
   problem: string
   constraints: string
-  approach: string[]
+  decisions: CaseStudyDecision[]
   deliverables: string[]
   result: string
   stats?: { value: string; label: string }[]

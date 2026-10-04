@@ -1,15 +1,20 @@
+import { WHATSAPP_URL } from '@/lib/site'
 import styles from './WhatsAppButton.module.css'
 
 export default function WhatsAppButton() {
   return (
     <a
-      href="https://wa.me/971567760667"
+      href={WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
       className={styles.btn}
     >
-      WhatsApp ↗
+      <span className={styles.fullLabel}>WhatsApp</span>
+      <span className={styles.compactLabel} aria-hidden="true">
+        WA
+      </span>{' '}
+      ↗
     </a>
   )
 }

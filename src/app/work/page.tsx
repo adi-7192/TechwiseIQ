@@ -1,13 +1,15 @@
 import type { Metadata } from 'next'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
-import Marquee from '@/components/Marquee'
+import ImmersiveShell from '@/components/immersive/ImmersiveShell'
+import Section from '@/components/immersive/primitives/Section'
+import SectionLabel from '@/components/immersive/primitives/SectionLabel'
+import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
+import { SiteHeader, SiteFooter } from '@/components/global'
+import PrimaryCTA from '@/components/ui/PrimaryCTA'
 import { CASE_STUDIES } from '@/data/case-studies'
-import { BOOKING_URL } from '@/lib/site'
+import { BOOKING_URL, WHATSAPP_URL } from '@/lib/site'
 import { socialMetadata } from '@/lib/metadata'
 import ConceptLab from './ConceptLab'
-import WorkGrid from './WorkGrid'
-import WorkMotion from './WorkMotion'
+import FeaturedWork from './FeaturedWork'
 import styles from './work.module.css'
 
 export const metadata: Metadata = {
@@ -41,20 +43,11 @@ const jsonLd = {
   },
 }
 
-const CAPABILITIES = [
-  ['Strategy', 'Positioning and information architecture'],
-  ['UX / UI', 'Custom responsive interfaces'],
-  ['Engineering', 'Production-ready web builds'],
-  ['Content', 'Service narratives and case studies'],
-  ['Conversion', 'WhatsApp and consultation flows'],
-  ['Launch', 'SEO, analytics, and structured data'],
-]
-
-const PROCESS = [
-  ['01', 'Align', 'Goals, audience, scope and success measures.'],
-  ['02', 'Prototype', 'Structure and direction before full production.'],
-  ['03', 'Build', 'Working software demonstrated every week.'],
-  ['04', 'Ship', 'Quality assurance, launch and a clean handover.'],
+const OPERATING = [
+  ['01', 'Align', 'Goals, audience, scope and success measures agreed up front.'],
+  ['02', 'Prototype', 'Structure and direction proven before full production.'],
+  ['03', 'Build', 'Working software demonstrated every week — not status decks.'],
+  ['04', 'Ship', 'Quality assurance, launch and a clean handover of everything.'],
 ]
 
 const CLIENTS_GET = [
@@ -67,173 +60,144 @@ const CLIENTS_GET = [
 const WE_AVOID = [
   'Black-box project management',
   'Weeks without a working build',
-  'Template-driven design sold as custom work',
+  'Template design sold as custom work',
   'Vague handover responsibilities',
 ]
 
 export default function WorkPage() {
   return (
-    <>
+    <ImmersiveShell scene="web">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <WorkMotion />
-      <Nav />
-      <main
-        className={styles.experience}
-        data-work-experience
-        data-testid="work-experience"
-      >
-        <section className={styles.hero}>
-          <div className="wrap">
-            <p className={styles.label}>
-              Our work / Our way
-            </p>
-            <h1 className={styles.heroTitle}>
-              Proof, not <span>promises.</span>
-            </h1>
-            <p className={styles.heroIntro}>
-              Real launches, clear decisions and a delivery model clients can
-              understand before the first call.
-            </p>
-            <span
-              className={styles.heroMarker}
-              aria-hidden="true"
-            />
+      <SiteHeader />
+      <main id="main" data-work-experience data-testid="work-experience">
+        {/* 1 · Hero */}
+        <Section as="header" density="sparse" innerClassName={styles.heroInner}>
+          <SectionLabel>Proof archive / Our way</SectionLabel>
+          <DisplayHeading as="h1" size="hero" className={styles.heroTitle}>
+            Proof, not <span>promises.</span>
+          </DisplayHeading>
+          <p className={styles.heroIntro}>
+            Real launches, clear decisions and a delivery model clients can
+            understand before the first call. Client work leads; self-initiated
+            concepts sit clearly apart.
+          </p>
+          <div className={styles.heroActions}>
+            <PrimaryCTA href="#selected-work" variant="secondary" arrow={false}>
+              See the work
+            </PrimaryCTA>
+            <PrimaryCTA href="/contact" variant="ghost">
+              Start a project
+            </PrimaryCTA>
           </div>
-        </section>
+        </Section>
 
-        <section className={styles.proofMarquee} aria-label="How we deliver">
-          <Marquee duration={28}>
-            <div className={styles.proofMarqueeSet}>
-              <span>Live work</span><b aria-hidden="true">→</b>
-              <span>5–6 week launches</span><b aria-hidden="true">→</b>
-              <span>Weekly demos</span><b aria-hidden="true">→</b>
-              <span>Direct access</span><b aria-hidden="true">→</b>
-            </div>
-          </Marquee>
-        </section>
-
-        <section className={styles.selectedWork}>
-          <div className="wrap">
+        {/* 2 · Selected client work — visually dominant */}
+        <Section
+          id="selected-work"
+          ruled
+          density="dense"
+          aria-labelledby="selected-work-title"
+        >
+          <div className={styles.workHead}>
             <div className={styles.sectionIntro}>
-              <p className={styles.label}>Selected work</p>
-              <h2 className={styles.sectionTitle} data-work-reveal>
+              <SectionLabel index="01">Selected client work</SectionLabel>
+              <DisplayHeading
+                as="h2"
+                size="h2"
+                id="selected-work-title"
+                className={styles.sectionTitle}
+              >
                 Built for real <span>business.</span>
-              </h2>
-              <p className={styles.sectionBody} data-work-reveal>
-                Two industries, two distinct challenges, one consistent
-                approach: understand the business, make strong decisions and
-                ship.
-              </p>
-            </div>
-            <WorkGrid />
-          </div>
-        </section>
-
-        <section className={styles.capabilities}>
-          <div className="wrap">
-            <div className={styles.sectionIntro}>
-              <p className={styles.label}>Capabilities demonstrated</p>
-              <h2 className={styles.sectionTitle} data-work-reveal>
-                What the work <span>proves.</span>
-              </h2>
-              <p className={styles.sectionBody} data-work-reveal>
-                Not a generic services list. These are capabilities visible in
-                the projects above.
-              </p>
-            </div>
-            <div
-              className={styles.capabilityGrid}
-              data-work-reveal
-            >
-              {CAPABILITIES.map(([title, body], index) => (
-                <div key={title} className={styles.capability}>
-                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                </div>
-              ))}
+              </DisplayHeading>
             </div>
           </div>
-        </section>
+          <FeaturedWork />
+        </Section>
 
+        {/* 3 · Concept Lab — self-initiated, clearly labelled */}
         <ConceptLab />
 
-        <section className={styles.process}>
-          <div className="wrap">
-            <div className={styles.sectionIntro}>
-              <p className={styles.darkLabel}>How we work</p>
-              <h2 className={styles.darkTitle} data-work-reveal>
-                Clear from kickoff <span>to launch.</span>
-              </h2>
-              <p className={styles.darkBody} data-work-reveal>
-                A straightforward process, visible progress and direct
-                communication throughout.
-              </p>
-            </div>
-            <div
-              className={styles.processGrid}
-              data-work-reveal
+        {/* 4 · How we work */}
+        <Section ruled density="sparse" aria-labelledby="operating-title">
+          <div className={styles.sectionIntro}>
+            <SectionLabel index="02">How we work</SectionLabel>
+            <DisplayHeading
+              as="h2"
+              size="h2"
+              id="operating-title"
+              className={styles.sectionTitle}
             >
-              {PROCESS.map(([number, title, body]) => (
-                <div key={number} className={styles.processStep}>
-                  <span aria-hidden="true">{number}</span>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                </div>
-              ))}
-            </div>
+              Clear from kickoff <span>to launch.</span>
+            </DisplayHeading>
+            <p className={styles.sectionBody}>
+              A straightforward process, visible progress and direct
+              communication throughout.
+            </p>
           </div>
-        </section>
-
-        <section className={styles.principles}>
-          <div className="wrap">
-            <div className={styles.principlesGrid}>
-              <div data-work-reveal>
-                <p className={styles.label}>What clients get</p>
-                <h2 className={styles.principleTitle}>Visible progress.</h2>
-                <ul className={styles.principleList}>
-                  {CLIENTS_GET.map((item) => <li key={item}>{item}</li>)}
-                </ul>
+          <div className={styles.operatingGrid}>
+            {OPERATING.map(([index, title, body]) => (
+              <div key={index} className={styles.operatingStep}>
+                <span className={styles.operatingIndex}>{index}</span>
+                <h3>{title}</h3>
+                <p>{body}</p>
               </div>
-              <div data-work-reveal>
-                <p className={styles.label}>What we avoid</p>
-                <h2 className={styles.principleTitle}>Delivery theatre.</h2>
-                <ul className={styles.principleList}>
-                  {WE_AVOID.map((item) => <li key={item}>{item}</li>)}
-                </ul>
-              </div>
-            </div>
+            ))}
           </div>
-        </section>
 
-        <section className={styles.finalCta}>
-          <div className="wrap">
-            <div className={styles.sectionIntro}>
-              <p className={styles.darkLabel}>Your project could be next</p>
-              <h2 className={styles.darkTitle} data-work-reveal>
-                Bring us the <span>problem.</span>
-              </h2>
-              <p className={styles.darkBody} data-work-reveal>
-                Start with a focused 20-minute call. You explain the challenge;
-                we explain how we would approach it.
-              </p>
-              <a
-                href={BOOKING_URL}
-                className={styles.ctaButton}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Discuss your project (opens in a new tab)"
-              >
-                Discuss your project <span aria-hidden="true">→</span>
-              </a>
+          <div className={styles.principlesGrid}>
+            <div>
+              <SectionLabel hideMark>What clients get</SectionLabel>
+              <h3 className={styles.principleTitle}>Visible progress.</h3>
+              <ul className={styles.principleList}>
+                {CLIENTS_GET.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <SectionLabel hideMark>What we avoid</SectionLabel>
+              <h3 className={styles.principleTitle}>Delivery theatre.</h3>
+              <ul className={styles.principleList}>
+                {WE_AVOID.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </div>
           </div>
-        </section>
+        </Section>
+
+        {/* 5 · Final CTA */}
+        <Section ruled density="sparse" innerClassName={styles.ctaInner} aria-labelledby="work-cta-title">
+          <SectionLabel>Your project could be next</SectionLabel>
+          <DisplayHeading
+            as="h2"
+            size="statement"
+            id="work-cta-title"
+            className={styles.ctaTitle}
+          >
+            Bring us the <span>problem.</span>
+          </DisplayHeading>
+          <p className={styles.ctaBody}>
+            Start with a focused 20-minute call. You explain the challenge; we
+            explain how we would approach it.
+          </p>
+          <div className={styles.ctaActions}>
+            <PrimaryCTA href={BOOKING_URL} variant="primary">
+              Discuss your project
+            </PrimaryCTA>
+            <PrimaryCTA href={WHATSAPP_URL} variant="secondary">
+              WhatsApp
+            </PrimaryCTA>
+            <PrimaryCTA href="/contact" variant="ghost" arrow={false}>
+              Contact form
+            </PrimaryCTA>
+          </div>
+        </Section>
       </main>
-      <Footer />
-    </>
+      <SiteFooter />
+    </ImmersiveShell>
   )
 }

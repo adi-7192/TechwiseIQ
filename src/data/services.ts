@@ -147,6 +147,21 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
         answer:
           'Launch includes a stabilization period, documentation, and a clean handover. Ongoing support is available when you need it.',
       },
+      {
+        question: 'What is included in the scope?',
+        answer:
+          'We agree the page list, design direction, content responsibilities, CMS needs, integrations, and launch checks in writing. Content production, migration, and ongoing support are discussed separately when needed.',
+      },
+      {
+        question: 'Can you improve an existing website?',
+        answer:
+          'Yes. We review the current content, user journey, and technical foundation before deciding what to retain and what to rebuild.',
+      },
+      {
+        question: 'Will you guarantee search rankings or enquiries?',
+        answer:
+          'No. We build the technical and content foundations for discovery and a clear route to enquiry. Results also depend on your market, offer, content, and ongoing activity.',
+      },
     ],
     proofSlugs: ['aaskra-realty', 'express-trade-financing'],
     motif: 'web',
@@ -158,7 +173,7 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     title: 'Custom Software',
     outcome: 'Friction into flow.',
     description:
-      'Software shaped around the way your operation actually works—not the other way around.',
+      'Custom applications, portals, and integrations shaped around the way your operation actually works.',
     fitSignals: ['Portals', 'Dashboards', 'Integrations', 'MVPs'],
     symptoms: [
       'Teams re-enter the same data in multiple places.',
@@ -183,27 +198,27 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     capabilities: [
       {
         title: 'Web applications',
-        body: 'Purpose-built products for customers, partners, and teams.',
+        body: 'Customer, partner, and team applications with the user journeys, roles, and records your product needs.',
       },
       {
         title: 'Internal dashboards',
-        body: 'Decision-ready views of the work that matters.',
+        body: 'Operational views that bring status, ownership, and next actions together so teams can manage work in one place.',
       },
       {
         title: 'APIs + integrations',
-        body: 'Reliable connections between existing systems.',
+        body: 'Connect existing systems around agreed data formats, validation rules, and clear integration boundaries.',
       },
       {
         title: 'Legacy rebuilds',
-        body: 'Modern, maintainable replacements for fragile software.',
+        body: 'Review the current system, define migration boundaries, and plan a staged replacement around critical operations.',
       },
       {
         title: 'Mobile MVPs',
-        body: 'Focused first releases for iOS and Android.',
+        body: 'Focused first releases for iOS and Android, scoped around the essential journey that users need to try.',
       },
       {
         title: 'Ongoing iteration',
-        body: 'Measured improvements after the first release.',
+        body: 'Maintain and improve the application after launch, using user feedback to prioritize the next release.',
       },
     ],
     process: [
@@ -249,6 +264,21 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
         answer:
           'Yes. We can continue with maintenance and iteration, or hand over the code and documentation cleanly to your team.',
       },
+      {
+        question: 'Should we build custom software or use an existing tool?',
+        answer:
+          'Start with the workflow. If an existing product fits, a focused integration or configuration may be enough. Custom development makes sense when the process, user experience, or system connections need something more specific.',
+      },
+      {
+        question: 'What do you need to scope a project?',
+        answer:
+          'A description of the workflow, the people involved, existing systems, and the most important first outcome. We turn that into agreed boundaries and a delivery plan before the build.',
+      },
+      {
+        question: 'What do we receive at handover?',
+        answer:
+          'The agreed application, source code, and documentation, with deployment and integration guidance. We also agree whether your team takes over or we continue with maintenance and iteration.',
+      },
     ],
     proofSlugs: [],
     motif: 'software',
@@ -258,7 +288,7 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     number: '003',
     slug: '/services/ai',
     title: 'AI Automation',
-    outcome: 'Busywork into leverage.',
+    outcome: 'Repetitive work into useful action.',
     description:
       'Controlled automations that remove repetitive work while keeping human judgment visible.',
     fitSignals: ['Documents', 'Email', 'Reporting', 'Assistants'],
@@ -351,6 +381,21 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
         answer:
           'Yes. We design around the systems already running your operation and add clear fallbacks where integrations fail.',
       },
+      {
+        question: 'Does every automation need AI?',
+        answer:
+          'No. Predictable checks and system actions often work best as explicit rules. AI is useful for bounded tasks such as interpreting text, extracting information, or drafting a response.',
+      },
+      {
+        question: 'How do you handle business data?',
+        answer:
+          'We agree the approved sources, access, external providers, and data-handling requirements during scoping. The design depends on those requirements and the systems involved; do not send sensitive production data in an initial enquiry.',
+      },
+      {
+        question: 'How do we know a pilot is ready to expand?',
+        answer:
+          'Agree what useful output looks like, then review representative inputs, exceptions, human interventions, and integration failures. The pilot findings guide whether to improve, expand, or stop the workflow.',
+      },
     ],
     proofSlugs: [],
     motif: 'ai',
@@ -361,8 +406,7 @@ export const SERVICE_PROBLEMS: ServiceProblem[] = [
   {
     id: 'website',
     label: 'Our website is underperforming',
-    rationale:
-      'The story, experience, or technical foundation is stopping visitors from acting.',
+    rationale: 'The story, experience, or technical foundation is stopping visitors from acting.',
     examples: ['Positioning', 'Conversion', 'CMS', 'Search visibility'],
     primaryService: 'web',
     secondaryServices: [],
@@ -370,14 +414,8 @@ export const SERVICE_PROBLEMS: ServiceProblem[] = [
   {
     id: 'manual-work',
     label: 'Manual work is eating the week',
-    rationale:
-      'Repeatable work can move faster while people keep control of exceptions.',
-    examples: [
-      'Document processing',
-      'Email triage',
-      'Reporting',
-      'AI assistants',
-    ],
+    rationale: 'Repeatable work can move faster while people keep control of exceptions.',
+    examples: ['Document processing', 'Email triage', 'Reporting', 'AI assistants'],
     primaryService: 'ai',
     secondaryServices: ['software'],
   },
@@ -393,8 +431,7 @@ export const SERVICE_PROBLEMS: ServiceProblem[] = [
   {
     id: 'launch-product',
     label: 'We need to launch a product',
-    rationale:
-      'A focused product sprint can turn the idea into something users can test.',
+    rationale: 'A focused product sprint can turn the idea into something users can test.',
     examples: ['Product scope', 'Web app', 'Mobile MVP', 'Launch system'],
     primaryService: 'software',
     secondaryServices: ['web'],
@@ -402,14 +439,8 @@ export const SERVICE_PROBLEMS: ServiceProblem[] = [
   {
     id: 'unsure',
     label: "We're not sure where to begin",
-    rationale:
-      'Start with diagnosis: map the constraint before choosing a tool.',
-    examples: [
-      'Workflow map',
-      'Opportunity ranking',
-      'Technical direction',
-      'Written scope',
-    ],
+    rationale: 'Start with diagnosis: map the constraint before choosing a tool.',
+    examples: ['Workflow map', 'Opportunity ranking', 'Technical direction', 'Written scope'],
     primaryService: 'software',
     secondaryServices: ['web', 'ai'],
   },

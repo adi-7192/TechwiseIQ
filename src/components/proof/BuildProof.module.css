@@ -1,0 +1,7 @@
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--tw-radius-proof) - 10px);
+  border: 1px solid color-mix(in srgb, var(--tw-ink) 12%, transparent);
+}

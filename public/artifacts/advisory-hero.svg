@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+<rect width="1200" height="760" rx="24" fill="#f6f6f1"/>
+
+<rect x="45" y="42" width="1110" height="676" rx="22" fill="#111315"/>
+<text x="82" y="98" font-family="Arial" font-size="18" fill="#919793">AI OPPORTUNITY MAP</text>
+<g font-family="Arial">
+<circle cx="310" cy="390" r="138" fill="#c8ff54"/><text x="238" y="374" font-size="17" fill="#111">HIGH VALUE</text><text x="221" y="414" font-size="28" font-weight="700" fill="#111">Lead triage</text>
+<circle cx="642" cy="250" r="103" fill="#645cff"/><text x="590" y="244" font-size="16" fill="#fff">MEDIUM</text><text x="577" y="280" font-size="20" font-weight="700" fill="#fff">Support</text>
+<circle cx="815" cy="502" r="78" fill="#ff6540"/><text x="778" y="496" font-size="15" fill="#111">TEST</text><text x="760" y="528" font-size="18" font-weight="700" fill="#111">Pricing</text>
+<circle cx="970" cy="235" r="52" fill="#f3f4ef"/><text x="936" y="241" font-size="14" fill="#111">Later</text>
+</g>
+<path d="M117 610H1080M117 610V160" stroke="#454a47" stroke-width="2"/><text x="1010" y="650" font-family="Arial" font-size="14" fill="#777">VALUE →</text><text x="85" y="190" font-family="Arial" font-size="14" fill="#777" transform="rotate(-90 85 190)">FEASIBILITY →</text>
+
+</svg>

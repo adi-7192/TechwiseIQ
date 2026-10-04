@@ -4,6 +4,434 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — Redesign made primary; old design removed
+
+The day's roadmap work (in a worktree branched from `main`) had been done on the old Kinetic
+design. Owner decision D-028: the immersive redesign is the site, all changes land on it.
+
+- Committed the owner's uncommitted redesign WIP on `redesign/immersive-system` (`0481568`).
+- Old-design commits archived at local tag `archive/old-design-2026-10-04` (never pushed).
+- Carried over: `llms.txt` without prices (D-022), AASKRA honesty copy, AASKRA + ETF screenshots
+  without cookie banners (ETF cover replaced — it was captured mid-animation), screenshots for three
+  new projects, anchor/price guards in `launch-smoke`, ponytail plugin, AGENTS.md read-first block.
+- Deleted every Kinetic component no route reached (Hero, HomeExperience, Nav, Footer, CTASection,
+  Ticker, Marquee, ServiceHero, MiniProcess, ProofStrip, DeliverablesSection, FAQSection, old
+  AboutMotion, unused ui exports, hooks, robot video, marquee/.wrap globals).
+- `launch-accessibility`: `/services` h1 accent assertion updated to the acid accent set in 3f65173.
+- Re-audited the redesign; rebuilt `ROADMAP.md`, `HANDOFF.md`, `DECISIONS.md` for it.
+- Verified: lint, tsc, 13/13 unit, build, 277 e2e pass on a production build.
+
+---
+
+## 2026-09-05 — Hero entrance moved to CSS; scene fades in
+
+Follow-up to the entry-animation fix below. Adi: "the hero glitches and does not
+load smoothly in the beginning ... it should feel smooth and flawless even if I
+load it multiple times." Filmed the repeat-load path frame by frame (4x CPU,
+10Mbps, production build) rather than reasoning about it, which showed two
+defects that had nothing to do with animation weight:
+
+1. The hero was **completely blank from the first paint until ~330ms** — header
+   and WhatsApp button only. The entrance was a GSAP timeline, so it could not
+   begin until the bundle had downloaded, parsed and hydrated. On a first visit
+   the intro overlay hides that; on any repeat visit it is a dark empty screen
+   followed by a pop.
+2. The WebGL field **hard-cut in at full brightness** around 340–445ms, after the
+   headline had already started moving. It never faded.
+
+- **Hero entrance is now CSS** (`HeroStage.module.css`), on the same timings the
+  GSAP timeline used: lines wipe up from `translateY(115%) rotate(3deg)` over
+  1.15s staggered 0.13s; support copy fades up 18px over 0.85s from 0.35s,
+  staggered 0.1s; artifacts fade and scale from 0.88 over 1.2s from 0.2s. It
+  starts at the first paint instead of at hydration — measured at ~150ms rather
+  than ~330ms — and needs no JavaScript at all. Held at its first frame by
+  `animation-play-state: paused` while `html[data-intro='loading']`, so it cannot
+  be part-way through when the overlay lifts. The reduce block in globals.css
+  kills `animation` outright, which lands everything in its natural visible state.
+- **GSAP keeps only the continuous artifact drift**, started 1.7s in so the
+  artifacts are not still scaling while they begin to float. The three `.from()`
+  hero tweens are gone.
+- **`pending` now covers the scroll reveals only.** The hero owns its own start
+  frame through the CSS animation's `both` fill, so it is never hidden waiting on
+  the bundle — which also makes the intro-overlay exemption added earlier today
+  obsolete, and it is removed.
+- **The scene canvas fades in** (`engine.ts`): mounts at `opacity: 0` with a 900ms
+  transition and is revealed by `markPainted()` once it has actually rendered a
+  frame. Reused across navigations without re-fading.
+
+Verification: 26 full-page screenshots byte-identical to the pre-change baseline —
+the resting state is untouched, only the arrival changed. Lighthouse mobile
+91/100/100/100, LCP 3.5s, CLS 0, TBT 0ms (unchanged). Build passes 19/19, lint
+clean, 13 unit + 179 e2e + 15 home-experience pass, including two new tests: the
+hero must settle with the JS bundle blocked entirely, and must stay paused behind
+the overlay.
+
+Note on vocabulary: this puts the hero entrance in CSS keyframes rather than GSAP.
+GSAP remains the only DOM animation *library* and still owns everything
+scroll-linked and continuous; a first-paint entrance is the one thing it
+structurally cannot do, since it does not exist until the bundle runs.
+
+---
+
+## 2026-09-05 — Home page: entry-animation flash fix and load pass
+
+Adi reported that switching to the home page "glitches" and asked for a
+performance pass that changes nothing visible.
+
+The glitch was not animation load — it was a missing pre-animation state. The
+server HTML painted the fully-revealed page, then `HomeMotion`'s `useEffect` ran
+*after* that paint and snapped everything back to the start of its entry
+animation. Measured before the fix: **21 of 21** tracked elements (hero lines,
+hero support copy, floating artifacts, every `[data-home-reveal]` block) painted
+visible and were then hidden. On a first load the intro overlay covered that
+frame; on a client-side navigation nothing did. `data-home-experience` already
+carried `data-home-motion="static"` as the hook for this and nothing consumed it.
+
+- **Pre-animation state (`studio.module.css`, `home/index.tsx`, `HomeMotion.tsx`).**
+  Three-state machine on `[data-home-experience]`: `static` (server render / no JS
+  — everything visible, fail-open) → `pending` (pre-animation frame, set before
+  paint) → `active` (GSAP's inline styles own the elements). `pending` is armed by
+  an inline bootstrap script during parse on a hard load and by a layout effect on
+  a client-side navigation. The handover to `active` happens after the tweens are
+  built, which is what keeps their trailing `clearProps` from re-hiding anything.
+  **After: 0 of 21 elements flash.**
+- **Not armed behind the intro overlay.** While `html[data-intro='loading']` the
+  hero sits behind an opaque full-viewport overlay, so there is no flash to
+  prevent — and withholding the hero copy from the first paint costs LCP, which is
+  measured on that paragraph. Arming it there cost ~2s of mobile LCP (5.5s vs 3.5s)
+  for no visual gain; the exemption is covered by a regression test.
+- **Off the hydration commit.** `/` mounted 8+ client components in one commit.
+  The three `ServiceDemo` timelines (~20 tweens and several `querySelectorAll`
+  passes each, two of them far below the fold) are now built on approach via a
+  `rootMargin: '400px'` observer; playback still starts at `threshold: 0.3`, so the
+  demos still begin at step 0 when you reach them. `ScrollTrigger.refresh()` (a
+  full-document reflow) moved into a `requestAnimationFrame`, and
+  `ScrollTrigger.config({ ignoreMobileResize: true })` stops the mobile URL bar
+  from triggering a refresh mid-scroll.
+- **One Lenis, not one per route.** `ImmersiveShell` is per-route, so two shells
+  can briefly coexist during a navigation and each instantiate its own Lenis,
+  fighting over the same wheel events. `SmoothScroll` now reference-counts a
+  module-level instance.
+- **Render loop (`lib/scene/engine.ts`).** `readExit()` called
+  `getBoundingClientRect()` *inside every rAF frame* — a forced layout per frame
+  for as long as the hero was on screen. The hero box is now cached by
+  `measureContainer()` (attach, resize, ResizeObserver, re-entry) and exit progress
+  derived from `window.scrollY`. `powerPreference` dropped from
+  `'high-performance'` to `'default'`: forcing the discrete GPU for a few hundred
+  decorative points costs a context-creation stall and battery.
+- **Dead CSS removed.** 100 unreferenced rules — `studio.module.css` 652→260
+  lines, `home.module.css` 576→424 — including a `perspective: 1400px` stage and
+  two rotated panels with `0 35px 70px` shadows that no component rendered.
+
+**Verification.** 26 full-page screenshots (13 routes × 1280/1440) byte-identical
+before and after. Lighthouse mobile 91/100/100/100 (was 88–93), LCP 3.4–3.5s (was
+3.2–3.7s), CLS 0, TBT 0–10ms (was 20–140ms); desktop 100, LCP 0.7s. Build passes,
+19/19 routes prerender, lint clean, 13 unit + 179 e2e pass. Four regression tests
+added to `home-experience.spec.ts`.
+
+**Still open.** Mobile Lighthouse is 91, not the ≥95 the budget states, and LCP
+3.4s against a <1.8s target — both pre-existing. The cause is design timing, not
+code: the intro overlay holds for up to 2.6s and the hero intro tween runs 1.15s
+after it, so the hero copy cannot be the LCP before ~3.4s on throttled mobile.
+Shortening that is a motion-vocabulary decision and needs Adi's sign-off.
+
+---
+
+## 2026-09-05 — Hero depth field replaces the site-wide WebGL scene
+
+Adi supplied a 21st.dev "galaxy interactive hero" reference (hosted Spline scene)
+and asked for it in the hero background, in a form that respects the design
+system. The reference was **not** integrated as shipped — `@splinetool/react-spline`
+is a second WebGL runtime (~1MB JS) streaming an asset we do not own from
+`prod.spline.design`, and its look (indigo/purple identity, `backdrop-filter`
+blur, two overlay gradients, a fake app screenshot, a duplicate navbar, the
+banned word "Elevate") collides with the design system on six separate counts.
+Per the "external components are never pasted in" rule the idea was extracted —
+depth, pointer parallax, a field that frames the headline — and rebuilt in our
+own engine. Adi chose this over installing Spline, and chose hero-only scope.
+
+- **Scope.** WebGL now exists on exactly one surface. `lib/scene/presets.ts`,
+  `immersive/PersistentScene` and `tests/unit/scene-presets.test.ts` are deleted;
+  `immersive/HeroScene` replaces them and is mounted by `HomeHero`, not by
+  `ImmersiveShell`. `ImmersiveShell` loses `withScene` (its `scene` prop now only
+  picks the CSS accent) and `SmoothScroll` loses `feedScene`. Every non-home route
+  runs on the CSS radial atmosphere, which was always the designed fallback.
+- **Composition.** `lib/scene/engine.ts` rewritten: a receding lattice of ~150
+  deterministic clusters (anchor + five satellites, two links back) in muted
+  graphite-green with acid on a sparse minority of anchors. Reads as connected
+  systems in depth rather than decorative sparkle — the line `anti-slop-checklist.md`
+  draws. The legibility "well" behind the `h1` is baked into vertex colours, so no
+  overlay gradient was needed and the gradient ban holds.
+- **Motion.** Slow ambient breathing, pointer parallax, and a scroll-linked exit
+  (camera pushes in, field fades out as the hero leaves). Exit progress is read off
+  the container rect inside the already-scheduled render loop rather than via a
+  scroll listener, so Lenis stays the single scroll driver.
+- **Budget.** Field construction is allocation-free and deferred to
+  `requestIdleCallback`, so it never sits on the hydration critical path. 900 nodes
+  desktop / 300 mobile. The loop is gated by an `IntersectionObserver` on the hero,
+  so scrolling past it stops GPU work entirely — cheaper than the old always-on
+  fixed canvas. Three.js is code-split behind the home route; `/privacy`, `/about`,
+  `/services/ai` and `/work` now download none of it (asserted in
+  `performance-mobile.spec.ts`).
+- **Tests.** `performance-mobile`, `services-experience` and `release-qa` updated
+  from the site-wide contract to the hero-scoped one. Full suite: 243 passed.
+
+---
+
+## 2026-09-05 — Scene rebuild + single demo progress bar
+
+Homepage review follow-up. Two defects fixed, nothing else in scope.
+
+- **Background scene.** Removed the `TorusKnotGeometry` core and its three orbit
+  rings from `lib/scene/engine.ts`. The per-chapter connected interface panels are
+  now the only form, with new `advisory` and `developer` layouts so those routes no
+  longer fall back to `intro`. `ScenePreset` gained `offsetX` / `offsetY` (places the
+  composition off each chapter's copy column) and `wireOpacity` (sparse chapters
+  carry it, dense service chapters recede to a texture). Phones get a lower-outside
+  placement at 0.78 scale / 45% opacity, since there is no empty column at 390px.
+  Wireframe secondaries brightened now that nothing sits in front of them.
+  Net effect: no body copy renders over scene geometry on any homepage section.
+- **Service demo progress.** `ServiceDemo` had two progress indicators stacked on
+  adjacent pixel rows — a 3px full-bleed cycle track above a 4-segment step bar,
+  each at a different fill position, reading as one broken bar. Merged into one:
+  each of the four segments now fills across its own stage (2.4s × 3, then 3.2s),
+  so the cycle timing and the step position come from a single element.
+- Verified: lint clean, `npm run build` passes, 19/19 routes prerender, full
+  Playwright suite green against the production build except two pre-existing
+  order-dependent flakes (`home-experience` playback, `performance-mobile` long
+  task) which pass in isolation and were confirmed to fail on unmodified code too.
+
+---
+
+## 2026-08-31 — Immersive homepage refinement pass (depth, motion, pacing)
+
+Closed the gap between the built immersive homepage and the approved editions
+reference, which had drifted flat/conventional. Additive refinement only — every
+route, real case study, proof-demo, form, SEO and reduced-motion behaviour
+preserved.
+
+- **Smooth scroll (one driver):** added Lenis (`SmoothScroll.tsx`, duration 1.05)
+  advanced from GSAP's single ticker; Lenis scroll drives `ScrollTrigger.update`
+  and feeds the WebGL atmosphere's drift via `engine.setScrollProgress`. Guarded
+  by reduced-motion (live `change` listener), native anchors, and native touch
+  (`syncTouch:false`). `feedScene` gate keeps the renderer off content-only routes.
+- **Proof objects as light heroes:** `ProofFrame` gained a `surface="light"`
+  variant that remaps interior tokens (via `color-mix` on palette tokens) to an
+  off-white product surface with a hard floating shadow — flips all four
+  interactive demos with no per-demo CSS rewrite. Proof stage widened with
+  perspective + `translateZ` depth.
+- **Floating artifacts:** 15 tailored reference SVGs added to `public/artifacts`;
+  new `ChapterArtifacts` places 3–5 parallaxing fragments around each chapter
+  proof (`[data-chapter-artifact]` scrub, desktop-only — hidden and untriggered
+  below 1081px).
+- **Scene presence:** stronger point opacity/atmosphere, wider scroll drift,
+  more distinct per-chapter accents; still NormalBlending (no glow), DPR cap,
+  static reduced-motion frame.
+- **Hero:** 3D orbit (perspective + per-chip Z depth) and a fifth light "panel"
+  fragment introducing the light-surface language above the fold.
+- **New Developer/Build chapter** (`BUILD_CHAPTER` + `BuildProof` using
+  `dev-hero.svg`): a fifth, service-linkless engineering-credibility beat before
+  Selected Work that closes the scene arc on developer blue. Added to `ChapterNav`.
+- **Selected Work transition:** honest "illustrative → real, shipped" bridge
+  marker, enlarged AASKRA/ETF covers (3:2) and outcome stats; scene continuous.
+- **Pacing:** sculpted sparse → spectacular proof → dense matrix rhythm within
+  each chapter.
+- Updated `home-experience` assertions for the fifth chapter (5 proofs, 6 nav
+  links). Chromium suite: 235 active tests green, 26 opt-in captures skipped;
+  lint + build clean. Homepage reviewed at 1440px and 390px and under reduced
+  motion.
+
+## 2026-08-31 — Full release QA pass
+
+Completed Prompt 13 across routes, navigation, forms, metadata, accessibility,
+WebGL fallback/lifecycle, responsive layouts, analytics, and browser history.
+
+- Added release-contract coverage for every rendered internal link, shared
+  header/footer/contact/legal destinations, browser back/forward behavior,
+  mobile menu focus trapping, visible skip-link focus, and a forced WebGL-
+  unavailable fallback.
+- Fixed the only application regression found: the globally fixed WhatsApp link
+  preceded page content in DOM order and intercepted the first Tab. It now
+  renders after page content while retaining the same fixed visual position.
+- Chromium full suite: 235 active tests pass, with 26 opt-in screenshot captures
+  skipped. Firefox critical suite: 23/23. WebKit: 22/23 critical checks (the
+  remaining link-Tab assertion depends on the macOS full-keyboard-access
+  preference) plus 39/39 route/overflow checks at 390, 834, and 1440px.
+- Still owner/environment gated: real Resend delivery, Plausible live ingestion,
+  and physical Safari/iOS/Android device sign-off.
+
+---
+
+## 2026-08-31 — Performance and mobile hardening
+
+Completed Prompt 12 with measured bundle/runtime changes rather than reducing
+the visual identity.
+
+- Deferred the persistent Three.js scene behind a client-only loader. Meaningful
+  DOM and the CSS atmosphere render first; Privacy, Terms, and 404 never mount
+  or transfer the WebGL scene. On the production build this saves 127KB of
+  transferred JavaScript on content-only routes (226KB vs 353KB scene-enabled).
+- Made the scene budget responsive at startup and after viewport changes:
+  mobile/coarse-pointer rendering uses DPR 1, a 700-point draw limit, lower wire
+  geometry, 30fps, and no pointer parallax; desktop caps DPR at 1.5 with 1800
+  points and 60fps. Reduced motion still renders one static frame with no RAF.
+- Retired the unused Anton font from the root loader and updated the error
+  boundary to Manrope, reducing generated font output from 276KB/18 files to
+  232KB/15 files.
+- Audited all real images: WebP sources have explicit intrinsic dimensions or
+  aspect-ratio containers, above-fold work images are prioritized, and below-
+  fold/case-study imagery remains lazy through `next/image`.
+- Production measurements at 390px: CLS 0; local LCP 40–76ms; worst observed
+  long task 80ms. Route-cycle tests retain one canvas and keep post-GC heap
+  growth below the regression budget.
+- Verification: performance/mobile E2E 6/6; full E2E 230 active tests green with
+  26 baseline captures intentionally skipped; production build and ESLint clean.
+
+---
+
+## 2026-08-31 — Complete SEO, forms, and analytics parity
+
+Completed Prompt 11 without changing routes, the contact backend, or the
+analytics provider.
+
+- Audited every public title, description, canonical, OG/Twitter image, heading,
+  sitemap entry, robots rule, internal destination, and existing JSON-LD block.
+  Added route-specific social metadata to Privacy and Terms; no unsupported
+  structured-data claims or pricing schema were introduced.
+- Preserved Plausible as the only analytics platform. Added one delegated,
+  privacy-safe event layer for `cta_start_project`, `cta_whatsapp`,
+  `contact_form_start`, `contact_form_submit`, `contact_form_success`,
+  `work_open`, `service_open`, and `concept_open`. Properties contain only the
+  current path and non-personal content slugs—never form contents.
+- Verified Contact validation, invalid-field focus, value retention, honest
+  Resend failure messaging, success rendering/event behavior, honeypot handling,
+  and in-flight duplicate-submit prevention. Real email delivery remains gated
+  by the owner-controlled `RESEND_API_KEY`.
+- Updated Privacy copy so it accurately describes selected anonymous interaction
+  events and explicitly states that enquiry contents are never sent to analytics.
+- Verification: ESLint clean; 15/15 unit tests; production build passes with all
+  19 routes; full E2E 224 active tests green with 26 baseline-capture tests
+  intentionally skipped; `git diff --check` clean.
+
+---
+
+## 2026-08-31 — Migrate About, Contact, legal, and 404 routes
+
+Completed Prompt 10 and moved the remaining public Next.js routes onto the
+immersive design system without changing their operational contracts.
+
+- Rebuilt `/about` around the approved content source and studio positioning:
+  direct ownership, clarity, momentum, small-studio speed, and no account-
+  management relay. The route remains qualitative and contains no founder or
+  freelancer biography.
+- Restyled `/contact` with the new dark form system and shared header/footer.
+  The Resend Server Action, server validation, environment variables, delivery
+  destinations, honeypot, and success/error behavior are unchanged.
+- Reskinned `/privacy`, `/terms`, and the semantic 404 with simple readable
+  typography. Added an explicit scene opt-out so these content-first routes use
+  no WebGL canvas while retaining the CSS atmosphere and shared chrome.
+- Compacted the fixed WhatsApp control below 480px so it obscures less content
+  while preserving its destination, accessible name, and 44px touch target.
+- Verification: ESLint clean; 15/15 unit tests; production build passes with all
+  19 routes; Prompt 10 E2E 14/14; full E2E 219 active tests green with 26
+  baseline-capture tests intentionally skipped; desktop/mobile visual QA.
+
+---
+
+## 2026-08-30 — Complete homepage choreography and repair redesign handoff gaps
+
+Completed the previously skipped Prompt 07 without changing the established
+architecture: the immersive homepage remains server-rendered/static-first and
+adds two small client boundaries for progressive motion and chapter navigation.
+
+- Added grouped GSAP reveals, subtle proof-object scroll depth and fine-pointer
+  tilt, restrained hero-artifact depth, and the existing chapter scene changes.
+  Reduced motion bypasses all enhanced motion; meaningful content stays visible
+  with JavaScript disabled.
+- Added a compact native-anchor chapter rail with scroll-synchronized active
+  state. On phones it remains swipeable and sits beside—never under—the existing
+  fixed WhatsApp control; geometry and viewport bounds are regression-tested.
+- Fixed non-home immersive routes resetting their WebGL renderer to `intro`:
+  `ImmersiveShell` now initializes the singleton from its route scene, and the
+  canvas publishes its resolved scene for regression coverage.
+- Restored `.env.example` with the real Resend/Plausible variables and optional
+  contact overrides; no secrets were added.
+- Corrected the handoff task board and technical decisions to reflect completed
+  Prompts 07–09 and the actual vanilla Three.js singleton architecture.
+- Stabilized the resource-heavy TerraElix preview assertion under full-suite
+  load. Switched Playwright's default from system Chrome to its pinned bundled
+  Chromium, avoiding a macOS Chrome teardown bug that left workers alive after
+  all tests completed.
+- Verification: ESLint clean; 15/15 unit tests; production build passes with all
+  19 routes; responsive desktop/mobile visual QA; focused E2E 31/31; full E2E
+  231 active tests green with 26 baseline-capture tests intentionally skipped.
+
+---
+
+## 2026-08-30 — Migrate the services routes to the immersive system
+
+Rebuilt `/services`, `/services/web`, `/services/software`, and `/services/ai`
+on the immersive `.tw-world` system (`ImmersiveShell` + `SiteHeader`/`SiteFooter`
++ shared primitives). URLs unchanged; `src/data/services.ts` remains the factual
+source (copy preserved).
+
+- `/services`: reframed as a **diagnosis tool, not a second homepage** — hero →
+  `ProblemNavigator` (the core friction-to-discipline tool, kept keyboard-
+  operable with its testids) → compact three-service directory (`#service-{id}`
+  anchors) → delivery spine → CTA.
+- `/services/{web,software,ai}`: 9-section immersive detail — hero, business
+  friction, transformation, **interactive proof object**, capabilities, delivery
+  model, real related work, FAQ, CTA. Each service leads with its own scene
+  accent (web=acid, software=orange, ai=violet).
+- Proof objects reused from the homepage set: web → `WebsiteProof`, software →
+  `OperationsConsoleDemo` (until a real custom-software case exists), ai →
+  `AutomationFlowDemo`. Web links strongly to both real case studies; software/
+  ai use an honest "our published work is web" fallback (no fabricated cases).
+- AI page makes the control model explicit next to the flow: deterministic rules
+  first, bounded AI judgment, human review, tool integrations, traceability.
+- `FAQSection` and `PrimaryCTA` restyled for the dark world; `PrimaryCTA` pills
+  now meet the 44px tap target (WCAG 2.5.5). Retired `ServiceMotion` and
+  `ServiceMotif` (static-first). Updated `services-experience.spec.ts` and the
+  `/services` assertion in `launch-accessibility.spec.ts`.
+- Verification: lint clean, `next build` passes (19 routes), 13/13 unit; e2e —
+  services (13) + launch + work + home specs green; full suite run.
+- Also realigned `home-experience.spec.ts`, which still asserted the retired
+  Kinetic homepage (marquee header, old h1, `data-home-*` service loops) and had
+  been failing since the homepage was migrated to the immersive system. Rewrote
+  it against the immersive home (hero, four proof chapters, real selected work,
+  operating model, contact CTAs; reduced-motion + no-JS + responsive).
+
+---
+
+## 2026-08-30 — Migrate proof-heavy routes to the immersive system
+
+Rebuilt `/work`, `/work/aaskra-realty`, and `/work/express-trade-financing` on
+the immersive `.tw-world` design system (`ImmersiveShell` + `SiteHeader`/
+`SiteFooter` + shared primitives), matching the migrated homepage. Content is
+unchanged — all facts, scope, timelines, stacks, and real screenshots
+(`/work/*.webp`) are preserved from `src/data/case-studies.ts`.
+
+- `/work`: leads with two visually dominant real client case studies (each with
+  its own signal accent), delivery totals derived from real data, then a clearly
+  separated, labelled **Concept Lab** (self-initiated) with the three live HTML
+  previews retained; how-we-work + CTA close the page.
+- `/work/[slug]`: cinematic evidence page — hero, project facts, problem +
+  constraints, key decisions, delivered scope + full-page build imagery, result,
+  stack, next case study, project CTA. Per-case accent: AASKRA → apps/orange,
+  Express → build/blue (scene glow matches).
+- New: `FeaturedWork.tsx`, `case-accent.ts`; retired `WorkGrid.tsx`,
+  `WorkMotion.tsx` (static-first, no GSAP on these routes). `ConceptLab.tsx` and
+  `LiveConceptPreview.tsx` kept; restyled for the dark world.
+- Tests: rewrote `work-page.spec.ts` and `case-study-editorial.spec.ts` for the
+  new structure (kept all factual/behavioral contracts — concept previews,
+  live-site rules, scroller region, next link); patched the `/work` portion of
+  `launch-accessibility.spec.ts`.
+- Verification: lint clean, `next build` passes (19 routes), 13/13 unit; e2e —
+  work-page + case-study + launch-{accessibility,performance,smoke} + responsive
+  (117 no-overflow) all green.
+
+---
+
 ## 2026-08-04 — Pre-deploy final check + Vercel runbook
 
 - Ran full verification: lint clean, `next build` passes (19 Static/SSG routes),

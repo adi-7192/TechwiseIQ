@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+<rect width="1200" height="760" rx="24" fill="#f6f6f1"/>
+
+<rect x="48" y="50" width="1104" height="660" rx="20" fill="#fff"/>
+<text x="82" y="98" font-family="Arial" font-size="18" font-weight="700" fill="#111">Evidence stack</text>
+<rect x="82" y="138" width="472" height="200" rx="15" fill="#111"/>
+<text x="112" y="190" font-family="Arial" font-size="18" fill="#9ca19e">01 / POSITIONING</text>
+<text x="112" y="246" font-family="Arial" font-size="34" font-weight="700" fill="#f3f4ef">One sharp promise.</text>
+<path d="M112 286H410" stroke="#c8ff54" stroke-width="9"/>
+<rect x="586" y="138" width="484" height="200" rx="15" fill="#ecece7"/>
+<text x="616" y="190" font-family="Arial" font-size="18" fill="#555">02 / DEMONSTRATION</text>
+<path d="M620 245 C700 170 790 310 910 205" stroke="#6659ff" stroke-width="12" fill="none"/>
+<circle cx="914" cy="205" r="15" fill="#c8ff54"/>
+<rect x="82" y="370" width="310" height="276" rx="15" fill="#ff643e"/>
+<text x="112" y="425" font-family="Arial" font-size="18" fill="#111">03 / STORY</text>
+<text x="112" y="500" font-family="Arial" font-size="46" font-weight="700" fill="#111">Proof</text><text x="112" y="548" font-family="Arial" font-size="46" font-weight="700" fill="#111">before</text><text x="112" y="596" font-family="Arial" font-size="46" font-weight="700" fill="#111">menu.</text>
+<rect x="424" y="370" width="646" height="276" rx="15" fill="#171b19"/>
+<path d="M467 428H790M467 474H969M467 520H870" stroke="#d7ddd9" stroke-width="14" stroke-linecap="round"/>
+<rect x="467" y="568" width="190" height="42" rx="21" fill="#c8ff54"/>
+
+</svg>

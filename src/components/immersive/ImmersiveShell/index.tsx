@@ -1,0 +1,52 @@
+import type { CSSProperties, ReactNode } from 'react'
+import { cn } from '@/lib/utils'
+import SmoothScroll from '@/components/immersive/SmoothScroll'
+
+/** Scene accents from docs/03_DESIGN_SYSTEM.md — one accent dominates per viewport. */
+export type SceneName =
+  | 'intro'
+  | 'web'
+  | 'automation'
+  | 'apps'
+  | 'advisory'
+  | 'build'
+
+const SCENE_ACCENT: Record<SceneName, string> = {
+  intro: 'var(--tw-acid)',
+  web: 'var(--tw-acid)',
+  automation: 'var(--tw-violet)',
+  apps: 'var(--tw-orange)',
+  advisory: 'var(--tw-acid)',
+  build: 'var(--tw-blue)',
+}
+
+type ImmersiveShellProps = {
+  children: ReactNode
+  /** Accent for the route's CSS atmosphere. Defaults to intro (acid). */
+  scene?: SceneName
+  className?: string
+}
+
+/**
+ * Establishes the immersive dark world (`.tw-world`): background, foreground,
+ * display type, the static radial scene-glow + grain atmosphere, and the
+ * acid focus ring — all scoped so un-migrated Kinetic routes are untouched.
+ *
+ * `scene` only selects the CSS accent here. WebGL is no longer a shell concern:
+ * the single renderer lives behind the home hero and is mounted by that hero
+ * (see immersive/HeroScene). Every other route runs on the CSS atmosphere.
+ */
+export default function ImmersiveShell({
+  children,
+  scene = 'intro',
+  className,
+}: ImmersiveShellProps) {
+  const style = { '--tw-accent': SCENE_ACCENT[scene] } as CSSProperties
+
+  return (
+    <div className={cn('tw-world', className)} data-scene={scene} style={style}>
+      <SmoothScroll />
+      {children}
+    </div>
+  )
+}

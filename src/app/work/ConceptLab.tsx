@@ -72,8 +72,8 @@ export default function ConceptLab() {
 
   return (
     <section className={styles.conceptLab} data-testid="concept-lab">
-      <div className="wrap">
-        <div className={styles.sectionIntro} data-work-reveal>
+      <div className="tw-wrap">
+        <div className={styles.sectionIntro}>
           <p className={styles.label}>Concept Lab / Self-initiated</p>
           <h2 className={styles.sectionTitle}>
             What else could we <span>build?</span>
@@ -102,6 +102,7 @@ export default function ConceptLab() {
                   data-concept-stage
                   data-concept-status="published"
                   data-concept-index={index}
+                  data-concept-slug={concept.slug}
                 >
                   <LiveConceptPreview
                     demoPath={concept.demoPath}

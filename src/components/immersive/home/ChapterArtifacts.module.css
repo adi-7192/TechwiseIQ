@@ -1,0 +1,75 @@
+/* Floating fragment layer around a chapter proof. The layer spans (and slightly
+   overspills) the proof stage; each fragment is absolutely positioned so it
+   never disturbs the flex-centred proof. Fragments sit behind the proof
+   (proof is z-index 2) so the demonstration stays fully legible. Horizontal
+   overspill is safe — the root clips overflow-x. */
+
+.layer {
+  position: absolute;
+  inset: -3% -4%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.artifact {
+  position: absolute;
+  display: block;
+  height: auto;
+  border-radius: var(--tw-radius-artifact);
+  rotate: var(--rot, 0deg);
+  box-shadow:
+    0 24px 60px rgb(0 0 0 / 0.5),
+    0 4px 12px rgb(0 0 0 / 0.3);
+  will-change: transform;
+}
+
+/* Sizes */
+.sm {
+  width: clamp(88px, 9vw, 148px);
+}
+.md {
+  width: clamp(120px, 12vw, 200px);
+}
+.lg {
+  width: clamp(150px, 15vw, 240px);
+}
+
+/* Slots — kept toward the edges so the centred proof stays clear. */
+.topLeft {
+  top: -2%;
+  left: 0;
+}
+.topRight {
+  top: 3%;
+  right: 0;
+}
+.midLeft {
+  top: 40%;
+  left: -2%;
+}
+.midRight {
+  top: 32%;
+  right: -2%;
+}
+.bottomLeft {
+  bottom: -3%;
+  left: 5%;
+}
+.bottomRight {
+  bottom: -2%;
+  right: 4%;
+}
+
+/* The proof needs the full width below the stage's breathing point; the
+   fragments are low-value there, so shed them (design-system mobile rule). */
+@media (max-width: 1080px) {
+  .layer {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artifact {
+    will-change: auto;
+  }
+}

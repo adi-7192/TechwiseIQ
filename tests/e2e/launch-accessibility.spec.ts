@@ -26,19 +26,20 @@ test.describe('launch accessibility hardening', () => {
   test('uses contrast-safe headline accents and work labels', async ({
     page,
   }) => {
+    // Immersive dark world: the h1 accent run is the muted foreground
+    // (contrast-safe on the near-black background), not a light-theme ink.
+    // /services accents its h1 with the scene accent (acid on near-black, 3f65173).
     await page.goto('/services')
     await expect(
       page.getByRole('heading', { level: 1 }).locator('span'),
-    ).toHaveCSS('color', 'rgb(16, 16, 16)')
+    ).toHaveCSS('color', 'rgb(200, 255, 84)')
+    await expect(page.getByTestId('problem-navigator')).toBeVisible()
 
     await page.goto('/work')
     await expect(
       page.getByRole('heading', { level: 1 }).locator('span'),
-    ).toHaveCSS('color', 'rgb(16, 16, 16)')
-    await expect(page.getByText('Capabilities demonstrated')).toHaveCSS(
-      'color',
-      'rgb(58, 57, 51)',
-    )
+    ).toHaveCSS('color', 'rgb(138, 145, 140)')
+    await expect(page.getByText('Selected client work')).toBeVisible()
   })
 
   test('keeps visible work-action copy in each accessible name', async ({

@@ -4,18 +4,19 @@
 
 ## Services
 
-- [End-to-End Web Development](https://techwiseiq.com/services/web): Custom-designed marketing sites, CMS builds, and e-commerce. Marketing sites start from AED 9,500; CMS sites from AED 18,000; e-commerce from AED 32,000.
-- [Custom Software Engineering](https://techwiseiq.com/services/software): Web applications, portals, dashboards, APIs and integrations, legacy rebuilds, mobile MVPs. App sprints start from AED 45,000; mobile MVPs from AED 60,000.
-- [AI Automation & Enablement](https://techwiseiq.com/services/ai): Workflow automation, AI assistants on client data, document and email processing, AI audits. AI audits start from AED 6,500.
+- [End-to-End Web Development](https://techwiseiq.com/services/web): Custom-designed marketing sites, CMS builds, and e-commerce.
+- [Custom Software Engineering](https://techwiseiq.com/services/software): Web applications, portals, dashboards, APIs and integrations, legacy rebuilds, mobile MVPs.
+- [AI Automation & Enablement](https://techwiseiq.com/services/ai): Workflow automation, AI assistants on client data, document and email processing, AI audits.
 
 ## Proof
 
 - [AASKRA Realty case study](https://techwiseiq.com/work/aaskra-realty): 11-page Next.js site for a Dubai real estate consultancy, shipped in 6 weeks.
 - [Express Trade Financing case study](https://techwiseiq.com/work/express-trade-financing): 10-page site for a trade finance firm that has facilitated USD 200M+ in instruments across 25+ countries, shipped in 5 weeks.
+- [Concept Lab](https://techwiseiq.com/work): self-initiated concept sites (TerraElix, mėntality, Lumora), not client work. Each opens as a standalone demo.
 
 ## Process
 
-Four steps: Diagnose (discovery sprint), Scope (fixed written scope, price, and timeline), Build (working software demoed every Friday), Run (launch, handover, optional retainer).
+Four steps: Diagnose (discovery sprint), Scope (fixed written scope, price, and timeline), Build (weekly working demos), Run (launch, handover, optional retainer).
 
 ## Contact
 

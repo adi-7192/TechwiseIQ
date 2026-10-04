@@ -1,165 +1,180 @@
 import Link from 'next/link'
-import ServiceMotion, { ServiceCurrent } from '@/components/ServiceMotion'
-import { CASE_STUDIES } from '@/data/case-studies'
+import Section from '@/components/immersive/primitives/Section'
+import SectionLabel from '@/components/immersive/primitives/SectionLabel'
+import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
+import PrimaryCTA from '@/components/ui/PrimaryCTA'
 import { SERVICE_LIST } from '@/data/services'
 import ProblemNavigator from './ProblemNavigator'
+import ConnectedSystem from './ConnectedSystem'
 import styles from './ServicesOverview.module.css'
 
 const DELIVERY = [
-  { title: 'Diagnose', body: 'Find the real constraint.' },
-  { title: 'Scope', body: 'Define boundaries in writing.' },
-  { title: 'Build', body: 'Show working progress weekly.' },
-  { title: 'Run', body: 'Launch, document, and improve.' },
+  ['Diagnose', 'Find the real constraint before proposing a tool.'],
+  ['Scope', 'Define boundaries, timeline and cost in writing.'],
+  ['Build', 'See working progress every week.'],
+  ['Run', 'Launch, document, hand over, and improve.'],
 ]
+const EDITORIAL = {
+  web: {
+    heading: 'Make the right first impression.',
+    fit: 'For a new launch, a stronger brand, or a website that needs to work harder.',
+    output: 'A website your customers can use and your team can manage.',
+  },
+  software: {
+    heading: 'Give your operation room to grow.',
+    fit: 'For teams outgrowing spreadsheets, disconnected tools, or off-the-shelf limits.',
+    output: 'A product or internal system shaped around your actual workflow.',
+  },
+  ai: {
+    heading: 'Put repetitive work on a better path.',
+    fit: 'For document-heavy processes, manual handoffs, and overloaded inboxes.',
+    output: 'Connected workflows with useful AI and visible human control.',
+  },
+}
 
 export default function ServicesOverview() {
   return (
     <div className={styles.experience} data-service-experience>
-      <ServiceMotion />
-      <ServiceCurrent />
-      <section className={styles.hero}>
-        <div className={styles.heroGhost} aria-hidden="true">
-          FRICTION
-        </div>
-        <div className={styles.heroInner}>
-          <span className={styles.eyebrow}>Services / Start with the problem</span>
-          <h1>
-            What&apos;s slowing
+      <Section
+        as="header"
+        density="sparse"
+        className={styles.hero}
+        innerClassName={styles.heroInner}
+      >
+        <div className={styles.heroCopy}>
+          <SectionLabel>Web / Software / AI</SectionLabel>
+          <DisplayHeading as="h1" size="chapter" className={styles.heroTitle}>
+            Your next move.
             <br />
-            <span>you down?</span>
-          </h1>
-          <p>
-            We turn bottlenecks into working websites, software, and
-            automations—often using more than one discipline.
+            <span>Built right.</span>
+          </DisplayHeading>
+          <p className={styles.heroLede}>
+            Websites that bring people in. Software that moves work forward. Automation that gives
+            your team time back.
           </p>
-        </div>
-        <a href="#problems" className={styles.scrollCue}>
-          Follow the friction <span aria-hidden="true">↓</span>
-        </a>
-      </section>
-
-      <section id="problems" className={styles.problemScene}>
-        <div className={styles.sceneInner} data-service-reveal>
-          <span className={styles.eyebrow}>Choose the closest problem</span>
-          <h2>Point to the friction.</h2>
-          <ProblemNavigator />
-        </div>
-      </section>
-
-      <section className={styles.bridge} data-service-reveal>
-        <span className={styles.eyebrow}>The three disciplines</span>
-        <h2>
-          One problem.
-          <br />
-          <span>Three ways through.</span>
-        </h2>
-        <p>
-          The navigator suggests a starting point. The full service set stays
-          visible because real business problems rarely fit into one box.
-        </p>
-        <span className={styles.flowDot} aria-hidden="true" />
-      </section>
-
-      <div className={styles.serviceActs}>
-        {SERVICE_LIST.map((service, index) => (
-          <section
-            id={`service-${service.id}`}
-            key={service.id}
-            className={`${styles.serviceAct} ${styles[service.id]}`}
-          >
-            <span className={styles.ghostNumber} aria-hidden="true">
-              {service.number}
-            </span>
-            <div className={styles.serviceActInner} data-service-reveal>
-              <div className={styles.serviceCopy}>
-                <span className={styles.eyebrow}>
-                  {index === 0
-                    ? 'Attention → action'
-                    : index === 1
-                      ? 'Friction → flow'
-                      : 'Busywork → leverage'}
-                </span>
-                <h2>{service.title}</h2>
-                <p className={styles.outcome}>{service.description}</p>
-                <p className={styles.fitSignals}>
-                  {service.fitSignals.join(' / ')}
-                </p>
-                <Link href={service.slug} className={styles.textLink}>
-                  Explore the service <span aria-hidden="true">→</span>
-                </Link>
-              </div>
-              <div className={styles.serviceVisual} aria-hidden="true">
-                <div className={styles.visualCore}>
-                  <i />
-                  <i />
-                  <i />
-                </div>
-              </div>
-              <ul className={styles.capabilityTrail}>
-                {service.capabilities.slice(0, 4).map((capability) => (
-                  <li key={capability.title}>{capability.title}</li>
-                ))}
-              </ul>
-            </div>
-          </section>
-        ))}
-      </div>
-
-      <section className={styles.delivery}>
-        <div className={styles.deliveryInner} data-service-reveal>
-          <span className={styles.eyebrow}>One delivery spine</span>
-          <h2>
-            Fluid experience.
-            <br />
-            <span>Controlled delivery.</span>
-          </h2>
-          <ol className={styles.deliveryTrack}>
-            {DELIVERY.map((step, index) => (
-              <li key={step.title}>
-                <span className={styles.deliveryMarker}>0{index + 1}</span>
-                <h3>{step.title}</h3>
-                <p>{step.body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className={styles.proof}>
-        <div className={styles.proofInner} data-service-reveal>
-          <span className={styles.eyebrow}>Proof near the claim</span>
-          <h2>
-            Work that backs
-            <br />
-            <span>the promise.</span>
-          </h2>
-          <div className={styles.proofList}>
-            {CASE_STUDIES.map((study, index) => (
-              <Link key={study.slug} href={`/work/${study.slug}`}>
-                <span>WEB / 0{index + 1}</span>
-                <strong>{study.title}</strong>
-                <em>View case study →</em>
-              </Link>
-            ))}
+          <div className={styles.heroActions}>
+            <PrimaryCTA href="/contact">Discuss your project</PrimaryCTA>
+            <PrimaryCTA href="#disciplines" variant="ghost">
+              Explore services
+            </PrimaryCTA>
           </div>
         </div>
-      </section>
+        <ConnectedSystem />
+        <div className={styles.heroFoot}>
+          <span>Built in Dubai. Working worldwide.</span>
+          <a href="#disciplines">
+            Find your starting point <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </Section>
 
-      <section className={styles.finalCta} data-service-reveal>
-        <span className={styles.eyebrow}>Still not sure which route?</span>
-        <h2>
-          Bring us the
-          <br />
-          <span>bottleneck.</span>
-        </h2>
-        <p>
-          You do not need to diagnose the solution. Tell us what is slow,
-          broken, or missing.
+      <Section id="disciplines" ruled density="dense" aria-labelledby="directory-title">
+        <div className={styles.directoryIntro}>
+          <div>
+            <SectionLabel index="01">What we build</SectionLabel>
+            <DisplayHeading as="h2" size="h2" id="directory-title" className={styles.sectionTitle}>
+              Three disciplines.
+              <br />
+              <span>One connected business.</span>
+            </DisplayHeading>
+          </div>
+          <p className={styles.sectionBody}>
+            Start with the part that needs to change. We connect it to the systems, people, and work
+            around it.
+          </p>
+        </div>
+        <div className={styles.directory}>
+          {SERVICE_LIST.map((service) => {
+            const content = EDITORIAL[service.id]
+            return (
+              <article
+                id={`service-${service.id}`}
+                key={service.id}
+                className={styles.directoryItem}
+              >
+                <div className={styles.directoryIdentity}>
+                  <span className={styles.directoryNumber}>{service.number} /</span>
+                  <h3>
+                    <Link href={service.slug}>
+                      {service.title}
+                      <span aria-hidden="true">↗</span>
+                    </Link>
+                  </h3>
+                  <p>{content.fit}</p>
+                </div>
+                <div className={styles.directoryCopy}>
+                  <h4>{content.heading}</h4>
+                  <p>{content.output}</p>
+                  <ul className={styles.capabilities}>
+                    {service.capabilities.slice(0, 4).map((capability) => (
+                      <li key={capability.title}>{capability.title}</li>
+                    ))}
+                  </ul>
+                  <Link href={service.slug} className={styles.directoryLink}>
+                    Explore {service.title}
+                    <span aria-hidden="true">→</span>
+                  </Link>
+                </div>
+              </article>
+            )
+          })}
+        </div>
+      </Section>
+
+      <Section id="problems" ruled density="sparse" aria-labelledby="navigator-title">
+        <div className={styles.directoryIntro}>
+          <div>
+            <SectionLabel index="02">Find your starting point</SectionLabel>
+            <DisplayHeading as="h2" size="h2" id="navigator-title" className={styles.sectionTitle}>
+              What&apos;s slowing
+              <br />
+              <span>you down?</span>
+            </DisplayHeading>
+          </div>
+          <p className={styles.sectionBody}>
+            You don&apos;t need a technical brief. Choose the closest problem to see where we would
+            start.
+          </p>
+        </div>
+        <ProblemNavigator />
+        <p className={styles.navigatorNote}>
+          More than one sounds familiar?{' '}
+          <Link href="/contact">
+            Let&apos;s work through it together <span aria-hidden="true">↗</span>
+          </Link>
         </p>
-        <Link href="/contact" className={styles.primaryCta}>
-          Start the conversation <span aria-hidden="true">→</span>
-        </Link>
-      </section>
+      </Section>
+
+      <Section ruled density="dense" aria-labelledby="delivery-title">
+        <div className={styles.directoryIntro}>
+          <div>
+            <SectionLabel index="03">How it comes together</SectionLabel>
+            <DisplayHeading as="h2" size="h2" id="delivery-title" className={styles.sectionTitle}>
+              Clear scope.
+              <br />
+              <span>Visible progress.</span>
+            </DisplayHeading>
+          </div>
+          <div>
+            <p className={styles.sectionBody}>
+              One delivery process across every discipline. You know what we are building, why it
+              matters, and what comes next.
+            </p>
+            <Link href="/work" className={styles.directoryLink}>
+              See the work <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
+        </div>
+        <ol className={styles.deliveryTrack}>
+          {DELIVERY.map(([title, body], index) => (
+            <li key={title}>
+              <span className={styles.deliveryMarker}>0{index + 1}</span>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
     </div>
   )
 }

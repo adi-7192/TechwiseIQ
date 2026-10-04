@@ -1,7 +1,8 @@
 'use client'
 
-import { useActionState, useEffect } from 'react'
-import { Button } from '@/components/ui'
+import { useActionState, useEffect, useRef } from 'react'
+import PrimaryCTA from '@/components/ui/PrimaryCTA'
+import { trackEvent } from '@/lib/analytics'
 import { submitContact, type ContactFormState } from './actions'
 import { BUDGETS, CONTACT_LIMITS } from './contact-validation'
 import styles from './contact.module.css'
@@ -9,6 +10,7 @@ import styles from './contact.module.css'
 const initialState: ContactFormState = { success: false, message: '' }
 
 export default function ContactForm() {
+  const successTracked = useRef(false)
   const [state, formAction, isPending] = useActionState(
     submitContact,
     initialState,
@@ -18,6 +20,12 @@ export default function ContactForm() {
     if (!state.field) return
     document.getElementById(state.field)?.focus()
   }, [state])
+
+  useEffect(() => {
+    if (!state.success || successTracked.current) return
+    successTracked.current = true
+    trackEvent('contact_form_success', { path: window.location.pathname })
+  }, [state.success])
 
   const errorFor = (field: string) =>
     state.field === field ? `${field}-error` : undefined
@@ -31,7 +39,13 @@ export default function ContactForm() {
   }
 
   return (
-    <form action={formAction} className={styles.form} noValidate>
+    <form
+      action={formAction}
+      className={styles.form}
+      data-analytics-form="contact"
+      data-testid="contact-form"
+      noValidate
+    >
       <div role="alert" aria-live="assertive">
         {state.message && !state.success && (
           <p id="form-error" className={styles.error}>
@@ -172,14 +186,14 @@ export default function ContactForm() {
         )}
       </div>
 
-      <Button
+      <PrimaryCTA
         type="submit"
         variant="primary"
         className={styles.submit}
         disabled={isPending}
       >
         {isPending ? 'Sending\u2026' : 'Send message'}
-      </Button>
+      </PrimaryCTA>
     </form>
   )
 }

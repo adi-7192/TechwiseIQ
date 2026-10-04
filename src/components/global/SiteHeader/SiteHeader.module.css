@@ -1,0 +1,155 @@
+.skip {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+  z-index: 200;
+  padding: 0.6em 1em;
+  border-radius: var(--tw-radius-control);
+  background: var(--tw-fg);
+  color: var(--tw-ink);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transform: translateY(-150%);
+  transition: transform var(--tw-duration-micro) var(--tw-ease-out);
+}
+.skip:focus {
+  transform: translateY(0);
+}
+
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: clamp(0.85rem, 2vw, 1.25rem) var(--tw-page-pad);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--tw-duration-component) var(--tw-ease-out),
+    border-color var(--tw-duration-component) var(--tw-ease-out),
+    transform var(--tw-duration-component) var(--tw-ease-out);
+}
+
+/* Solid technical surface once scrolled — a hairline rule, no glass blur
+   (glassmorphism is an explicit anti-pattern in docs/03_DESIGN_SYSTEM.md). */
+.scrolled {
+  background: color-mix(in oklab, var(--tw-bg) 96%, var(--tw-fg) 4%);
+  border-bottom-color: var(--tw-line);
+}
+
+/* Hide on scroll-down, reveal on scroll-up */
+.hidden {
+  transform: translateY(-100%);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--tw-fg);
+  white-space: nowrap;
+}
+.logoMark {
+  color: var(--tw-accent);
+  margin-inline-start: 0.35em;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.25rem, 2.5vw, 2.25rem);
+  margin-inline-start: auto;
+}
+
+.link {
+  position: relative;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tw-muted);
+  transition: color var(--tw-duration-micro) var(--tw-ease-out);
+}
+.link:hover,
+.link[aria-current='page'] {
+  color: var(--tw-fg);
+}
+.link[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.4em;
+  width: 100%;
+  height: 1px;
+  background: var(--tw-accent);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Burger — two rules that morph to an X */
+.burger {
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--tw-line);
+  border-radius: var(--tw-radius-control);
+  background: rgb(242 244 239 / 0.03);
+  cursor: pointer;
+}
+.burgerBox {
+  position: relative;
+  width: 1.1rem;
+  height: 0.7rem;
+}
+.burgerLine {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--tw-fg);
+  transition: transform var(--tw-duration-micro) var(--tw-ease-out);
+}
+.burgerLine:first-child {
+  top: 0;
+}
+.burgerLine:last-child {
+  bottom: 0;
+}
+.burgerOpen .burgerLine:first-child {
+  transform: translateY(0.335rem) rotate(45deg);
+}
+.burgerOpen .burgerLine:last-child {
+  transform: translateY(-0.335rem) rotate(-45deg);
+}
+
+/* ── Shell cutover at 880px (canonical) ── */
+@media (max-width: 880px) {
+  .nav,
+  .desktopCta {
+    display: none;
+  }
+  .burger {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .burgerLine {
+    transition: none;
+  }
+}

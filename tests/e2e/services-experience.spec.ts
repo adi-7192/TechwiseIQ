@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test'
 
 const detailRoutes = [
-  { path: '/services/web', heading: 'Web Development' },
-  { path: '/services/software', heading: 'Custom Software' },
-  { path: '/services/ai', heading: 'AI Automation' },
+  { path: '/services/web', heading: 'Made to stand out.' },
+  { path: '/services/software', heading: 'Built around your business.' },
+  { path: '/services/ai', heading: 'Make room for better work.' },
 ]
 
 test.describe('Services overview', () => {
@@ -12,13 +12,13 @@ test.describe('Services overview', () => {
     await page.goto('/services')
   })
 
-  test('starts with the bottleneck and keeps every service visible', async ({
+  test('introduces the offer and keeps every service visible', async ({
     page,
   }) => {
     await expect(
       page.getByRole('heading', {
         level: 1,
-        name: "What's slowing you down?",
+        name: "Your next move. Built right.",
       }),
     ).toHaveCount(1)
     await expect(page.getByTestId('problem-navigator')).toBeVisible()
@@ -39,13 +39,14 @@ test.describe('Services overview', () => {
     ).toHaveAttribute('href', '/services/ai')
   })
 
-  test('renders its final state with reduced motion', async ({ page }) => {
-    const experience = page.locator('[data-service-experience]')
-    await expect(experience).toHaveAttribute('data-motion', 'reduced')
-    await expect(page.locator('[data-service-reveal]').first()).toHaveAttribute(
-      'data-visible',
-      'true',
-    )
+  test('renders its full diagnostic state with reduced motion', async ({
+    page,
+  }) => {
+    // Static-first immersive build: everything is present without motion.
+    await expect(page.locator('[data-service-experience]')).toBeVisible()
+    await expect(page.getByTestId('problem-navigator')).toBeVisible()
+    await expect(page.getByTestId('service-recommendation')).toBeVisible()
+    await expect(page.locator('#service-web')).toBeVisible()
   })
 })
 
@@ -68,6 +69,21 @@ for (const route of detailRoutes) {
     await expect(page.getByText(/AED|starting from/i)).toHaveCount(0)
   })
 }
+
+test('carries the route accent on the shell without a WebGL scene', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/services/ai')
+
+  // WebGL is hero-only now; service routes run on the CSS atmosphere, whose
+  // accent is published by the shell's data-scene marker.
+  await expect(page.locator('.tw-world').first()).toHaveAttribute(
+    'data-scene',
+    'automation',
+  )
+  await expect(page.locator('canvas')).toHaveCount(0)
+})
 
 for (const path of ['/services', ...detailRoutes.map((route) => route.path)]) {
   test(`${path} stays inside a 375px viewport`, async ({ page }) => {

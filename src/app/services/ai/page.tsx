@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
-import ServiceDetailPage from '@/components/ServiceDetailPage'
+import ImmersiveShell from '@/components/immersive/ImmersiveShell'
+import { SiteHeader, SiteFooter } from '@/components/global'
+import ServiceDetailPage, { SERVICE_SCENE } from '@/components/ServiceDetailPage'
 import { createServiceJsonLd, SERVICES } from '@/data/services'
 import { socialMetadata } from '@/lib/metadata'
 
@@ -22,18 +22,18 @@ export default function AIServicePage() {
   const service = SERVICES.ai
 
   return (
-    <>
+    <ImmersiveShell scene={SERVICE_SCENE[service.id]}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(createServiceJsonLd(service)),
         }}
       />
-      <Nav />
-      <main>
+      <SiteHeader />
+      <main id="main">
         <ServiceDetailPage service={service} />
       </main>
-      <Footer />
-    </>
+      <SiteFooter />
+    </ImmersiveShell>
   )
 }
