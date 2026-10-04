@@ -4,6 +4,19 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — Stage 2: Proof (ROADMAP 2.1, 2.2)
+
+- New case studies: Supreme Universal (76 pages), Express Petroleum (28 pages), RSiGHT (awaiting
+  launch). Featured: Supreme, ETF, Express Petroleum. AASKRA + RSiGHT in "More client work" with
+  labelled preview links (`previewUrl`, never counted as live) and a project status.
+- `/work` totals now count live sites only (114 pages, 3 live); the old total counted unlaunched builds.
+- `/services/ai`: "What we automate for ourselves" — the team's own automations, labelled as such.
+- `/services/web` proof → the three live sites; Home selected work shows three cards.
+- Sitemap generated from case-study data; `llms.txt` lists the new studies.
+- ETF result line now attributed ("The client reports enquiries from 25+ countries").
+
+---
+
 ## 2026-10-04 — Service contrast + accessible names (ROADMAP 1.3, 1.4) — Stage 1 done
 
 - `/services/*` a11y 96 → 100. The mock text wasn't light: the workbench loop faded pieces to

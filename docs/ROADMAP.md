@@ -8,21 +8,21 @@
 
 ## ▶ NEXT
 
-**Stage 1 is done** (one PR for the stage, D-030). Stages 2–5 are blocked on owner answers;
-the unblocked work left is Stage 6.3 (docs) and Stage 7.1 / 7.6 (verification, de-flake).
+**Stage 3 — Clarity: 3.1 "How we engage"** (D-032: clients bring a requirement → we assess → custom
+price; no public prices). One branch + one PR for the stage (D-030).
 
 ## Progress
 
-**5 / 22 tasks done** · rebuilt for the redesign 2026-10-04
+**7 / 22 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
 | 1. Fixes | Audit findings on the redesign (HANDOFF §3) | 4/4 | ✅ |
-| 2. Proof | More real work where buyers decide | 0/2 | 🔒 Q13, Q1 |
-| 3. Clarity | How working with us works | 0/1 | 🔒 Q3 |
-| 4. Trust | Honest claims, people, consistent CTAs, booking | 0/4 | 🔒 owner input |
-| 5. Growth | First-step offer, insights | 0/2 | 🔒 Q4 / held |
-| 6. Polish | Concept Lab self-hosting, parked components, docs | 0/3 | ⬜ (6.1, 6.2 🔒) |
+| 2. Proof | More real work where buyers decide | 2/2 | ✅ |
+| 3. Clarity | How working with us works | 0/1 | ⬜ |
+| 4. Trust | Honest claims, people, consistent CTAs, booking | 0/4 | ⬜ (Cal.com URL later) |
+| 5. Growth | First-step offer, insights | 0/2 | ⬜ (5.2 held) |
+| 6. Polish | Concept Lab self-hosting, parked components, docs | 0/3 | ⬜ |
 | 7. Release | Redesign release checklist → merge to `main` | 1/6 | 🟡 (7.3+ 🔒 owner) |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
@@ -70,15 +70,16 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 
 ## Stage 2 — Proof
 
-- 🔒 **2.1 Three new case studies** (Q13) — Express Petroleum, Supreme Universal (live), RSiGHT
-  (client work, "Awaiting launch", no public link). Clients consented; Express Petroleum ↔ ETF
-  linked. Drafts + screenshots ready. Build in the redesign's editorial case-study format; update
-  `/work`, Home proof, sitemap, `llms.txt`, JSON-LD, tests. Full pipeline.
-- 🔒 **2.2 Automation / software case study** (Q1).
+- ✅ **2.1 Three new case studies** (D-032) — 2026-10-04, `stage-2/proof`. Supreme Universal, Express
+  Petroleum (featured with ETF), RSiGHT (awaiting launch) + AASKRA under "More client work" with
+  labelled Vercel previews (`previewUrl`). /work totals count live sites only. Sitemap derives from
+  data; `llms.txt`, Home, `/services/web` proof updated. Facts checked against the live sites.
+- ✅ **2.2 Automation proof** (D-032) — 2026-10-04. "What we automate for ourselves" on
+  `/services/ai` (own use, not client work; owner confirmed the human-review lines).
 
 ## Stage 3 — Clarity
 
-- 🔒 **3.1 "How we engage"** (Q3) — `/services` + short version on `/contact`. No prices (D-003).
+- ⬜ **3.1 "How we engage"** (D-032) — `/services` + short version on `/contact`. No prices (D-003).
 
 ## Stage 4 — Trust
 

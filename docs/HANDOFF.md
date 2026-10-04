@@ -81,6 +81,13 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-04** — Stage 2 (Proof) on `stage-2/proof`, one PR (D-030). Owner answered every open
+  question → D-032. Three case studies added (facts verified on the live sites; RSiGHT gets no
+  SEO/security claims — it has none). Agent pipeline (PM → design → UI → UX → QA PASS) built "More
+  client work", preview links/status, case accents (Supreme acid, EP orange, RSiGHT blue) and the
+  own-automation section on `/services/ai`. Owner copy calls: "Built. Not launched yet."; ETF
+  "The client reports enquiries from 25+ countries." Open: Cal.com URL (Q7b).
+
 - **2026-10-04** — Stage 1 complete on `perf/home-lcp` (PR #4, one PR per stage — D-030).
   1.3: `/services/*` a11y 100 — workbench dim floor 0.15 → 0.6, automation accent lightened via
   `color-mix` in `ImmersiveShell`, `/services/ai` fork dims by colour. 1.4 (D-031): logo "TechwiseIQ
