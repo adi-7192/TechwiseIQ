@@ -202,13 +202,13 @@
   border: 1px solid var(--tw-line);
   border-radius: var(--tw-radius-artifact);
   padding: 1rem;
-  opacity: 0.45;
+  color: var(--tw-muted);
   transition:
-    opacity 0.35s,
+    color 0.35s,
     border-color 0.35s;
 }
 .fork > div[data-active='true'] {
-  opacity: 1;
+  color: var(--tw-fg);
   border-color: var(--detail-accent);
 }
 .fork small {

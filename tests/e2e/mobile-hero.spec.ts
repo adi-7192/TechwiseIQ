@@ -34,7 +34,7 @@ for (const viewport of viewports) {
       name: /Start a project|Explore our work/,
     })
     const header = page.locator('header').first()
-    const whatsapp = page.getByRole('link', { name: 'Chat on WhatsApp' })
+    const whatsapp = page.getByRole('link', { name: 'WhatsApp — chat' })
 
     // No horizontal overflow at any mobile width.
     const overflow = await page.evaluate(

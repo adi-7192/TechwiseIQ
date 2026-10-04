@@ -169,6 +169,15 @@ deleted (archived at git tag `archive/old-design-2026-10-04`, never pushed). Vis
 emergency; force-push and deletion of `main` are blocked. Merges to `main` deploy via Vercel.
 *Apply:* one task = one branch off `main` → PR → merge after both checks pass.
 
+**D-030 — One PR per ROADMAP stage.** 2026-10-04 · owner · refines D-029.
+Finish a whole stage on one branch, test it (full gate + full e2e), then one PR, merged once CI is
+green. *Apply:* commit task by task on the stage branch; don't open per-task PRs.
+
+**D-031 — Accessible names start with the visible text.** 2026-10-04 · owner · resolves Q14 (R-4).
+Logo: "TechwiseIQ home". Floating WhatsApp button: "WhatsApp — chat"; its phone-width visible text
+changes from "WA ↗" to "Chat ↗" so the name contains it at every width (WCAG 2.5.3).
+*Apply:* any new icon/short-text control gets an aria-label that contains its visible text.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

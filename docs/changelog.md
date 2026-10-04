@@ -4,6 +4,23 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — Service contrast + accessible names (ROADMAP 1.3, 1.4) — Stage 1 done
+
+- `/services/*` a11y 96 → 100. The mock text wasn't light: the workbench loop faded pieces to
+  opacity 0.15. Dim floor is now 0.6 (4.78:1). Automation scene accent = violet + 12% fg (raw
+  violet was 4.1:1 as small text). `/services/ai` fork marks the inactive branch by colour.
+- Accessible names (D-031): logo "TechwiseIQ home"; WhatsApp "WhatsApp — chat"; phone text "Chat ↗".
+- Lighthouse a11y/BP/SEO 100 on all 12 routes.
+
+---
+
+## 2026-10-04 — Home LCP verified (ROADMAP 1.2)
+
+- No code change. Home Lighthouse mobile perf 90 ×3 (sequential, uncontended), LCP 3.5 s, TBT
+  ≤10 ms — meets the ≥90 bar. The audit's 84 came from a run on a loaded machine.
+
+---
+
 ## 2026-10-04 — `/contact`: honest promise + "What happens next" (ROADMAP 1.1)
 
 - Intro and metadata no longer promise scope, timeline and cost within 24 hours (scope needs a

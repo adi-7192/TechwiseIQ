@@ -70,7 +70,7 @@ export default function SiteHeader() {
           hidden && !menuOpen && styles.hidden,
         )}
       >
-        <Link href="/" className={styles.logo} aria-label="Techwise IQ — home">
+        <Link href="/" className={styles.logo} aria-label="TechwiseIQ home">
           <span aria-hidden="true">
             TECHWISE<span className={styles.logoMark}>IQ</span>
           </span>

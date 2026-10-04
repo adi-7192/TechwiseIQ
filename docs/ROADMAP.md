@@ -8,16 +8,16 @@
 
 ## ▶ NEXT
 
-**Task 1.2 — Home LCP** (mobile perf 84 → ≥90, not blocked).
-Then the first ⬜ task in order whose status is not 🔒.
+**Stage 1 is done** (one PR for the stage, D-030). Stages 2–5 are blocked on owner answers;
+the unblocked work left is Stage 6.3 (docs) and Stage 7.1 / 7.6 (verification, de-flake).
 
 ## Progress
 
-**2 / 22 tasks done** · rebuilt for the redesign 2026-10-04
+**5 / 22 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
-| 1. Fixes | Audit findings on the redesign (HANDOFF §3) | 1/4 | 🟡 (1.4 needs Q14) |
+| 1. Fixes | Audit findings on the redesign (HANDOFF §3) | 4/4 | ✅ |
 | 2. Proof | More real work where buyers decide | 0/2 | 🔒 Q13, Q1 |
 | 3. Clarity | How working with us works | 0/1 | 🔒 Q3 |
 | 4. Trust | Honest claims, people, consistent CTAs, booking | 0/4 | 🔒 owner input |
@@ -46,7 +46,6 @@ Starting → 🟡. Done → ✅ + date + short hash. Update counts and ▶ NEXT.
 | Q7 | Real Cal.com/Calendly URL, or relabel "Book via WhatsApp"? | 4.4 |
 | Q8 | Self-host Concept Lab media/fonts? | 6.1 |
 | Q13 | Facts for the 3 new case studies (`docs/case-study-drafts-2026-10-04.md`), which 3 are featured, AASKRA Vercel link yes/no | 2.1 |
-| Q14 | OK to change the logo / WhatsApp accessible names (e.g. "TechwiseIQ home", "WhatsApp — chat")? | 1.4 |
 | Q15 | Parked redesign components (`proof/*`, `immersive/home/Chapter*`, `FinalCta`): keep for later or delete? | 6.2 |
 
 ## Standard gate (every task)
@@ -65,10 +64,16 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   `ContactForm.tsx`: intro/metadata → "reply within 24 hours, then a written scope after a short
   call"; replace "Response guarantee" with "What happens next" (We reply · 20-minute call · Written
   scope), repeated under the success message with focus on it. Redesign styling only.
-- ⬜ **1.2 Home LCP** (R-2) — mobile perf 84 → ≥90 without changing the look; protect the
-  2026-09-05 entrance work and its tests.
-- ⬜ **1.3 Service workbench contrast** (R-3) — `/services/*` a11y 96 → 100.
-- 🔒 **1.4 Accessible names match visible text** (R-4, Q14) — logo + WhatsApp float; update tests.
+- ✅ **1.2 Home LCP** (R-2) — 2026-10-04, verified, no code change. Three sequential uncontended
+  Lighthouse mobile runs: perf 90/90/90, LCP 3.5 s, TBT 0–10 ms (matches the 91 after the
+  2026-09-05 entrance work). The 84 was measured on a loaded machine. Headroom is thin: the LCP
+  element is the intro overlay text; any further gain must keep the entrance work intact.
+- ✅ **1.3 Service workbench contrast** (R-3) — 2026-10-04. `/services/*` a11y 96 → 100. Three causes:
+  workbench loop dimmed pieces to opacity 0.15 (floor now 0.6 = 4.78:1); automation-scene accent
+  is now violet mixed 12% toward fg (4.9:1 on surface); `/services/ai` fork dims the inactive
+  branch by colour, not opacity.
+- ✅ **1.4 Accessible names match visible text** (R-4, D-031) — 2026-10-04. "TechwiseIQ home",
+  "WhatsApp — chat", phone text "WA" → "Chat"; tests updated.
 
 ## Stage 2 — Proof
 

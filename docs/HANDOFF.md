@@ -36,7 +36,7 @@ folded into ROADMAP stage 7. Design source: `docs/design-system.md` + the redesi
 | `npm run lint` · `npx tsc --noEmit` · `npm run test:unit` | ✅ · ✅ · ✅ 13/13 |
 | `npm run build` | ✅ all routes static/SSG |
 | Full e2e (`PW_BASE_URL=… npx playwright test`) | ✅ 277 pass, 26 skipped by design (baseline capture). Two timing-sensitive tests (`home-experience` playback, `performance-mobile` CLS) can flake under full parallel load and pass alone. |
-| Lighthouse mobile | a11y/BP/SEO 100 except `/services/*` a11y **96** (R-3). Perf: Home **84** (LCP 4.4 s, R-2), others 91–95. |
+| Lighthouse mobile | a11y/BP/SEO 100 on every route (R-3 fixed 2026-10-04). Perf: Home **90** (3 sequential uncontended runs, LCP 3.5 s — the earlier 84 was a loaded-machine reading, R-2), others 91–95. |
 | Overflow / one h1 per route | ✅ 0 px at 390 and 1440; one h1 everywhere |
 
 Run locally: `npm ci`, `npx playwright install chromium` (the config uses Playwright's pinned
@@ -49,9 +49,9 @@ Severity: **P0** broken/misleading · **P1** hurts conversion/trust · **P2** po
 | ID | Sev | Where | Finding | Fix |
 |---|---|---|---|---|
 | R-1 ✅ | P1 | `/contact` (`src/app/contact/page.tsx`) | Intro + metadata promise "scope, timeline, and cost … within 24 hours", but scope needs a call first — the page contradicts itself. "Response guarantee" box; no "what happens next". | Same fix as the old design's 3.2 (PM-approved): "reply within 24 hours, then a written scope after a short call" + 3 steps, in redesign styling. 24 h approved (D-027). |
-| R-2 | P1 | Home | Lighthouse mobile perf 84, LCP 4.4 s (bar ≥90). Other routes 91–95. | Profile LCP element (likely hero/WebGL/intro overlay); keep the 2026-09-05 entrance work intact. |
-| R-3 | P2 | `/services/*` `ServiceWorkbench` | Mock "site" text in the workbench illustration fails contrast (1.37:1, #F3F3ED on #D1D1CC). a11y 96. | Darken the mock text or mark the purely decorative mock `aria-hidden` and keep real text out of it. |
-| R-4 | P2 | Header logo, WhatsApp float | `label-content-name-mismatch`: "Techwise IQ — home" vs visible "TECHWISEIQ"; "Chat on WhatsApp" vs visible "WhatsApp ↗"/"WA". Tests pin these labels. | Labels that start with the visible text (e.g. "TechwiseIQ home", "WhatsApp — chat"); update the tests. Owner OK needed for label text (Q14). |
+| R-2 ✅ | P1 | Home | Lighthouse mobile perf 84, LCP 4.4 s (bar ≥90). Other routes 91–95. | Profile LCP element (likely hero/WebGL/intro overlay); keep the 2026-09-05 entrance work intact. |
+| R-3 ✅ | P2 | `/services/*` `ServiceWorkbench` | Mock "site" text in the workbench illustration fails contrast (1.37:1, #F3F3ED on #D1D1CC). a11y 96. | Darken the mock text or mark the purely decorative mock `aria-hidden` and keep real text out of it. |
+| R-4 ✅ | P2 | Header logo, WhatsApp float | `label-content-name-mismatch`: "Techwise IQ — home" vs visible "TECHWISEIQ"; "Chat on WhatsApp" vs visible "WhatsApp ↗"/"WA". Tests pin these labels. | Labels that start with the visible text (e.g. "TechwiseIQ home", "WhatsApp — chat"); update the tests. Owner OK needed for label text (Q14). |
 | R-5 | P1 | `/about` | "Trusted by businesses in Dubai and beyond" — honesty check pending (Q5). | Owner wording. |
 | R-6 | P2 | Site-wide | CTA verbs: "Start a project", "Discuss your project", "Start the conversation", "Bring us the problem." (Q6). | One primary verb. |
 | R-7 | P2 | `src/components/proof/*`, `immersive/home/Chapter*`, `FinalCta`, `immersive/index.ts` | Redesign components no route imports (parked?). | Owner: keep for later or delete (Q15). |
@@ -80,6 +80,17 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 | `docs/vercel-deployment-2026-08-04.md`, `docs/launch-readiness-report-2026-07-26.md` | Launch-gate steps still valid. |
 
 ## 6. Session log (newest first)
+
+- **2026-10-04** — Stage 1 complete on `perf/home-lcp` (PR #4, one PR per stage — D-030).
+  1.3: `/services/*` a11y 100 — workbench dim floor 0.15 → 0.6, automation accent lightened via
+  `color-mix` in `ImmersiveShell`, `/services/ai` fork dims by colour. 1.4 (D-031): logo "TechwiseIQ
+  home", WhatsApp "WhatsApp — chat", phone text "Chat ↗". Lighthouse a11y/BP/SEO 100 on all 12
+  routes (Home a11y once read 95 mid-entrance, 100 ×3 on re-run).
+
+- **2026-10-04** — ROADMAP 1.2 / R-2 closed without a code change: Home Lighthouse mobile perf
+  90/90/90 in three sequential uncontended runs (LCP 3.5 s, TBT ≤10 ms). LCP element is the intro
+  overlay's "Think. Build. Move." text; real LCP = FCP under throttled network. Lighthouse on a busy
+  machine reads far lower (54 and 84 seen) — run it alone, never alongside builds or e2e.
 
 - **2026-10-04** — ROADMAP 1.1 / R-1 done: `/contact` intro + metadata now promise a reply within
   24 hours, then a written scope after a short call. "Response guarantee" box → "What happens next"
