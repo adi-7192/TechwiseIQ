@@ -185,7 +185,7 @@ export default function FeaturedWork() {
         <div className={styles.moreWork} data-testid="more-client-work">
           <div>
             <SectionLabel hideMark>More client work</SectionLabel>
-            <h3 className={styles.principleTitle}>Built. Not public yet.</h3>
+            <h3 className={styles.principleTitle}>Built. Not launched yet.</h3>
             <p className={styles.projectOutcome}>
               Client builds that aren&apos;t on the client&apos;s own domain
               yet. The previews show the work.

@@ -244,7 +244,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       'Google Analytics + Schema.org SEO setup',
     ],
     result:
-      'A 10-page website that gives a boutique firm the digital weight of an institutional player. The case studies \u2014 with real numbers, real timelines, real outcomes \u2014 do more for trust than any amount of stock photography. The site serves inquiries from 25+ countries.',
+      'A 10-page website that gives a boutique firm the digital weight of an institutional player. The case studies \u2014 with real numbers, real timelines, real outcomes \u2014 do more for trust than any amount of stock photography. The client reports enquiries from 25+ countries.',
     stats: [
       { value: 'USD 200M+', label: 'in instruments behind the brand' },
       { value: '25+', label: 'countries served' },
