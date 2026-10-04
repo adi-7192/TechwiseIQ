@@ -52,7 +52,7 @@ test('tracks only the meaningful conversion and discovery actions', async ({
   await clickWithoutNavigation(
     page.locator('main [data-analytics-event="cta_start_project"]').first(),
   )
-  await clickWithoutNavigation(page.getByRole('link', { name: 'Chat on WhatsApp' }))
+  await clickWithoutNavigation(page.getByRole('link', { name: 'WhatsApp — chat' }))
   await clickWithoutNavigation(
     page.locator('main a[href="/work/aaskra-realty"]'),
   )

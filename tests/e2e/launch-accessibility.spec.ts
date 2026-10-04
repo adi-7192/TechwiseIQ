@@ -7,7 +7,7 @@ test.describe('launch accessibility hardening', () => {
     await page.goto('/contact')
 
     await expect(
-      page.getByRole('link', { name: 'Chat on WhatsApp', exact: true }),
+      page.getByRole('link', { name: 'WhatsApp — chat', exact: true }),
     ).toBeHidden()
     await expect(
       page.getByRole('link', { name: /WhatsApp.*Chat on WhatsApp/i }),

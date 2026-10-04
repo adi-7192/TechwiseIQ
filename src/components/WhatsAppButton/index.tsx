@@ -7,12 +7,12 @@ export default function WhatsAppButton() {
       href={WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Chat on WhatsApp"
+      aria-label="WhatsApp — chat"
       className={styles.btn}
     >
       <span className={styles.fullLabel}>WhatsApp</span>
       <span className={styles.compactLabel} aria-hidden="true">
-        WA
+        Chat
       </span>{' '}
       ↗
     </a>

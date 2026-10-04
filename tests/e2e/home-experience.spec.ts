@@ -246,7 +246,7 @@ test('handing the pre-animation state over to GSAP leaves nothing hidden', async
   // matching when the inline styles are stripped it would re-hide the element,
   // so the `pending` -> `active` handover has to happen at tween-build time.
   await page.goto('/about')
-  await page.click('header a[aria-label="Techwise IQ — home"]')
+  await page.click('header a[aria-label="TechwiseIQ home"]')
 
   const world = page.locator('[data-home-experience]')
   await expect(world).toHaveAttribute('data-home-motion', 'active')

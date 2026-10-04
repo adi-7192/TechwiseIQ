@@ -121,7 +121,7 @@ test('keeps one canvas and bounded heap across repeated route changes', async ({
     await page.getByRole('link', { name: 'About' }).first().click()
     await expect(page).toHaveURL(/\/about$/)
     await expect(page.locator('canvas')).toHaveCount(0)
-    await page.getByLabel('Techwise IQ — home').click()
+    await page.getByLabel('TechwiseIQ home').click()
     await expect(page).toHaveURL(/\/$/)
     await expect(page.locator('canvas')).toHaveCount(1)
   }
