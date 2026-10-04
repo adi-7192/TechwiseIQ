@@ -19,7 +19,7 @@
 
 ## How we engage
 
-No packages or public prices. The client brings a requirement, we assess it on a short call, then send a custom written quote (scope, price, timeline). Build with weekly working progress, then launch, documentation and handover.
+No packages or public prices. Every service follows the same pattern: we gather the client's requirements, present several options (for websites, several design directions) with our recommendation, the client chooses, and we quote and build that choice with weekly working progress, then launch, documentation and handover. The client keeps the final say; we consult and deliver.
 
 ## Contact
 

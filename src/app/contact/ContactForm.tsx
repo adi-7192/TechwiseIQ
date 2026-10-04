@@ -12,8 +12,8 @@ const initialState: ContactFormState = { success: false, message: '' }
 
 const NEXT_STEPS = [
   ['We reply.', 'A real person reads your message and replies within 24 hours.'],
-  ['20-minute call.', 'We dig into the problem, your tools and your deadline. No pitch deck.'],
-  ['Written scope.', 'What we\u2019ll build, the price and the timeline, in writing. Then you decide.'],
+  ['20-minute call.', 'We gather your requirements: the problem, your tools and your deadline.'],
+  ['Options, then your call.', 'We bring options with our recommendation, then the scope and price in writing. You decide.'],
 ] as const
 
 export function NextSteps() {
@@ -31,7 +31,7 @@ export function NextSteps() {
         ))}
       </ol>
       <p className={styles.nextNote}>
-        No packages or price lists: every quote is for your requirement.{' '}
+        No packages or price lists: every quote is for the option you choose.{' '}
         <Link href="/services#engage">How we engage</Link>
       </p>
     </div>

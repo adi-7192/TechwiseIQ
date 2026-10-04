@@ -182,14 +182,14 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
           <div>
             <SectionLabel index="04">From brief to handover</SectionLabel>
             <DisplayHeading as="h2" size="h2" id="process-title" className={styles.sectionTitle}>
-              Know what&apos;s next.
+              Your call.
               <br />
               <span>At every step.</span>
             </DisplayHeading>
           </div>
           <p className={styles.sectionBody}>
-            An agreed scope, working demonstrations, and documented decisions. You stay involved as
-            the work takes shape.
+            We gather your requirements, bring you options and say which we would pick. You choose,
+            then we build exactly that, and you see it take shape every week.
           </p>
         </div>
         <DeliveryJourney service={service} handover={guide.handover} />

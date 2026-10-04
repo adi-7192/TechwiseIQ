@@ -85,7 +85,9 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
   delivery section on `/services` (same layout, D-032 model, no prices) + a short line and link on
   `/contact`; `llms.txt` aligned. Small reuse of an existing section, so built directly rather than
   through the full agent pipeline. Gate green; 180 services/contact/a11y/responsive e2e pass.
-  Copy needs owner OK before merge.
+  Owner then gave the real process (D-033): requirements → several options/designs → client
+  chooses → we build; copy reworked around "You decide. We deliver." on overview, service
+  journeys and contact. Copy needs owner OK before merge.
 
 - **2026-10-04** — Stage 2 (Proof) on `stage-2/proof`, one PR (D-030). Owner answered every open
   question → D-032. Three case studies added (facts verified on the live sites; RSiGHT gets no

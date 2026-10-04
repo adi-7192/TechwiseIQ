@@ -107,18 +107,18 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     process: [
       {
         num: '01',
-        title: 'Discover',
-        body: 'Goals, audience, competitors, and the decisions the site needs to support.',
+        title: 'Requirements',
+        body: 'Your goals, audience, content, and the decisions the site needs to support.',
       },
       {
         num: '02',
-        title: 'Design in context',
-        body: 'Shape the visual system in-browser so motion, content, and responsiveness work together.',
+        title: 'Design options',
+        body: 'Several design directions to compare side by side. We tell you which we would pick and why; you choose.',
       },
       {
         num: '03',
-        title: 'Build + demonstrate',
-        body: 'Production code from day one, with working progress shown every week.',
+        title: 'Build your choice',
+        body: 'Production code on the design you picked, with working progress shown every week.',
       },
       {
         num: '04',
@@ -224,18 +224,18 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     process: [
       {
         num: '01',
-        title: 'Diagnose',
-        body: 'Map workflows, pain points, users, and existing systems.',
+        title: 'Requirements',
+        body: 'Map your workflows, users, pain points, and existing systems.',
       },
       {
         num: '02',
-        title: 'Architect',
-        body: 'Document stack decisions, data model, and integration boundaries.',
+        title: 'Solution options',
+        body: 'Ways to solve it (build, extend, or integrate) with trade-offs and our recommendation. You choose.',
       },
       {
         num: '03',
-        title: 'Sprint',
-        body: 'Demonstrate working software every week.',
+        title: 'Build in sprints',
+        body: 'Working software every week, on the route you chose.',
       },
       {
         num: '04',
@@ -341,23 +341,23 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     process: [
       {
         num: '01',
-        title: 'Audit',
-        body: 'Map workflows and rank opportunities by value, risk, and feasibility.',
+        title: 'Requirements',
+        body: 'Map your workflows and rank where automation would help most.',
       },
       {
         num: '02',
-        title: 'Pilot',
-        body: 'Automate one workflow end to end and prove the control model.',
+        title: 'Options',
+        body: 'Which workflow first, which tools, how much human review: options with our recommendation. You choose.',
       },
       {
         num: '03',
-        title: 'Scale',
-        body: 'Integrate with existing tools and extend to adjacent workflows.',
+        title: 'Pilot',
+        body: 'Automate the workflow you chose end to end and prove the control model.',
       },
       {
         num: '04',
-        title: 'Monitor',
-        body: 'Track errors, exceptions, performance, and ongoing reliability.',
+        title: 'Scale + monitor',
+        body: 'Extend to adjacent workflows and track errors, exceptions, and reliability.',
       },
     ],
     faqs: [

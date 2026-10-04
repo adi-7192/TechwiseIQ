@@ -9,10 +9,10 @@ import ConnectedSystem from './ConnectedSystem'
 import styles from './ServicesOverview.module.css'
 
 const ENGAGEMENT = [
-  ['You bring the requirement', 'A problem, a goal or a rough brief. No technical spec needed.'],
-  ['We assess it', 'A short call on the work, your tools and your deadline. No pitch deck.'],
-  ['You get a custom quote', 'Scope, price and timeline for your job, in writing. Then you decide.'],
-  ['We build and hand over', 'Working progress every week, then launch, documentation and handover.'],
+  ['We gather your requirements', 'Your goals, users, tools and deadline. No technical brief needed.'],
+  ['We bring you options', 'Several designs or solution routes, each with our honest recommendation.'],
+  ['You choose', 'Pick what fits your goals, budget and timing. Scope and price in writing.'],
+  ['We build your choice', 'Exactly what you picked, with progress you see every week, then handover.'],
 ]
 const EDITORIAL = {
   web: {
@@ -150,15 +150,16 @@ export default function ServicesOverview() {
           <div>
             <SectionLabel index="03">How we engage</SectionLabel>
             <DisplayHeading as="h2" size="h2" id="engage-title" className={styles.sectionTitle}>
-              No packages.
+              You decide.
               <br />
-              <span>A quote for your job.</span>
+              <span>We deliver.</span>
             </DisplayHeading>
           </div>
           <div>
             <p className={styles.sectionBody}>
-              There is no price list, because no two requirements cost the same. Tell us what you
-              need. We assess it and quote for that work, in writing, before anything starts.
+              Every project starts with your requirements, not a package. We come back with
+              options and tell you which one we would pick and why. The final call is always yours.
+              No price list: each quote is for the option you choose.
             </p>
             <Link href="/contact" className={styles.directoryLink}>
               Bring us your requirement <span aria-hidden="true">↗</span>

@@ -66,7 +66,7 @@ test('shows the three next steps on the page and after sending', async ({
   await expect(steps).toHaveText([
     /^We reply\./,
     /^20-minute call\./,
-    /^Written scope\./,
+    /^Options, then your call\./,
   ])
   await expect(
     page.getByRole('link', { name: 'How we engage' }),

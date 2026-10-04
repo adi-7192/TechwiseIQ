@@ -46,14 +46,14 @@ test.describe('Services overview', () => {
     await expect(
       engage.getByRole('heading', {
         level: 2,
-        name: 'No packages. A quote for your job.',
+        name: 'You decide. We deliver.',
       }),
     ).toBeVisible()
     await expect(engage.getByRole('listitem')).toHaveText([
-      /^01You bring the requirement/,
-      /^02We assess it/,
-      /^03You get a custom quote/,
-      /^04We build and hand over/,
+      /^01We gather your requirements/,
+      /^02We bring you options/,
+      /^03You choose/,
+      /^04We build your choice/,
     ])
     await expect(
       engage.getByRole('link', { name: /Bring us your requirement/ }),

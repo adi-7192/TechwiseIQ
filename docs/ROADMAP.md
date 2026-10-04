@@ -79,9 +79,11 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 
 ## Stage 3 — Clarity
 
-- ✅ **3.1 "How we engage"** (D-032) — 2026-10-04, `stage-3/clarity`. `/services` section 03
-  (was "How it comes together") → `#engage` "No packages. A quote for your job.": requirement →
-  assessment call → custom written quote → build + handover. `/contact` "What happens next" gains
+- ✅ **3.1 "How we engage"** (D-032, D-033) — 2026-10-04, `stage-3/clarity`. `/services` section 03
+  (was "How it comes together") → `#engage` "You decide. We deliver.": requirements → options
+  with our recommendation → you choose (scope + price in writing) → we build your choice. Same
+  pattern in each service's 4-step journey (web: design options; software: solution options; AI:
+  workflow/tool options) and the `/contact` steps. `/contact` "What happens next" gains
   a no-packages line linking to it. `llms.txt` process → the same model (dropped "discovery
   sprint"/"retainer" products). No prices (D-003).
 

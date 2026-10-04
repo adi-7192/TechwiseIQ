@@ -201,6 +201,13 @@ changes from "WA ↗" to "Chat ↗" so the name contains it at every width (WCAG
 - *First-step offer (Q4):* free 20-minute bottleneck review. *Concept Lab (Q8):* self-host media and
   fonts. *Parked components (Q15):* delete (unused by any page or test; recoverable from git).
 
+**D-033 — Our process: requirements → options → client chooses → we build.** 2026-10-04 · owner · refines D-032 (Q3).
+Every service: gather requirements, present several options (websites: several design directions)
+with our recommendation, the client chooses, we quote and build that choice. Message: the client
+keeps control; we consult and deliver. *Apply:* process copy on `/services`, service journeys,
+`/contact` and `llms.txt` follows this; never imply a fixed package or a single take-it-or-leave-it
+proposal.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

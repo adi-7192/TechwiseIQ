@@ -163,7 +163,7 @@ export function DeliveryJourney({
           <span className={styles.tiny}>STEP 0{step + 1} / 04</span>
           <h3>{service.process[step].title}</h3>
           <p>{service.process[step].body}</p>
-          <span className={styles.deliveryNote}>You stay involved. Decisions stay documented.</span>
+          <span className={styles.deliveryNote}>Our advice. Your decision.</span>
         </div>
         <div className={styles.document}>
           <div className={styles.documentBar}>
@@ -192,20 +192,17 @@ export function DeliveryJourney({
             </>
           ) : step === 1 ? (
             <>
-              <h4>A plan you can follow.</h4>
+              <h4>Options, side by side.</h4>
               <div className={styles.plan}>
-                {[
-                  'Scope & boundaries',
-                  'Design & system decisions',
-                  'Review points & delivery',
-                ].map((item, i) => (
+                {['Option A', 'Option B', 'Option C'].map((item, i) => (
                   <div key={item}>
                     <span>0{i + 1}</span>
                     <strong>{item}</strong>
-                    <span>↓</span>
+                    <span>{i === 1 ? 'Our pick' : ''}</span>
                   </div>
                 ))}
               </div>
+              <div className={styles.feedback}>You choose → we build on it</div>
             </>
           ) : step === 2 ? (
             <>

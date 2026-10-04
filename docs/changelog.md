@@ -6,9 +6,12 @@ Running log of all changes made to the codebase. Most recent first.
 
 ## 2026-10-04 — Stage 3: Clarity (ROADMAP 3.1)
 
-- `/services` section 03 is now "How we engage" (`#engage`): you bring the requirement → we assess
-  it → custom written quote → build and hand over. "No packages. A quote for your job." Reuses the
-  existing four-step track and styles.
+- `/services` section 03 is now "How we engage" (`#engage`): "You decide. We deliver." — we gather
+  requirements → bring options with our recommendation → you choose → we build your choice.
+  Reuses the existing four-step track and styles.
+- `/services/{web,software,ai}` journeys follow the same pattern (step 02 = options, illustrated
+  as "Options, side by side" with "Our pick"); heading "Your call. At every step."
+- `/contact` steps: 20-minute call gathers requirements; step 3 "Options, then your call."
 - `/contact` "What happens next" ends with "No packages or price lists: every quote is for your
   requirement." + link to `/services#engage`.
 - `llms.txt` "Process" → "How we engage", same model, no prices.
