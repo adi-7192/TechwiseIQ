@@ -8,11 +8,17 @@ import type { SceneName } from '@/components/immersive/ImmersiveShell'
  * to the acid / web scene.
  */
 export const CASE_ACCENT: Record<string, string> = {
+  'supreme-universal': 'acid', // commodity-trading signal (explicit, not fallback)
+  'express-petroleum': 'orange', // energy / fuel signal
+  rsight: 'blue', // night-lighting signal
   'aaskra-realty': 'orange', // warm, luxury real-estate signal
   'express-trade-financing': 'blue', // cool, institutional trade-finance signal
 }
 
 export const CASE_SCENE: Record<string, SceneName> = {
+  'supreme-universal': 'web',
+  'express-petroleum': 'apps',
+  rsight: 'build',
   'aaskra-realty': 'apps',
   'express-trade-financing': 'build',
 }

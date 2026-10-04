@@ -33,7 +33,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     liveUrl: 'https://www.supremeuniversal.co',
     coverImage: '/work/supreme-universal-hero.webp',
     coverCaption:
-      'Trade routes through the Dubai hub, with the full commodity range one click away.',
+      'Trade routes through the Dubai hub, with the full commodity range two clicks away.',
     storyTitle: 'Forty-nine commodities, one clear route.',
     problem:
       'Supreme Universal Trading, part of The Supreme Group, trades agricultural commodities out of Dubai but had no website. Buyers who look for suppliers online found nothing, so new business depended entirely on existing relationships.',
@@ -119,7 +119,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       'An investor-first homepage built to establish authority before the first conversation.',
     storyTitle: 'Trust before track record.',
     problem:
-      'AASKRA needed a digital presence that could compete with established Dubai real estate firms. They had RERA registration and developer relationships but no website \u2014 losing credibility with high-net-worth prospects who research online before engaging.',
+      'AASKRA needed a digital presence that could compete with established Dubai real estate firms. They had RERA registration and developer relationships but no website, so they were losing credibility with high-net-worth prospects who research online before engaging.',
     constraints:
       'Tight timeline with a key industry event approaching. The site had to project institutional credibility from day one while the firm was still building its track record.',
     decisions: [
@@ -165,7 +165,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     stats: [
       { value: '11', label: 'pages shipped' },
       { value: '6', label: 'location profiles with real ROI data' },
-      { value: '6 wks', label: 'brief to launch' },
+      { value: '6 wks', label: 'build time' },
     ],
     fullPageImage: {
       src: '/work/aaskra-desktop.webp',
@@ -360,9 +360,10 @@ export const CASE_STUDIES: CaseStudy[] = [
     timeline: '3 weeks',
     stack: ['Vite', 'GSAP', 'Lenis', 'Vercel'],
     previewUrl: 'https://rsight-opal.vercel.app',
+    awaitingLaunch: true,
     coverImage: '/work/rsight-hero.webp',
     coverCaption:
-      'A full-bleed night hero for a studio whose work is only visible after dark.',
+      'A full-bleed night hero for a studio whose work is best seen after dark.',
     storyTitle: 'Work that only shows at night.',
     problem:
       'RSiGHT, an architectural lighting design studio in Ahmedabad, had no website. Its best work (façades, landscapes and interiors lit after dark) had nowhere to be seen by the architects and developers who commission it.',
@@ -387,7 +388,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       {
         title: 'Ask the right questions',
         body:
-          'Collect project type and city in the inquiry form so the studio can reply with something specific.',
+          'Collect project type and city in the enquiry form so the studio can reply with something specific.',
       },
     ],
     deliverables: [
@@ -395,7 +396,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       'Full-bleed night hero',
       '6 featured projects across façade, landscape and interior lighting',
       '3 service lines and founder profile',
-      'Inquiry form with project type and city',
+      'Enquiry form with project type and city',
       'Scroll-driven motion with GSAP and Lenis',
     ],
     result:
@@ -403,7 +404,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     stats: [
       { value: '6', label: 'featured projects' },
       { value: '3', label: 'service lines' },
-      { value: '3 wks', label: 'brief to launch' },
+      { value: '3 wks', label: 'build time' },
     ],
     fullPageImage: {
       src: '/work/rsight-desktop.webp',

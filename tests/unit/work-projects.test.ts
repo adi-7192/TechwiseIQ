@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 // @ts-expect-error Node's built-in TypeScript runner requires the file extension.
-import { getDeliveryMetrics, partitionProjects } from '../../src/app/work/work-projects.ts'
+import { getDeliveryMetrics, getProjectStatus, partitionProjects } from '../../src/app/work/work-projects.ts'
 
 const projects = (flags: boolean[]) =>
   flags.map((featured, index) => ({
@@ -58,4 +58,13 @@ test('derives aggregate metrics from project proof and timelines', () => {
     { value: '5–6', label: 'Week launches' },
     { value: '2', label: 'Live projects' },
   ])
+})
+
+test('labels project status: live wins, then awaiting launch, else preview', () => {
+  assert.equal(
+    getProjectStatus({ liveUrl: 'https://example.com', awaitingLaunch: true }),
+    'Live',
+  )
+  assert.equal(getProjectStatus({ awaitingLaunch: true }), 'Awaiting launch')
+  assert.equal(getProjectStatus({}), 'Preview build')
 })

@@ -34,6 +34,8 @@ export type CaseStudy = {
   liveUrl?: string
   /** Vercel preview, not the client's own domain — labelled as a preview, never counted as live. */
   previewUrl?: string
+  /** Built and handed over; waiting on the client's own launch. */
+  awaitingLaunch?: boolean
   coverImage?: string
   coverCaption: string
   storyTitle: string
