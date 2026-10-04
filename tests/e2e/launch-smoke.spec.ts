@@ -14,6 +14,7 @@ const routes = [
   '/work/rsight',
   '/about',
   '/contact',
+  '/bottleneck-review',
   '/privacy',
   '/terms',
 ]

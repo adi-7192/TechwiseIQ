@@ -165,6 +165,11 @@ export default function ServicesOverview() {
             <Link href="/contact" className={styles.directoryLink}>
               Bring us your requirement <span aria-hidden="true">↗</span>
             </Link>
+            <p className={styles.navigatorNote}>
+              <Link href="/bottleneck-review">
+                Or start with the free 20-minute review <span aria-hidden="true">↗</span>
+              </Link>
+            </p>
           </div>
         </div>
         <ol className={styles.deliveryTrack}>

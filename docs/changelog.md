@@ -4,6 +4,17 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — Stage 5: Growth (ROADMAP 5.1)
+
+- New static page `/bottleneck-review` (free 20-minute bottleneck review, D-032 Q4, D-036): hero,
+  How it works (4 steps), Good things to bring, What it is (and isn't), form. `Service` JSON-LD,
+  no price. Step 01 links to the form.
+- `ContactForm review` posts a hidden `inquiry=review`; the action sends subject
+  "Free bottleneck review request — …" + a `Type:` line. Only the exact value counts.
+- Links: one in the `/contact` intro, one under `/services` #engage. Sitemap + `llms.txt` updated.
+- Tests: unit (subject, tampered value), e2e page check; route added to responsive, launch-smoke,
+  release-qa route lists.
+
 ## 2026-10-04 — Stage 4: Trust (ROADMAP 4.1–4.4)
 
 - `/about`: "Building for businesses in Dubai and beyond" (was "Trusted by…"); hero says "a team of

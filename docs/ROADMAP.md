@@ -8,12 +8,12 @@
 
 ## ▶ NEXT
 
-**Stage 4 PR open (`stage-4/trust`) — owner reviews the copy in the preview, then merges.**
-Then: Stage 5 (5.1 free 20-minute bottleneck review page) or Stage 6.3 docs.
+**Stage 5 PR open (`stage-5/growth`) — owner checks `/bottleneck-review` in the preview, then merges.**
+Then: Stage 6.3 docs (6.1 Concept Lab self-hosting and 6.2 parked-component deletion are answered in D-032).
 
 ## Progress
 
-**11 / 22 tasks done** · rebuilt for the redesign 2026-10-04
+**12 / 22 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -21,7 +21,7 @@ Then: Stage 5 (5.1 free 20-minute bottleneck review page) or Stage 6.3 docs.
 | 2. Proof | More real work where buyers decide | 2/2 | ✅ |
 | 3. Clarity | How working with us works | 1/1 | ✅ (PR #6 merged) |
 | 4. Trust | Honest claims, people, consistent CTAs, booking | 3/4 | 🟡 (voice draft awaiting owner; Cal.com later) |
-| 5. Growth | First-step offer, insights | 0/2 | ⬜ (5.2 held) |
+| 5. Growth | First-step offer, insights | 1/2 | 🟡 (5.1 PR open; 5.2 held) |
 | 6. Polish | Concept Lab self-hosting, parked components, docs | 0/3 | ⬜ |
 | 7. Release | Redesign release checklist → merge to `main` | 1/6 | 🟡 (7.3+ 🔒 owner) |
 
@@ -101,7 +101,10 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 
 ## Stage 5 — Growth
 
-- 🔒 **5.1 First-step offer page** (Q4).
+- ✅ **5.1 First-step offer page** (Q4, D-036) — 2026-10-04, `stage-5/growth`. `/bottleneck-review`:
+  free 20-minute review (same call as `/contact` step 2), no written deliverable. Reuses
+  `ContactForm` (`review` prop → hidden `inquiry=review`, own email subject). Linked from the
+  `/contact` intro and `/services` #engage only. Full agent pipeline; QA Lighthouse a11y/BP/SEO 100.
 - ⏸ **5.2 Insights** — held until 2–3 real articles exist.
 
 ## Stage 6 — Polish

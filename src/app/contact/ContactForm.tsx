@@ -38,7 +38,7 @@ export function NextSteps() {
   )
 }
 
-export default function ContactForm() {
+export default function ContactForm({ review = false }: { review?: boolean }) {
   const successTracked = useRef(false)
   const [state, formAction, isPending] = useActionState(
     submitContact,
@@ -93,6 +93,8 @@ export default function ContactForm() {
           </p>
         )}
       </div>
+
+      {review && <input type="hidden" name="inquiry" value="review" />}
 
       <div className={styles.honeypot} aria-hidden="true">
         <label htmlFor="website">Website</label>
@@ -232,7 +234,11 @@ export default function ContactForm() {
         className={styles.submit}
         disabled={isPending}
       >
-        {isPending ? 'Sending\u2026' : 'Send message'}
+        {isPending
+          ? 'Sending\u2026'
+          : review
+            ? 'Request my free review'
+            : 'Send message'}
       </PrimaryCTA>
     </form>
   )

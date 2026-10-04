@@ -21,6 +21,8 @@
 
 No packages or public prices. Every service follows the same pattern: we gather the client's requirements, present several options (for websites, several design directions) with our recommendation, the client chooses, and we quote and build that choice with weekly working progress, then launch, documentation and handover. The client keeps the final say; we consult and deliver.
 
+First step: the [free 20-minute bottleneck review](https://techwiseiq.com/bottleneck-review). The client explains what is slowing the business down; we explain how we would fix it. A reply within 24 hours. It is a conversation, not a report and not a quote.
+
 ## Contact
 
 - Email: Info@techwiseiqtechnologies.ae
@@ -34,5 +36,6 @@ No packages or public prices. Every service follows the same pattern: we gather 
 - [Services overview](https://techwiseiq.com/services)
 - [Work / case studies](https://techwiseiq.com/work)
 - [About](https://techwiseiq.com/about)
+- [Free 20-minute bottleneck review](https://techwiseiq.com/bottleneck-review)
 - [Privacy](https://techwiseiq.com/privacy)
 - [Terms](https://techwiseiq.com/terms)

@@ -14,6 +14,7 @@ const PUBLIC_ROUTES = [
   '/work/rsight',
   '/about',
   '/contact',
+  '/bottleneck-review',
   '/privacy',
   '/terms',
 ]

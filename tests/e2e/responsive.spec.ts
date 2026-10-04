@@ -23,6 +23,7 @@ const ROUTES = [
   '/work/rsight',
   '/about',
   '/contact',
+  '/bottleneck-review',
   '/privacy',
   '/terms',
   '/this-page-does-not-exist', // 404
