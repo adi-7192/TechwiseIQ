@@ -81,6 +81,11 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-04** — 5.2 Insights built (D-037) through the pipeline: PM → design → UI → UX PASS → QA
+  PASS (Lighthouse a11y/BP/SEO 100 on `/insights` + an article; citations, JSON-LD, wording diff vs
+  drafts all verified). Full e2e 358 pass on a prod build. Open for owner: the two [OWNER] claims;
+  body h2 same size as body text (design Q1); floating Chat pill covers text at 390 (site-wide).
+
 - **2026-10-04** — 5.2: owner asked for researched articles. 6 drafts with cited sources in
   `docs/insights-drafts-2026-10-04.md` (sites, ownership, spreadsheets, build/buy, AI, AI search).
   Reddit is blocked to our research tools; community voices from Hacker News + UK Business Forums.

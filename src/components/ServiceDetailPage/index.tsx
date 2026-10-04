@@ -9,6 +9,7 @@ import ServiceDemo from '@/components/immersive/home/ServiceDemo'
 import { CASE_STUDIES } from '@/data/case-studies'
 import { SERVICE_LIST, type ServiceId, type ServiceContent } from '@/data/services'
 import { SERVICE_GUIDES } from '@/data/service-guides'
+import { INSIGHTS } from '@/data/insights'
 import styles from './ServiceDetailPage.module.css'
 import ServiceWorkbench from './ServiceWorkbench'
 import { DecisionLab, DeliveryJourney } from './ExperiencePanels'
@@ -321,6 +322,18 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
             <PrimaryCTA href="/contact" variant="ghost">
               Talk through your brief
             </PrimaryCTA>
+            <p id="worth-a-read" className={`${styles.meta} ${styles.readsLabel}`}>
+              Worth a read
+            </p>
+            <ul role="list" aria-labelledby="worth-a-read" className={styles.reads}>
+              {INSIGHTS.filter((a) => a.service === service.id).map((a) => (
+                <li key={a.slug}>
+                  <Link href={`/insights/${a.slug}`} className={styles.textLink}>
+                    {a.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
           <div className={styles.faqs}>
             {service.faqs.map((faq) => (

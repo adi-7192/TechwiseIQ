@@ -228,6 +228,12 @@ not header, footer or Home (one primary CTA, D-034). *Apply:* review requests re
 action; a hidden `inquiry=review` (exact value only) changes the email subject. No price in copy or
 JSON-LD (D-003).
 
+**D-037 — Insights: six researched articles ship.** 2026-10-04 · owner ("looks good, add them, keep the byline") · un-holds ROADMAP 5.2.
+All six drafts in `docs/insights-drafts-2026-10-04.md` approved. Byline "Techwise IQ team" (D-005).
+The two [OWNER] claims about us (art. 2 "accounts in your name at handover", art. 6 "search
+foundations in every site") are **left out** until the owner confirms them; the CTA closing lines
+ship. *Apply:* every number keeps its source link and year; no client claims; no prices.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

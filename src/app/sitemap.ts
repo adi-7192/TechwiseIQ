@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { CASE_STUDIES } from '@/data/case-studies'
+import { INSIGHTS } from '@/data/insights'
 
 const BASE = 'https://techwiseiq.com'
 
@@ -16,6 +17,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'yearly' as const,
       priority: 0.7,
+    })),
+    { url: `${BASE}/insights`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    ...INSIGHTS.map((a) => ({
+      url: `${BASE}/insights/${a.slug}`,
+      lastModified: new Date(a.published),
+      changeFrequency: 'yearly' as const,
+      priority: 0.6,
     })),
     { url: `${BASE}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },

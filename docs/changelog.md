@@ -4,6 +4,18 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — Stage 5: Insights (ROADMAP 5.2)
+
+- Six researched articles (D-037) at `/insights/[slug]`, list at `/insights`, data in
+  `src/data/insights.ts` (inline markup rendered by `src/app/insights/inline.tsx`). Every number
+  cites a numbered source with its year; sources open in a new tab.
+- `Article` + `BreadcrumbList` JSON-LD (author "Techwise IQ team"), `CollectionPage` on the list.
+- Footer "Insights" link; "Worth a read" list in each service page's questions section.
+- Sitemap (+7) and `llms.txt` Insights section. Unit test (`tests/unit/insights.test.ts`) and e2e
+  (`tests/e2e/insights.spec.ts`); routes added to responsive/launch-smoke/release-qa.
+- Draft sources corrected before publish: Portent stat dropped (no primary), Similarweb via
+  TechCrunch, `.ae` via Wikipedia.
+
 ## 2026-10-04 — Stage 5: Growth (ROADMAP 5.1)
 
 - New static page `/bottleneck-review` (free 20-minute bottleneck review, D-032 Q4, D-036): hero,

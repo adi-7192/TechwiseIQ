@@ -17,6 +17,15 @@
 - [RSiGHT Architectural Lighting case study](https://techwiseiq.com/work/rsight): single-page portfolio for a lighting design studio in Ahmedabad, India. Built; awaiting the client's launch.
 - [Concept Lab](https://techwiseiq.com/work): self-initiated concept sites (TerraElix, mėntality, Lumora), not client work. Each opens as a standalone demo.
 
+## Insights
+
+- [Visits, but no enquiries? Here's where they leave.](https://techwiseiq.com/insights/website-visits-no-enquiries): Traffic is the easy part to measure. The leak is usually somewhere between "landed" and "got in touch". Here's what the research says about where it happens.
+- [Who actually owns your website? Check before you need to.](https://techwiseiq.com/insights/who-owns-your-website): Your domain, hosting, code and logins are business assets. Many businesses only find out who controls them when they try to leave a supplier.
+- [Your business runs on a spreadsheet. Here's when that stops working.](https://techwiseiq.com/insights/outgrowing-spreadsheets): Spreadsheets are brilliant until they aren't. The trick is spotting the moment yours turns from a tool into a risk.
+- [Build or buy? Software for a business that doesn't fit the box.](https://techwiseiq.com/insights/build-or-buy-software): "There's an app for that" is usually true. Until your process is the thing that makes you different.
+- [What to automate with AI, and what still needs a person.](https://techwiseiq.com/insights/what-to-automate-with-ai): Nearly every company is "using AI". Far fewer are getting much out of it. The difference is usually *what* they chose to automate.
+- [When your customers ask ChatGPT instead of Google.](https://techwiseiq.com/insights/ai-search-visibility): More people now get an answer without clicking a link. Here's what's actually changing, what isn't, and what's worth doing about it.
+
 ## How we engage
 
 No packages or public prices. Every service follows the same pattern: we gather the client's requirements, present several options (for websites, several design directions) with our recommendation, the client chooses, and we quote and build that choice with weekly working progress, then launch, documentation and handover. The client keeps the final say; we consult and deliver.
@@ -35,6 +44,7 @@ First step: the [free 20-minute bottleneck review](https://techwiseiq.com/bottle
 - [Home](https://techwiseiq.com/)
 - [Services overview](https://techwiseiq.com/services)
 - [Work / case studies](https://techwiseiq.com/work)
+- [Insights](https://techwiseiq.com/insights)
 - [About](https://techwiseiq.com/about)
 - [Free 20-minute bottleneck review](https://techwiseiq.com/bottleneck-review)
 - [Privacy](https://techwiseiq.com/privacy)

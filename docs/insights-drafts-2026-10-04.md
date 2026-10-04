@@ -45,10 +45,8 @@ Most of your visitors are on a phone. In the UAE, there are more mobile connecti
 
 - Google's mobile research found that **53%** of mobile visits are abandoned if a page takes longer
   than 3 seconds to load (2016 data) [3].
-- Portent's 2019 study of B2B and e-commerce sites found that conversion rates drop by an average of
-  **4.42% for each extra second** of load time in the first five seconds [4].
 - Deloitte's study for Google (2020) found that a **0.1-second** faster mobile site lifted conversions
-  by 8.4% for retail sites and 10.1% for travel sites [5].
+  by 8.4% for retail sites and 10.1% for travel sites [4].
 
 Fast isn't a nice-to-have. It's the doorway.
 
@@ -62,7 +60,7 @@ say what you do, who it's for, and the next step, before they scroll.
 
 HubSpot looked at about 40,000 landing pages (c. 2010). It found that conversions fell as forms got
 longer, and that **several text boxes or drop-downs** hurt the most. Extra single-line fields hurt
-far less [6]. Ask for what you need to reply, and nothing more.
+far less [5]. Ask for what you need to reply, and nothing more.
 
 ### Leak 4: there's only one way to reach you
 
@@ -75,7 +73,7 @@ instead of it.
 This one happens after the website, but it still loses the lead. In a Harvard Business Review study
 of 1.25 million sales leads (2011), firms that responded **within an hour** were nearly **7 times**
 as likely to qualify the lead as firms that waited even one more hour. Firms that waited a day or
-more did far worse [7].
+more did far worse [6].
 
 ### A 10-minute check you can do today
 
@@ -92,10 +90,9 @@ is exactly this conversation."
 1. Nielsen Norman Group, "How Long Do Users Stay on Web Pages?" — https://www.nngroup.com/articles/how-long-do-users-stay-on-web-pages/
 2. DataReportal, "Digital 2025: The United Arab Emirates" — https://datareportal.com/reports/digital-2025-united-arab-emirates
 3. Think with Google, mobile site load time statistics — https://www.thinkwithgoogle.com/consumer-insights/consumer-trends/mobile-site-load-time-statistics/
-4. Portent, site speed and conversion rate study (2019), as cited by https://huckabuy.com/20-important-page-speed-bounce-rate-and-conversion-rate-statistics/ (primary: portent.com)
-5. Deloitte Digital for Google, "Milliseconds Make Millions" — https://web.dev/case-studies/milliseconds-make-millions
-6. HubSpot (Dan Zarrella), "Which Types of Form Fields Lower Landing Page Conversions?" — https://blog.hubspot.com/blog/tabid/6307/bid/6746/which-types-of-form-fields-lower-landing-page-conversions.aspx
-7. Oldroyd, McElheran & Elkington, "The Short Life of Online Sales Leads", Harvard Business Review (2011) — https://hbr.org/2011/03/the-short-life-of-online-sales-leads
+4. Deloitte Digital for Google, "Milliseconds Make Millions" — https://web.dev/case-studies/milliseconds-make-millions
+5. HubSpot (Dan Zarrella), "Which Types of Form Fields Lower Landing Page Conversions?" — https://blog.hubspot.com/blog/tabid/6307/bid/6746/which-types-of-form-fields-lower-landing-page-conversions.aspx
+6. Oldroyd, McElheran & Elkington, "The Short Life of Online Sales Leads", Harvard Business Review (2011) — https://hbr.org/2011/03/the-short-life-of-online-sales-leads
 
 ---
 
@@ -157,7 +154,7 @@ name and you get the logins." Only if this is always true.
 2. Domain Name Wire, "Miami chef alleges web designer is holding domain name hostage" (2015) — https://domainnamewire.com/2015/03/04/miami-chef-alleges-web-designer-is-holding-domain-name-hostage/
 3. UK Business Forums, "Previous web designer holding my client's .com domain name" (2016) — https://www.ukbusinessforums.co.uk/threads/previous-web-designer-holding-my-clients-com-domain-name.359925/
 4. Hacker News comment (2025-12-30) — https://news.ycombinator.com/item?id=46438571
-5. ICANNWiki, ".ae" — https://icannwiki.org/.ae
+5. Wikipedia, ".ae" — https://en.wikipedia.org/wiki/.ae
 6. AE Server, ".ae domain name policy explained" — https://www.aeserver.com/ae-domain-name-policy-explained/
 
 ---
@@ -350,7 +347,7 @@ what isn't, and what's worth doing about it.
 - **The top result loses clicks too.** Ahrefs compared 300,000 keywords. When an AI Overview
   appeared, the #1 result's click-through rate was **34.5%** lower [2].
 - **AI assistants send traffic, and it's growing fast.** Similarweb counted **1.13 billion**
-  referrals from AI platforms to the top 1,000 websites in June 2025, up **357%** in a year.
+  referrals from AI platforms to the top 1,000 websites in June 2025, up **357%** in a year [3].
 
 ### What isn't changing
 
@@ -384,7 +381,7 @@ structured data, sitemaps." Only if true for every site.
 **Sources**
 1. Pew Research Center, "Google users are less likely to click on links when an AI summary appears in the results" (2025) — https://www.pewresearch.org/short-reads/2025/07/22/google-users-are-less-likely-to-click-on-links-when-an-ai-summary-appears-in-the-results/
 2. Ahrefs, "AI Overviews Reduce Clicks by 34.5%" (2025) — https://ahrefs.com/blog/ai-overviews-reduce-clicks/
-3. Similarweb data as reported by TechCrunch and others (2025) — https://fourweekmba.com/ai-referrals-to-top-websites-up-357-year-over-year-surpassing-1-13-billion-in-june/
+3. TechCrunch, "AI referrals to top websites were up 357% year-over-year in June, reaching 1.13B" (Similarweb data, 2025) — https://techcrunch.com/2025/07/25/ai-referrals-to-top-websites-were-up-357-year-over-year-in-june-reaching-1-13b/
 4. Google Search Central, "AI features and your website" — https://developers.google.com/search/docs/appearance/ai-features
 
 ---

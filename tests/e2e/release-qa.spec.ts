@@ -15,6 +15,8 @@ const PUBLIC_ROUTES = [
   '/about',
   '/contact',
   '/bottleneck-review',
+  '/insights',
+  '/insights/who-owns-your-website',
   '/privacy',
   '/terms',
 ]
