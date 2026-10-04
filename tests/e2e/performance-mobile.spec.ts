@@ -1,5 +1,25 @@
 import { expect, test } from '@playwright/test'
 
+test('does not reallocate the canvas for resize events with unchanged dimensions', async ({ page }) => {
+  await page.goto('/')
+  const canvas = page.locator('[data-hero-scene] canvas')
+  await expect(canvas).toHaveAttribute('data-animation-running', 'true')
+  const mutations = await canvas.evaluate(async (element) => {
+    let writes = 0
+    const observer = new MutationObserver((records) => { writes += records.length })
+    observer.observe(element, { attributes: true, attributeFilter: ['width', 'height'] })
+    for (let i = 0; i < 5; i++) window.dispatchEvent(new Event('resize'))
+    await new Promise(requestAnimationFrame)
+    observer.disconnect()
+    return writes
+  })
+  expect(mutations).toBe(0)
+  await page.locator('#selected-work').scrollIntoViewIfNeeded()
+  await expect(canvas).toHaveAttribute('data-animation-running', 'false')
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await expect(canvas).toHaveAttribute('data-animation-running', 'true')
+})
+
 test('uses the intentionally reduced mobile scene budget', async ({ browser }) => {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },

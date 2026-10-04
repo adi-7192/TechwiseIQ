@@ -7,6 +7,57 @@ const settled = (n: Element) => {
   return t === 'none' || t === 'matrix(1, 0, 0, 1, 0, 0)'
 }
 
+test('the hero field is present without downloading or running JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false })
+  const page = await context.newPage()
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 })
+    await page.goto('/')
+    await expect(page.locator('[data-hero-poster]')).toBeVisible()
+    expect(await page.locator('[data-hero-poster] img').evaluate((image) => {
+      const img = image as HTMLImageElement
+      return img.complete && img.naturalWidth > 0 && img.currentSrc.startsWith('data:image/svg+xml,')
+    })).toBe(true)
+    await expect(page.locator('[data-hero-scene] canvas')).toHaveCount(0)
+  }
+  await context.close()
+})
+
+test('the live field replaces the first frame without a late fade-in', async ({ page }) => {
+  await page.goto('/')
+  const canvas = page.locator('[data-hero-scene] canvas')
+  await expect(canvas).toHaveAttribute('data-painted', 'true')
+  await expect(page.locator('[data-hero-poster]')).toBeHidden()
+  expect(await canvas.evaluate((element) => ({
+    opacity: getComputedStyle(element).opacity,
+    transition: getComputedStyle(element).transitionDuration,
+  }))).toEqual({ opacity: '1', transition: '0s' })
+})
+
+test('floating motion waits for the actual artifact entrance to finish', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('[data-home-experience]')).toHaveAttribute('data-home-motion', 'active')
+  const artifacts = page.locator('[data-home-artifact]')
+  await artifacts.evaluateAll((elements) => {
+    for (const element of elements) {
+      for (const animation of element.getAnimations()) animation.pause()
+    }
+  })
+  // Longer than the old mount-based timer: a held entrance must not drift.
+  await page.waitForTimeout(1900)
+  expect(await artifacts.evaluateAll((elements) =>
+    elements.every((element) => getComputedStyle(element).transform === 'none')
+  )).toBe(true)
+  await artifacts.evaluateAll((elements) => {
+    for (const element of elements) {
+      for (const animation of element.getAnimations()) animation.finish()
+    }
+  })
+  await expect.poll(() => artifacts.first().evaluate((element) =>
+    getComputedStyle(element).transform !== 'none'
+  )).toBe(true)
+})
+
 test('introduces three services before client evidence with useful destinations', async ({
   page,
 }) => {

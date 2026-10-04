@@ -16,7 +16,7 @@ import { getSceneEngine } from '@/lib/scene/engine'
  * the GPU work entirely.
  *
  * If WebGL is unsupported the engine is null and this renders an inert element,
- * leaving the CSS radial atmosphere in globals.css as the working fallback. All
+ * leaving the server-rendered field and CSS atmosphere as the fallback. All
  * meaningful content stays in the DOM; this layer is decorative and aria-hidden.
  */
 export default function HeroScene({ className }: { className?: string }) {

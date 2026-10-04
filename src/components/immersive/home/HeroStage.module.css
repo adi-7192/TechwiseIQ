@@ -98,6 +98,22 @@
   z-index: 0;
   pointer-events: none;
 }
+.poster {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.poster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Hand over only after the canvas has a frame, including on cached re-entry. */
+.hero:has([data-hero-scene] canvas[data-painted='true']) .poster {
+  visibility: hidden;
+}
 .orbit {
   position: absolute;
   inset: 0;

@@ -5,98 +5,79 @@ import Section from '@/components/immersive/primitives/Section'
 import SectionLabel from '@/components/immersive/primitives/SectionLabel'
 import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
 import PrimaryCTA from '@/components/ui/PrimaryCTA'
-import ProofObject from '@/components/proof'
-import type { ProofVariant } from '@/components/immersive/home/home-content'
-import FAQSection from '@/components/FAQSection'
+import ServiceDemo from '@/components/immersive/home/ServiceDemo'
 import { CASE_STUDIES } from '@/data/case-studies'
-import type { ServiceId, ServiceContent } from '@/data/services'
+import { SERVICE_LIST, type ServiceId, type ServiceContent } from '@/data/services'
+import { SERVICE_GUIDES } from '@/data/service-guides'
 import styles from './ServiceDetailPage.module.css'
+import ServiceWorkbench from './ServiceWorkbench'
+import { DecisionLab, DeliveryJourney } from './ExperiencePanels'
 
-/** Each service shares the global world but leads with its own signal scene. */
 export const SERVICE_SCENE: Record<ServiceId, SceneName> = {
-  web: 'web', // acid
-  software: 'apps', // orange
-  ai: 'automation', // violet
-}
-
-/** The interactive proof object that best demonstrates each service. */
-const SERVICE_PROOF: Record<ServiceId, ProofVariant> = {
-  web: 'website',
-  software: 'console',
+  web: 'web',
+  software: 'apps',
   ai: 'automation',
 }
 
-const PROOF_INTRO: Record<ServiceId, string> = {
-  web: 'The argument order every site is built around: one sharp promise, real proof, a single next action.',
-  software:
-    'One role-shaped console around a real sequence of work — queue, review the automated checks, approve or return.',
-  ai: 'A lead-intake pipeline where every step stays explicit: deterministic rules, bounded AI judgment, system action — and a person owns the edge cases.',
-}
-
-/**
- * The AI control model, made explicit next to the automation proof object.
- * Deterministic rules first, AI kept to bounded judgment, a human review path,
- * real integrations, and full traceability.
- */
-const AI_CONTROL_MODEL: { term: string; body: string }[] = [
-  {
-    term: 'Deterministic rules first',
-    body: 'Anything with a right answer is coded as an explicit rule — never left to a model to guess.',
-  },
-  {
-    term: 'Bounded AI judgment',
-    body: 'AI is used only for classification and drafting inside clear limits, with qualitative labels, not silent decisions.',
-  },
-  {
-    term: 'Human review where it matters',
-    body: 'Low confidence or high-stakes cases route to a person instead of auto-resolving.',
-  },
-  {
-    term: 'Integrated with your tools',
-    body: 'Flows connect to the CRM, inbox, and systems already running the operation, with clear fallbacks when an integration fails.',
-  },
-  {
-    term: 'Traceable by default',
-    body: 'Every input, rule result, and action is logged, so an automated outcome can always be explained and audited.',
-  },
-]
-
-interface ServiceDetailPageProps {
-  service: ServiceContent
-}
-
-export default function ServiceDetailPage({ service }: ServiceDetailPageProps) {
+export default function ServiceDetailPage({ service }: { service: ServiceContent }) {
+  const guide = SERVICE_GUIDES[service.id]
   const studies = service.proofSlugs
     .map((slug) => CASE_STUDIES.find((study) => study.slug === slug))
-    .filter((study): study is (typeof CASE_STUDIES)[number] => Boolean(study))
+    .filter((study) => study !== undefined)
+  const headline = {
+    web: ['Made to', 'stand out.'],
+    software: ['Built around', 'your business.'],
+    ai: ['Make room', 'for better work.'],
+  }[service.id]
 
   return (
     <div className={styles.experience} data-service-experience>
-      {/* 1 · Service hero */}
-      <Section as="header" density="sparse" innerClassName={styles.heroInner}>
-        <div className={styles.breadcrumb}>
-          <Link href="/services" className={styles.back}>
-            Services
-          </Link>
-          <span aria-hidden="true">/</span>
-          <span>{service.number}</span>
+      <Section
+        as="header"
+        density="sparse"
+        className={styles.hero}
+        innerClassName={styles.heroInner}
+      >
+        <div className={styles.heroCopy}>
+          <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+            <Link href="/services">Services</Link>
+            <span aria-hidden="true">/</span>
+            <span>{service.title}</span>
+          </nav>
+          <DisplayHeading as="h1" size="statement" className={styles.heroTitle}>
+            {headline[0]}
+            <br />
+            <span>{headline[1]}</span>
+          </DisplayHeading>
+          <p className={styles.heroLede}>{service.description}</p>
+          <div className={styles.heroActions}>
+            <PrimaryCTA href="/contact">Start the conversation</PrimaryCTA>
+            <PrimaryCTA href="#capabilities" variant="ghost">
+              What we build
+            </PrimaryCTA>
+          </div>
         </div>
-        <DisplayHeading as="h1" size="hero" className={styles.heroTitle}>
-          {service.title}
-          <span className={styles.dot} aria-hidden="true" />
-        </DisplayHeading>
-        <p className={styles.heroLede}>{service.description}</p>
-        <div className={styles.heroActions}>
-          <PrimaryCTA href="/contact" variant="primary">
-            Start a project
-          </PrimaryCTA>
-          <PrimaryCTA href="#service-proof-object" variant="secondary" arrow={false}>
-            See it work
-          </PrimaryCTA>
+        <div id="service-proof-object" data-testid="service-proof-object" className={styles.demo}>
+          <ServiceDemo kind={service.id} />
+          <p className={styles.demoCaption}>{guide.demoCaption}</p>
         </div>
+        <nav className={styles.pageNav} aria-label="On this page">
+          <span>Explore the service</span>
+          <a href="#capabilities">
+            What we build <span aria-hidden="true">↓</span>
+          </a>
+          <a href="#expertise">
+            Our approach <span aria-hidden="true">↓</span>
+          </a>
+          <a href="#delivery">
+            Delivery <span aria-hidden="true">↓</span>
+          </a>
+          <a href="#questions">
+            Questions <span aria-hidden="true">↓</span>
+          </a>
+        </nav>
       </Section>
 
-      {/* 2 · Business friction */}
       <Section
         id="service-fit"
         ruled
@@ -104,242 +85,229 @@ export default function ServiceDetailPage({ service }: ServiceDetailPageProps) {
         data-testid="service-fit"
         aria-labelledby="fit-title"
       >
-        <div className={styles.sectionIntro}>
-          <SectionLabel index="01">This service is for you when</SectionLabel>
-          <DisplayHeading as="h2" size="h2" id="fit-title" className={styles.sectionTitle}>
-            The friction is <span>visible.</span>
-          </DisplayHeading>
-        </div>
-        <ol className={styles.symptomList}>
-          {service.symptoms.map((symptom, index) => (
-            <li key={symptom}>
-              <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-              <p>{symptom}</p>
-            </li>
-          ))}
-        </ol>
-      </Section>
-
-      {/* 3 · Transformation */}
-      <Section
-        ruled
-        density="dense"
-        data-testid="outcome-flow"
-        aria-labelledby="outcome-title"
-      >
-        <div className={styles.sectionIntro}>
-          <SectionLabel index="02">What changes</SectionLabel>
-          <DisplayHeading as="h2" size="h2" id="outcome-title" className={styles.sectionTitle}>
-            From current state to <span>working advantage.</span>
-          </DisplayHeading>
-        </div>
-        <ol className={styles.outcomeFlow}>
-          {service.outcomes.map((outcome, index) => (
-            <li key={outcome.title}>
-              <span className={styles.outcomeNumber} aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <h3>{outcome.title}</h3>
-              <p>{outcome.body}</p>
-              {index < service.outcomes.length - 1 && (
-                <span className={styles.outcomeArrow} aria-hidden="true">
-                  →
-                </span>
-              )}
-            </li>
-          ))}
-        </ol>
-      </Section>
-
-      {/* 4 · Relevant proof object (interactive demonstration) */}
-      <Section
-        id="service-proof-object"
-        ruled
-        density="dense"
-        data-testid="service-proof-object"
-        aria-labelledby="proof-object-title"
-      >
-        <div className={styles.sectionIntro}>
-          <SectionLabel index="03">See it work</SectionLabel>
-          <DisplayHeading
-            as="h2"
-            size="h2"
-            id="proof-object-title"
-            className={styles.sectionTitle}
-          >
-            A working artifact, <span>not a screenshot.</span>
-          </DisplayHeading>
-          <p className={styles.sectionBody}>{PROOF_INTRO[service.id]}</p>
-        </div>
-
-        <ProofObject variant={SERVICE_PROOF[service.id]} />
-
-        {service.id === 'ai' && (
-          <dl className={styles.controlModel} aria-label="How the automation stays under control">
-            {AI_CONTROL_MODEL.map((item) => (
-              <div key={item.term} className={styles.controlItem}>
-                <dt>{item.term}</dt>
-                <dd>{item.body}</dd>
-              </div>
+        <div className={styles.fitRibbon}>
+          <div>
+            <SectionLabel>Built for your next chapter</SectionLabel>
+            <h2 id="fit-title">{guide.promise}</h2>
+          </div>
+          <div className={styles.fitTags}>
+            {service.fitSignals.map((signal) => (
+              <span key={signal}>{signal}</span>
             ))}
-          </dl>
-        )}
+          </div>
+        </div>
+        <div className={styles.transformation} data-testid="outcome-flow" aria-label="What changes">
+          {service.outcomes.map((outcome, index) => (
+            <div key={outcome.title}>
+              <span className={styles.meta}>0{index + 1}</span>
+              <strong>{outcome.title}</strong>
+              {index < 2 && <span aria-hidden="true">↗</span>}
+            </div>
+          ))}
+        </div>
       </Section>
 
-      {/* 5 · Capabilities */}
       <Section
+        id="capabilities"
         ruled
-        density="dense"
+        density="sparse"
         data-testid="capability-river"
         aria-labelledby="capability-title"
       >
-        <div className={styles.sectionIntro}>
-          <SectionLabel index="04">What we can build together</SectionLabel>
-          <DisplayHeading
-            as="h2"
-            size="h2"
-            id="capability-title"
-            className={styles.sectionTitle}
-          >
-            The parts work as <span>one system.</span>
-          </DisplayHeading>
+        <div className={styles.split}>
+          <div>
+            <SectionLabel index="02">What we can build</SectionLabel>
+            <DisplayHeading as="h2" size="h2" id="capability-title" className={styles.sectionTitle}>
+              {guide.buildTitle}
+            </DisplayHeading>
+          </div>
+          <p className={styles.sectionBody}>{guide.buildIntro}</p>
         </div>
-        <div className={styles.capabilityGrid}>
-          {service.capabilities.map((capability) => (
-            <article key={capability.title} className={styles.capability}>
-              <span className={styles.capabilityMark} aria-hidden="true">
-                →
-              </span>
-              <h3>{capability.title}</h3>
-              <p>{capability.body}</p>
-            </article>
-          ))}
+        <ServiceWorkbench service={service} />
+        <details className={styles.scopeNotes}>
+          <summary>
+            Explore the full scope <span aria-hidden="true">+</span>
+          </summary>
+          <div className={styles.scopeGrid}>
+            {service.capabilities.map((capability) => (
+              <div key={capability.title}>
+                <h3>{capability.title}</h3>
+                <p>{capability.body}</p>
+                <p>{guide.examples[capability.title]}</p>
+              </div>
+            ))}
+          </div>
+        </details>
+      </Section>
+
+      <Section
+        id="expertise"
+        ruled
+        density="dense"
+        className={styles.expertise}
+        aria-labelledby="expertise-title"
+        data-testid="service-expertise"
+      >
+        <div className={styles.split}>
+          <div>
+            <SectionLabel index="03">The thinking behind the build</SectionLabel>
+            <DisplayHeading as="h2" size="h2" id="expertise-title" className={styles.sectionTitle}>
+              {guide.expertiseTitle}
+            </DisplayHeading>
+            <p className={styles.sectionBody}>{guide.expertiseIntro}</p>
+            <div className={styles.decisionNotes}>
+              {guide.standards.map((standard) => (
+                <details key={standard.title}>
+                  <summary>
+                    {standard.title}
+                    <span aria-hidden="true">+</span>
+                  </summary>
+                  <p>{standard.body}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+          <DecisionLab kind={service.id} />
         </div>
       </Section>
 
-      {/* 6 · Delivery model */}
       <Section
+        id="delivery"
         ruled
-        density="dense"
+        density="sparse"
         data-testid="connected-process"
         aria-labelledby="process-title"
       >
-        <div className={styles.sectionIntro}>
-          <SectionLabel index="05">How the work moves</SectionLabel>
-          <DisplayHeading
-            as="h2"
-            size="h2"
-            id="process-title"
-            className={styles.sectionTitle}
-          >
-            One continuous <span>build loop.</span>
-          </DisplayHeading>
+        <div className={styles.split}>
+          <div>
+            <SectionLabel index="04">From brief to handover</SectionLabel>
+            <DisplayHeading as="h2" size="h2" id="process-title" className={styles.sectionTitle}>
+              Know what&apos;s next.
+              <br />
+              <span>At every step.</span>
+            </DisplayHeading>
+          </div>
+          <p className={styles.sectionBody}>
+            An agreed scope, working demonstrations, and documented decisions. You stay involved as
+            the work takes shape.
+          </p>
         </div>
-        <ol className={styles.processTrack}>
-          {service.process.map((step) => (
-            <li key={step.num}>
-              <span className={styles.processNumber} aria-hidden="true">
-                {step.num}
-              </span>
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-            </li>
-          ))}
-        </ol>
+        <DeliveryJourney service={service} handover={guide.handover} />
+        <details className={styles.scopeNotes} data-testid="service-handover">
+          <summary>
+            What you take forward. <span aria-hidden="true">+</span>
+          </summary>
+          <ul>
+            {guide.handover.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <p>The final scope defines the deliverables and ongoing support.</p>
+        </details>
       </Section>
 
-      {/* 7 · Real related work */}
       <Section
+        id="work"
         ruled
         density="dense"
         data-testid="service-proof"
         aria-labelledby="related-title"
       >
-        <div className={styles.sectionIntro}>
-          <SectionLabel index="06">Proof before the scope</SectionLabel>
-          <DisplayHeading
-            as="h2"
-            size="h2"
-            id="related-title"
-            className={styles.sectionTitle}
-          >
-            See the standard. Then see <span>the system.</span>
-          </DisplayHeading>
-        </div>
+        {studies.length > 0 && (
+          <div className={styles.split}>
+            <div>
+              <SectionLabel index="05">Selected client work</SectionLabel>
+              <DisplayHeading as="h2" size="h2" id="related-title" className={styles.sectionTitle}>
+                Designed here.
+                <br />
+                <span>Out in the world.</span>
+              </DisplayHeading>
+            </div>
+            <p className={styles.sectionBody}>{guide.reviewBody}</p>
+          </div>
+        )}
         {studies.length > 0 ? (
           <div className={styles.relatedGrid}>
-            {studies.map((study, index) => (
-              <Link
-                href={`/work/${study.slug}`}
-                key={study.slug}
-                className={styles.relatedCard}
-              >
+            {studies.map((study) => (
+              <Link href={`/work/${study.slug}`} key={study.slug} className={styles.relatedCard}>
                 {study.coverImage && (
                   <div className={styles.relatedImage}>
                     <Image
                       src={study.coverImage}
-                      alt={`${study.title} website case study preview`}
+                      alt={`${study.title} website preview`}
                       fill
-                      sizes="(max-width: 880px) 100vw, 50vw"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
                 )}
                 <div className={styles.relatedCopy}>
-                  <span className={styles.relatedMeta}>
-                    Relevant project / {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <h3>{study.title}</h3>
-                  <p>{study.outcome}</p>
-                  <span className={styles.relatedLink}>
-                    Read the case study <span aria-hidden="true">→</span>
-                  </span>
+                  <span className={styles.meta}>{study.industry}</span>
+                  <h3>
+                    {study.title}
+                    <span aria-hidden="true">↗</span>
+                  </h3>
+                  <p>{study.workSummary?.decision ?? study.outcome}</p>
+                  <span className={styles.textLink}>Read the case study →</span>
                 </div>
               </Link>
             ))}
           </div>
         ) : (
-          <div className={styles.relatedFallback}>
+          <div className={styles.publishedNote}>
+            <h2 id="related-title">Explore our published work.</h2>
             <p>
-              Our published case studies currently show our web work. The same
-              delivery standards apply here: clear scope, working demos, and a
-              clean handover.
+              The experiences above are illustrative. Our published client projects currently cover
+              web design and development.
             </p>
-            <PrimaryCTA href="/work" variant="ghost">
-              See what we&apos;ve shipped
-            </PrimaryCTA>
+            <Link className={styles.textLink} href="/work">
+              See the projects <span aria-hidden="true">↗</span>
+            </Link>
           </div>
         )}
       </Section>
 
-      {/* 8 · FAQs */}
-      <FAQSection
-        faqs={service.faqs}
-        heading="Clear answers. No sales fog."
-        testId="service-faq"
-      />
-
-      {/* 9 · CTA */}
-      <Section ruled density="sparse" innerClassName={styles.ctaInner} aria-labelledby="service-cta-title">
-        <SectionLabel>Bring us the constraint</SectionLabel>
-        <DisplayHeading
-          as="h2"
-          size="statement"
-          id="service-cta-title"
-          className={styles.ctaTitle}
-        >
-          Make the next interaction <span>count.</span>
-        </DisplayHeading>
-        <p className={styles.ctaBody}>
-          Tell us what is slow, broken, or missing. We&apos;ll help shape the
-          right route.
-        </p>
-        <div className={styles.ctaActions}>
-          <PrimaryCTA href="/contact" variant="primary">
-            Start the conversation
-          </PrimaryCTA>
-          <PrimaryCTA href="/work" variant="ghost">
-            See the work
-          </PrimaryCTA>
+      <Section
+        id="questions"
+        ruled
+        density="dense"
+        data-testid="service-faq"
+        aria-labelledby="questions-title"
+      >
+        <div className={styles.split}>
+          <div>
+            <SectionLabel index="06">Before we start</SectionLabel>
+            <DisplayHeading as="h2" size="h2" id="questions-title" className={styles.sectionTitle}>
+              The details
+              <br />
+              <span>worth knowing.</span>
+            </DisplayHeading>
+            <p className={styles.sectionBody}>{guide.brief}</p>
+            <PrimaryCTA href="/contact" variant="ghost">
+              Talk through your brief
+            </PrimaryCTA>
+          </div>
+          <div className={styles.faqs}>
+            {service.faqs.map((faq) => (
+              <details key={faq.question}>
+                <summary>
+                  {faq.question}
+                  <span aria-hidden="true">+</span>
+                </summary>
+                <p>{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </Section>
+      <Section density="flush" className={styles.otherServices} aria-label="Other services">
+        <div className={styles.otherInner}>
+          <span className={styles.meta}>Connect the next part</span>
+          {SERVICE_LIST.filter((item) => item.id !== service.id).map((item) => (
+            <Link href={item.slug} key={item.id}>
+              {item.title}
+              <span aria-hidden="true">↗</span>
+            </Link>
+          ))}
         </div>
       </Section>
     </div>

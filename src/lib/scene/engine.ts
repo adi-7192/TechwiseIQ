@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { NODES_DESKTOP, NODES_MOBILE, CLUSTER, MOBILE_QUERY, DEPTH, COLOR_LINK, CAMERA_Z, clamp01, createField } from './field'
 
 /**
  * Hero depth field — ONE renderer for the whole session, mounted behind the
@@ -18,37 +19,9 @@ import * as THREE from 'three'
  * reloads, and near-centre nodes are shaded down in the vertex data so hero
  * copy never sits on top of a bright point (no CSS vignette gradient needed).
  *
- * If WebGL is unavailable `getSceneEngine()` returns null and the CSS
- * atmosphere alone carries the hero.
+ * If WebGL is unavailable `getSceneEngine()` returns null and the initial
+ * server-rendered field stays visible over the CSS atmosphere.
  */
-
-const NODES_DESKTOP = 900
-const NODES_MOBILE = 300
-/** Nodes per cluster: one anchor plus five satellites drawn around it. */
-const CLUSTER = 6
-const MOBILE_QUERY = '(max-width: 768px), (pointer: coarse)'
-
-/** Field extents in world units. Depth is what sells the parallax. */
-const SPAN_X = 26
-const SPAN_Y = 16
-const DEPTH = 22
-
-/** Muted graphite-green at rest, acid only on the few live nodes. */
-const COLOR_NODE = 0x8fb39a
-const COLOR_LIVE = 0xc8ff54
-const COLOR_LINK = 0x4c7360
-
-const CAMERA_Z = 6.4
-
-/** Deterministic pseudo-random — stable across hydration, reload and SSR. */
-function rand(index: number, salt: number) {
-  const value = Math.sin(index * 127.1 + salt * 311.7) * 43758.5453
-  return value - Math.floor(value)
-}
-
-function clamp01(value: number) {
-  return value < 0 ? 0 : value > 1 ? 1 : value
-}
 
 class SceneEngine {
   readonly supported: boolean
@@ -85,6 +58,11 @@ class SceneEngine {
   private visibility: IntersectionObserver | null = null
   private onScreen = true
   private painted = false
+  private width = 0
+  private height = 0
+  private prepared = false
+  private preparation: Promise<unknown> | null = null
+  private attachment = 0
 
   constructor() {
     try {
@@ -113,13 +91,11 @@ class SceneEngine {
 
     const canvas = this.renderer.domElement
     canvas.setAttribute('aria-hidden', 'true')
-    // Starts transparent and fades up once there is a first frame to show. The
-    // canvas is mounted at idle, several hundred ms after the hero has already
-    // begun animating, so appearing at full brightness read as a hard cut. The
-    // reduce block in globals.css drops the transition, which is correct there.
+    // The server-rendered field is visible until the first live frame. Swap at
+    // full opacity so the background never arrives late or doubles in brightness.
     canvas.style.cssText =
       'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:block;' +
-      'opacity:0;transition:opacity 900ms var(--tw-ease-out)'
+      'opacity:0'
 
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(52, 1, 0.1, 60)
@@ -128,7 +104,7 @@ class SceneEngine {
     this.group = new THREE.Group()
     this.scene.add(this.group)
 
-    const { positions, colors, linkPositions } = this.createField(NODES_DESKTOP)
+    const { positions, colors, linkPositions } = createField(NODES_DESKTOP)
 
     const nodeGeo = new THREE.BufferGeometry()
     nodeGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
@@ -159,91 +135,12 @@ class SceneEngine {
     this.publishBudget()
   }
 
-  /**
-   * Clustered lattice: every group of `CLUSTER` nodes is one anchor plus
-   * satellites scattered around it, with two links back to the anchor. The
-   * result reads as connected systems receding into depth rather than as an
-   * even spray of dust.
-   *
-   * Vertex colour carries both the depth falloff and the centre "well" that
-   * keeps hero copy legible, so no CSS overlay gradient is required.
-   */
-  private createField(count: number) {
-    const positions = new Float32Array(count * 3)
-    const colors = new Float32Array(count * 3)
-    const links: number[] = []
-
-    // Unpack the two base tints once. Building this field runs on the main
-    // thread right after hydration, so the per-node path stays allocation-free
-    // (no Color instances, no clone/multiplyScalar) and never becomes a long task.
-    const nodeR = ((COLOR_NODE >> 16) & 255) / 255
-    const nodeG = ((COLOR_NODE >> 8) & 255) / 255
-    const nodeB = (COLOR_NODE & 255) / 255
-    const liveR = ((COLOR_LIVE >> 16) & 255) / 255
-    const liveG = ((COLOR_LIVE >> 8) & 255) / 255
-    const liveB = (COLOR_LIVE & 255) / 255
-
-    let anchorX = 0
-    let anchorY = 0
-    let anchorZ = 0
-
-    for (let i = 0; i < count; i++) {
-      const slot = i % CLUSTER
-      let x: number
-      let y: number
-      let z: number
-
-      if (slot === 0) {
-        anchorX = (rand(i, 2) - 0.5) * SPAN_X
-        anchorY = (rand(i, 3) - 0.5) * SPAN_Y
-        anchorZ = -rand(i, 4) * DEPTH
-        x = anchorX
-        y = anchorY
-        z = anchorZ
-      } else {
-        // Satellites stay inside a small radius so clusters read as one object.
-        x = anchorX + (rand(i, 5) - 0.5) * 2.4
-        y = anchorY + (rand(i, 6) - 0.5) * 2.4
-        z = anchorZ + (rand(i, 7) - 0.5) * 1.8
-        if (slot <= 2) {
-          links.push(anchorX, anchorY, anchorZ, x, y, z)
-        }
-      }
-
-      positions[i * 3] = x
-      positions[i * 3 + 1] = y
-      positions[i * 3 + 2] = z
-
-      // Depth falloff: the far end of the corridor fades toward the background.
-      const depth = clamp01(-z / DEPTH)
-      const depthFade = 1 - depth * 0.72
-      const nearness = 1 - depth
-
-      // Soft well through the middle of the near layers, where the h1 sits.
-      const nx = x / (SPAN_X * 0.5)
-      const ny = y / (SPAN_Y * 0.5)
-      const radial = Math.min(1, Math.sqrt(nx * nx + ny * ny) / 0.6)
-      const legibility = 1 - nearness * (1 - radial) * 0.85
-
-      const shade = depthFade * legibility
-      // A sparse minority of nodes carry the acid signal; the rest stay muted.
-      const isLive = slot === 0 && rand(i, 8) > 0.86
-      const level = isLive ? Math.min(1, shade * 1.25) : shade
-      const offset = i * 3
-      colors[offset] = (isLive ? liveR : nodeR) * level
-      colors[offset + 1] = (isLive ? liveG : nodeG) * level
-      colors[offset + 2] = (isLive ? liveB : nodeB) * level
-    }
-
-    return { positions, colors, linkPositions: new Float32Array(links) }
-  }
-
   private applyPixelRatio() {
     const dpr = typeof window !== 'undefined' ? window.devicePixelRatio : 1
     // Cap at 1.5; drop to 1 on constrained mobile.
     const cap = this.mobile ? 1 : 1.5
     const ratio = Math.min(dpr, cap)
-    this.renderer.setPixelRatio(ratio)
+    if (this.renderer.getPixelRatio() !== ratio) this.renderer.setPixelRatio(ratio)
     this.renderer.domElement.dataset.pixelRatio = String(ratio)
   }
 
@@ -279,9 +176,16 @@ class SceneEngine {
     if (!container) return
     const width = Math.max(1, container.clientWidth)
     const height = Math.max(1, container.clientHeight)
-    this.renderer.setSize(width, height, false)
-    this.camera.aspect = width / height
-    this.camera.updateProjectionMatrix()
+    // ResizeObserver also fires on observe(), and window resize can report the
+    // same box (especially with mobile browser chrome). Writing canvas.width
+    // again clears/reallocates the drawing buffer even when it is unchanged.
+    if (width !== this.width || height !== this.height) {
+      this.width = width
+      this.height = height
+      this.renderer.setSize(width, height, false)
+      this.camera.aspect = width / height
+      this.camera.updateProjectionMatrix()
+    }
     this.measureContainer()
   }
 
@@ -309,20 +213,24 @@ class SceneEngine {
       typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     this.sizeToContainer()
+    const attachment = ++this.attachment
     this.addListeners()
-
-    if (this.reduced) {
-      // Frozen, low-cost static frame — no RAF loop.
-      this.stopLoop()
-      this.renderStaticFrame()
-    } else {
-      this.startLoop()
-    }
+    // Let drivers supporting parallel shader compilation finish without a
+    // blocking first render in the middle of the CSS hero entrance. Reuse the
+    // warm programs on subsequent visits; failed preparation keeps the fallback.
+    this.preparation ??= this.renderer.compileAsync(this.scene, this.camera)
+    void this.preparation.then(() => {
+      this.prepared = true
+      if (attachment !== this.attachment || this.container !== container) return
+      if (this.reduced) this.renderStaticFrame()
+      else if (this.onScreen && !document.hidden) this.startLoop()
+    }).catch(() => { /* Decorative scene: retain the CSS atmosphere on failure. */ })
   }
 
   detach(container: HTMLElement) {
     // Only detach if we still own this container (guards racey remounts).
     if (this.container && this.container !== container) return
+    this.attachment += 1
     this.stopLoop()
     this.removeListeners()
     const canvas = this.renderer.domElement
@@ -419,16 +327,23 @@ class SceneEngine {
 
   // ── Loop ────────────────────────────────────────────────────────────────
   private startLoop() {
-    if (this.running || !this.supported) return
+    if (this.running || !this.supported || !this.prepared) return
     this.running = true
     this.renderer.domElement.dataset.animationRunning = 'true'
     this.lastTime = performance.now()
     const tick = (now: number) => {
       if (!this.running) return
-      if (this.mobile && now - this.lastTime < 1000 / 30) {
+      const elapsed = now - this.lastTime
+      const interval = 1000 / 30
+      if (this.mobile && elapsed < interval - 0.5) {
         this.rafId = requestAnimationFrame(tick)
         return
       }
+      // Preserve the remainder: resetting to `now` drops every third frame
+      // when a 60Hz timestamp lands just short of the 30Hz interval.
+      this.lastTime = this.mobile
+        ? this.lastTime + interval * Math.max(1, Math.floor(elapsed / interval))
+        : now
       this.frame(now)
       this.rafId = requestAnimationFrame(tick)
     }
@@ -466,10 +381,10 @@ class SceneEngine {
     if (this.painted) return
     this.painted = true
     this.renderer.domElement.style.opacity = '1'
+    this.renderer.domElement.dataset.painted = 'true'
   }
 
   private frame(now: number) {
-    this.lastTime = now
     this.exit += (this.readExit() - this.exit) * 0.12
 
     // Slow ambient drift. No wrap, no respawn — the field breathes rather than
@@ -499,7 +414,7 @@ class SceneEngine {
   }
 
   private renderStaticFrame() {
-    if (!this.supported) return
+    if (!this.supported || !this.prepared) return
     this.group.rotation.z = 0
     this.group.position.z = 0
     this.camera.position.set(0, 0, CAMERA_Z)

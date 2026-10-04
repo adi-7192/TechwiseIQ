@@ -2,10 +2,12 @@ import SceneLoader from '@/components/immersive/SceneLoader'
 import SectionLabel from '@/components/immersive/primitives/SectionLabel'
 import PrimaryCTA from '@/components/ui/PrimaryCTA'
 import styles from './HeroStage.module.css'
+import HeroFieldPoster from './HeroFieldPoster'
 
 export default function HomeHero() {
   return (
     <section id="top" className={styles.hero} data-scene="intro" aria-labelledby="hero-title">
+      <HeroFieldPoster />
       <SceneLoader className={styles.scene} />
       <div className={styles.orbit} aria-hidden="true">
         <div className={`${styles.artifact} ${styles.website}`} data-home-artifact>

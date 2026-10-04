@@ -73,17 +73,22 @@ export default function HomeMotion() {
 
         // Let the CSS entrance land before the float starts, so the artifacts are
         // not still scaling up while they begin to drift.
-        const HERO_ENTRANCE_MS = 1700
+        let cancelled = false
         let entranceDone = false
         let visible = true
         const sync = () => {
           if (entranceDone && visible && !document.hidden) drift.play()
           else drift.pause()
         }
-        const startDrift = window.setTimeout(() => {
+        // CSS animations pause behind the intro. Their actual completion also
+        // handles skipped intros, slow hydration and client-side navigation;
+        // a timer from mount could start drifting before the entrance began.
+        const entrances = artifacts.flatMap((artifact) => artifact.getAnimations())
+        void Promise.allSettled(entrances.map((animation) => animation.finished)).then(() => {
+          if (cancelled) return
           entranceDone = true
           sync()
-        }, HERO_ENTRANCE_MS)
+        })
         const observer = new IntersectionObserver((entries) => {
           visible = entries[0].isIntersecting
           sync()
@@ -95,7 +100,7 @@ export default function HomeMotion() {
         // running it inline makes every other client component on this page wait.
         refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh())
         return () => {
-          clearTimeout(startDrift)
+          cancelled = true
           document.removeEventListener('visibilitychange', sync)
           observer.disconnect()
         }

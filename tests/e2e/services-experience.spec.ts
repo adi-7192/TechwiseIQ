@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test'
 
 const detailRoutes = [
-  { path: '/services/web', heading: 'Web Development' },
-  { path: '/services/software', heading: 'Custom Software' },
-  { path: '/services/ai', heading: 'AI Automation' },
+  { path: '/services/web', heading: 'Made to stand out.' },
+  { path: '/services/software', heading: 'Built around your business.' },
+  { path: '/services/ai', heading: 'Make room for better work.' },
 ]
 
 test.describe('Services overview', () => {
