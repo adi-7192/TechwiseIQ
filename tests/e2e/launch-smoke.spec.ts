@@ -54,6 +54,15 @@ for (const route of routes) {
           }),
       )
     expect(invalidJsonLd).toEqual([])
+
+    const missingAnchorTargets = await page
+      .locator('a[href^="#"]')
+      .evaluateAll((links) =>
+        links
+          .map((link) => link.getAttribute('href') ?? '')
+          .filter((href) => !document.getElementById(decodeURIComponent(href.slice(1)))),
+      )
+    expect(missingAnchorTargets).toEqual([])
     expect(errors).toEqual([])
   })
 }
@@ -73,6 +82,10 @@ test('serves parseable crawler files', async ({ request }) => {
   expect(await robots.text()).toContain(
     'Sitemap: https://techwiseiq.com/sitemap.xml',
   )
+
+  const llms = await request.get('/llms.txt')
+  expect(llms.status()).toBe(200)
+  expect(await llms.text()).not.toMatch(/AED|Friday/)
 
   const sitemap = await request.get('/sitemap.xml')
   expect(sitemap.status()).toBe(200)

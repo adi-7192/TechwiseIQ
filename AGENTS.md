@@ -1,3 +1,19 @@
+# READ FIRST — every agent, every session
+
+Before doing anything (planning, reviewing, or coding), read in this order:
+1. `docs/ROADMAP.md` — **where to start (▶ NEXT)**, progress, every task and where it goes.
+2. `docs/HANDOFF.md` — current state, UI/UX audit findings, doc map.
+3. `docs/DECISIONS.md` — binding decisions and open questions (overrides older docs).
+
+When you finish: update `docs/ROADMAP.md` (status, progress, ▶ NEXT), append to `docs/changelog.md`, add to `docs/HANDOFF.md` §6, and log new
+decisions in `docs/DECISIONS.md`. Never resolve an "Open decision" yourself — ask the owner.
+
+**Ponytail is on for all development (D-024).** The `ponytail@ponytail` plugin is enabled in
+`.claude/settings.json` and loads its rules at session start. Before writing code, climb its ladder
+(needed at all? → reuse in repo → stdlib → native platform → installed dep → one line → minimum).
+Before each commit, run `/ponytail-review` on the diff. Ponytail never overrides `docs/DECISIONS.md`:
+design system, accessibility, honesty, responsive patterns, tests and the agent pipeline stay mandatory.
+
 <!-- BEGIN:nextjs-agent-rules -->
 # This is NOT the Next.js you know
 

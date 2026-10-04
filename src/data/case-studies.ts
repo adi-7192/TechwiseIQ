@@ -18,7 +18,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       decision:
         'Build credibility through useful market data, location profiles, and a clear investor journey.',
       outcome:
-        "A live platform that carries the brand's authority while its track record grows.",
+        "An 11-page site built to carry the brand's authority while its track record grows.",
       proof: [
         { value: '11', label: 'pages' },
         { value: '6', label: 'location profiles' },
@@ -77,7 +77,7 @@ export const CASE_STUDIES: CaseStudy[] = [
       'RERA-compliant legal pages',
     ],
     result:
-      'An 11-page Next.js site that positions AASKRA alongside developers like EMAAR, DAMAC, and SOBHA. Integrated lead generation via WhatsApp and consultation booking. The site carries the credibility burden while the client list grows.',
+      'An 11-page Next.js site that positions AASKRA alongside developers like EMAAR, DAMAC, and SOBHA. Integrated lead generation via WhatsApp and consultation booking. Built to carry the credibility burden while the client list grows.',
     stats: [
       { value: '11', label: 'pages shipped' },
       { value: '6', label: 'location profiles with real ROI data' },
@@ -85,8 +85,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     fullPageImage: {
       src: '/work/aaskra-desktop.webp',
-      width: 1440,
-      height: 7327,
+      width: 1152,
+      height: 5862,
     },
   },
   {
@@ -168,8 +168,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     fullPageImage: {
       src: '/work/etf-desktop.webp',
-      width: 1440,
-      height: 7603,
+      width: 1152,
+      height: 6636,
     },
   },
 ]
