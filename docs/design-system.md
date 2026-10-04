@@ -1,6 +1,6 @@
 # Techwise IQ Design System — "Immersive"
 
-Source of truth for the production build (branch `redesign/immersive-system`, migration complete through Phase 9 — see `techwise-iq-build-handoff/TASKS.md`). This replaces the retired "Kinetic" system (Anton uppercase, bone/ink/hot brutalist). Kinetic tokens and a handful of unreferenced components (`ui/Button`, `ui/StickerBadge`, `ui/VelocitySkewObserver`, `ui/ScrollAnimator`, `ui/PlaceholderImage`) still exist on disk for historical reasons but are **dead code** — no live route imports them. Do not build on them; they're pending deletion in the Release checklist.
+Source of truth for the production build (branch `redesign/immersive-system`, migration complete through Phase 9 — see `techwise-iq-build-handoff/TASKS.md`). This replaces the retired "Kinetic" system (Anton uppercase, bone/ink/hot brutalist). All Kinetic UI was **deleted on 2026-10-04** (D-028; archived at git tag `archive/old-design-2026-10-04`). `ui/Button` remains only because `src/app/error.tsx` uses it.
 
 Design thesis (`techwise-iq-build-handoff/docs/03_DESIGN_SYSTEM.md`): Techwise IQ should feel like an **operating environment for better systems** — dark technical atmosphere, unusually large typography, crisp interface artifacts, sparse chapter openings, dense capability matrices, controlled color shifts, spatial depth. It must **not** read as cyberpunk, gaming, generic SaaS, "AI neon," or a corporate consultancy deck.
 

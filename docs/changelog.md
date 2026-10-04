@@ -4,6 +4,25 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — Redesign made primary; old design removed
+
+The day's roadmap work (in a worktree branched from `main`) had been done on the old Kinetic
+design. Owner decision D-028: the immersive redesign is the site, all changes land on it.
+
+- Committed the owner's uncommitted redesign WIP on `redesign/immersive-system` (`0481568`).
+- Old-design commits archived at local tag `archive/old-design-2026-10-04` (never pushed).
+- Carried over: `llms.txt` without prices (D-022), AASKRA honesty copy, AASKRA + ETF screenshots
+  without cookie banners (ETF cover replaced — it was captured mid-animation), screenshots for three
+  new projects, anchor/price guards in `launch-smoke`, ponytail plugin, AGENTS.md read-first block.
+- Deleted every Kinetic component no route reached (Hero, HomeExperience, Nav, Footer, CTASection,
+  Ticker, Marquee, ServiceHero, MiniProcess, ProofStrip, DeliverablesSection, FAQSection, old
+  AboutMotion, unused ui exports, hooks, robot video, marquee/.wrap globals).
+- `launch-accessibility`: `/services` h1 accent assertion updated to the acid accent set in 3f65173.
+- Re-audited the redesign; rebuilt `ROADMAP.md`, `HANDOFF.md`, `DECISIONS.md` for it.
+- Verified: lint, tsc, 13/13 unit, build, 277 e2e pass on a production build.
+
+---
+
 ## 2026-09-05 — Hero entrance moved to CSS; scene fades in
 
 Follow-up to the entry-animation fix below. Adi: "the hero glitches and does not
