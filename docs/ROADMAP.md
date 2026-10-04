@@ -2,7 +2,7 @@
 
 > **New session? Start here.** Read this file → `docs/HANDOFF.md` → `docs/DECISIONS.md`.
 > The site is the **immersive redesign** (D-028) and still being built (D-023).
-> Work on the task in **▶ NEXT**. One task = one commit. Nothing gets pushed until the owner says so.
+> Work on the task in **▶ NEXT**. One task = one branch off `main` → PR → both CI checks green → merge (D-029).
 
 ---
 
@@ -13,7 +13,7 @@ Then the first ⬜ task in order whose status is not 🔒.
 
 ## Progress
 
-**0 / 21 tasks done** · rebuilt for the redesign 2026-10-04
+**1 / 22 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -23,7 +23,7 @@ Then the first ⬜ task in order whose status is not 🔒.
 | 4. Trust | Honest claims, people, consistent CTAs, booking | 0/4 | 🔒 owner input |
 | 5. Growth | First-step offer, insights | 0/2 | 🔒 Q4 / held |
 | 6. Polish | Concept Lab self-hosting, parked components, docs | 0/3 | ⬜ (6.1, 6.2 🔒) |
-| 7. Release | Redesign release checklist → merge to `main` | 0/5 | ⬜ (7.3+ 🔒 owner) |
+| 7. Release | Redesign release checklist → merge to `main` | 1/6 | 🟡 (7.3+ 🔒 owner) |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
 
@@ -103,9 +103,14 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 
 - ⬜ **7.1 Full verification** — full e2e, Lighthouse mobile per route (≥90 perf, 100 a11y/BP/SEO),
   content parity review (facts vs `src/data/*`).
-- 🔒 **7.2 Push + Vercel preview** — owner says when to push; preview review on the branch deploy.
+- 🔒 **7.2 Preview review** — owner reviews the Vercel deployment (protected: sign in to Vercel).
 - 🔒 **7.3 Production form test** — Resend env + test inquiry.
-- 🔒 **7.4 Merge to `main`** — owner approval.
+- ✅ **7.4 Merge to `main`** — 2026-10-04, PR #1 (`5e00dce`). CI added (`.github/workflows/ci.yml`),
+  `main` protected (both checks required). Vercel deploys `main` to production automatically.
+- ⬜ **7.6 De-flake e2e tests** — `home-experience` "playback pauses on demand…" passes only on
+  retry in CI; `performance-mobile` long-task budget (<200 ms) depends on host load. Fixed
+  2026-10-04: `performance-mobile` canvas test used a native `scrollTo` that Lenis overrode on CI
+  (trace showed the page never left #selected-work) — now retries the jump until it holds.
 - 🔒 **7.5 Production smoke + launch gates** — domain/DNS, real devices, promote.
 
 ## Later / rejected

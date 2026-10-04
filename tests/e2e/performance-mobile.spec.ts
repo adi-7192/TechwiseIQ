@@ -16,7 +16,11 @@ test('does not reallocate the canvas for resize events with unchanged dimensions
   expect(mutations).toBe(0)
   await page.locator('#selected-work').scrollIntoViewIfNeeded()
   await expect(canvas).toHaveAttribute('data-animation-running', 'false')
-  await page.evaluate(() => window.scrollTo(0, 0))
+  // Lenis (the single scroll driver) can still be settling from the previous
+  // scroll and put a native jump back on slow CI runners; retry until it holds.
+  await expect
+    .poll(() => page.evaluate(() => (window.scrollTo(0, 0), window.scrollY)))
+    .toBe(0)
   await expect(canvas).toHaveAttribute('data-animation-running', 'true')
 })
 

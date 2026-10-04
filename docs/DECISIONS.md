@@ -163,6 +163,12 @@ deleted (archived at git tag `archive/old-design-2026-10-04`, never pushed). Vis
 (D-002–D-007, D-010–D-017, D-019–D-024, D-027) still apply.
 *Apply:* never reintroduce Anton, bone/ink/hot, or any deleted Kinetic component.
 
+**D-029 — `main` is protected; every change goes through a PR with green CI.** 2026-10-04 · owner
+(asked for CI/CD and the merge) · Required checks: "Lint, types, unit, build" and "E2E
+(Playwright, production build)". No required reviews (solo developer); admins can override in an
+emergency; force-push and deletion of `main` are blocked. Merges to `main` deploy via Vercel.
+*Apply:* one task = one branch off `main` → PR → merge after both checks pass.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

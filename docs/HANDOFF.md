@@ -4,8 +4,8 @@
 > When you finish a task: update §4, add a line to §6, log new decisions in `DECISIONS.md`.
 > If this file disagrees with the code, the code wins — fix this file.
 
-**Last updated:** 2026-10-04 · **Primary branch:** `redesign/immersive-system` (D-028) ·
-**Not pushed** since 2026-09-05 (owner asked to hold).
+**Last updated:** 2026-10-04 · **Branch:** `main` (redesign merged in PR #1, D-028) ·
+`main` is protected — work on a branch, open a PR, merge when CI is green (D-029).
 
 ---
 
@@ -19,6 +19,15 @@ The site is **still being built** (D-023) and **not deployed**. The redesign's o
 checklist (preview review → content parity → final Lighthouse → form test → merge to `main`) is
 folded into ROADMAP stage 7. Design source: `docs/design-system.md` + the redesign handoff at
 `../techwise-iq-build-handoff/` (outside this repo: `TASKS.md`, `docs/00–11`).
+
+## 1a. CI / CD
+
+- **CI** (`.github/workflows/ci.yml`, every PR + push to `main`, Node 24): "Lint, types, unit,
+  build" and "E2E (Playwright, production build)". Both are required on `main`. Playwright retries
+  twice on CI; traces uploaded on failure. GitGuardian also scans PRs.
+- **CD:** Vercel is linked to the repo — every PR gets a preview, every merge to `main` deploys to
+  production. Deployments are behind Vercel Deployment Protection (Vercel login) until launch.
+  Domain, env vars and Resend are still owner launch gates.
 
 ## 2. Verified state (2026-10-04, production build, this checkout)
 
@@ -71,6 +80,10 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 | `docs/vercel-deployment-2026-08-04.md`, `docs/launch-readiness-report-2026-07-26.md` | Launch-gate steps still valid. |
 
 ## 6. Session log (newest first)
+
+- **2026-10-04** — PR #1 merged (`5e00dce`): redesign + carried fixes + CI on `main`. CI green on
+  `main`; Vercel production deployment succeeded (protected URL). Branch protection on `main`
+  requires both CI checks. Local `main`, `redesign/immersive-system` and this worktree synced.
 
 - **2026-10-04** — Discovered the day's roadmap work had been done on the old Kinetic design (the
   worktree branched from `main`, which never got the redesign). Owner: redesign is primary (D-028).
