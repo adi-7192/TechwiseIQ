@@ -53,7 +53,7 @@ export default function ServicesOverview() {
             your team time back.
           </p>
           <div className={styles.heroActions}>
-            <PrimaryCTA href="/contact">Discuss your project</PrimaryCTA>
+            <PrimaryCTA href="/contact">Bring us the problem</PrimaryCTA>
             <PrimaryCTA href="#disciplines" variant="ghost">
               Explore services
             </PrimaryCTA>

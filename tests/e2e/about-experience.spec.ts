@@ -18,6 +18,7 @@ test('presents Techwise IQ as a direct, outcome-focused studio', async ({
     }),
   ).toBeVisible()
 
+  await expect(experience.getByText(/a team of experts/i)).toBeVisible()
   await expect(experience.getByText('Direct ownership')).toBeVisible()
   await expect(experience.getByText('Small-studio speed')).toBeVisible()
   await expect(
@@ -31,6 +32,7 @@ test('presents Techwise IQ as a direct, outcome-focused studio', async ({
     /note from the founder/i,
     /founder, techwise iq/i,
     /freelancer/i,
+    /trusted by/i,
   ]) {
     await expect(experience.getByText(forbidden)).toHaveCount(0)
   }
@@ -65,15 +67,15 @@ test('preserves the approved About service paths and qualitative proof', async (
   ])
 
   await expect(
-    experience.getByText('Trusted by businesses in Dubai and beyond', {
+    experience.getByText('Building for businesses in Dubai and beyond', {
       exact: false,
     }),
   ).toBeVisible()
 
   const cta = experience.getByRole('link', {
-    name: /bring us the business problem/i,
+    name: /bring us the problem/i,
   })
-  await expect(cta).toHaveAttribute('href', /wa\.me\/971567760667/)
+  await expect(cta).toHaveAttribute('href', '/contact')
   await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
 })
 
@@ -95,7 +97,7 @@ for (const viewport of [
 
     const experience = page.getByTestId('about-experience')
     const cta = experience.getByRole('link', {
-      name: /bring us the business problem/i,
+      name: /bring us the problem/i,
     })
     const ctaBox = await cta.boundingBox()
     expect(ctaBox).not.toBeNull()

@@ -92,7 +92,7 @@ export default function SiteHeader() {
         <div className={styles.actions}>
           <span className={styles.desktopCta}>
             <PrimaryCTA href="/contact" variant="primary">
-              Start a project
+              Bring us the problem
             </PrimaryCTA>
           </span>
 

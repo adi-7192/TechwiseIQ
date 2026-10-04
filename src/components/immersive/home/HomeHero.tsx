@@ -66,7 +66,7 @@ export default function HomeHero() {
           <br className={styles.desktopBreak} /> AI that puts your business in motion.
         </p>
         <div className={styles.actions} data-hero-support>
-          <PrimaryCTA href="/contact">Start a project</PrimaryCTA>
+          <PrimaryCTA href="/contact">Bring us the problem</PrimaryCTA>
           <PrimaryCTA href="/work" variant="secondary">
             Explore our work
           </PrimaryCTA>

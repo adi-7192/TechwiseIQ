@@ -12,7 +12,6 @@ import {
   getCaseStudy,
   getNextCaseStudy,
 } from '@/data/case-studies'
-import { BOOKING_URL, WHATSAPP_URL } from '@/lib/site'
 import { socialMetadata } from '@/lib/metadata'
 import { CASE_ACCENT, CASE_SCENE } from '../case-accent'
 import { getProjectStatus } from '../work-projects'
@@ -360,13 +359,7 @@ export default async function CaseStudyPage({ params }: Props) {
               </p>
               <div className={styles.ctaActions}>
                 <PrimaryCTA href="/contact" variant="primary">
-                  Start a project
-                </PrimaryCTA>
-                <PrimaryCTA href={WHATSAPP_URL} variant="secondary">
-                  WhatsApp
-                </PrimaryCTA>
-                <PrimaryCTA href={BOOKING_URL} variant="ghost">
-                  Book a 20-minute call
+                  Bring us the problem
                 </PrimaryCTA>
               </div>
             </div>

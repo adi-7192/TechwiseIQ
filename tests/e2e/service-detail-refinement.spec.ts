@@ -32,7 +32,7 @@ for (const service of services) {
     await expect(page.getByTestId('service-handover')).toContainText('What you take forward.')
     await expect(page.getByTestId('service-expertise')).toBeVisible()
     await expect(
-      page.getByRole('link', { name: 'Start the conversation', exact: true })
+      page.locator('main').getByRole('link', { name: 'Bring us the problem', exact: true })
     ).toHaveAttribute('href', '/contact')
     for (const other of services.filter((item) => item !== service)) {
       await expect(

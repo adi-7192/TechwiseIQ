@@ -1,4 +1,4 @@
-import { BOOKING_URL, CONTACT_EMAIL, WHATSAPP_URL } from '@/lib/site'
+import { CONTACT_EMAIL, WHATSAPP_URL } from '@/lib/site'
 
 /**
  * Homepage content for the immersive redesign.
@@ -330,5 +330,4 @@ export const FINAL_CTA = {
   primary: { href: '/contact', label: 'Start a project' },
   secondary: { href: WHATSAPP_URL, label: 'WhatsApp' },
   ghost: { href: `mailto:${CONTACT_EMAIL}`, label: CONTACT_EMAIL },
-  booking: { href: BOOKING_URL, label: 'Book a 20-minute call' },
 } as const

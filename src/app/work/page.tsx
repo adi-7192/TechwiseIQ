@@ -6,7 +6,6 @@ import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
 import { SiteHeader, SiteFooter } from '@/components/global'
 import PrimaryCTA from '@/components/ui/PrimaryCTA'
 import { CASE_STUDIES } from '@/data/case-studies'
-import { BOOKING_URL, WHATSAPP_URL } from '@/lib/site'
 import { socialMetadata } from '@/lib/metadata'
 import ConceptLab from './ConceptLab'
 import FeaturedWork from './FeaturedWork'
@@ -89,7 +88,7 @@ export default function WorkPage() {
               See the work
             </PrimaryCTA>
             <PrimaryCTA href="/contact" variant="ghost">
-              Start a project
+              Bring us the problem
             </PrimaryCTA>
           </div>
         </Section>
@@ -185,14 +184,8 @@ export default function WorkPage() {
             explain how we would approach it.
           </p>
           <div className={styles.ctaActions}>
-            <PrimaryCTA href={BOOKING_URL} variant="primary">
-              Discuss your project
-            </PrimaryCTA>
-            <PrimaryCTA href={WHATSAPP_URL} variant="secondary">
-              WhatsApp
-            </PrimaryCTA>
-            <PrimaryCTA href="/contact" variant="ghost" arrow={false}>
-              Contact form
+            <PrimaryCTA href="/contact" variant="primary">
+              Bring us the problem
             </PrimaryCTA>
           </div>
         </Section>

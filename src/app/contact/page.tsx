@@ -3,7 +3,7 @@ import ImmersiveShell from '@/components/immersive/ImmersiveShell'
 import SectionLabel from '@/components/immersive/primitives/SectionLabel'
 import SiteFooter from '@/components/global/SiteFooter'
 import SiteHeader from '@/components/global/SiteHeader'
-import { BOOKING_URL, CONTACT_EMAIL, WHATSAPP_URL } from '@/lib/site'
+import { CONTACT_EMAIL, WHATSAPP_URL } from '@/lib/site'
 import { socialMetadata } from '@/lib/metadata'
 import ContactForm, { NextSteps } from './ContactForm'
 import styles from './contact.module.css'
@@ -71,20 +71,6 @@ export default function ContactPage() {
                     </span>
                     <span className={styles.methodDetail}>
                       Chat on WhatsApp
-                    </span>
-                  </a>
-                  <a
-                    href={BOOKING_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.method}
-                  >
-                    <span className={styles.methodTitle}>
-                      Book a call{' '}
-                      <span className={styles.methodArrow}>&rarr;</span>
-                    </span>
-                    <span className={styles.methodDetail}>
-                      20-minute intro call
                     </span>
                   </a>
                 </div>
