@@ -111,6 +111,8 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   retry in CI; `performance-mobile` long-task budget (<200 ms) depends on host load. Fixed
   2026-10-04: `performance-mobile` canvas test used a native `scrollTo` that Lenis overrode on CI
   (trace showed the page never left #selected-work) — now retries the jump until it holds.
+  Same cause fixed 2026-10-04 in `work-page` "TerraElix live preview … reduced motion": 400 ms after
+  `scrollTo(0,0)` the page was still 77–477 px down mid-Lenis-scroll; now waits for scrollY 0.
 - 🔒 **7.5 Production smoke + launch gates** — domain/DNS, real devices, promote.
 
 ## Later / rejected

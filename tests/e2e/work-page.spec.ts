@@ -197,7 +197,11 @@ test.describe('Work proof archive (immersive)', () => {
       .toBeGreaterThan(0)
 
     // Scroll the concept stage well offscreen (page top) — it must pause.
-    await page.evaluate(() => window.scrollTo(0, 0))
+    // Lenis smooths the native jump, so wait until the page is really at the
+    // top before sampling (same fix as performance-mobile.spec.ts).
+    await expect
+      .poll(() => page.evaluate(() => (window.scrollTo(0, 0), window.scrollY)))
+      .toBe(0)
     await page.waitForTimeout(400)
     const pausedY = await activeFrame.evaluate(
       (node: HTMLIFrameElement) => node.contentWindow?.scrollY ?? -1,
