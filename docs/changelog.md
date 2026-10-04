@@ -4,6 +4,13 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — Home LCP verified (ROADMAP 1.2)
+
+- No code change. Home Lighthouse mobile perf 90 ×3 (sequential, uncontended), LCP 3.5 s, TBT
+  ≤10 ms — meets the ≥90 bar. The audit's 84 came from a run on a loaded machine.
+
+---
+
 ## 2026-10-04 — `/contact`: honest promise + "What happens next" (ROADMAP 1.1)
 
 - Intro and metadata no longer promise scope, timeline and cost within 24 hours (scope needs a

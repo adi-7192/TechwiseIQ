@@ -8,16 +8,16 @@
 
 ## ▶ NEXT
 
-**Task 1.2 — Home LCP** (mobile perf 84 → ≥90, not blocked).
+**Task 1.3 — Service workbench contrast** (`/services/*` a11y 96 → 100, not blocked).
 Then the first ⬜ task in order whose status is not 🔒.
 
 ## Progress
 
-**2 / 22 tasks done** · rebuilt for the redesign 2026-10-04
+**3 / 22 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
-| 1. Fixes | Audit findings on the redesign (HANDOFF §3) | 1/4 | 🟡 (1.4 needs Q14) |
+| 1. Fixes | Audit findings on the redesign (HANDOFF §3) | 2/4 | 🟡 (1.4 needs Q14) |
 | 2. Proof | More real work where buyers decide | 0/2 | 🔒 Q13, Q1 |
 | 3. Clarity | How working with us works | 0/1 | 🔒 Q3 |
 | 4. Trust | Honest claims, people, consistent CTAs, booking | 0/4 | 🔒 owner input |
@@ -65,8 +65,10 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   `ContactForm.tsx`: intro/metadata → "reply within 24 hours, then a written scope after a short
   call"; replace "Response guarantee" with "What happens next" (We reply · 20-minute call · Written
   scope), repeated under the success message with focus on it. Redesign styling only.
-- ⬜ **1.2 Home LCP** (R-2) — mobile perf 84 → ≥90 without changing the look; protect the
-  2026-09-05 entrance work and its tests.
+- ✅ **1.2 Home LCP** (R-2) — 2026-10-04, verified, no code change. Three sequential uncontended
+  Lighthouse mobile runs: perf 90/90/90, LCP 3.5 s, TBT 0–10 ms (matches the 91 after the
+  2026-09-05 entrance work). The 84 was measured on a loaded machine. Headroom is thin: the LCP
+  element is the intro overlay text; any further gain must keep the entrance work intact.
 - ⬜ **1.3 Service workbench contrast** (R-3) — `/services/*` a11y 96 → 100.
 - 🔒 **1.4 Accessible names match visible text** (R-4, Q14) — logo + WhatsApp float; update tests.
 
