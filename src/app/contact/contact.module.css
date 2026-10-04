@@ -191,7 +191,7 @@
   text-transform: uppercase;
 }
 
-.promise {
+.next {
   margin-top: 2.5rem;
   padding: 1.5rem;
   border: 1px solid var(--tw-line);
@@ -199,18 +199,54 @@
   background: var(--tw-surface);
 }
 
-.promiseTitle {
+.success + .next {
+  margin-top: 1.5rem;
+}
+
+/* After sending, the steps move under the success message; drop the sidebar copy.
+   Without :has() support both lists show: identical content, accepted. */
+.grid:has(.success) .sidebar .next {
+  display: none;
+}
+
+.nextTitle {
   color: var(--tw-accent);
   font-family: var(--font-mono), monospace;
   font-size: var(--tw-type-meta);
+  font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.promiseBody {
-  margin-top: 0.8rem;
+.steps {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.1rem;
+  padding: 0;
+  counter-reset: step;
+  list-style: none;
+}
+
+.steps li {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
   color: var(--tw-muted);
   font-size: 0.95rem;
+  counter-increment: step;
+}
+
+.steps li::before {
+  content: counter(step, decimal-leading-zero);
+  padding-top: 0.2rem;
+  color: var(--tw-accent);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.08em;
+}
+
+.steps strong {
+  color: var(--tw-fg);
+  font-weight: 700;
 }
 
 @media (max-width: 880px) {
@@ -229,6 +265,10 @@
 @media (max-width: 480px) {
   .hero {
     padding-top: 8rem;
+  }
+
+  .next {
+    padding: 1.25rem;
   }
 }
 

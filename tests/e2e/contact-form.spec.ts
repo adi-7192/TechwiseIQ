@@ -54,3 +54,34 @@ test('honeypot is not keyboard reachable', async ({ page }) => {
     '-1',
   )
 })
+
+test('shows the three next steps on the page and after sending', async ({
+  page,
+}) => {
+  await page.goto('/contact')
+  const steps = page
+    .getByRole('heading', { level: 2, name: 'What happens next' })
+    .locator('xpath=following-sibling::ol[1]')
+    .getByRole('listitem')
+  await expect(steps).toHaveText([
+    /^We reply\./,
+    /^20-minute call\./,
+    /^Written scope\./,
+  ])
+  await expect(page.getByText('Response guarantee')).toHaveCount(0)
+  await expect(page.getByText(/scope, timeline, and cost/i)).toHaveCount(0)
+
+  // The honeypot path returns success without sending, so no mail config is needed.
+  await fillRequiredFields(page)
+  await page.locator('input[name="website"]').fill('bot', { force: true })
+  await page.getByRole('button', { name: 'Send message' }).click()
+
+  const status = page.getByRole('status')
+  await expect(status).toHaveText(/Message sent/)
+  await expect(status).toBeFocused()
+  // The sidebar copy hides, leaving one list directly under the status.
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'What happens next' }),
+  ).toHaveCount(1)
+  await expect(page.getByRole('main').getByRole('listitem')).toHaveCount(3)
+})

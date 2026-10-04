@@ -9,6 +9,30 @@ import styles from './contact.module.css'
 
 const initialState: ContactFormState = { success: false, message: '' }
 
+const NEXT_STEPS = [
+  ['We reply.', 'A real person reads your message and replies within 24 hours.'],
+  ['20-minute call.', 'We dig into the problem, your tools and your deadline. No pitch deck.'],
+  ['Written scope.', 'What we\u2019ll build, the price and the timeline, in writing. Then you decide.'],
+] as const
+
+export function NextSteps() {
+  return (
+    <div className={styles.next}>
+      <h2 className={styles.nextTitle}>What happens next</h2>
+      {/* role="list": Safari drops list semantics when list-style is none */}
+      <ol className={styles.steps} role="list">
+        {NEXT_STEPS.map(([title, line]) => (
+          <li key={title}>
+            <span>
+              <strong>{title}</strong> {line}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
+
 export default function ContactForm() {
   const successTracked = useRef(false)
   const [state, formAction, isPending] = useActionState(
@@ -17,8 +41,10 @@ export default function ContactForm() {
   )
 
   useEffect(() => {
-    if (!state.field) return
-    document.getElementById(state.field)?.focus()
+    // The form unmounts on success, so move focus to the confirmation.
+    const target = state.success ? 'form-success' : state.field
+    if (!target) return
+    document.getElementById(target)?.focus()
   }, [state])
 
   useEffect(() => {
@@ -32,9 +58,18 @@ export default function ContactForm() {
 
   if (state.success) {
     return (
-      <div className={styles.success} role="status" aria-live="polite">
-        {state.message}
-      </div>
+      <>
+        <div
+          id="form-success"
+          className={styles.success}
+          role="status"
+          aria-live="polite"
+          tabIndex={-1}
+        >
+          {state.message}
+        </div>
+        <NextSteps />
+      </>
     )
   }
 

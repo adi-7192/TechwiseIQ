@@ -48,7 +48,7 @@ Severity: **P0** broken/misleading · **P1** hurts conversion/trust · **P2** po
 
 | ID | Sev | Where | Finding | Fix |
 |---|---|---|---|---|
-| R-1 | P1 | `/contact` (`src/app/contact/page.tsx`) | Intro + metadata promise "scope, timeline, and cost … within 24 hours", but scope needs a call first — the page contradicts itself. "Response guarantee" box; no "what happens next". | Same fix as the old design's 3.2 (PM-approved): "reply within 24 hours, then a written scope after a short call" + 3 steps, in redesign styling. 24 h approved (D-027). |
+| R-1 ✅ | P1 | `/contact` (`src/app/contact/page.tsx`) | Intro + metadata promise "scope, timeline, and cost … within 24 hours", but scope needs a call first — the page contradicts itself. "Response guarantee" box; no "what happens next". | Same fix as the old design's 3.2 (PM-approved): "reply within 24 hours, then a written scope after a short call" + 3 steps, in redesign styling. 24 h approved (D-027). |
 | R-2 | P1 | Home | Lighthouse mobile perf 84, LCP 4.4 s (bar ≥90). Other routes 91–95. | Profile LCP element (likely hero/WebGL/intro overlay); keep the 2026-09-05 entrance work intact. |
 | R-3 | P2 | `/services/*` `ServiceWorkbench` | Mock "site" text in the workbench illustration fails contrast (1.37:1, #F3F3ED on #D1D1CC). a11y 96. | Darken the mock text or mark the purely decorative mock `aria-hidden` and keep real text out of it. |
 | R-4 | P2 | Header logo, WhatsApp float | `label-content-name-mismatch`: "Techwise IQ — home" vs visible "TECHWISEIQ"; "Chat on WhatsApp" vs visible "WhatsApp ↗"/"WA". Tests pin these labels. | Labels that start with the visible text (e.g. "TechwiseIQ home", "WhatsApp — chat"); update the tests. Owner OK needed for label text (Q14). |
@@ -80,6 +80,12 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 | `docs/vercel-deployment-2026-08-04.md`, `docs/launch-readiness-report-2026-07-26.md` | Launch-gate steps still valid. |
 
 ## 6. Session log (newest first)
+
+- **2026-10-04** — ROADMAP 1.1 / R-1 done: `/contact` intro + metadata now promise a reply within
+  24 hours, then a written scope after a short call. "Response guarantee" box → "What happens next"
+  (We reply · 20-minute call · Written scope), repeated under the success message, which takes
+  focus. Ported from the approved old-design fix (`abefc9c`) in Immersive tokens. New e2e test;
+  lint/tsc/unit/build green, 170 contact/a11y/responsive/smoke e2e pass.
 
 - **2026-10-04** — PR #1 merged (`5e00dce`): redesign + carried fixes + CI on `main`. CI green on
   `main`; Vercel production deployment succeeded (protected URL). Branch protection on `main`
