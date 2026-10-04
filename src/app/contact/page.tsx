@@ -5,18 +5,18 @@ import SiteFooter from '@/components/global/SiteFooter'
 import SiteHeader from '@/components/global/SiteHeader'
 import { BOOKING_URL, CONTACT_EMAIL, WHATSAPP_URL } from '@/lib/site'
 import { socialMetadata } from '@/lib/metadata'
-import ContactForm from './ContactForm'
+import ContactForm, { NextSteps } from './ContactForm'
 import styles from './contact.module.css'
 
 export const metadata: Metadata = {
   title: 'Contact',
   description:
-    'Tell us what\u2019s slowing you down. We\u2019ll reply with scope, timeline, and cost within 24 hours. Dubai-based, serving clients worldwide.',
+    'Tell us what\u2019s slowing you down. We\u2019ll reply within 24 hours, then send a written scope after a short call. Dubai-based, serving clients worldwide.',
   alternates: { canonical: '/contact' },
   ...socialMetadata({
     title: 'Contact | Techwise IQ',
     description:
-      'Tell us what\u2019s slowing you down. Scope, timeline, and cost within 24 hours.',
+      'Tell us what\u2019s slowing you down. A reply within 24 hours, then a written scope after a short call.',
     url: '/contact',
   }),
 }
@@ -33,8 +33,8 @@ export default function ContactPage() {
               Let&apos;s <span className={styles.titleAccent}>talk.</span>
             </h1>
             <p className={styles.intro}>
-              Tell us what&apos;s slowing you down. We&apos;ll reply with scope,
-              timeline, and cost &mdash; in writing, within 24 hours.
+              Tell us what&apos;s slowing you down. We&apos;ll reply within 24
+              hours, then send a written scope after a short call.
             </p>
           </div>
         </section>
@@ -89,14 +89,7 @@ export default function ContactPage() {
                   </a>
                 </div>
 
-                <div className={styles.promise}>
-                  <p className={styles.promiseTitle}>Response guarantee</p>
-                  <p className={styles.promiseBody}>
-                    Every inquiry gets a reply within 24 hours. Usually
-                    faster. No auto-responders, no ticket numbers &mdash; a
-                    real person who read what you wrote.
-                  </p>
-                </div>
+                <NextSteps />
               </aside>
             </div>
           </div>

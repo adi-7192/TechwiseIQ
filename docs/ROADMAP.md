@@ -8,16 +8,16 @@
 
 ## ▶ NEXT
 
-**Task 1.1 — `/contact`: honest promise + "What happens next"** (approved, not blocked).
+**Task 1.2 — Home LCP** (mobile perf 84 → ≥90, not blocked).
 Then the first ⬜ task in order whose status is not 🔒.
 
 ## Progress
 
-**1 / 22 tasks done** · rebuilt for the redesign 2026-10-04
+**2 / 22 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
-| 1. Fixes | Audit findings on the redesign (HANDOFF §3) | 0/4 | ⬜ (1.4 needs Q14) |
+| 1. Fixes | Audit findings on the redesign (HANDOFF §3) | 1/4 | 🟡 (1.4 needs Q14) |
 | 2. Proof | More real work where buyers decide | 0/2 | 🔒 Q13, Q1 |
 | 3. Clarity | How working with us works | 0/1 | 🔒 Q3 |
 | 4. Trust | Honest claims, people, consistent CTAs, booking | 0/4 | 🔒 owner input |
@@ -61,7 +61,7 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 
 ## Stage 1 — Fixes
 
-- ⬜ **1.1 `/contact` honest promise + next steps** (R-1, D-027) — `src/app/contact/page.tsx`,
+- ✅ **1.1 `/contact` honest promise + next steps** (R-1, D-027) — 2026-10-04, branch `fix/contact-honest-promise` — `src/app/contact/page.tsx`,
   `ContactForm.tsx`: intro/metadata → "reply within 24 hours, then a written scope after a short
   call"; replace "Response guarantee" with "What happens next" (We reply · 20-minute call · Written
   scope), repeated under the success message with focus on it. Redesign styling only.
@@ -111,6 +111,8 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   retry in CI; `performance-mobile` long-task budget (<200 ms) depends on host load. Fixed
   2026-10-04: `performance-mobile` canvas test used a native `scrollTo` that Lenis overrode on CI
   (trace showed the page never left #selected-work) — now retries the jump until it holds.
+  Same cause fixed 2026-10-04 in `work-page` "TerraElix live preview … reduced motion": 400 ms after
+  `scrollTo(0,0)` the page was still 77–477 px down mid-Lenis-scroll; now waits for scrollY 0.
 - 🔒 **7.5 Production smoke + launch gates** — domain/DNS, real devices, promote.
 
 ## Later / rejected

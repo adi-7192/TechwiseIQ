@@ -4,6 +4,19 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — `/contact`: honest promise + "What happens next" (ROADMAP 1.1)
+
+- Intro and metadata no longer promise scope, timeline and cost within 24 hours (scope needs a
+  call first): "reply within 24 hours, then a written scope after a short call" (D-027).
+- Sidebar "Response guarantee" box replaced by "What happens next" — three numbered steps. The
+  same steps appear under the success message, which now receives focus; the sidebar copy hides.
+- E2E: `contact-form.spec.ts` checks the steps, the removed copy and success focus.
+- De-flake: `work-page` TerraElix pause check sampled while Lenis was still scrolling to the top
+  (page 77–477 px down after 400 ms); it now waits for scrollY 0. Failed 3/3 on CI, 1/5 locally →
+  20/20 under 4 workers.
+
+---
+
 ## 2026-10-04 — Redesign merged to main; CI/CD in place
 
 - PR #1 merged into `main` (`5e00dce`): immersive redesign, carried content fixes, old UI removed.
