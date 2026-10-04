@@ -8,9 +8,8 @@
 
 ## ▶ NEXT
 
-**Stage 3 PR #6 (`stage-3/clarity`) — owner approves the "How we engage" copy, then merge.**
-**Stage 4 (`stage-4/trust`, branched off Stage 3) — owner reviews the site-wide copy rewrite** in the
-browser (`docs/voice-draft.md` round 2). Then rebase on `main` after #6 merges and open the Stage 4 PR.
+**Stage 4 PR open (`stage-4/trust`) — owner reviews the copy in the preview, then merges.**
+Then: Stage 5 (5.1 free 20-minute bottleneck review page) or Stage 6.3 docs.
 
 ## Progress
 
@@ -20,7 +19,7 @@ browser (`docs/voice-draft.md` round 2). Then rebase on `main` after #6 merges a
 |---|---|---|---|
 | 1. Fixes | Audit findings on the redesign (HANDOFF §3) | 4/4 | ✅ |
 | 2. Proof | More real work where buyers decide | 2/2 | ✅ |
-| 3. Clarity | How working with us works | 1/1 | ✅ (PR awaiting copy OK) |
+| 3. Clarity | How working with us works | 1/1 | ✅ (PR #6 merged) |
 | 4. Trust | Honest claims, people, consistent CTAs, booking | 3/4 | 🟡 (voice draft awaiting owner; Cal.com later) |
 | 5. Growth | First-step offer, insights | 0/2 | ⬜ (5.2 held) |
 | 6. Polish | Concept Lab self-hosting, parked components, docs | 0/3 | ⬜ |
