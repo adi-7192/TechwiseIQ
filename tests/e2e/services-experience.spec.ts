@@ -70,6 +70,31 @@ for (const route of detailRoutes) {
   })
 }
 
+test('AI shows our own automation stack, labelled as not client work', async ({
+  page,
+}) => {
+  await page.goto('/services/ai')
+  const own = page.getByTestId('own-automation')
+  await expect(own).toBeVisible()
+  await expect(
+    own.getByRole('heading', { level: 2, name: 'What we automate for ourselves.' }),
+  ).toBeVisible()
+  await expect(own.getByText('Our own use. Not client work.')).toBeVisible()
+})
+
+test('web proof links only to live client sites', async ({ page }) => {
+  await page.goto('/services/web')
+  const hrefs = await page
+    .getByTestId('service-proof')
+    .locator('a[href^="/work/"]')
+    .evaluateAll((links) => links.map((link) => link.getAttribute('href')))
+  expect(hrefs).toEqual([
+    '/work/supreme-universal',
+    '/work/express-trade-financing',
+    '/work/express-petroleum',
+  ])
+})
+
 test('carries the route accent on the shell without a WebGL scene', async ({
   page,
 }) => {

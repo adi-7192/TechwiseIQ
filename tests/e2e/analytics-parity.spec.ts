@@ -54,7 +54,7 @@ test('tracks only the meaningful conversion and discovery actions', async ({
   )
   await clickWithoutNavigation(page.getByRole('link', { name: 'WhatsApp — chat' }))
   await clickWithoutNavigation(
-    page.locator('main a[href="/work/aaskra-realty"]'),
+    page.locator('main a[href="/work/supreme-universal"]'),
   )
   await clickWithoutNavigation(
     page.locator('main a[href="/services/web"]').first(),
@@ -77,7 +77,7 @@ test('tracks only the meaningful conversion and discovery actions', async ({
     ])
 
   const events = await capturedEvents(page)
-  expect(events[2][1]?.props?.item).toBe('aaskra-realty')
+  expect(events[2][1]?.props?.item).toBe('supreme-universal')
   expect(events[3][1]?.props?.item).toBe('web')
   expect(events[4][1]?.props?.item).toBe('terra-elix')
 })

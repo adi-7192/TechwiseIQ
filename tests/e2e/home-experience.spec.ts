@@ -85,8 +85,8 @@ test('introduces three services before client evidence with useful destinations'
     .evaluateAll((nodes) => nodes.map((n) => n.id))
   expect(order).toEqual(['top', 'services', 'websites', 'apps', 'automation', 'selected-work'])
   await expect(
-    page.locator('#selected-work').getByRole('link', { name: /AASKRA Realty/ })
-  ).toHaveAttribute('href', '/work/aaskra-realty')
+    page.locator('#selected-work').getByRole('link', { name: /Supreme Universal/ })
+  ).toHaveAttribute('href', '/work/supreme-universal')
   await expect(
     page.getByRole('heading', { name: 'A clear plan. A working product.' })
   ).toBeVisible()

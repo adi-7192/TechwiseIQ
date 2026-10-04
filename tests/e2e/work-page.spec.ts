@@ -14,8 +14,8 @@ test.describe('Work proof archive (immersive)', () => {
 
     // Real client work is dominant and comes first.
     await expect(page.getByTestId('featured-project-rail')).toBeVisible()
-    await expect(page.locator('[data-featured-project]')).toHaveCount(2)
-    await expect(page.locator('[data-client-project]')).toHaveCount(2)
+    await expect(page.locator('[data-featured-project]')).toHaveCount(3)
+    await expect(page.locator('[data-client-project]')).toHaveCount(5)
 
     // Concept Lab is a separate, clearly-labelled self-initiated exhibition.
     const lab = page.getByTestId('concept-lab')
@@ -37,15 +37,18 @@ test.describe('Work proof archive (immersive)', () => {
     ).toBeVisible()
 
     await expect(
-      page.getByRole('heading', { level: 3, name: 'AASKRA Realty' }),
+      page.getByRole('heading', { level: 4, name: 'AASKRA Realty' }),
     ).toBeVisible()
     await expect(
       page.getByRole('heading', { level: 3, name: 'Express Trade Financing' }),
     ).toBeVisible()
 
     // Delivery totals derived from the real case-study data.
-    await expect(page.getByText('21', { exact: true })).toBeVisible()
-    await expect(page.getByText('Pages shipped', { exact: true })).toBeVisible()
+    // Totals count live sites only; previews are shown but never counted.
+    const totals = page.getByLabel('Published work totals')
+    await expect(totals.getByText('114', { exact: true })).toBeVisible()
+    await expect(totals.getByText('Pages shipped', { exact: true })).toBeVisible()
+    await expect(totals.locator('div', { hasText: 'Live projects' }).locator('dd')).toHaveText('3')
 
     await expect(
       page.getByRole('heading', {
@@ -102,6 +105,36 @@ test.describe('Work proof archive (immersive)', () => {
       'https://www.expresstradefinancing.ae',
     )
     await expect(etfLive).toHaveAttribute('target', '_blank')
+  })
+
+  test('lists preview builds after the featured rail, never as live', async ({
+    page,
+  }) => {
+    const more = page.getByTestId('more-client-work')
+    await expect(more).toBeVisible()
+    const railFirst = await page.evaluate(() => {
+      const rail = document.querySelector('[data-testid="featured-project-rail"]')
+      const list = document.querySelector('[data-testid="more-client-work"]')
+      return Boolean(
+        rail && list && rail.compareDocumentPosition(list) & Node.DOCUMENT_POSITION_FOLLOWING,
+      )
+    })
+    expect(railFirst).toBe(true)
+
+    await expect(more.getByRole('heading', { level: 4 })).toHaveText([
+      'AASKRA Realty',
+      'RSiGHT Architectural Lighting',
+    ])
+    const rsight = more.locator('[data-more-project]').nth(1)
+    await expect(rsight.locator('[data-project-status]')).toHaveAttribute(
+      'data-project-status',
+      'awaiting-launch',
+    )
+    await expect(rsight.locator('[data-project-status]')).toHaveText('Awaiting launch')
+    await expect(
+      more.getByRole('link', { name: /View preview.*RSiGHT.*opens in a new tab/ }),
+    ).toHaveAttribute('href', 'https://rsight-opal.vercel.app')
+    await expect(more.getByRole('link', { name: /Visit live site/ })).toHaveCount(0)
   })
 
   test('publishes all three live concept samples', async ({ page }) => {
