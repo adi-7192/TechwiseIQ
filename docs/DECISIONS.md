@@ -178,6 +178,29 @@ Logo: "TechwiseIQ home". Floating WhatsApp button: "WhatsApp — chat"; its phon
 changes from "WA ↗" to "Chat ↗" so the name contains it at every width (WCAG 2.5.3).
 *Apply:* any new icon/short-text control gets an aria-label that contains its visible text.
 
+**D-032 — Owner answers for Stages 2–6.** 2026-10-04 · owner · resolves Q1–Q8, Q13, Q15.
+- *Case studies (Q13):* Express Petroleum (`expresspetro.ae`), Supreme Universal, RSiGHT. ~3 weeks
+  delivery each (owner's average), built to the client's own design direction; problem: no website,
+  no online leads; result (launched sites only): "the client reports more leads and visibility".
+  Stack/security/SEO claims only where verified on the live site (2026-10-04 check: EP + Supreme have
+  CSP/HSTS/frame headers, JSON-LD, sitemap, llms.txt; RSiGHT has none of these — no such claims).
+- *Featured (D-007 cap 3):* Supreme Universal, Express Trade Financing, Express Petroleum. AASKRA and
+  RSiGHT go under "More client work". Vercel previews are shown (they show design capability),
+  labelled as previews (`previewUrl`), never counted as live.
+- *Automation proof (Q1):* no client automation project. Show the team's own automations (motion
+  graphics generated from code, Gmail automation, lead generation, customer outreach), framed
+  honestly as internal use — never as client work.
+- *Engagement (Q3):* clients bring their requirement; we assess it and quote a custom price. No
+  public prices (D-003 stands).
+- *About (Q5):* "Building for businesses in Dubai and beyond." *People (Q2):* no founder name yet —
+  "a team of experts". D-005 stands.
+- *CTA + voice (Q6):* "Bring us the problem." Copy site-wide moves to a young, sharp, professional
+  but quirky/witty voice — drafted before/after for owner approval before shipping (Stage 4).
+- *Booking (Q7):* Cal.com URL comes later. Until then "Book a call" goes to `/contact`; WhatsApp is
+  reached only from the WhatsApp button.
+- *First-step offer (Q4):* free 20-minute bottleneck review. *Concept Lab (Q8):* self-host media and
+  fonts. *Parked components (Q15):* delete (unused by any page or test; recoverable from git).
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

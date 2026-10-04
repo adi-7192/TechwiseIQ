@@ -206,6 +206,43 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
         </details>
       </Section>
 
+      {guide.ownStack && (
+        <Section
+          id="own-automation"
+          ruled
+          density="dense"
+          aria-labelledby="own-automation-title"
+          data-testid="own-automation"
+        >
+          <div className={styles.split}>
+            <div>
+              <SectionLabel>Our own stack</SectionLabel>
+              <DisplayHeading
+                as="h2"
+                size="h2"
+                id="own-automation-title"
+                className={styles.sectionTitle}
+              >
+                What we automate for ourselves.
+              </DisplayHeading>
+            </div>
+            <p className={styles.sectionBody}>
+              We don&apos;t have a client automation case study to show you yet. We do run our own
+              business on these.
+            </p>
+          </div>
+          <div className={`${styles.scopeGrid} ${styles.ownStack}`}>
+            {guide.ownStack.map((item) => (
+              <div key={item.title}>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </div>
+            ))}
+          </div>
+          <p className={styles.meta}>Our own use. Not client work.</p>
+        </Section>
+      )}
+
       <Section
         id="work"
         ruled
@@ -236,7 +273,7 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
                       src={study.coverImage}
                       alt={`${study.title} website preview`}
                       fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
                 )}

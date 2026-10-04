@@ -15,6 +15,7 @@ import {
 import { BOOKING_URL, WHATSAPP_URL } from '@/lib/site'
 import { socialMetadata } from '@/lib/metadata'
 import { CASE_ACCENT, CASE_SCENE } from '../case-accent'
+import { getProjectStatus } from '../work-projects'
 import styles from './case-study.module.css'
 
 interface Props {
@@ -126,6 +127,10 @@ export default async function CaseStudyPage({ params }: Props) {
                 <dt>Timeline</dt>
                 <dd>{cs.timeline}</dd>
               </div>
+              <div className={styles.factItem}>
+                <dt>Status</dt>
+                <dd>{getProjectStatus(cs)}</dd>
+              </div>
             </dl>
           </div>
         </section>
@@ -162,7 +167,7 @@ export default async function CaseStudyPage({ params }: Props) {
                 />
               </div>
               <div className={styles.coverCaption}>
-                <p>The launch / Homepage</p>
+                <p>{cs.liveUrl ? 'The launch' : 'The build'} / Homepage</p>
                 <p>{cs.coverCaption}</p>
               </div>
             </div>
@@ -215,7 +220,8 @@ export default async function CaseStudyPage({ params }: Props) {
           <div className={styles.wrap}>
             <p className={styles.sectionLabel}>03 / The shipped system</p>
             <h2 className={styles.sectionTitle}>
-              One launch. <span>Every layer.</span>
+              One {cs.liveUrl ? 'launch' : 'build'}.{' '}
+              <span>Every layer.</span>
             </h2>
             <div className={styles.systemGrid}>
               <div>
@@ -224,17 +230,41 @@ export default async function CaseStudyPage({ params }: Props) {
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
-                {cs.liveUrl && (
+                {cs.liveUrl ? (
                   <a
                     href={cs.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.liveLink}
-                    aria-label={`Visit the ${cs.title} live site (opens in a new tab)`}
                   >
-                    Visit the live site <span aria-hidden="true">↗</span>
+                    Visit the live site
+                    <span className="sr-only">
+                      {' '}
+                      for {cs.title}, opens in a new tab
+                    </span>{' '}
+                    <span aria-hidden="true">↗</span>
                   </a>
-                )}
+                ) : cs.previewUrl ? (
+                  <>
+                    <a
+                      href={cs.previewUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.liveLink}
+                      aria-describedby="preview-note"
+                    >
+                      View the preview
+                      <span className="sr-only">
+                        {' '}
+                        for {cs.title}, opens in a new tab
+                      </span>{' '}
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                    <p id="preview-note" className={styles.previewNote}>
+                      Preview build. Not the client&apos;s live domain.
+                    </p>
+                  </>
+                ) : null}
               </div>
               {cs.fullPageImage && (
                 <div className={styles.browserFrame}>
@@ -267,7 +297,8 @@ export default async function CaseStudyPage({ params }: Props) {
               <div>
                 <p className={styles.sectionLabel}>04 / The result</p>
                 <h2 className={styles.resultTitle}>
-                  Credibility, <span>shipped.</span>
+                  Credibility,{' '}
+                  <span>{cs.liveUrl ? 'shipped.' : 'built.'}</span>
                 </h2>
               </div>
               <div>

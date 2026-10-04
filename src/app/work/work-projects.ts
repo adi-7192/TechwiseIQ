@@ -45,3 +45,11 @@ export function getDeliveryMetrics(projects: readonly MetricProject[]) {
     },
   ]
 }
+
+export function getProjectStatus(project: {
+  liveUrl?: string
+  awaitingLaunch?: boolean
+}) {
+  if (project.liveUrl) return 'Live'
+  return project.awaitingLaunch ? 'Awaiting launch' : 'Preview build'
+}

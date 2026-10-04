@@ -10,8 +10,11 @@
 
 ## Proof
 
+- [Supreme Universal Trading case study](https://techwiseiq.com/work/supreme-universal): 76-page Next.js site for a Dubai agricultural commodity trader, with 49 commodity pages across 5 sectors, shipped in about 3 weeks.
+- [Express Petroleum case study](https://techwiseiq.com/work/express-petroleum): 28-page Next.js site for a Hamriyah Free Zone petroleum and commodity trader, with 14 product pages, shipped in about 3 weeks.
 - [AASKRA Realty case study](https://techwiseiq.com/work/aaskra-realty): 11-page Next.js site for a Dubai real estate consultancy, shipped in 6 weeks.
 - [Express Trade Financing case study](https://techwiseiq.com/work/express-trade-financing): 10-page site for a trade finance firm that has facilitated USD 200M+ in instruments across 25+ countries, shipped in 5 weeks.
+- [RSiGHT Architectural Lighting case study](https://techwiseiq.com/work/rsight): single-page portfolio for a lighting design studio in Ahmedabad, India. Built; awaiting the client's launch.
 - [Concept Lab](https://techwiseiq.com/work): self-initiated concept sites (TerraElix, mėntality, Lumora), not client work. Each opens as a standalone demo.
 
 ## Process

@@ -304,6 +304,63 @@
   }
 }
 
+/* ─── More client work (preview builds, not counted in totals) ─── */
+.moreWork {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  margin-block-start: clamp(3rem, 7vh, 5rem);
+}
+.moreList {
+  border-top: 1px solid var(--tw-line);
+}
+.moreItem {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr);
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+  align-items: start;
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--tw-line);
+}
+.moreThumb {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--tw-line);
+  border-radius: var(--tw-radius-artifact);
+  background: var(--tw-surface);
+}
+.moreBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+}
+.moreBody .statusChip {
+  margin-block-start: 0;
+  align-self: flex-start;
+}
+@media (max-width: 1024px) {
+  .moreWork {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .moreItem {
+    grid-template-columns: 1fr;
+  }
+  .moreThumb {
+    max-width: 16rem;
+  }
+}
+@media (pointer: coarse) {
+  .projectPrimary,
+  .projectSecondary {
+    min-height: 44px;
+  }
+}
+
 /* ─── 3 · Concept Lab (self-initiated, clearly labelled) ─── */
 .conceptLab {
   position: relative;
@@ -312,7 +369,8 @@
   /* Concept Lab keeps its own quieter identity — blue developer accent */
   --tw-accent: var(--tw-blue);
 }
-.conceptDisclosure {
+.conceptDisclosure,
+.statusChip {
   display: inline-flex;
   align-items: center;
   margin-block-start: 1.25rem;

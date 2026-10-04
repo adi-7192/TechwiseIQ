@@ -2,6 +2,16 @@ import { expect, test } from '@playwright/test'
 
 const CASES = [
   {
+    slug: 'supreme-universal',
+    title: 'Supreme Universal Trading',
+    storyTitle: 'Forty-nine commodities, one clear route.',
+    proof: ['76', '49', '3 wks'],
+    decisionCount: 5,
+    nextTitle: 'AASKRA Realty',
+    nextHref: '/work/aaskra-realty',
+    status: 'Live',
+  },
+  {
     slug: 'aaskra-realty',
     title: 'AASKRA Realty',
     storyTitle: 'Trust before track record.',
@@ -9,7 +19,7 @@ const CASES = [
     decisionCount: 5,
     nextTitle: 'Express Trade Financing',
     nextHref: '/work/express-trade-financing',
-    hasLiveSite: false,
+    status: 'Preview build',
   },
   {
     slug: 'express-trade-financing',
@@ -17,9 +27,29 @@ const CASES = [
     storyTitle: 'Institutional weight, without the institution.',
     proof: ['USD 200M+', '25+', '5 wks'],
     decisionCount: 5,
-    nextTitle: 'AASKRA Realty',
-    nextHref: '/work/aaskra-realty',
-    hasLiveSite: true,
+    nextTitle: 'Express Petroleum',
+    nextHref: '/work/express-petroleum',
+    status: 'Live',
+  },
+  {
+    slug: 'express-petroleum',
+    title: 'Express Petroleum',
+    storyTitle: 'From specification to enquiry.',
+    proof: ['28', '14', '3 wks'],
+    decisionCount: 5,
+    nextTitle: 'RSiGHT Architectural Lighting',
+    nextHref: '/work/rsight',
+    status: 'Live',
+  },
+  {
+    slug: 'rsight',
+    title: 'RSiGHT Architectural Lighting',
+    storyTitle: 'Work that only shows at night.',
+    proof: ['6', '3', '3 wks'],
+    decisionCount: 4,
+    nextTitle: 'Supreme Universal Trading',
+    nextHref: '/work/supreme-universal',
+    status: 'Awaiting launch',
   },
 ] as const
 
@@ -40,6 +70,9 @@ test.describe('Immersive case studies', () => {
       // Project facts preserved.
       await expect(page.getByText('Client', { exact: true })).toBeVisible()
       await expect(page.getByText('Timeline', { exact: true })).toBeVisible()
+      await expect(
+        page.getByLabel('Project facts').locator('dd').last(),
+      ).toHaveText(caseStudy.status)
 
       const proof = page.getByTestId('case-study-proof')
       for (const value of caseStudy.proof) {
@@ -67,12 +100,23 @@ test.describe('Immersive case studies', () => {
       ).toHaveAttribute('href', caseStudy.nextHref)
 
       const liveSite = page.getByRole('link', {
-        name: `Visit the ${caseStudy.title} live site (opens in a new tab)`,
+        name: new RegExp(
+          `Visit the live site for ${caseStudy.title}.*opens in a new tab`,
+        ),
       })
-      if (caseStudy.hasLiveSite) {
+      const preview = page.getByRole('link', { name: /View the preview/ })
+      if (caseStudy.status === 'Live') {
         await expect(liveSite).toHaveAttribute('target', '_blank')
+        await expect(preview).toHaveCount(0)
       } else {
         await expect(liveSite).toHaveCount(0)
+        await expect(preview).toHaveAttribute('target', '_blank')
+        await expect(preview).toHaveAccessibleName(
+          new RegExp(`for ${caseStudy.title}.*opens in a new tab`),
+        )
+        await expect(
+          page.getByText("Preview build. Not the client's live domain."),
+        ).toBeVisible()
       }
     })
   }

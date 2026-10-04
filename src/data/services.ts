@@ -163,7 +163,7 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
           'No. We build the technical and content foundations for discovery and a clear route to enquiry. Results also depend on your market, offer, content, and ongoing activity.',
       },
     ],
-    proofSlugs: ['aaskra-realty', 'express-trade-financing'],
+    proofSlugs: ['supreme-universal', 'express-trade-financing', 'express-petroleum'],
     motif: 'web',
   },
   software: {

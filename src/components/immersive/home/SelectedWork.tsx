@@ -43,16 +43,12 @@ export default function SelectedWork() {
           <Link key={cs.slug} href={`/work/${cs.slug}`} className={styles.workCard}>
             <div className={styles.workCover}>
               <Image
-                src={cs.slug === 'aaskra-realty' ? '/work/aaskra-desktop.webp' : cs.coverImage}
+                src={cs.coverImage}
                 alt={`${cs.title} — ${cs.coverCaption}`}
                 width={1440}
-                height={cs.slug === 'aaskra-realty' ? 7327 : 960}
-                style={
-                  cs.slug === 'aaskra-realty'
-                    ? { width: '100%', height: 'auto' }
-                    : { width: '100%', height: '100%', objectFit: 'cover' }
-                }
-                sizes="(max-width: 880px) 100vw, 50vw"
+                height={900}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                sizes="(max-width: 1024px) 100vw, 33vw"
               />
             </div>
             <div className={styles.workBody}>

@@ -4,7 +4,12 @@ import Link from 'next/link'
 import { CASE_STUDIES, SERVICE_LABELS } from '@/data/case-studies'
 import type { CaseStudy } from '@/types'
 import { CASE_ACCENT } from './case-accent'
-import { getDeliveryMetrics, partitionProjects } from './work-projects'
+import SectionLabel from '@/components/immersive/primitives/SectionLabel'
+import {
+  getDeliveryMetrics,
+  getProjectStatus,
+  partitionProjects,
+} from './work-projects'
 import styles from './work.module.css'
 
 function ProjectActions({ caseStudy }: { caseStudy: CaseStudy }) {
@@ -15,14 +20,14 @@ function ProjectActions({ caseStudy }: { caseStudy: CaseStudy }) {
         <span className="sr-only"> for {caseStudy.title}</span>{' '}
         <span aria-hidden="true">→</span>
       </Link>
-      {caseStudy.liveUrl && (
+      {(caseStudy.liveUrl || caseStudy.previewUrl) && (
         <a
-          href={caseStudy.liveUrl}
+          href={caseStudy.liveUrl ?? caseStudy.previewUrl}
           className={styles.projectSecondary}
           target="_blank"
           rel="noopener noreferrer"
         >
-          Visit live site
+          {caseStudy.liveUrl ? 'Visit live site' : 'View preview'}
           <span className="sr-only">
             {' '}
             for {caseStudy.title}, opens in a new tab
@@ -108,11 +113,50 @@ function FeaturedProject({
   )
 }
 
+function MoreProject({ caseStudy }: { caseStudy: CaseStudy }) {
+  const status = getProjectStatus(caseStudy)
+
+  return (
+    <article className={styles.moreItem} data-client-project data-more-project>
+      <div className={styles.moreThumb}>
+        {caseStudy.coverImage && (
+          <Image
+            src={caseStudy.coverImage}
+            alt={`${caseStudy.title} homepage preview`}
+            fill
+            sizes="(max-width: 768px) 256px, 192px"
+            className={styles.projectImage}
+          />
+        )}
+      </div>
+      <div className={styles.moreBody}>
+        <p className={styles.projectMeta}>
+          <span>
+            {caseStudy.industry} · {caseStudy.timeline}
+          </span>
+        </p>
+        <h4 className={styles.conceptTitle}>{caseStudy.title}</h4>
+        <p
+          className={styles.statusChip}
+          data-project-status={status.toLowerCase().replaceAll(' ', '-')}
+        >
+          {status}
+        </p>
+        <p className={styles.projectOutcome}>{caseStudy.outcome}</p>
+        <ProjectActions caseStudy={caseStudy} />
+      </div>
+    </article>
+  )
+}
+
 export default function FeaturedWork() {
-  const { featured } = partitionProjects(CASE_STUDIES)
+  const { featured, remaining } = partitionProjects(CASE_STUDIES)
   if (featured.length === 0) return null
 
-  const deliveryMetrics = getDeliveryMetrics(CASE_STUDIES)
+  // Totals count live client sites only; previews are shown, never counted.
+  const deliveryMetrics = getDeliveryMetrics(
+    CASE_STUDIES.filter((cs) => cs.liveUrl),
+  )
 
   return (
     <>
@@ -135,6 +179,24 @@ export default function FeaturedWork() {
             </div>
           ))}
         </dl>
+      )}
+
+      {remaining.length > 0 && (
+        <div className={styles.moreWork} data-testid="more-client-work">
+          <div>
+            <SectionLabel hideMark>More client work</SectionLabel>
+            <h3 className={styles.principleTitle}>Built. Not launched yet.</h3>
+            <p className={styles.projectOutcome}>
+              Client builds that aren&apos;t on the client&apos;s own domain
+              yet. The previews show the work.
+            </p>
+          </div>
+          <div className={styles.moreList}>
+            {remaining.map((caseStudy) => (
+              <MoreProject key={caseStudy.slug} caseStudy={caseStudy} />
+            ))}
+          </div>
+        </div>
       )}
     </>
   )

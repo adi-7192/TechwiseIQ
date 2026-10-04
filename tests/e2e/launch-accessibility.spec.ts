@@ -57,6 +57,11 @@ test.describe('launch accessibility hardening', () => {
         name: /Visit live site.*Express Trade Financing.*opens in a new tab/i,
       }),
     ).toBeVisible()
+    await expect(
+      page.getByRole('link', {
+        name: /View preview.*RSiGHT.*opens in a new tab/i,
+      }),
+    ).toBeVisible()
   })
 
   test('moves focus to the destination heading after client navigation', async ({

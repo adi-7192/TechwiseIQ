@@ -17,6 +17,8 @@ interface ServiceGuide {
   reviewTitle: string
   reviewBody: string
   reviewChecks: string[]
+  /** Our own automations (D-032), not client work. */
+  ownStack?: { title: string; body: string }[]
 }
 
 export const SERVICE_GUIDES: Record<ServiceId, ServiceGuide> = {
@@ -199,6 +201,24 @@ export const SERVICE_GUIDES: Record<ServiceId, ServiceGuide> = {
       'Does an incomplete input stop or reach the right reviewer?',
       'Can a person inspect the source and correct the output?',
       'Is the next action clear when a connected tool fails?',
+    ],
+    ownStack: [
+      {
+        title: 'Motion graphics from code',
+        body: 'We write our motion graphics as code, then render them. Edit a line, get a new cut.',
+      },
+      {
+        title: 'Gmail automation',
+        body: 'Routine inbox handling runs on its own. A person still reviews anything that needs a reply.',
+      },
+      {
+        title: 'Lead generation',
+        body: 'Finding and qualifying prospects runs as a workflow. A person decides who we approach.',
+      },
+      {
+        title: 'Customer outreach',
+        body: 'Follow-ups are prepared and scheduled automatically. A person approves what gets sent.',
+      },
     ],
   },
 }
