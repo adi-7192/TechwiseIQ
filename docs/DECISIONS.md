@@ -208,6 +208,17 @@ keeps control; we consult and deliver. *Apply:* process copy on `/services`, ser
 `/contact` and `llms.txt` follows this; never imply a fixed package or a single take-it-or-leave-it
 proposal.
 
+**D-034 — Stage 4 applies D-032 Q2/Q5–Q7.** 2026-10-04 · agent, from owner answers · refines D-005.
+D-005 allows one team claim: "a team of experts" (no names/photos). One primary CTA, "Bring us the
+problem", always → `/contact`. No booking link until Cal.com; no in-page WhatsApp buttons (floating
+button only; footer + `/contact` keep it as a contact detail). *Apply:* new CTAs use this label;
+any new "call" CTA links `/contact` until a `BOOKING_URL` exists in `src/lib/site.ts`.
+
+**D-035 — Site voice: plain, witty, young; key words highlighted.** 2026-10-04 · owner · refines D-032 (Q6).
+No jargon or complicated words; say plainly what we do; keep every fact and promise as is. Key
+words in body copy use `<strong>` (bright foreground via `globals.css`), sparingly. *Apply:* new copy
+follows `docs/voice-draft.md` rules; trade terms only where a buyer would use them.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

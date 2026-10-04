@@ -12,7 +12,6 @@ import {
   getCaseStudy,
   getNextCaseStudy,
 } from '@/data/case-studies'
-import { BOOKING_URL, WHATSAPP_URL } from '@/lib/site'
 import { socialMetadata } from '@/lib/metadata'
 import { CASE_ACCENT, CASE_SCENE } from '../case-accent'
 import { getProjectStatus } from '../work-projects'
@@ -352,21 +351,16 @@ export default async function CaseStudyPage({ params }: Props) {
           <div className={styles.wrap}>
             <div className={styles.ctaInner}>
               <p className={styles.sectionLabel}>Start a project like this</p>
-              <h2 className={styles.ctaTitle}>Bring us the problem.</h2>
+              <h2 className={styles.ctaTitle}>
+                Want one like this? <span>Yours will be different.</span>
+              </h2>
               <p className={styles.ctaBody}>
-                Send the underperforming website, the manual workflow or the tool
-                idea nobody has framed properly yet. We&apos;ll tell you how we
-                would approach it.
+                Send us the tired website, the painful workflow or the half-baked
+                app idea. We&apos;ll tell you <strong>how we&apos;d tackle it</strong>.
               </p>
               <div className={styles.ctaActions}>
                 <PrimaryCTA href="/contact" variant="primary">
-                  Start a project
-                </PrimaryCTA>
-                <PrimaryCTA href={WHATSAPP_URL} variant="secondary">
-                  WhatsApp
-                </PrimaryCTA>
-                <PrimaryCTA href={BOOKING_URL} variant="ghost">
-                  Book a 20-minute call
+                  Bring us the problem
                 </PrimaryCTA>
               </div>
             </div>

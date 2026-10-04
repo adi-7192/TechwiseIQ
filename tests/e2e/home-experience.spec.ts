@@ -64,7 +64,7 @@ test('introduces three services before client evidence with useful destinations'
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Technology that')
-  await expect(page.locator('#top').getByRole('link', { name: 'Start a project' })).toHaveAttribute(
+  await expect(page.locator('#top').getByRole('link', { name: 'Bring us the problem' })).toHaveAttribute(
     'href',
     '/contact'
   )
@@ -163,7 +163,7 @@ for (const width of [320, 390, 768, 1024, 1440]) {
     ).toBeLessThanOrEqual(1)
     for (const button of await page
       .locator('#top')
-      .getByRole('link', { name: /Start a project|Explore our work/ })
+      .getByRole('link', { name: /Bring us the problem|Explore our work/ })
       .all()) {
       const box = (await button.boundingBox())!
       expect(box.height).toBeGreaterThanOrEqual(44)

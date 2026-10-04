@@ -15,7 +15,7 @@ export default function SiteFooter() {
         <Link
           className={styles.invitation}
           href="/contact"
-          aria-label="Let’s build what’s next — start a project"
+          aria-label="Let’s build what’s next — bring us the problem"
         >
           <h2 id="footer-title">
             Let’s build
@@ -28,9 +28,9 @@ export default function SiteFooter() {
         </Link>
         <div className={styles.contactRow}>
           <p>
-            Bring the idea. The ambition. The thing that should work better.
+            An idea, a messy workflow, a website you’ve outgrown.
             <br />
-            We’ll help you turn it into something real.
+            Bring it. We’ll help you <strong>make it real</strong>.
           </p>
           <a href={`mailto:${CONTACT_EMAIL}`}>
             Info@
@@ -42,11 +42,11 @@ export default function SiteFooter() {
           <div className={styles.identity}>
             <span className={styles.coordinates}>25.2048° N / 55.2708° E</span>
             <p>
-              Independent thinking.
+              Websites. Software. AI.
               <br />
-              Connected systems.
+              Built in Dubai.
               <br />
-              <span>Real forward motion.</span>
+              <span>Made to work.</span>
             </p>
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
               Talk on WhatsApp <span aria-hidden="true">↗</span>

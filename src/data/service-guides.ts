@@ -29,54 +29,54 @@ export const SERVICE_GUIDES: Record<ServiceId, ServiceGuide> = {
     fitTitle: 'Your website should carry the business forward.',
     buildTitle: 'From the first impression to the final enquiry.',
     buildIntro:
-      'Marketing websites, CMS builds, and e-commerce projects. We agree the pages, content, integrations, and support you need before development starts.',
+      'Marketing sites, sites you edit yourself, and online shops. We agree the pages, content, tools and support before we write any code.',
     examples: {
       'Strategy + structure':
-        'For example: a service journey that answers buyer questions before the enquiry form.',
+        'For example: a services page that answers buyers’ questions before they reach the form.',
       'Custom art direction':
-        'For example: a brand-led marketing site with purposeful motion and a distinct mobile experience.',
+        'For example: a brand-led site with motion that means something, and a phone version that feels designed, not squeezed.',
       'Production development':
-        'For example: a responsive multi-page site with usable navigation, forms, and loading states.',
+        'For example: a multi-page site where menus, forms and loading all just work.',
       'CMS + integrations':
-        'For example: an editable insights section connected to analytics and your enquiry workflow.',
-      'SEO + GEO foundations':
-        'For example: descriptive page titles, structured data, and crawlable service content.',
+        'For example: a news section your team edits, connected to analytics and your enquiry inbox.',
+      'Search foundations':
+        'For example: clear page titles, structured data, and service pages search engines can read.',
       'Launch + support':
-        'For example: device checks, enquiry testing, editor guidance, and post-launch stabilization.',
+        'For example: device checks, test enquiries, an editing guide, and fixes after go-live.',
     },
     expertiseTitle: 'Good design goes all the way through.',
     expertiseIntro:
-      'The visual finish matters. So do the decisions that make a site useful, discoverable, and easy to run.',
+      'Looking good matters. So does being useful, easy to find, and easy to run.',
     standards: [
       {
-        title: 'A clear argument before a layout',
-        body: 'We organize content around what a visitor needs to understand, believe, and do. Each section earns its place in that journey.',
+        title: 'A clear message before a layout',
+        body: 'We put content in the order visitors need it: understand, believe, act. Every section earns its spot.',
       },
       {
         title: 'Motion with a job to do',
-        body: 'Interfaces demonstrate the offer. Navigation, reading, and calls to action stay usable on touch screens and with reduced motion.',
+        body: 'Animation shows how things work. Menus, reading and buttons still work on phones and with motion turned off.',
       },
       {
-        title: 'Performance built into the experience',
-        body: 'Image sizing, font loading, rendering, and animation cost are considered during the build, then checked on the actual pages.',
+        title: 'Fast by design',
+        body: 'Images, fonts and animation are kept light while we build, then checked on the real pages.',
       },
       {
         title: 'A launch that works beyond the homepage',
-        body: 'We check enquiry paths, mobile layouts, metadata, and content editing. Search foundations support discovery; rankings are not a guaranteed deliverable.',
+        body: 'We test enquiry forms, phone layouts, page titles and editing. We build for search, but nobody can promise rankings.',
       },
     ],
     handover: [
-      'Agreed pages and responsive components',
-      'CMS/editor guidance when scoped',
-      'Integration and analytics setup notes',
-      'Launch checks and support arrangements',
+      'Agreed pages, working on every screen',
+      'An editing guide (if editing is in scope)',
+      'Notes on connected tools and analytics',
+      'Launch checks and a support plan',
     ],
     brief:
-      'Bring your current URL, brand material, and the action you want visitors to take. A new business can start with the offer and audience.',
+      'Bring your current site, brand files, and what you want visitors to do. New business? Start with what you sell and who buys it.',
     demoCaption:
-      'A page assembles, adapts to mobile, and turns a clear call to action into an enquiry.',
+      'A page builds itself, fits a phone, and turns one clear button into an enquiry.',
     reviewTitle: 'See the decisions in the finished work.',
-    reviewBody: 'Real projects, with the context and reasoning behind the design.',
+    reviewBody: 'Real projects, with the thinking behind the design.',
     reviewChecks: [],
   },
   software: {
@@ -86,55 +86,55 @@ export const SERVICE_GUIDES: Record<ServiceId, ServiceGuide> = {
     fitTitle: 'When the work has outgrown the workaround.',
     buildTitle: 'The right tool for the way your team operates.',
     buildIntro:
-      'Start with one valuable workflow or a focused first release. The scope can expand as users test the software and the priorities become clearer.',
+      'Start with one workflow that matters, or a small first version. Grow it as people use it and priorities get clearer.',
     examples: {
       'Web applications':
-        'For example: a customer or partner portal for submitting requests and tracking progress.',
+        'For example: a portal where customers send requests and track progress.',
       'Internal dashboards':
-        'For example: an operations queue with ownership, status, and the next action in one view.',
-      'APIs + integrations':
-        'For example: pass approved records between a portal, CRM, and existing back-office tools.',
-      'Legacy rebuilds':
-        'For example: replace a fragile internal system in stages while keeping essential work running.',
-      'Mobile MVPs':
-        'For example: a focused iOS or Android app that lets users test the core product journey.',
-      'Ongoing iteration':
-        'For example: improve a frequently used workflow after reviewing feedback from the first release.',
+        'For example: a team queue showing who owns what and what happens next.',
+      'Connecting your tools':
+        'For example: send approved records between a portal, your CRM and back-office tools.',
+      'Replacing old systems':
+        'For example: replace a fragile old system in stages while the work keeps running.',
+      'First app versions':
+        'For example: a focused iOS or Android app that lets people try the core idea.',
+      'Improving after launch':
+        'For example: smooth out a busy workflow after hearing from the first users.',
     },
-    expertiseTitle: 'The interface is only part of the system.',
+    expertiseTitle: 'The screens are only half the job.',
     expertiseIntro:
-      'We connect the visible experience to the data, permissions, and integration decisions that keep daily work dependable.',
+      'Behind every screen sit the data, the permissions and the connections that keep daily work running. We build those too.',
     standards: [
       {
-        title: 'Model the workflow before the screens',
-        body: 'Identify the people, records, states, and handoffs first. A useful screen follows from understanding who needs to decide or act.',
+        title: 'Map the work before the screens',
+        body: 'First we work out the people, the records and the handoffs. Good screens come from knowing who decides what.',
       },
       {
-        title: 'Make roles and rules explicit',
-        body: 'Define who can view, change, and approve information. Validation belongs in the application logic as well as the interface.',
+        title: 'Clear roles and rules',
+        body: 'Who can see, change and approve what. Rules are checked behind the scenes, not just on screen.',
       },
       {
-        title: 'Design for interrupted work',
-        body: 'Discuss failed integrations, duplicate requests, and incomplete data during scoping. The recovery path is part of the workflow.',
+        title: 'Plan for when things go wrong',
+        body: 'Failed connections, duplicate requests, missing data: we plan for them up front. Recovery is part of the design.',
       },
       {
-        title: 'Build for the next person maintaining it',
-        body: 'Document architecture and integration boundaries, demonstrate working software, and plan migration and handover alongside the release.',
+        title: 'Built for whoever maintains it next',
+        body: 'We document how it’s built and connected, show working software, and plan the switch-over and handover with the release.',
       },
     ],
     handover: [
-      'Agreed application and source code',
-      'Architecture and integration documentation',
-      'Deployment and configuration guidance',
-      'Maintenance or internal handover plan',
+      'The app and its source code',
+      'Docs on how it’s built and connected',
+      'How to deploy and set it up',
+      'A plan for who maintains it',
     ],
     brief:
-      'Bring one workflow, the people involved, and the tools it touches. Screenshots or a spreadsheet can be enough to start the discussion.',
+      'Bring one workflow, the people involved and the tools it touches. A few screenshots or a spreadsheet is enough to start.',
     demoCaption:
-      'An operational app assembles around a request, its checks, and a recorded approval.',
+      'A request moves through its checks to a recorded approval.',
     reviewTitle: 'Look at how the work moves.',
     reviewBody:
-      'The illustrative app above shows a request moving through review to approval. A project review should examine the rules behind those screens, too.',
+      'The demo app above shows a request moving through review to approval. When you review a project, check the rules behind the screens too.',
     reviewChecks: [
       'Can each role see and act on the right information?',
       'What happens when a check fails or information is missing?',
@@ -148,55 +148,55 @@ export const SERVICE_GUIDES: Record<ServiceId, ServiceGuide> = {
     fitTitle: 'Give your team their attention back.',
     buildTitle: 'Useful automation, from input to action.',
     buildIntro:
-      'We combine explicit rules, integrations, and AI where judgment is useful. Not every step needs a model, and not every process should run without a person.',
+      'We mix simple rules, connected tools, and AI only where it helps. Not every step needs AI, and not every task should run without a person.',
     examples: {
       'Workflow automation':
-        'For example: capture an enquiry, check required fields, and route it to the right team.',
+        'For example: catch an enquiry, check it’s complete, and send it to the right team.',
       'AI assistants':
-        'For example: help a team find answers in approved internal documents with a path to source material.',
+        'For example: help your team find answers in approved documents, with a link to the source.',
       'Document extraction':
-        'For example: turn invoice fields into a structured record and flag missing information for review.',
-      'Email triage':
-        'For example: classify incoming messages, suggest a response, and escalate an exception.',
+        'For example: turn invoice details into a clean record and flag anything missing.',
+      'Inbox sorting':
+        'For example: sort incoming emails, suggest a reply, and flag the unusual ones.',
       'Report generation':
-        'For example: assemble a recurring summary from agreed sources for a person to check.',
-      'AI audit + roadmap':
-        'For example: compare candidate workflows by value, feasibility, data readiness, and risk.',
+        'For example: pull a weekly summary from agreed sources for a person to check.',
+      'AI check-up + plan':
+        'For example: compare tasks by value, effort, data quality and risk.',
     },
-    expertiseTitle: 'The control model is part of the product.',
+    expertiseTitle: 'The checks are part of the product.',
     expertiseIntro:
-      'A useful automation needs clear boundaries, an accountable owner, and a reliable route through exceptions.',
+      'A good automation has clear limits, an owner, and a plan for the odd cases.',
     standards: [
       {
-        title: 'Explicit rules before AI judgment',
-        body: 'Use deterministic rules for known checks. Keep model tasks bounded to work such as extraction, classification, or drafting.',
+        title: 'Plain rules first, AI second',
+        body: 'Known checks run on simple rules. AI only gets focused jobs like reading, sorting or drafting.',
       },
       {
-        title: 'Human review where it matters',
-        body: 'Define the conditions that stop a workflow or send it to a person. Uncertain outputs and important actions need an agreed review path.',
+        title: 'A person checks what matters',
+        body: 'We agree when the automation stops and hands over to a person. Unsure answers and big actions always get a review.',
       },
       {
-        title: 'Approved information and integrations',
-        body: 'Agree which sources and systems the workflow can use, what access it needs, and the fallback when an integration is unavailable.',
+        title: 'Approved data and tools only',
+        body: 'We agree what it can access, and what happens when a connected tool is down.',
       },
       {
-        title: 'Evaluate, trace, and improve',
-        body: 'Use representative examples to review outputs and exceptions during the pilot. Plan logging and monitoring so the team can inspect what happened and improve the flow.',
+        title: 'Test, track, improve',
+        body: 'We test on real examples during the pilot and keep logs, so your team can see what happened and make it better.',
       },
     ],
     handover: [
-      'Agreed workflow and connected integrations',
-      'Documented rules and review points',
-      'Pilot findings and known limitations',
-      'Monitoring and ongoing ownership plan',
+      'The working automation, connected to your tools',
+      'Written rules and review points',
+      'What the pilot taught us, limits included',
+      'A plan for monitoring and ownership',
     ],
     brief:
-      'Bring a repetitive process and representative examples you are authorized to share. We can begin by mapping the workflow before accessing live systems.',
+      'Bring a repetitive task and a few examples you’re allowed to share. We can map it out before touching any live systems.',
     demoCaption:
-      'An enquiry becomes structured information, passes routing rules, and reaches a person for review.',
+      'An enquiry gets sorted, passes the routing rules, and lands with a person for review.',
     reviewTitle: 'Judge the workflow by its exceptions, too.',
     reviewBody:
-      'The illustrative flow above ends with human review. In a pilot, the difficult inputs and failure paths deserve as much attention as the successful run.',
+      'The demo above ends with a person reviewing. In a pilot, the messy inputs and failures get as much attention as the happy path.',
     reviewChecks: [
       'Does an incomplete input stop or reach the right reviewer?',
       'Can a person inspect the source and correct the output?',

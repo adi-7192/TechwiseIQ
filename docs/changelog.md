@@ -4,6 +4,22 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — Stage 4: Trust (ROADMAP 4.1–4.4)
+
+- `/about`: "Building for businesses in Dubai and beyond" (was "Trusted by…"); hero says "a team of
+  experts"; closing CTA → `/contact`.
+- One primary CTA site-wide: "Bring us the problem" → `/contact` (replaces "Start a project",
+  "Discuss your project", "Start the conversation", "Bring us the business problem").
+- Booking: `BOOKING_URL` (WhatsApp prefill) removed; dropped in-page WhatsApp/"Book a call" buttons
+  on `/work`, case studies, mobile nav and `/contact` (self-link). Floating WhatsApp button stays.
+- Voice: approved rows 1–12 shipped. Round 2 site-wide plain-English rewrite (services data and
+  guides, Home, /services, /work, case-study CTA, About, contact, footer) — no jargon, same facts.
+  Key words highlighted with `<strong>` in paragraphs (`globals.css`). `/work` process → D-033.
+- E2E: About trust copy, CTA selectors scoped to `main`, new `release-qa` check (one CTA → `/contact`,
+  no in-page WhatsApp outside `/contact`).
+
+---
+
 ## 2026-10-04 — Stage 3: Clarity (ROADMAP 3.1)
 
 - `/services` section 03 is now "How we engage" (`#engage`): "You decide. We deliver." — we gather

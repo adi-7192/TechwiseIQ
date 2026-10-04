@@ -53,6 +53,7 @@
   color: var(--tw-fg);
   max-width: 48ch;
   margin-inline: auto;
+  text-wrap: balance;
 }
 .actions {
   display: flex;

@@ -81,6 +81,16 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-04** — Stage 4 (Trust) on `stage-4/trust`, branched off `stage-3/clarity` (PR #6 still
+  open). 4.1/4.2/4.4 done, 4.3 CTA unified ("Bring us the problem" → `/contact`); voice rewrite is a
+  draft in `docs/voice-draft.md` awaiting owner. Read of D-032 Q7: "WhatsApp only from the WhatsApp
+  button" = no in-page WhatsApp CTA buttons; footer link and `/contact` method kept as contact
+  details (owner to confirm). Gate green; full e2e on a prod build 320 pass, 1 known flake (7.6
+  playback). Dev-server `networkidle` on `/work` times out — run e2e against `next start`.
+  Owner approved voice rows 1–12, then asked for the same voice everywhere (plain words, witty,
+  highlighted key words). Round 2 applied on the branch for review in the browser; full e2e green
+  (319 pass) on a prod build.
+
 - **2026-10-04** — Stage 3 (Clarity) on `stage-3/clarity`. "How we engage" replaces the generic
   delivery section on `/services` (same layout, D-032 model, no prices) + a short line and link on
   `/contact`; `llms.txt` aligned. Small reuse of an existing section, so built directly rather than

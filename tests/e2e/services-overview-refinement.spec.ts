@@ -33,7 +33,7 @@ test('services overview is complete without JavaScript', async ({ browser }) => 
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your next move.Built right.')
   await expect(page.locator('#service-web')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Pause animation' })).toBeHidden()
-  await expect(page.getByRole('link', { name: 'Discuss your project' })).toHaveAttribute(
+  await expect(page.locator('main').getByRole('link', { name: 'Bring us the problem' })).toHaveAttribute(
     'href',
     '/contact'
   )

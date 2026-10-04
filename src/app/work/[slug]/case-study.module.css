@@ -530,6 +530,9 @@
   color: var(--tw-fg);
   text-wrap: balance;
 }
+.ctaTitle span {
+  color: var(--tw-muted);
+}
 .ctaBody {
   max-width: 48ch;
   margin: clamp(1.5rem, 3vh, 2.25rem) auto 0;

@@ -17,18 +17,18 @@ const ENGAGEMENT = [
 const EDITORIAL = {
   web: {
     heading: 'Make the right first impression.',
-    fit: 'For a new launch, a stronger brand, or a website that needs to work harder.',
-    output: 'A website your customers can use and your team can manage.',
+    fit: 'For a new launch, a fresh look, or a website that needs to pull its weight.',
+    output: 'A website customers enjoy and your team can update.',
   },
   software: {
     heading: 'Give your operation room to grow.',
-    fit: 'For teams outgrowing spreadsheets, disconnected tools, or off-the-shelf limits.',
-    output: 'A product or internal system shaped around your actual workflow.',
+    fit: 'For teams buried in spreadsheets, juggling tools, or stuck with software that doesn’t fit.',
+    output: 'An app or internal tool built around how you actually work.',
   },
   ai: {
     heading: 'Put repetitive work on a better path.',
-    fit: 'For document-heavy processes, manual handoffs, and overloaded inboxes.',
-    output: 'Connected workflows with useful AI and visible human control.',
+    fit: 'For piles of documents, copy-paste handoffs and overflowing inboxes.',
+    output: 'Automations that do the busywork, with a person in control.',
   },
 }
 
@@ -49,11 +49,12 @@ export default function ServicesOverview() {
             <span>Built right.</span>
           </DisplayHeading>
           <p className={styles.heroLede}>
-            Websites that bring people in. Software that moves work forward. Automation that gives
-            your team time back.
+            <strong>Websites</strong> that bring people in. <strong>Software</strong> that stops the
+            spreadsheet juggling. <strong>Automation</strong> that hands your team their afternoons
+            back.
           </p>
           <div className={styles.heroActions}>
-            <PrimaryCTA href="/contact">Discuss your project</PrimaryCTA>
+            <PrimaryCTA href="/contact">Bring us the problem</PrimaryCTA>
             <PrimaryCTA href="#disciplines" variant="ghost">
               Explore services
             </PrimaryCTA>
@@ -73,14 +74,14 @@ export default function ServicesOverview() {
           <div>
             <SectionLabel index="01">What we build</SectionLabel>
             <DisplayHeading as="h2" size="h2" id="directory-title" className={styles.sectionTitle}>
-              Three disciplines.
+              Three services.
               <br />
-              <span>One connected business.</span>
+              <span>One team.</span>
             </DisplayHeading>
           </div>
           <p className={styles.sectionBody}>
-            Start with the part that needs to change. We connect it to the systems, people, and work
-            around it.
+            Start with what needs fixing. We make sure it <strong>works with everything around
+            it</strong>.
           </p>
         </div>
         <div className={styles.directory}>

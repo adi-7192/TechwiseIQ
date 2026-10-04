@@ -1,4 +1,4 @@
-import { BOOKING_URL, CONTACT_EMAIL, WHATSAPP_URL } from '@/lib/site'
+import { CONTACT_EMAIL, WHATSAPP_URL } from '@/lib/site'
 
 /**
  * Homepage content for the immersive redesign.
@@ -312,11 +312,11 @@ export const BUILD_CHAPTER: ChapterContent = {
 export const OPERATING_MODEL = {
   index: 'Operating model',
   title: 'A clear plan. A working product.',
-  body: 'Work directly with the people designing and building your product. Know what comes next, see real progress, and keep ownership of what we ship.',
+  body: 'Talk straight to the people building your product. Know what’s next, see real progress, and own everything we ship.',
   promises: [
     ['Written scope', 'Timeline and cost agreed before the build starts.'],
-    ['Weekly demos', 'Progress you can click, every week—not status decks.'],
-    ['Direct access', 'Talk to the people building it, not an account layer.'],
+    ['Weekly demos', 'Progress you can click, every week. Not slide decks.'],
+    ['Direct access', 'Talk to the people building it, not a middleman.'],
     ['Clean ownership', 'You keep the product, the code and the accounts.'],
   ],
 } as const
@@ -330,5 +330,4 @@ export const FINAL_CTA = {
   primary: { href: '/contact', label: 'Start a project' },
   secondary: { href: WHATSAPP_URL, label: 'WhatsApp' },
   ghost: { href: `mailto:${CONTACT_EMAIL}`, label: CONTACT_EMAIL },
-  booking: { href: BOOKING_URL, label: 'Book a 20-minute call' },
 } as const

@@ -6,7 +6,6 @@ import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
 import { SiteHeader, SiteFooter } from '@/components/global'
 import PrimaryCTA from '@/components/ui/PrimaryCTA'
 import { CASE_STUDIES } from '@/data/case-studies'
-import { BOOKING_URL, WHATSAPP_URL } from '@/lib/site'
 import { socialMetadata } from '@/lib/metadata'
 import ConceptLab from './ConceptLab'
 import FeaturedWork from './FeaturedWork'
@@ -44,24 +43,24 @@ const jsonLd = {
 }
 
 const OPERATING = [
-  ['01', 'Align', 'Goals, audience, scope and success measures agreed up front.'],
-  ['02', 'Prototype', 'Structure and direction proven before full production.'],
-  ['03', 'Build', 'Working software demonstrated every week — not status decks.'],
-  ['04', 'Ship', 'Quality assurance, launch and a clean handover of everything.'],
+  ['01', 'Requirements', 'Your goals, your audience, and what success looks like.'],
+  ['02', 'Options', 'A few directions, with our pick. You choose.'],
+  ['03', 'Build', 'Working builds shown every week. Not slide decks.'],
+  ['04', 'Ship', 'Testing, launch, and a clean handover of everything.'],
 ]
 
 const CLIENTS_GET = [
-  'Clear scope and ownership',
+  'A clear scope, and everything is yours',
   'Direct access to the people building',
-  'Weekly working demonstrations',
-  'Decisions explained in plain language',
+  'Something working to see every week',
+  'Decisions explained in plain English',
 ]
 
 const WE_AVOID = [
-  'Black-box project management',
-  'Weeks without a working build',
-  'Template design sold as custom work',
-  'Vague handover responsibilities',
+  'Projects you can’t see into',
+  'Weeks with nothing to show',
+  'Templates sold as custom design',
+  'A handover nobody owns',
 ]
 
 export default function WorkPage() {
@@ -80,16 +79,15 @@ export default function WorkPage() {
             Proof, not <span>promises.</span>
           </DisplayHeading>
           <p className={styles.heroIntro}>
-            Real launches, clear decisions and a delivery model clients can
-            understand before the first call. Client work leads; self-initiated
-            concepts sit clearly apart.
+            <strong>Real sites for real clients</strong>, and how we made them.
+            Our own experiments are clearly labelled further down.
           </p>
           <div className={styles.heroActions}>
             <PrimaryCTA href="#selected-work" variant="secondary" arrow={false}>
               See the work
             </PrimaryCTA>
             <PrimaryCTA href="/contact" variant="ghost">
-              Start a project
+              Bring us the problem
             </PrimaryCTA>
           </div>
         </Section>
@@ -133,8 +131,8 @@ export default function WorkPage() {
               Clear from kickoff <span>to launch.</span>
             </DisplayHeading>
             <p className={styles.sectionBody}>
-              A straightforward process, visible progress and direct
-              communication throughout.
+              A simple process, progress you can see, and{' '}
+              <strong>straight answers</strong> all the way.
             </p>
           </div>
           <div className={styles.operatingGrid}>
@@ -178,21 +176,15 @@ export default function WorkPage() {
             id="work-cta-title"
             className={styles.ctaTitle}
           >
-            Bring us the <span>problem.</span>
+            Got a knot? <span>We like knots.</span>
           </DisplayHeading>
           <p className={styles.ctaBody}>
-            Start with a focused 20-minute call. You explain the challenge; we
-            explain how we would approach it.
+            Twenty minutes. You explain the mess; we explain how we&apos;d
+            untangle it.
           </p>
           <div className={styles.ctaActions}>
-            <PrimaryCTA href={BOOKING_URL} variant="primary">
-              Discuss your project
-            </PrimaryCTA>
-            <PrimaryCTA href={WHATSAPP_URL} variant="secondary">
-              WhatsApp
-            </PrimaryCTA>
-            <PrimaryCTA href="/contact" variant="ghost" arrow={false}>
-              Contact form
+            <PrimaryCTA href="/contact" variant="primary">
+              Bring us the problem
             </PrimaryCTA>
           </div>
         </Section>

@@ -113,7 +113,7 @@ test('retains meaningful DOM and CSS atmosphere when WebGL is unavailable', asyn
     page.getByRole('heading', { level: 1, name: /Technology that/i }),
   ).toBeVisible()
   await expect(page.locator('[data-hero-scene] canvas')).toHaveCount(0)
-  await expect(page.locator('#top').getByRole('link', { name: 'Start a project' })).toBeVisible()
+  await expect(page.locator('#top').getByRole('link', { name: 'Bring us the problem' })).toBeVisible()
 })
 
 test('keeps shared navigation, contact, legal, and indexing contracts', async ({
@@ -144,4 +144,22 @@ test('keeps shared navigation, contact, legal, and indexing contracts', async ({
     'https://wa.me/971567760667',
   )
   await expect(page.locator('meta[name="robots"][content*="noindex"]')).toHaveCount(0)
+})
+
+// D-032 (Q6, Q7): one CTA, "Bring us the problem" → /contact. WhatsApp is the
+// floating button; /contact keeps it as a listed contact method.
+test('uses one primary CTA and no in-page WhatsApp buttons', async ({ page }) => {
+  for (const route of PUBLIC_ROUTES) {
+    await page.goto(route)
+    const main = page.locator('main')
+    await expect(main.locator('a[href*="wa.me"]')).toHaveCount(route === '/contact' ? 1 : 0)
+    await expect(
+      page.getByRole('link', { name: /Start a project|Discuss your project|Start the conversation|Book a/ }),
+    ).toHaveCount(0)
+    for (const href of await page
+      .getByRole('link', { name: /Bring us the problem/ })
+      .evaluateAll((links) => links.map((link) => link.getAttribute('href')))) {
+      expect(href, route).toBe('/contact')
+    }
+  }
 })

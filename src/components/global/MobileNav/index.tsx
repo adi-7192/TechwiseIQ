@@ -3,7 +3,6 @@
 import { type RefObject, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import PrimaryCTA from '@/components/ui/PrimaryCTA'
-import { WHATSAPP_URL } from '@/lib/site'
 import { cn } from '@/lib/utils'
 import styles from './MobileNav.module.css'
 
@@ -94,10 +93,7 @@ export default function MobileNav({ open, onClose, links, triggerRef }: MobileNa
 
       <div className={styles.footer}>
         <PrimaryCTA href="/contact" variant="primary" onClick={onClose}>
-          Start a project
-        </PrimaryCTA>
-        <PrimaryCTA href={WHATSAPP_URL} variant="secondary" external>
-          WhatsApp
+          Bring us the problem
         </PrimaryCTA>
         <span className={styles.meta}>Dubai · Worldwide</span>
       </div>

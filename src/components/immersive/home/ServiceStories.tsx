@@ -11,8 +11,13 @@ const services = [
     number: '01',
     name: 'Websites',
     title: ['Make your first', 'impression count.'],
-    body: 'For businesses whose website no longer reflects what they can do. We turn your offer into a clear, distinctive experience that makes the next step easy.',
-    items: ['Strategy & UX', 'Design & development', 'Performance & SEO'],
+    body: (
+      <>
+        Your business has grown; your website hasn’t. We turn what you do into a{' '}
+        <strong>clear, good-looking site</strong> that makes getting in touch easy.
+      </>
+    ),
+    items: ['Plan & structure', 'Design & build', 'Speed & search'],
     href: '/services/web',
     link: 'Explore web development',
     accent: 'var(--tw-acid)',
@@ -24,8 +29,13 @@ const services = [
     number: '02',
     name: 'Custom software',
     title: ['Your workflow.', 'Your software.'],
-    body: 'When spreadsheets and disconnected tools start slowing you down. We build portals, internal tools, and applications around how your team actually works.',
-    items: ['Internal tools', 'Customer portals', 'System integrations'],
+    body: (
+      <>
+        Drowning in spreadsheets and tools that don’t talk? We build portals, internal tools and
+        apps <strong>around how your team really works</strong>.
+      </>
+    ),
+    items: ['Internal tools', 'Customer portals', 'Connected tools'],
     href: '/services/software',
     link: 'Explore custom software',
     accent: 'var(--tw-orange)',
@@ -37,8 +47,13 @@ const services = [
     number: '03',
     name: 'AI automation & advisory',
     title: ['Less repetitive.', 'More productive.'],
-    body: 'Find where AI can make a useful difference, then put it to work. Connect your tools, process information, and move everyday tasks forward—with people in control.',
-    items: ['Opportunity discovery', 'Workflow automation', 'Human review'],
+    body: (
+      <>
+        We find where AI actually helps, then put it to work: connecting tools, reading documents
+        and moving daily tasks along. <strong>People stay in charge.</strong>
+      </>
+    ),
+    items: ['Finding the right tasks', 'Workflow automation', 'Human review'],
     href: '/services/ai',
     link: 'Explore AI services',
     accent: 'var(--tw-violet)',
@@ -58,7 +73,9 @@ export default function ServiceStories() {
               <br />
               <span>One team to build them.</span>
             </h2>
-            <p>Start with what your business needs. We’ll find the right way to build it.</p>
+            <p>
+              Tell us what’s in the way. We’ll pick the <strong>right tool</strong> to clear it.
+            </p>
           </div>
           <nav className={styles.serviceIndex} aria-label="Explore our services">
             {services.map((s) => (

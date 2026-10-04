@@ -8,19 +8,19 @@
 
 ## ▶ NEXT
 
-**Stage 3 PR open (`stage-3/clarity`) — owner approves the "How we engage" copy, then merge.**
-After that: **Stage 4 — Trust** (copy drafted before/after for owner approval first, D-032).
+**Stage 4 PR open (`stage-4/trust`) — owner reviews the copy in the preview, then merges.**
+Then: Stage 5 (5.1 free 20-minute bottleneck review page) or Stage 6.3 docs.
 
 ## Progress
 
-**8 / 22 tasks done** · rebuilt for the redesign 2026-10-04
+**11 / 22 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
 | 1. Fixes | Audit findings on the redesign (HANDOFF §3) | 4/4 | ✅ |
 | 2. Proof | More real work where buyers decide | 2/2 | ✅ |
-| 3. Clarity | How working with us works | 1/1 | ✅ (PR awaiting copy OK) |
-| 4. Trust | Honest claims, people, consistent CTAs, booking | 0/4 | ⬜ (Cal.com URL later) |
+| 3. Clarity | How working with us works | 1/1 | ✅ (PR #6 merged) |
+| 4. Trust | Honest claims, people, consistent CTAs, booking | 3/4 | 🟡 (voice draft awaiting owner; Cal.com later) |
 | 5. Growth | First-step offer, insights | 0/2 | ⬜ (5.2 held) |
 | 6. Polish | Concept Lab self-hosting, parked components, docs | 0/3 | ⬜ |
 | 7. Release | Redesign release checklist → merge to `main` | 1/6 | 🟡 (7.3+ 🔒 owner) |
@@ -89,8 +89,15 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 
 ## Stage 4 — Trust
 
-- 🔒 **4.1 About claim** (Q5, R-5) · 🔒 **4.2 People on About** (Q2) ·
-  🔒 **4.3 CTA vocabulary** (Q6, R-6) · 🔒 **4.4 Booking** (Q7).
+- ✅ **4.1 About claim** (Q5, R-5) — 2026-10-04, `stage-4/trust`. "Trusted by…" → "Building for
+  businesses in Dubai and beyond, turning important ideas into working digital products."
+- ✅ **4.2 People on About** (Q2) — 2026-10-04. Hero: "Techwise IQ is a team of experts…". No names (D-005).
+- 🟡 **4.3 CTA vocabulary + voice** (rows 1–12 approved + shipped; round 2 site-wide rewrite on branch, owner review) (Q6, R-6) — CTA done 2026-10-04: every primary CTA (header, mobile
+  nav, Home, /services, service pages, /work, case studies, About) reads "Bring us the problem" →
+  `/contact`. Voice rewrite drafted in `docs/voice-draft.md` — 🔒 owner approval before shipping.
+- ✅ **4.4 Booking** (Q7) — 2026-10-04. `BOOKING_URL` (a WhatsApp link) removed; no in-page WhatsApp
+  or "Book a call" buttons — WhatsApp is the floating button (+ footer and `/contact` contact
+  details). Cal.com later (Q7b): add a `BOOKING_URL` in `src/lib/site.ts`.
 
 ## Stage 5 — Growth
 

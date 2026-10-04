@@ -79,8 +79,8 @@ export default function ConceptLab() {
             What else could we <span>build?</span>
           </h2>
           <p className={styles.sectionBody}>
-            Live coded website explorations across industries,
-            visual languages and interaction patterns.
+            Sites we built for ourselves to try new looks, industries and
+            ideas.
           </p>
           <p className={styles.conceptDisclosure}>
             Concept work — not client commissions

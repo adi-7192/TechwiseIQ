@@ -62,11 +62,12 @@ export default function HomeHero() {
           </span>
         </h1>
         <p className={styles.body} data-hero-support>
-          Websites that make an impression. Software that fits.
-          <br className={styles.desktopBreak} /> AI that puts your business in motion.
+          <strong>Websites</strong> people remember. <strong>Software</strong> that fits like it
+          was measured.
+          <br className={styles.desktopBreak} /> <strong>AI</strong> that does the boring bits.
         </p>
         <div className={styles.actions} data-hero-support>
-          <PrimaryCTA href="/contact">Start a project</PrimaryCTA>
+          <PrimaryCTA href="/contact">Bring us the problem</PrimaryCTA>
           <PrimaryCTA href="/work" variant="secondary">
             Explore our work
           </PrimaryCTA>

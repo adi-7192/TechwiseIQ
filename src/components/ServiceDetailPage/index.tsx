@@ -51,7 +51,7 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
           </DisplayHeading>
           <p className={styles.heroLede}>{service.description}</p>
           <div className={styles.heroActions}>
-            <PrimaryCTA href="/contact">Start the conversation</PrimaryCTA>
+            <PrimaryCTA href="/contact">Bring us the problem</PrimaryCTA>
             <PrimaryCTA href="#capabilities" variant="ghost">
               What we build
             </PrimaryCTA>
@@ -202,7 +202,7 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <p>The final scope defines the deliverables and ongoing support.</p>
+          <p>Your written scope lists exactly what you get and what support follows.</p>
         </details>
       </Section>
 
@@ -293,8 +293,7 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
           <div className={styles.publishedNote}>
             <h2 id="related-title">Explore our published work.</h2>
             <p>
-              The experiences above are illustrative. Our published client projects currently cover
-              web design and development.
+              The demos above are examples. Our published client projects so far are websites.
             </p>
             <Link className={styles.textLink} href="/work">
               See the projects <span aria-hidden="true">↗</span>

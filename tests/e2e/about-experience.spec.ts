@@ -18,10 +18,11 @@ test('presents Techwise IQ as a direct, outcome-focused studio', async ({
     }),
   ).toBeVisible()
 
+  await expect(experience.getByText(/a team of experts/i)).toBeVisible()
   await expect(experience.getByText('Direct ownership')).toBeVisible()
   await expect(experience.getByText('Small-studio speed')).toBeVisible()
   await expect(
-    experience.getByText(/no account-management relay/i),
+    experience.getByText(/no game of telephone/i),
   ).toBeVisible()
   await expect(experience.getByText('Ownership', { exact: true })).toBeVisible()
   await expect(experience.getByText('Clarity', { exact: true })).toBeVisible()
@@ -31,6 +32,7 @@ test('presents Techwise IQ as a direct, outcome-focused studio', async ({
     /note from the founder/i,
     /founder, techwise iq/i,
     /freelancer/i,
+    /trusted by/i,
   ]) {
     await expect(experience.getByText(forbidden)).toHaveCount(0)
   }
@@ -52,28 +54,28 @@ test('preserves the approved About service paths and qualitative proof', async (
   ).resolves.toEqual([
     {
       problem: 'A website that undersells you',
-      outcome: 'A digital presence built to earn attention and action.',
+      outcome: 'A website that gets noticed and gets people to act.',
     },
     {
       problem: 'Work trapped in spreadsheets',
-      outcome: 'Software shaped around how your operation actually runs.',
+      outcome: 'Software built around how your business really runs.',
     },
     {
       problem: 'Repetitive work slowing people down',
-      outcome: 'AI automation with clear human control.',
+      outcome: 'Automation that does the busywork, with a person in charge.',
     },
   ])
 
   await expect(
-    experience.getByText('Trusted by businesses in Dubai and beyond', {
+    experience.getByText('Building for businesses in Dubai and beyond', {
       exact: false,
     }),
   ).toBeVisible()
 
   const cta = experience.getByRole('link', {
-    name: /bring us the business problem/i,
+    name: /bring us the problem/i,
   })
-  await expect(cta).toHaveAttribute('href', /wa\.me\/971567760667/)
+  await expect(cta).toHaveAttribute('href', '/contact')
   await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
 })
 
@@ -95,7 +97,7 @@ for (const viewport of [
 
     const experience = page.getByTestId('about-experience')
     const cta = experience.getByRole('link', {
-      name: /bring us the business problem/i,
+      name: /bring us the problem/i,
     })
     const ctaBox = await cta.boundingBox()
     expect(ctaBox).not.toBeNull()
