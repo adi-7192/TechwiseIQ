@@ -107,8 +107,10 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 - 🔒 **7.3 Production form test** — Resend env + test inquiry.
 - ✅ **7.4 Merge to `main`** — 2026-10-04, PR #1 (`5e00dce`). CI added (`.github/workflows/ci.yml`),
   `main` protected (both checks required). Vercel deploys `main` to production automatically.
-- ⬜ **7.6 De-flake two e2e tests** — `home-experience` "playback pauses on demand…" and
-  `performance-mobile` CLS pass only on retry in CI (2 retries mask them). Make them deterministic.
+- ⬜ **7.6 De-flake e2e tests** — `home-experience` "playback pauses on demand…" passes only on
+  retry in CI; `performance-mobile` long-task budget (<200 ms) depends on host load. Fixed
+  2026-10-04: `performance-mobile` canvas test used a native `scrollTo` that Lenis overrode on CI
+  (trace showed the page never left #selected-work) — now retries the jump until it holds.
 - 🔒 **7.5 Production smoke + launch gates** — domain/DNS, real devices, promote.
 
 ## Later / rejected
