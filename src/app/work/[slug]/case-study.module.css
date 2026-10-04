@@ -72,7 +72,7 @@
 }
 .factsGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0;
 }
 .factItem {
@@ -96,7 +96,7 @@
   line-height: 1.25;
   color: var(--tw-fg);
 }
-@media (max-width: 720px) {
+@media (max-width: 1024px) {
   .factsGrid {
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem 0;
@@ -343,6 +343,19 @@
 }
 .liveLink:hover {
   color: var(--tw-accent);
+}
+@media (pointer: coarse) {
+  .liveLink {
+    min-height: 44px;
+  }
+}
+.previewNote {
+  margin-block-start: 0.75rem;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tw-muted);
 }
 .browserFrame {
   border: 1px solid var(--tw-line);
