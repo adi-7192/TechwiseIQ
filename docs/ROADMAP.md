@@ -8,18 +8,18 @@
 
 ## ▶ NEXT
 
-**Stage 3 — Clarity: 3.1 "How we engage"** (D-032: clients bring a requirement → we assess → custom
-price; no public prices). One branch + one PR for the stage (D-030).
+**Stage 3 PR open (`stage-3/clarity`) — owner approves the "How we engage" copy, then merge.**
+After that: **Stage 4 — Trust** (copy drafted before/after for owner approval first, D-032).
 
 ## Progress
 
-**7 / 22 tasks done** · rebuilt for the redesign 2026-10-04
+**8 / 22 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
 | 1. Fixes | Audit findings on the redesign (HANDOFF §3) | 4/4 | ✅ |
 | 2. Proof | More real work where buyers decide | 2/2 | ✅ |
-| 3. Clarity | How working with us works | 0/1 | ⬜ |
+| 3. Clarity | How working with us works | 1/1 | ✅ (PR awaiting copy OK) |
 | 4. Trust | Honest claims, people, consistent CTAs, booking | 0/4 | ⬜ (Cal.com URL later) |
 | 5. Growth | First-step offer, insights | 0/2 | ⬜ (5.2 held) |
 | 6. Polish | Concept Lab self-hosting, parked components, docs | 0/3 | ⬜ |
@@ -79,7 +79,13 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 
 ## Stage 3 — Clarity
 
-- ⬜ **3.1 "How we engage"** (D-032) — `/services` + short version on `/contact`. No prices (D-003).
+- ✅ **3.1 "How we engage"** (D-032, D-033) — 2026-10-04, `stage-3/clarity`. `/services` section 03
+  (was "How it comes together") → `#engage` "You decide. We deliver.": requirements → options
+  with our recommendation → you choose (scope + price in writing) → we build your choice. Same
+  pattern in each service's 4-step journey (web: design options; software: solution options; AI:
+  workflow/tool options) and the `/contact` steps. `/contact` "What happens next" gains
+  a no-packages line linking to it. `llms.txt` process → the same model (dropped "discovery
+  sprint"/"retainer" products). No prices (D-003).
 
 ## Stage 4 — Trust
 

@@ -201,6 +201,13 @@ changes from "WA ↗" to "Chat ↗" so the name contains it at every width (WCAG
 - *First-step offer (Q4):* free 20-minute bottleneck review. *Concept Lab (Q8):* self-host media and
   fonts. *Parked components (Q15):* delete (unused by any page or test; recoverable from git).
 
+**D-033 — Our process: requirements → options → client chooses → we build.** 2026-10-04 · owner · refines D-032 (Q3).
+Every service: gather requirements, present several options (websites: several design directions)
+with our recommendation, the client chooses, we quote and build that choice. Message: the client
+keeps control; we consult and deliver. *Apply:* process copy on `/services`, service journeys,
+`/contact` and `llms.txt` follows this; never imply a fixed package or a single take-it-or-leave-it
+proposal.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)
@@ -219,6 +226,6 @@ changes from "WA ↗" to "Chat ↗" so the name contains it at every width (WCAG
 | OD-10 | Concept demos load media from `figma.site`, CloudFront, `images.higgs.ai` and Google Fonts. Self-host, or accept the dependency? | Self-host media + fonts (availability, privacy-policy consistency, licence clarity). | Work reliability |
 | OD-11 | Is there a real internal automation or client software/AI project to write up as a case study? | Yes if one exists — biggest proof gap. | ROADMAP 2.2 |
 | OD-12 | Show a founder name, photo and signed note on About (reverses D-005)? | Yes — strongest trust signal for a new agency. | ROADMAP 4.1 |
-| OD-13 | Which engagement models do we sell (e.g. discovery sprint → fixed-scope build → retainer)? | Those three, no prices. | ROADMAP 3.1 |
+| ~~OD-13~~ | **Resolved → D-032 (Q3): custom quote per requirement, no packaged models.** Which engagement models do we sell (e.g. discovery sprint → fixed-scope build → retainer)? | Those three, no prices. | ROADMAP 3.1 |
 | ~~OD-15~~ | **Obsolete (Kinetic only, D-028).** Services pages ship circular number markers (`border-radius: 50%`, ~8 files) against D-001 "radius 0". Log an exception for process-number circles, or square them? Case-study markers are square for now. | Square them (D-001 is explicit; circles were never ratified). | Consistency |
 | OD-14 | Which first-step offer (free 20-min bottleneck review / website + automation audit)? | Free 20-min bottleneck review. | ROADMAP 5.1 |

@@ -17,9 +17,9 @@
 - [RSiGHT Architectural Lighting case study](https://techwiseiq.com/work/rsight): single-page portfolio for a lighting design studio in Ahmedabad, India. Built; awaiting the client's launch.
 - [Concept Lab](https://techwiseiq.com/work): self-initiated concept sites (TerraElix, mėntality, Lumora), not client work. Each opens as a standalone demo.
 
-## Process
+## How we engage
 
-Four steps: Diagnose (discovery sprint), Scope (fixed written scope, price, and timeline), Build (weekly working demos), Run (launch, handover, optional retainer).
+No packages or public prices. Every service follows the same pattern: we gather the client's requirements, present several options (for websites, several design directions) with our recommendation, the client chooses, and we quote and build that choice with weekly working progress, then launch, documentation and handover. The client keeps the final say; we consult and deliver.
 
 ## Contact
 

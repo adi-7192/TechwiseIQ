@@ -8,11 +8,11 @@ import ProblemNavigator from './ProblemNavigator'
 import ConnectedSystem from './ConnectedSystem'
 import styles from './ServicesOverview.module.css'
 
-const DELIVERY = [
-  ['Diagnose', 'Find the real constraint before proposing a tool.'],
-  ['Scope', 'Define boundaries, timeline and cost in writing.'],
-  ['Build', 'See working progress every week.'],
-  ['Run', 'Launch, document, hand over, and improve.'],
+const ENGAGEMENT = [
+  ['We gather your requirements', 'Your goals, users, tools and deadline. No technical brief needed.'],
+  ['We bring you options', 'Several designs or solution routes, each with our honest recommendation.'],
+  ['You choose', 'Pick what fits your goals, budget and timing. Scope and price in writing.'],
+  ['We build your choice', 'Exactly what you picked, with progress you see every week, then handover.'],
 ]
 const EDITORIAL = {
   web: {
@@ -145,28 +145,29 @@ export default function ServicesOverview() {
         </p>
       </Section>
 
-      <Section ruled density="dense" aria-labelledby="delivery-title">
+      <Section id="engage" ruled density="dense" aria-labelledby="engage-title">
         <div className={styles.directoryIntro}>
           <div>
-            <SectionLabel index="03">How it comes together</SectionLabel>
-            <DisplayHeading as="h2" size="h2" id="delivery-title" className={styles.sectionTitle}>
-              Clear scope.
+            <SectionLabel index="03">How we engage</SectionLabel>
+            <DisplayHeading as="h2" size="h2" id="engage-title" className={styles.sectionTitle}>
+              You decide.
               <br />
-              <span>Visible progress.</span>
+              <span>We deliver.</span>
             </DisplayHeading>
           </div>
           <div>
             <p className={styles.sectionBody}>
-              One delivery process across every discipline. You know what we are building, why it
-              matters, and what comes next.
+              Every project starts with your requirements, not a package. We come back with
+              options and tell you which one we would pick and why. The final call is always yours.
+              No price list: each quote is for the option you choose.
             </p>
-            <Link href="/work" className={styles.directoryLink}>
-              See the work <span aria-hidden="true">↗</span>
+            <Link href="/contact" className={styles.directoryLink}>
+              Bring us your requirement <span aria-hidden="true">↗</span>
             </Link>
           </div>
         </div>
         <ol className={styles.deliveryTrack}>
-          {DELIVERY.map(([title, body], index) => (
+          {ENGAGEMENT.map(([title, body], index) => (
             <li key={title}>
               <span className={styles.deliveryMarker}>0{index + 1}</span>
               <h3>{title}</h3>

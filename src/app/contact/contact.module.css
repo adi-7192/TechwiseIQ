@@ -249,6 +249,28 @@
   font-weight: 700;
 }
 
+.nextNote {
+  margin-top: 1.25rem;
+  color: var(--tw-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.nextNote a {
+  display: inline-block;
+  padding-block: 0.25rem;
+  color: var(--tw-fg);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (pointer: coarse) {
+  .nextNote a {
+    min-height: 44px;
+    padding-block: 0.6rem;
+  }
+}
+
 @media (max-width: 880px) {
   .grid {
     grid-template-columns: 1fr;
