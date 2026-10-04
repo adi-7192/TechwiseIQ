@@ -138,7 +138,7 @@ function MoreProject({ caseStudy }: { caseStudy: CaseStudy }) {
         <h4 className={styles.conceptTitle}>{caseStudy.title}</h4>
         <p
           className={styles.statusChip}
-          data-project-status={status.toLowerCase().replace(' ', '-')}
+          data-project-status={status.toLowerCase().replaceAll(' ', '-')}
         >
           {status}
         </p>

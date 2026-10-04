@@ -94,11 +94,12 @@
   font-size: 1.0625rem;
   font-weight: 600;
   line-height: 1.25;
+  overflow-wrap: break-word;
   color: var(--tw-fg);
 }
 @media (max-width: 1024px) {
   .factsGrid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.5rem 0;
   }
   .factItem:nth-child(2n) {

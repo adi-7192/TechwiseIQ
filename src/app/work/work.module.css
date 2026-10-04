@@ -355,6 +355,7 @@
   }
 }
 @media (pointer: coarse) {
+  .projectPrimary,
   .projectSecondary {
     min-height: 44px;
   }
