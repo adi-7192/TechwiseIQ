@@ -83,7 +83,7 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 - **2026-10-04** — 5.2 Insights built (D-037) through the pipeline: PM → design → UI → UX PASS → QA
   PASS (Lighthouse a11y/BP/SEO 100 on `/insights` + an article; citations, JSON-LD, wording diff vs
-  drafts all verified). Full e2e 358 pass on a prod build. Open for owner: the two [OWNER] claims;
+  drafts all verified). Full e2e 358 pass on a prod build. Owner then confirmed both [OWNER] claims (shipped). Open for owner:
   body h2 same size as body text (design Q1); floating Chat pill covers text at 390 (site-wide).
 
 - **2026-10-04** — 5.2: owner asked for researched articles. 6 drafts with cited sources in

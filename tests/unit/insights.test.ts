@@ -42,7 +42,7 @@ test('inline links are internal, copy has no banned words or review notes', () =
     const text = allText(i)
     for (const m of text.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)) assert.match(m[1], /^\//, i.slug)
     assert.doesNotMatch(text, BANNED, i.slug)
-    assert.doesNotMatch(text, /\[OWNER\]|wording approved|you get the logins|search foundations into every site/, i.slug)
+    assert.doesNotMatch(text, /\[OWNER\]|wording approved/, i.slug)
     assert.ok(!Number.isNaN(Date.parse(i.published)), i.slug)
   }
 })

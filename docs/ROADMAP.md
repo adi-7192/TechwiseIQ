@@ -108,7 +108,7 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 - ✅ **5.2 Insights** (D-037) — 2026-10-04, `stage-5/growth`. Six researched, sourced articles
   (drafts: `docs/insights-drafts-2026-10-04.md`, spec: `docs/specs/5.2-insights.md`). `/insights` +
   `/insights/[slug]` from `src/data/insights.ts`; Article JSON-LD, byline "Techwise IQ team";
-  footer link + "Worth a read" on each service page. Two [OWNER] claims left out pending owner.
+  footer link + "Worth a read" on each service page. Both [OWNER] claims confirmed and shipped.
 
 ## Stage 6 — Polish
 

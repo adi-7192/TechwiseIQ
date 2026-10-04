@@ -13,6 +13,7 @@ Running log of all changes made to the codebase. Most recent first.
 - Footer "Insights" link; "Worth a read" list in each service page's questions section.
 - Sitemap (+7) and `llms.txt` Insights section. Unit test (`tests/unit/insights.test.ts`) and e2e
   (`tests/e2e/insights.spec.ts`); routes added to responsive/launch-smoke/release-qa.
+- Owner confirmed the two claims: art. 2 and art. 6 now close with them (D-037 update).
 - Draft sources corrected before publish: Portent stat dropped (no primary), Similarweb via
   TechCrunch, `.ae` via Wikipedia.
 

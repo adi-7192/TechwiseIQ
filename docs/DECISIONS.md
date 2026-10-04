@@ -233,6 +233,9 @@ All six drafts in `docs/insights-drafts-2026-10-04.md` approved. Byline "Techwis
 The two [OWNER] claims about us (art. 2 "accounts in your name at handover", art. 6 "search
 foundations in every site") are **left out** until the owner confirms them; the CTA closing lines
 ship. *Apply:* every number keeps its source link and year; no client claims; no prices.
+*Update 2026-10-04 (owner: "add the claims"):* both claims confirmed as always true and shipped as
+the closing lines of art. 2 and art. 6. Keep them true: every handover puts accounts in the
+client's name with logins; every site ships clear copy, structured data and a sitemap.
 
 ---
 

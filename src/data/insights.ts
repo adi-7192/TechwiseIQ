@@ -129,6 +129,7 @@ export const INSIGHTS: Insight[] = [
       },
       { type: 'p', text: 'None of this is about distrusting your supplier. Good suppliers are happy to do it, because it\'s how it should be set up anyway.' },
     ],
+    closing: 'When we hand over a project, the accounts are in your name and you get the logins.',
     sources: [
       {
         label: 'Domain Name Wire, "Web designers holding domain names hostage" (2008)',
@@ -374,6 +375,7 @@ export const INSIGHTS: Insight[] = [
       },
       { type: 'p', text: 'Be wary of anyone promising "guaranteed ChatGPT rankings". Nobody can guarantee that.' },
     ],
+    closing: 'We build search foundations into every site we make: clear copy, structured data, sitemaps.',
     sources: [
       {
         label: 'Pew Research Center, "Google users are less likely to click on links when an AI summary appears in the results" (2025)',
