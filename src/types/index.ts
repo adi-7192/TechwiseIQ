@@ -32,6 +32,8 @@ export type CaseStudy = {
   timeline: string
   stack: string[]
   liveUrl?: string
+  /** Vercel preview, not the client's own domain — labelled as a preview, never counted as live. */
+  previewUrl?: string
   coverImage?: string
   coverCaption: string
   storyTitle: string

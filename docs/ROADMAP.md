@@ -37,16 +37,9 @@ Starting → 🟡. Done → ✅ + date + short hash. Update counts and ▶ NEXT.
 
 | Q | Question | Unblocks |
 |---|---|---|
-| Q1 | A real automation / software / AI project to write up? | 2.2 |
-| Q2 | Founder name, photo and signed note on About? (reverses D-005) | 4.2 |
-| Q3 | Which engagement models do we sell? | 3.1 |
-| Q4 | Which first-step offer? | 5.1 |
-| Q5 | About: replacement for "Trusted by businesses in Dubai and beyond" | 4.1 |
-| Q6 | One primary CTA verb site-wide | 4.3 |
-| Q7 | Real Cal.com/Calendly URL, or relabel "Book via WhatsApp"? | 4.4 |
-| Q8 | Self-host Concept Lab media/fonts? | 6.1 |
-| Q13 | Facts for the 3 new case studies (`docs/case-study-drafts-2026-10-04.md`), which 3 are featured, AASKRA Vercel link yes/no | 2.1 |
-| Q15 | Parked redesign components (`proof/*`, `immersive/home/Chapter*`, `FinalCta`): keep for later or delete? | 6.2 |
+| Q7b | Cal.com booking URL (until then "Book a call" → `/contact`, D-032) | 4.4 final |
+
+All other questions answered 2026-10-04 → D-032.
 
 ## Standard gate (every task)
 
