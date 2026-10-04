@@ -63,14 +63,15 @@ export default function ServiceWorkbench({ service }: { service: ServiceContent 
     const media = gsap.matchMedia()
     media.add('(prefers-reduced-motion: no-preference)', () => {
       const pieces = element.querySelectorAll('[data-piece]')
+      // Dim floor 0.6 keeps the mock text >= 4.5:1 (ink on paper) mid-loop.
       const tl = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 1.2 })
       tl.fromTo(
         pieces,
-        { opacity: 0.15, y: 14 },
+        { opacity: 0.6, y: 14 },
         { opacity: 1, y: 0, duration: 0.8, stagger: 0.3, ease: 'power3.out' }
       )
       tl.to({}, { duration: 2.8 })
-      tl.to(pieces, { opacity: 0.15, duration: 0.6 })
+      tl.to(pieces, { opacity: 0.6, duration: 0.6 })
       if (manualPause.current) tl.progress(0.6).pause()
       let visible = false
       const sync = () =>

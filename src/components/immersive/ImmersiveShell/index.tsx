@@ -14,7 +14,8 @@ export type SceneName =
 const SCENE_ACCENT: Record<SceneName, string> = {
   intro: 'var(--tw-acid)',
   web: 'var(--tw-acid)',
-  automation: 'var(--tw-violet)',
+  // Raw violet is 4.1:1 on --tw-surface; 12% fg lifts it to 4.9:1 for accent text.
+  automation: 'color-mix(in srgb, var(--tw-violet) 88%, var(--tw-fg))',
   apps: 'var(--tw-orange)',
   advisory: 'var(--tw-acid)',
   build: 'var(--tw-blue)',
