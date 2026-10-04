@@ -4,6 +4,18 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — Stage 3: Clarity (ROADMAP 3.1)
+
+- `/services` section 03 is now "How we engage" (`#engage`): you bring the requirement → we assess
+  it → custom written quote → build and hand over. "No packages. A quote for your job." Reuses the
+  existing four-step track and styles.
+- `/contact` "What happens next" ends with "No packages or price lists: every quote is for your
+  requirement." + link to `/services#engage`.
+- `llms.txt` "Process" → "How we engage", same model, no prices.
+- E2E: engage section steps + CTA (`services-experience`), contact link (`contact-form`).
+
+---
+
 ## 2026-10-04 — Stage 2: Proof (ROADMAP 2.1, 2.2)
 
 - New case studies: Supreme Universal (76 pages), Express Petroleum (28 pages), RSiGHT (awaiting

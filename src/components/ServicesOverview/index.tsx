@@ -8,11 +8,11 @@ import ProblemNavigator from './ProblemNavigator'
 import ConnectedSystem from './ConnectedSystem'
 import styles from './ServicesOverview.module.css'
 
-const DELIVERY = [
-  ['Diagnose', 'Find the real constraint before proposing a tool.'],
-  ['Scope', 'Define boundaries, timeline and cost in writing.'],
-  ['Build', 'See working progress every week.'],
-  ['Run', 'Launch, document, hand over, and improve.'],
+const ENGAGEMENT = [
+  ['You bring the requirement', 'A problem, a goal or a rough brief. No technical spec needed.'],
+  ['We assess it', 'A short call on the work, your tools and your deadline. No pitch deck.'],
+  ['You get a custom quote', 'Scope, price and timeline for your job, in writing. Then you decide.'],
+  ['We build and hand over', 'Working progress every week, then launch, documentation and handover.'],
 ]
 const EDITORIAL = {
   web: {
@@ -145,28 +145,28 @@ export default function ServicesOverview() {
         </p>
       </Section>
 
-      <Section ruled density="dense" aria-labelledby="delivery-title">
+      <Section id="engage" ruled density="dense" aria-labelledby="engage-title">
         <div className={styles.directoryIntro}>
           <div>
-            <SectionLabel index="03">How it comes together</SectionLabel>
-            <DisplayHeading as="h2" size="h2" id="delivery-title" className={styles.sectionTitle}>
-              Clear scope.
+            <SectionLabel index="03">How we engage</SectionLabel>
+            <DisplayHeading as="h2" size="h2" id="engage-title" className={styles.sectionTitle}>
+              No packages.
               <br />
-              <span>Visible progress.</span>
+              <span>A quote for your job.</span>
             </DisplayHeading>
           </div>
           <div>
             <p className={styles.sectionBody}>
-              One delivery process across every discipline. You know what we are building, why it
-              matters, and what comes next.
+              There is no price list, because no two requirements cost the same. Tell us what you
+              need. We assess it and quote for that work, in writing, before anything starts.
             </p>
-            <Link href="/work" className={styles.directoryLink}>
-              See the work <span aria-hidden="true">↗</span>
+            <Link href="/contact" className={styles.directoryLink}>
+              Bring us your requirement <span aria-hidden="true">↗</span>
             </Link>
           </div>
         </div>
         <ol className={styles.deliveryTrack}>
-          {DELIVERY.map(([title, body], index) => (
+          {ENGAGEMENT.map(([title, body], index) => (
             <li key={title}>
               <span className={styles.deliveryMarker}>0{index + 1}</span>
               <h3>{title}</h3>

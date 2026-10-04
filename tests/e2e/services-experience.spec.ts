@@ -39,6 +39,27 @@ test.describe('Services overview', () => {
     ).toHaveAttribute('href', '/services/ai')
   })
 
+  test('explains how we engage: custom quote, no packages', async ({
+    page,
+  }) => {
+    const engage = page.locator('#engage')
+    await expect(
+      engage.getByRole('heading', {
+        level: 2,
+        name: 'No packages. A quote for your job.',
+      }),
+    ).toBeVisible()
+    await expect(engage.getByRole('listitem')).toHaveText([
+      /^01You bring the requirement/,
+      /^02We assess it/,
+      /^03You get a custom quote/,
+      /^04We build and hand over/,
+    ])
+    await expect(
+      engage.getByRole('link', { name: /Bring us your requirement/ }),
+    ).toHaveAttribute('href', '/contact')
+  })
+
   test('renders its full diagnostic state with reduced motion', async ({
     page,
   }) => {

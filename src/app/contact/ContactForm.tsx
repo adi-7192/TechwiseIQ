@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useActionState, useEffect, useRef } from 'react'
 import PrimaryCTA from '@/components/ui/PrimaryCTA'
 import { trackEvent } from '@/lib/analytics'
@@ -29,6 +30,10 @@ export function NextSteps() {
           </li>
         ))}
       </ol>
+      <p className={styles.nextNote}>
+        No packages or price lists: every quote is for your requirement.{' '}
+        <Link href="/services#engage">How we engage</Link>
+      </p>
     </div>
   )
 }
