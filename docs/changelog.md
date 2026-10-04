@@ -4,6 +4,16 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — Redesign merged to main; CI/CD in place
+
+- PR #1 merged into `main` (`5e00dce`): immersive redesign, carried content fixes, old UI removed.
+- GitHub Actions CI added — lint, `tsc`, unit, build, and the full Playwright suite on a production
+  build. Green on the PR (277 passed, 2 flaky on first try) and on `main` after the merge.
+- `main` branch protection: both CI checks required, no force-push/deletion (D-029).
+- Vercel production deployment of `main` succeeded (behind Deployment Protection).
+
+---
+
 ## 2026-10-04 — Redesign made primary; old design removed
 
 The day's roadmap work (in a worktree branched from `main`) had been done on the old Kinetic
