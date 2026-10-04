@@ -214,6 +214,11 @@ problem", always → `/contact`. No booking link until Cal.com; no in-page Whats
 button only; footer + `/contact` keep it as a contact detail). *Apply:* new CTAs use this label;
 any new "call" CTA links `/contact` until a `BOOKING_URL` exists in `src/lib/site.ts`.
 
+**D-035 — Site voice: plain, witty, young; key words highlighted.** 2026-10-04 · owner · refines D-032 (Q6).
+No jargon or complicated words; say plainly what we do; keep every fact and promise as is. Key
+words in body copy use `<strong>` (bright foreground via `globals.css`), sparingly. *Apply:* new copy
+follows `docs/voice-draft.md` rules; trade terms only where a buyer would use them.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

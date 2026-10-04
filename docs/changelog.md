@@ -12,7 +12,9 @@ Running log of all changes made to the codebase. Most recent first.
   "Discuss your project", "Start the conversation", "Bring us the business problem").
 - Booking: `BOOKING_URL` (WhatsApp prefill) removed; dropped in-page WhatsApp/"Book a call" buttons
   on `/work`, case studies, mobile nav and `/contact` (self-link). Floating WhatsApp button stays.
-- `docs/voice-draft.md`: before/after voice rewrite for owner approval (nothing shipped from it).
+- Voice: approved rows 1–12 shipped. Round 2 site-wide plain-English rewrite (services data and
+  guides, Home, /services, /work, case-study CTA, About, contact, footer) — no jargon, same facts.
+  Key words highlighted with `<strong>` in paragraphs (`globals.css`). `/work` process → D-033.
 - E2E: About trust copy, CTA selectors scoped to `main`, new `release-qa` check (one CTA → `/contact`,
   no in-page WhatsApp outside `/contact`).
 

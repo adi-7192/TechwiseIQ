@@ -58,7 +58,7 @@ test.describe('Work proof archive (immersive)', () => {
     ).toBeVisible()
     await expect(
       page.getByText(
-        'Live coded website explorations across industries, visual languages and interaction patterns.',
+        'Sites we built for ourselves to try new looks, industries and ideas.',
       ),
     ).toBeVisible()
     await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(
@@ -72,7 +72,7 @@ test.describe('Work proof archive (immersive)', () => {
       }),
     ).toBeVisible()
     await expect(
-      page.getByRole('heading', { level: 2, name: 'Bring us the problem.' }),
+      page.getByRole('heading', { level: 2, name: 'Got a knot? We like knots.' }),
     ).toBeVisible()
   })
 

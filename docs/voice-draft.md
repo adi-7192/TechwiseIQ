@@ -1,6 +1,6 @@
 # Voice draft — before / after (ROADMAP 4.3, D-032 Q6)
 
-**Status: DRAFT — owner approval needed before any line ships.**
+**Status: rows 1–12 approved by owner 2026-10-04 and shipped on `stage-4/trust`.**
 Voice: young, sharp, professional, a little quirky. No new claims: every "after" says what the
 "before" said (or less). Approve, edit or reject each row; approved rows ship on `stage-4/trust`.
 
@@ -23,3 +23,22 @@ Already shipped (decided in D-032, not part of this draft): every primary CTA re
 | 12 | `/contact` intro | Tell us what's slowing you down. We'll reply within 24 hours, then send a written scope after a short call. | Tell us what's slowing you down. We reply within 24 hours (yes, really), then a written scope after a short call. |
 
 Not proposed: legal pages, case-study facts, metadata/SEO titles, error states.
+
+## Round 2 — site-wide (owner brief 2026-10-04, on `stage-4/trust`, review before merge)
+
+Owner brief: simple words, no jargon, witty and young, says plainly what we do, key words
+highlighted, good typography. Applied directly on the branch so it can be judged rendered; the
+before/after is the branch diff (`git diff main -- src`). Rules used:
+
+- Plain words over trade terms: "settling-in period" not "stabilization", "connecting your tools"
+  not "APIs + integrations", "inbox sorting" not "email triage", "first app versions" not "MVPs",
+  "plain rules" not "deterministic rules", "search foundations" not "SEO + GEO".
+- Same facts, same promises: every timeline, number and guarantee is unchanged; nothing new is claimed.
+- Key words: `<strong>` inside body paragraphs renders bright on the grey body text
+  (`globals.css`, no extra accent colour). Used once or twice per lede, never per sentence.
+- `/work` process now follows D-033 (Requirements → Options → Build → Ship).
+
+Covered: Home (hero, services, operating model), `/services` overview + all three service pages
+(capabilities, examples, approach, process, handover, FAQs, problem picker), `/work`, case-study
+CTA, About, `/contact` intro, footer. Not changed: case-study facts, legal pages, metadata/SEO
+titles, interactive demo labels (already plain).

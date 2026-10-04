@@ -22,7 +22,7 @@ test('presents Techwise IQ as a direct, outcome-focused studio', async ({
   await expect(experience.getByText('Direct ownership')).toBeVisible()
   await expect(experience.getByText('Small-studio speed')).toBeVisible()
   await expect(
-    experience.getByText(/no account-management relay/i),
+    experience.getByText(/no game of telephone/i),
   ).toBeVisible()
   await expect(experience.getByText('Ownership', { exact: true })).toBeVisible()
   await expect(experience.getByText('Clarity', { exact: true })).toBeVisible()
@@ -54,15 +54,15 @@ test('preserves the approved About service paths and qualitative proof', async (
   ).resolves.toEqual([
     {
       problem: 'A website that undersells you',
-      outcome: 'A digital presence built to earn attention and action.',
+      outcome: 'A website that gets noticed and gets people to act.',
     },
     {
       problem: 'Work trapped in spreadsheets',
-      outcome: 'Software shaped around how your operation actually runs.',
+      outcome: 'Software built around how your business really runs.',
     },
     {
       problem: 'Repetitive work slowing people down',
-      outcome: 'AI automation with clear human control.',
+      outcome: 'Automation that does the busywork, with a person in charge.',
     },
   ])
 

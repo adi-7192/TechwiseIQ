@@ -38,11 +38,12 @@ export default function AboutExperience() {
 
         <div className={styles.heroThesis}>
           <p>
-            Techwise IQ is a team of experts turning business bottlenecks into
-            websites, software, and AI systems that move the work forward.
+            Techwise IQ is a team of experts turning business bottlenecks into{' '}
+            <strong>websites, software and AI systems</strong> that move the work
+            forward.
           </p>
           <p className={styles.heroPromise}>
-            You bring the goal. We own the technical path.
+            You bring the goal. We sweat the technical path.
           </p>
         </div>
 
@@ -57,7 +58,7 @@ export default function AboutExperience() {
             </article>
           ))}
           <p className={styles.noRelay}>
-            One clear working relationship. No account-management relay.
+            One team, one conversation. No game of telephone.
           </p>
         </div>
       </Section>
@@ -148,8 +149,8 @@ export default function AboutExperience() {
           Built in Dubai. <em>Working beyond borders.</em>
         </DisplayHeading>
         <p className={styles.closingBody}>
-          Building for businesses in Dubai and beyond, turning important
-          ideas into working digital products.
+          Building for businesses in Dubai and beyond, turning big ideas
+          into things that actually work.
         </p>
         <PrimaryCTA href="/contact">
           Bring us the problem

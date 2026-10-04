@@ -9,8 +9,8 @@
 ## ▶ NEXT
 
 **Stage 3 PR #6 (`stage-3/clarity`) — owner approves the "How we engage" copy, then merge.**
-**Stage 4 (`stage-4/trust`, branched off Stage 3) — owner reviews `docs/voice-draft.md`** (approve/edit
-each row); approved rows ship, then rebase on `main` after #6 merges and open the Stage 4 PR.
+**Stage 4 (`stage-4/trust`, branched off Stage 3) — owner reviews the site-wide copy rewrite** in the
+browser (`docs/voice-draft.md` round 2). Then rebase on `main` after #6 merges and open the Stage 4 PR.
 
 ## Progress
 
@@ -93,7 +93,7 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 - ✅ **4.1 About claim** (Q5, R-5) — 2026-10-04, `stage-4/trust`. "Trusted by…" → "Building for
   businesses in Dubai and beyond, turning important ideas into working digital products."
 - ✅ **4.2 People on About** (Q2) — 2026-10-04. Hero: "Techwise IQ is a team of experts…". No names (D-005).
-- 🟡 **4.3 CTA vocabulary + voice** (Q6, R-6) — CTA done 2026-10-04: every primary CTA (header, mobile
+- 🟡 **4.3 CTA vocabulary + voice** (rows 1–12 approved + shipped; round 2 site-wide rewrite on branch, owner review) (Q6, R-6) — CTA done 2026-10-04: every primary CTA (header, mobile
   nav, Home, /services, service pages, /work, case studies, About) reads "Bring us the problem" →
   `/contact`. Voice rewrite drafted in `docs/voice-draft.md` — 🔒 owner approval before shipping.
 - ✅ **4.4 Booking** (Q7) — 2026-10-04. `BOOKING_URL` (a WhatsApp link) removed; no in-page WhatsApp

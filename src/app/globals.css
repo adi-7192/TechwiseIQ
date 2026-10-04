@@ -303,3 +303,9 @@ img { display: block; max-width: 100%; }
     transition: none;
   }
 }
+
+/* Key words in body copy: bright foreground on the muted body text, no extra accent (one accent per viewport). */
+:where(p) > strong {
+  color: var(--tw-fg);
+  font-weight: 600;
+}

@@ -30,11 +30,12 @@ export default function ContactPage() {
           <div className="tw-wrap">
             <SectionLabel>Get in touch / Dubai · Worldwide</SectionLabel>
             <h1 className={styles.title}>
-              Let&apos;s <span className={styles.titleAccent}>talk.</span>
+              Let&apos;s <span className={styles.titleAccent}>talk shop.</span>
             </h1>
             <p className={styles.intro}>
-              Tell us what&apos;s slowing you down. We&apos;ll reply within 24
-              hours, then send a written scope after a short call.
+              Tell us what&apos;s slowing you down. We reply{' '}
+              <strong>within 24 hours</strong> (yes, really), then a written
+              scope after a short call.
             </p>
           </div>
         </section>

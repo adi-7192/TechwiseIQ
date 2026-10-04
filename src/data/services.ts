@@ -56,8 +56,8 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     title: 'Web Development',
     outcome: 'Attention into action.',
     description:
-      'Custom websites engineered to earn attention, answer the right questions, and turn interest into action.',
-    fitSignals: ['Launch', 'Reposition', 'Convert', 'Rank'],
+      'Custom websites that explain what you do, answer buyers’ questions, and get them to contact you.',
+    fitSignals: ['Launch', 'Refresh', 'Get enquiries', 'Get found'],
     symptoms: [
       'Your website no longer reflects the business.',
       'Visitors arrive but do not take the next step.',
@@ -81,86 +81,86 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     capabilities: [
       {
         title: 'Strategy + structure',
-        body: 'Audience, positioning, journeys, and information architecture before decoration.',
+        body: 'Who it’s for, what they need to hear, and in what order. Sorted before any pixels.',
       },
       {
         title: 'Custom art direction',
-        body: 'A distinct interface shaped around your brand. No reskinned templates.',
+        body: 'A look built around your brand. Not a template with your logo swapped in.',
       },
       {
         title: 'Production development',
-        body: 'Responsive, accessible code engineered for speed and maintainability.',
+        body: 'Fast, clean code that works on every screen and for every visitor.',
       },
       {
         title: 'CMS + integrations',
-        body: 'Content editing, analytics, CRM, forms, and the systems behind the site.',
+        body: 'Edit your own content, with forms, analytics and your CRM all connected.',
       },
       {
-        title: 'SEO + GEO foundations',
-        body: 'Semantic structure and crawlable answers for search and AI discovery.',
+        title: 'Search foundations',
+        body: 'Built so Google and AI search tools can read and understand your site.',
       },
       {
         title: 'Launch + support',
-        body: 'Quality assurance, analytics validation, handover, and post-launch care.',
+        body: 'Testing, launch, handover, and help after go-live.',
       },
     ],
     process: [
       {
         num: '01',
         title: 'Requirements',
-        body: 'Your goals, audience, content, and the decisions the site needs to support.',
+        body: 'What the site needs to do, who it’s for, and what goes on it.',
       },
       {
         num: '02',
         title: 'Design options',
-        body: 'Several design directions to compare side by side. We tell you which we would pick and why; you choose.',
+        body: 'Several design directions, side by side. We tell you our pick and why; you choose.',
       },
       {
         num: '03',
         title: 'Build your choice',
-        body: 'Production code on the design you picked, with working progress shown every week.',
+        body: 'We build the design you picked. You see real progress every week.',
       },
       {
         num: '04',
         title: 'Launch + learn',
-        body: 'Performance, accessibility, SEO, analytics, and a clean handover.',
+        body: 'Speed, accessibility and search checks, analytics, then a clean handover.',
       },
     ],
     faqs: [
       {
         question: 'How long does a website take?',
         answer:
-          'Marketing sites typically take 3–4 weeks, CMS builds 5–7 weeks, and e-commerce projects 7–10 weeks. You see working progress every Friday.',
+          'Marketing sites usually take 3–4 weeks, sites you edit yourself (CMS) 5–7 weeks, and online shops 7–10 weeks. You see real progress every Friday.',
       },
       {
         question: 'Do I get a custom design or a template?',
         answer:
-          'Custom design every time. The interface is designed around your brand, audience, content, and goals.',
+          'Custom, every time. Designed around your brand, your customers and your content.',
       },
       {
         question: 'Can my team update the website?',
         answer:
-          'Yes. When content editing is part of the brief, we provide a CMS and a clear handover so your team can make routine updates.',
+          'Yes. If editing is part of the plan, you get an easy editor (a CMS) and we show your team how to use it.',
       },
       {
         question: 'What happens after launch?',
         answer:
-          'Launch includes a stabilization period, documentation, and a clean handover. Ongoing support is available when you need it.',
+          'We stay close for a settling-in period, then hand over the docs and logins. Ongoing support is there if you want it.',
       },
       {
         question: 'What is included in the scope?',
         answer:
-          'We agree the page list, design direction, content responsibilities, CMS needs, integrations, and launch checks in writing. Content production, migration, and ongoing support are discussed separately when needed.',
+          'We agree in writing: the pages, the design direction, who writes what, editing needs, connected tools, and launch checks. Writing content, moving an old site and ongoing support are agreed separately if you need them.',
       },
       {
         question: 'Can you improve an existing website?',
         answer:
-          'Yes. We review the current content, user journey, and technical foundation before deciding what to retain and what to rebuild.',
+          'Yes. We look at what’s there (content, visitor journey, code) and tell you what to keep and what to rebuild.',
       },
       {
         question: 'Will you guarantee search rankings or enquiries?',
         answer:
-          'No. We build the technical and content foundations for discovery and a clear route to enquiry. Results also depend on your market, offer, content, and ongoing activity.',
+          'No. We build a site search engines can read and visitors can act on. Results also depend on your market, your offer, your content and what you do after launch.',
       },
     ],
     proofSlugs: ['supreme-universal', 'express-trade-financing', 'express-petroleum'],
@@ -173,8 +173,8 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     title: 'Custom Software',
     outcome: 'Friction into flow.',
     description:
-      'Custom applications, portals, and integrations shaped around the way your operation actually works.',
-    fitSignals: ['Portals', 'Dashboards', 'Integrations', 'MVPs'],
+      'Portals, internal tools and apps built around how your team actually works.',
+    fitSignals: ['Portals', 'Dashboards', 'Connected tools', 'First versions'],
     symptoms: [
       'Teams re-enter the same data in multiple places.',
       'Important work depends on spreadsheets and workarounds.',
@@ -198,86 +198,86 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     capabilities: [
       {
         title: 'Web applications',
-        body: 'Customer, partner, and team applications with the user journeys, roles, and records your product needs.',
+        body: 'Apps for your customers, partners or team, with the right screens and access for each person.',
       },
       {
         title: 'Internal dashboards',
-        body: 'Operational views that bring status, ownership, and next actions together so teams can manage work in one place.',
+        body: 'Status, owners and next steps in one place, so nobody has to chase updates.',
       },
       {
-        title: 'APIs + integrations',
-        body: 'Connect existing systems around agreed data formats, validation rules, and clear integration boundaries.',
+        title: 'Connecting your tools',
+        body: 'Get your existing tools sharing data cleanly, so nobody types the same thing twice.',
       },
       {
-        title: 'Legacy rebuilds',
-        body: 'Review the current system, define migration boundaries, and plan a staged replacement around critical operations.',
+        title: 'Replacing old systems',
+        body: 'Swap out an old system step by step, without stopping the work that depends on it.',
       },
       {
-        title: 'Mobile MVPs',
-        body: 'Focused first releases for iOS and Android, scoped around the essential journey that users need to try.',
+        title: 'First app versions',
+        body: 'A focused first version for iOS and Android with just the essentials, so real users can try it.',
       },
       {
-        title: 'Ongoing iteration',
-        body: 'Maintain and improve the application after launch, using user feedback to prioritize the next release.',
+        title: 'Improving after launch',
+        body: 'We keep improving the app after launch, guided by what its users tell us.',
       },
     ],
     process: [
       {
         num: '01',
         title: 'Requirements',
-        body: 'Map your workflows, users, pain points, and existing systems.',
+        body: 'How the work runs today, who does it, what hurts, and which tools are involved.',
       },
       {
         num: '02',
         title: 'Solution options',
-        body: 'Ways to solve it (build, extend, or integrate) with trade-offs and our recommendation. You choose.',
+        body: 'Build new, extend what you have, or connect existing tools. Pros, cons and our pick. You choose.',
       },
       {
         num: '03',
-        title: 'Build in sprints',
-        body: 'Working software every week, on the route you chose.',
+        title: 'Build, week by week',
+        body: 'Working software every week, built the way you chose.',
       },
       {
         num: '04',
         title: 'Ship',
-        body: 'Deploy, document, hand over, and plan the next measured iteration.',
+        body: 'Launch, document, hand over, and plan the next round of improvements.',
       },
     ],
     faqs: [
       {
         question: 'How long does custom software take?',
         answer:
-          'Focused internal tools often take 6–9 weeks, mobile MVPs 10–14 weeks, and larger builds are scoped after diagnosis.',
+          'Focused internal tools often take 6–9 weeks and first app versions 10–14 weeks. Bigger builds get a timeline once we understand them.',
       },
       {
         question: 'Can you rebuild our existing system?',
         answer:
-          'Yes. We diagnose the current state, define migration boundaries, and plan a staged replacement that protects critical operations.',
+          'Yes. We look at what you have, then replace it in stages so the day-to-day work keeps running.',
       },
       {
         question: 'How do we stay involved?',
         answer:
-          'You see and use working software every week. Decisions are documented and demos are built into the delivery rhythm.',
+          'You see and use working software every week. Decisions are written down and demos are part of the routine.',
       },
       {
         question: 'Do you support the software after launch?',
         answer:
-          'Yes. We can continue with maintenance and iteration, or hand over the code and documentation cleanly to your team.',
+          'Yes. We can keep maintaining and improving it, or hand the code and docs over to your team.',
       },
       {
         question: 'Should we build custom software or use an existing tool?',
         answer:
-          'Start with the workflow. If an existing product fits, a focused integration or configuration may be enough. Custom development makes sense when the process, user experience, or system connections need something more specific.',
+          'Start with the work, not the tool. If something off the shelf fits, setting it up or connecting it may be enough. Custom makes sense when your process is too specific for generic tools.',
       },
       {
         question: 'What do you need to scope a project?',
         answer:
-          'A description of the workflow, the people involved, existing systems, and the most important first outcome. We turn that into agreed boundaries and a delivery plan before the build.',
+          'A description of the work, the people involved, the tools you use now, and the first result you need. We turn that into a written plan before we build.',
       },
       {
         question: 'What do we receive at handover?',
         answer:
-          'The agreed application, source code, and documentation, with deployment and integration guidance. We also agree whether your team takes over or we continue with maintenance and iteration.',
+          'The app, its source code and docs, plus how to deploy and run it. We also agree whether your team takes over or we keep maintaining it.',
       },
     ],
     proofSlugs: [],
@@ -290,7 +290,7 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     title: 'AI Automation',
     outcome: 'Repetitive work into useful action.',
     description:
-      'Controlled automations that remove repetitive work while keeping human judgment visible.',
+      'Automations that take the repetitive work off your team, with a person checking what matters.',
     fitSignals: ['Documents', 'Email', 'Reporting', 'Assistants'],
     symptoms: [
       'Skilled people spend hours copying and classifying information.',
@@ -305,7 +305,7 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
       },
       {
         title: 'Controlled automation',
-        body: 'Machines handle the repeatable steps while people own exceptions.',
+        body: 'Software does the repeat steps; people handle the odd ones out.',
       },
       {
         title: 'Useful action',
@@ -315,86 +315,86 @@ export const SERVICES: Record<ServiceId, ServiceContent> = {
     capabilities: [
       {
         title: 'Workflow automation',
-        body: 'Repeatable processes connected from trigger to result.',
+        body: 'Repeat tasks that run on their own, from start to finish.',
       },
       {
         title: 'AI assistants',
-        body: 'Grounded assistance using approved business knowledge.',
+        body: 'Assistants that answer from your own approved documents.',
       },
       {
         title: 'Document extraction',
-        body: 'Structured data from forms, invoices, and operational documents.',
+        body: 'Pull the data out of forms, invoices and PDFs, automatically.',
       },
       {
-        title: 'Email triage',
-        body: 'Classification, routing, drafting, and escalation.',
+        title: 'Inbox sorting',
+        body: 'Sort, route and draft replies, and flag the tricky ones.',
       },
       {
         title: 'Report generation',
-        body: 'Consistent summaries assembled from trusted sources.',
+        body: 'Regular reports pulled together from sources you trust.',
       },
       {
-        title: 'AI audit + roadmap',
-        body: 'Ranked opportunities, risks, and an evidence-based starting point.',
+        title: 'AI check-up + plan',
+        body: 'Where AI would actually help, what the risks are, and where to start.',
       },
     ],
     process: [
       {
         num: '01',
         title: 'Requirements',
-        body: 'Map your workflows and rank where automation would help most.',
+        body: 'We map your repeat work and rank where automation would help most.',
       },
       {
         num: '02',
         title: 'Options',
-        body: 'Which workflow first, which tools, how much human review: options with our recommendation. You choose.',
+        body: 'Which task first, which tools, how much human checking: options with our pick. You choose.',
       },
       {
         num: '03',
-        title: 'Pilot',
-        body: 'Automate the workflow you chose end to end and prove the control model.',
+        title: 'Try it small',
+        body: 'Automate the task you chose, end to end, and prove the checks work.',
       },
       {
         num: '04',
-        title: 'Scale + monitor',
-        body: 'Extend to adjacent workflows and track errors, exceptions, and reliability.',
+        title: 'Grow + watch',
+        body: 'Roll it out to similar tasks and keep an eye on errors and odd cases.',
       },
     ],
     faqs: [
       {
         question: 'Where do I start with AI?',
         answer:
-          'Start with a workflow audit. We map repeatable work, identify useful opportunities, and document the risks and control points.',
+          'Start with a look at your workflows. We find the repeat work, spot where AI would help, and write down the risks and where a person should check.',
       },
       {
         question: 'What kind of automations do you build?',
         answer:
-          'Document processing, email triage, report generation, WhatsApp flows, and assistants grounded in approved business data.',
+          'Document processing, inbox sorting, reports, WhatsApp flows, and assistants that answer from your own approved data.',
       },
       {
         question: 'Will AI replace our team?',
         answer:
-          'The goal is to remove repetitive steps, not human judgment. People remain responsible for exceptions and important decisions.',
+          'No. The goal is to remove repetitive steps, not people’s judgment. Your team still handles the odd cases and the big decisions.',
       },
       {
         question: 'Do you work with our existing tools?',
         answer:
-          'Yes. We design around the systems already running your operation and add clear fallbacks where integrations fail.',
+          'Yes. We build around the tools you already use, with a backup plan for when one of them fails.',
       },
       {
         question: 'Does every automation need AI?',
         answer:
-          'No. Predictable checks and system actions often work best as explicit rules. AI is useful for bounded tasks such as interpreting text, extracting information, or drafting a response.',
+          'No. Simple checks and actions often work best as plain rules. AI earns its place in jobs like reading text, pulling out information or drafting a reply.',
       },
       {
         question: 'How do you handle business data?',
         answer:
-          'We agree the approved sources, access, external providers, and data-handling requirements during scoping. The design depends on those requirements and the systems involved; do not send sensitive production data in an initial enquiry.',
+          'Before we build, we agree which data, access and outside services the automation can use. Please don’t send sensitive live data in your first message.',
       },
       {
         question: 'How do we know a pilot is ready to expand?',
         answer:
-          'Agree what useful output looks like, then review representative inputs, exceptions, human interventions, and integration failures. The pilot findings guide whether to improve, expand, or stop the workflow.',
+          'We agree what a good result looks like, then check real examples, odd cases, how often a person had to step in, and any tool failures. That tells us whether to improve it, expand it, or stop.',
       },
     ],
     proofSlugs: [],
@@ -406,15 +406,15 @@ export const SERVICE_PROBLEMS: ServiceProblem[] = [
   {
     id: 'website',
     label: 'Our website is underperforming',
-    rationale: 'The story, experience, or technical foundation is stopping visitors from acting.',
-    examples: ['Positioning', 'Conversion', 'CMS', 'Search visibility'],
+    rationale: 'The message, the experience or the tech is stopping visitors from getting in touch.',
+    examples: ['Clear message', 'More enquiries', 'Easy editing', 'Getting found'],
     primaryService: 'web',
     secondaryServices: [],
   },
   {
     id: 'manual-work',
     label: 'Manual work is eating the week',
-    rationale: 'Repeatable work can move faster while people keep control of exceptions.',
+    rationale: 'Repeat work can run faster while people keep control of the odd cases.',
     examples: ['Document processing', 'Email triage', 'Reporting', 'AI assistants'],
     primaryService: 'ai',
     secondaryServices: ['software'],
@@ -423,24 +423,24 @@ export const SERVICE_PROBLEMS: ServiceProblem[] = [
     id: 'disconnected-tools',
     label: "Our tools don't talk to each other",
     rationale:
-      'A shared workflow or custom integration can remove duplicate work and broken handoffs.',
-    examples: ['APIs', 'Portals', 'Dashboards', 'Integrations'],
+      'Connecting your tools, or one shared app, ends the copy-paste and the dropped handoffs.',
+    examples: ['Connected tools', 'Portals', 'Dashboards', 'Shared data'],
     primaryService: 'software',
     secondaryServices: ['ai'],
   },
   {
     id: 'launch-product',
     label: 'We need to launch a product',
-    rationale: 'A focused product sprint can turn the idea into something users can test.',
-    examples: ['Product scope', 'Web app', 'Mobile MVP', 'Launch system'],
+    rationale: 'A focused first version turns the idea into something people can actually try.',
+    examples: ['What to build first', 'Web app', 'Mobile app', 'Launch plan'],
     primaryService: 'software',
     secondaryServices: ['web'],
   },
   {
     id: 'unsure',
     label: "We're not sure where to begin",
-    rationale: 'Start with diagnosis: map the constraint before choosing a tool.',
-    examples: ['Workflow map', 'Opportunity ranking', 'Technical direction', 'Written scope'],
+    rationale: 'First find what’s really slowing you down, then pick the tool.',
+    examples: ['Map the work', 'Rank the options', 'Pick a direction', 'Written scope'],
     primaryService: 'software',
     secondaryServices: ['web', 'ai'],
   },
