@@ -21,7 +21,7 @@ Then: Stage 6.3 docs (6.1 Concept Lab self-hosting and 6.2 parked-component dele
 | 2. Proof | More real work where buyers decide | 2/2 | ✅ |
 | 3. Clarity | How working with us works | 1/1 | ✅ (PR #6 merged) |
 | 4. Trust | Honest claims, people, consistent CTAs, booking | 3/4 | 🟡 (voice draft awaiting owner; Cal.com later) |
-| 5. Growth | First-step offer, insights | 1/2 | 🟡 (5.1 PR open; 5.2 held) |
+| 5. Growth | First-step offer, insights | 1/2 | 🟡 (5.1 PR open; 5.2 drafts → owner) |
 | 6. Polish | Concept Lab self-hosting, parked components, docs | 0/3 | ⬜ |
 | 7. Release | Redesign release checklist → merge to `main` | 1/6 | 🟡 (7.3+ 🔒 owner) |
 
@@ -105,7 +105,8 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   free 20-minute review (same call as `/contact` step 2), no written deliverable. Reuses
   `ContactForm` (`review` prop → hidden `inquiry=review`, own email subject). Linked from the
   `/contact` intro and `/services` #engage only. Full agent pipeline; QA Lighthouse a11y/BP/SEO 100.
-- ⏸ **5.2 Insights** — held until 2–3 real articles exist.
+- 🔒 **5.2 Insights** — 6 researched drafts in `docs/insights-drafts-2026-10-04.md` (2026-10-04), owner
+  review. Build `/insights` after 2–3+ are approved.
 
 ## Stage 6 — Polish
 

@@ -81,6 +81,11 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-04** — 5.2: owner asked for researched articles. 6 drafts with cited sources in
+  `docs/insights-drafts-2026-10-04.md` (sites, ownership, spreadsheets, build/buy, AI, AI search).
+  Reddit is blocked to our research tools; community voices from Hacker News + UK Business Forums.
+  Lines about us are marked [OWNER]. Nothing built yet.
+
 - **2026-10-04** — Stage 5 (Growth) on `stage-5/growth`: 5.1 `/bottleneck-review` through the full
   pipeline (PM → design → UI → UX PASS → QA; QA failed once on a missing subject unit test, fixed).
   Owner answered the PM's questions → D-036. Spec: `docs/specs/5.1-bottleneck-review.md`. Full e2e
