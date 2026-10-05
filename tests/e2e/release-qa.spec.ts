@@ -166,3 +166,15 @@ test('uses one primary CTA and no in-page WhatsApp buttons', async ({ page }) =>
     }
   }
 })
+
+test('concept demos load nothing from third-party hosts (6.1)', async ({ page, baseURL }) => {
+  const host = new URL(baseURL!).host
+  const external: string[] = []
+  page.on('request', (r) => {
+    if (new URL(r.url()).host !== host) external.push(r.url())
+  })
+  for (const slug of ['terra-elix', 'mentality', 'lumora']) {
+    await page.goto(`/concepts/${slug}/index.html`, { waitUntil: 'networkidle' })
+  }
+  expect(external).toEqual([])
+})

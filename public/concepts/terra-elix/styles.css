@@ -68,7 +68,7 @@ button {
   isolation: isolate;
   background:
     #557354
-    url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260624_110248_b62f758d-f68c-4045-a7b4-91771d6d0a0f.png&w=1280&q=85")
+    url("media/hero-bg.webp")
     center / cover no-repeat;
 }
 
