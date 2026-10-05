@@ -4,6 +4,15 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-05 — Stage 6: Polish (ROADMAP 6.1–6.3)
+
+- 6.2: deleted parked redesign components (`src/components/proof/*`, Home `Chapter*`, `FinalCta`,
+  `immersive/index.ts`) and unused Home chapter copy — nothing imported them.
+- 6.1: Concept Lab demos self-host their media and fonts: 5 videos (H.264 1080p CRF 27), 6 images
+  (WebP/PNG), 6 woff2 latin subsets (OFL). Tests updated; new `release-qa` check for third-party
+  requests.
+- 6.3: `docs/site-spec.md` rewritten for the redesign; historical banners on Kinetic-era docs.
+
 ## 2026-10-04 — Stage 5: Insights (ROADMAP 5.2)
 
 - Six researched articles (D-037) at `/insights/[slug]`, list at `/insights`, data in

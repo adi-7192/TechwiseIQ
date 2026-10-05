@@ -54,8 +54,8 @@ Severity: **P0** broken/misleading · **P1** hurts conversion/trust · **P2** po
 | R-4 ✅ | P2 | Header logo, WhatsApp float | `label-content-name-mismatch`: "Techwise IQ — home" vs visible "TECHWISEIQ"; "Chat on WhatsApp" vs visible "WhatsApp ↗"/"WA". Tests pin these labels. | Labels that start with the visible text (e.g. "TechwiseIQ home", "WhatsApp — chat"); update the tests. Owner OK needed for label text (Q14). |
 | R-5 | P1 | `/about` | "Trusted by businesses in Dubai and beyond" — honesty check pending (Q5). | Owner wording. |
 | R-6 | P2 | Site-wide | CTA verbs: "Start a project", "Discuss your project", "Start the conversation", "Bring us the problem." (Q6). | One primary verb. |
-| R-7 | P2 | `src/components/proof/*`, `immersive/home/Chapter*`, `FinalCta`, `immersive/index.ts` | Redesign components no route imports (parked?). | Owner: keep for later or delete (Q15). |
-| R-8 | info | `/work` Concept Lab | Demos still hotlink third-party media/fonts (Q8). | Self-host if approved. |
+| R-7 ✅ | P2 | `src/components/proof/*`, `immersive/home/Chapter*`, `FinalCta`, `immersive/index.ts` | Redesign components no route imports (parked?). | Owner: keep for later or delete (Q15). |
+| R-8 ✅ | info | `/work` Concept Lab | Demos still hotlink third-party media/fonts (Q8). | Self-host if approved. |
 
 Fixed during this re-audit: ETF cover was captured mid-animation (faded headline) → replaced;
 AASKRA/ETF screenshots without cookie banners; `llms.txt` without prices.
@@ -76,10 +76,17 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 | `docs/changelog.md` | Current history, newest first. |
 | `docs/case-study-drafts-2026-10-04.md` | Drafts for 3 new case studies — waiting on owner facts (Q13). |
 | `../techwise-iq-build-handoff/` | Redesign source docs + `TASKS.md` (outside repo). |
-| `docs/site-spec.md`, `docs/build-plan.md`, `docs/superpowers/specs/2026-06…08-*` | Written for the Kinetic design — historical. Honesty rules and sitemap still valid. |
+| `docs/site-spec.md` | **Current** — routes and required content (rewritten 2026-10-05). |
+| `docs/specs/*` | Current specs (5.1, 5.2). |
+| `docs/build-plan.md`, `docs/superpowers/*`, old reviews | Historical — banner at the top of each says so. |
 | `docs/vercel-deployment-2026-08-04.md`, `docs/launch-readiness-report-2026-07-26.md` | Launch-gate steps still valid. |
 
 ## 6. Session log (newest first)
+
+- **2026-10-05** — Stage 6 (Polish) on `stage-6/polish`. 6.2: deleted 20 unreachable files found by
+  an import-graph scan from every route + test (exactly the R-7 list) and dead chapter copy. 6.1:
+  Concept Lab media + fonts self-hosted (re-encoded, visually identical frame check); new no-third-
+  party e2e. 6.3: `site-spec.md` rewritten from code; historical banners on old docs.
 
 - **2026-10-04** — 5.2 Insights built (D-037) through the pipeline: PM → design → UI → UX PASS → QA
   PASS (Lighthouse a11y/BP/SEO 100 on `/insights` + an article; citations, JSON-LD, wording diff vs

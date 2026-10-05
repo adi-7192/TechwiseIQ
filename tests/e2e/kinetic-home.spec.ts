@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { scrollIntoViewHeld } from './helpers'
 
 test('intro opens the hero and runs only once per tab', async ({ page }) => {
   await page.addInitScript(() => {
@@ -41,7 +42,7 @@ test('reduced motion bypasses the intro and shows complete service illustrations
 test('the software construction is visibly animated, and pause freezes it', async ({ page }) => {
   await page.goto('/')
   const demo = page.locator('[data-demo="software"]')
-  await demo.scrollIntoViewIfNeeded()
+  await scrollIntoViewHeld(demo)
   await demo.getByRole('button', { name: 'Replay software demo' }).click()
   await expect(demo).toHaveAttribute('data-playing', 'true')
   const piece = demo.locator('[data-app-piece]').first()

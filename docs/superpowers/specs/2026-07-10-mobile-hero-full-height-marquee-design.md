@@ -1,3 +1,6 @@
+> **Historical (written for the Kinetic design, deleted — D-028).** Kept for reference only; do not build from it.
+> Current: `docs/site-spec.md`, `docs/design-system.md`, `docs/DECISIONS.md`.
+
 # Mobile Hero Full-Height Marquee Design
 
 **Date:** 2026-07-10

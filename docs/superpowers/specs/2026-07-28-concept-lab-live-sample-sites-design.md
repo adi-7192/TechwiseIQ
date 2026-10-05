@@ -1,3 +1,7 @@
+> **Historical (written for the Kinetic design, deleted — D-028).** Kept for reference only; do not build from it.
+> The demo in `public/concepts/` still ships (media self-hosted since ROADMAP 6.1); its Work-page integration was rebuilt.
+> Current: `docs/site-spec.md`, `docs/design-system.md`, `docs/DECISIONS.md`.
+
 # Concept Lab Live Sample Sites
 
 **Date:** 2026-07-28  

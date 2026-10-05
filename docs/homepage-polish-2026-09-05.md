@@ -1,3 +1,5 @@
+> **Historical (redesign work log, 2026-09-05).** The Home structure has changed since; current: `docs/site-spec.md`.
+
 # Homepage polish — 5 September 2026
 
 Implemented the direction approved in the design review, including the requested placement of client evidence after services.

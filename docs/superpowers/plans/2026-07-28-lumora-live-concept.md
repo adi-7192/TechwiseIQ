@@ -1,3 +1,7 @@
+> **Historical (written for the Kinetic design, deleted — D-028).** Kept for reference only; do not build from it.
+> The demo in `public/concepts/` still ships (media self-hosted since ROADMAP 6.1); its Work-page integration was rebuilt.
+> Current: `docs/site-spec.md`, `docs/design-system.md`, `docs/DECISIONS.md`.
+
 # Lumora Live Concept Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.

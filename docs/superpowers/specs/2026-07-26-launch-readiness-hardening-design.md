@@ -1,3 +1,6 @@
+> **Historical (written for the Kinetic design, deleted — D-028).** Kept for reference only; do not build from it.
+> Current: `docs/site-spec.md`, `docs/design-system.md`, `docs/DECISIONS.md`.
+
 # Techwise IQ Launch-Readiness Hardening Design
 
 **Date:** 2026-07-26  

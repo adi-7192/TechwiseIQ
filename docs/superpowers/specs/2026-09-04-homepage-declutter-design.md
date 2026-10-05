@@ -1,3 +1,5 @@
+> **Historical (redesign spec, implemented).** The chapters it describes were later removed (ROADMAP 6.2); current Home: `docs/site-spec.md`.
+
 # Homepage decluttering — design spec
 
 **Date:** 2026-09-04
