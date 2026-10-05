@@ -8,12 +8,12 @@
 
 ## ▶ NEXT
 
-**Stage 6 PR open (`stage-6/polish`) — owner checks the Concept Lab demos in the preview, then merges.**
-Then: Stage 7 (7.1 full verification, 7.6 de-flake, then the owner launch gates).
+**Stage 7 — owner launch gates.** 7.1 and 7.6 done on `stage-7/release`. Next: 🔒 7.2 preview review
+(include `/work` Lighthouse on the preview, see 7.1), 7.3 form test, 7.5 launch.
 
 ## Progress
 
-**16 / 22 tasks done** · rebuilt for the redesign 2026-10-04
+**18 / 22 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -22,8 +22,8 @@ Then: Stage 7 (7.1 full verification, 7.6 de-flake, then the owner launch gates)
 | 3. Clarity | How working with us works | 1/1 | ✅ (PR #6 merged) |
 | 4. Trust | Honest claims, people, consistent CTAs, booking | 3/4 | 🟡 (voice draft awaiting owner; Cal.com later) |
 | 5. Growth | First-step offer, insights | 2/2 | ✅ (PR #8 open) |
-| 6. Polish | Concept Lab self-hosting, parked components, docs | 3/3 | ✅ (PR open) |
-| 7. Release | Redesign release checklist → merge to `main` | 1/6 | 🟡 (7.3+ 🔒 owner) |
+| 6. Polish | Concept Lab self-hosting, parked components, docs | 3/3 | ✅ (PR #9 merged) |
+| 7. Release | Redesign release checklist → merge to `main` | 3/6 | 🟡 (7.2, 7.3, 7.5 🔒 owner) |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
 
@@ -123,13 +123,21 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 
 ## Stage 7 — Release (from the redesign's `TASKS.md`)
 
-- ⬜ **7.1 Full verification** — full e2e, Lighthouse mobile per route (≥90 perf, 100 a11y/BP/SEO),
-  content parity review (facts vs `src/data/*`).
+- ✅ **7.1 Full verification** — 2026-10-05, `stage-7/release`. Gate green; full e2e on a prod build
+  359 pass / 26 skipped by design, twice. Lighthouse mobile (18 routes, sequential, system Chrome —
+  Playwright's Chromium gives NO_FCP): a11y/BP/SEO 100 everywhere; perf 91–94 except **`/work` 89**
+  (3 runs, LCP 3.7 s). Cause: `/work` HTML is 14.4 KB gzip (most content of any page since Stage 2),
+  one simulated round trip more than other pages; Vercel serves brotli (9.8 KB), so confirm it on the
+  preview in 7.2. Raising the first image's fetch priority was tested — no change, reverted. Content
+  parity: `llms.txt`, `/work` totals (114 pages, 3–5 weeks), sitemap and pages match `src/data/*`.
 - 🔒 **7.2 Preview review** — owner reviews the Vercel deployment (protected: sign in to Vercel).
+  Also run Lighthouse mobile on the preview's `/work` (bar ≥90; local gzip run reads 89, see 7.1).
 - 🔒 **7.3 Production form test** — Resend env + test inquiry.
 - ✅ **7.4 Merge to `main`** — 2026-10-04, PR #1 (`5e00dce`). CI added (`.github/workflows/ci.yml`),
   `main` protected (both checks required). Vercel deploys `main` to production automatically.
-- ⬜ **7.6 De-flake e2e tests** — `home-experience` "playback pauses on demand…" passes only on
+- ✅ **7.6 De-flake e2e tests** — 2026-10-05 last fix. 2026-10-05: `work-page` "TerraElix live preview" (the
+  only CI retry since the playback fix) moved to `scrollIntoViewHeld` after reload — 10/10 under 4
+  workers. No other retries in the last 10 CI runs. History: `home-experience` "playback pauses on demand…" passes only on
   retry in CI; `performance-mobile` long-task budget (<200 ms) depends on host load. Fixed
   2026-10-04: `performance-mobile` canvas test used a native `scrollTo` that Lenis overrode on CI
   (trace showed the page never left #selected-work) — now retries the jump until it holds.

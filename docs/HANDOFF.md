@@ -4,7 +4,7 @@
 > When you finish a task: update §4, add a line to §6, log new decisions in `DECISIONS.md`.
 > If this file disagrees with the code, the code wins — fix this file.
 
-**Last updated:** 2026-10-04 · **Branch:** `main` (redesign merged in PR #1, D-028) ·
+**Last updated:** 2026-10-05 · **Branch:** `main` (redesign merged in PR #1, D-028) ·
 `main` is protected — work on a branch, open a PR, merge when CI is green (D-029).
 
 ---
@@ -29,14 +29,14 @@ folded into ROADMAP stage 7. Design source: `docs/design-system.md` + the redesi
   production. Deployments are behind Vercel Deployment Protection (Vercel login) until launch.
   Domain, env vars and Resend are still owner launch gates.
 
-## 2. Verified state (2026-10-04, production build, this checkout)
+## 2. Verified state (2026-10-05, production build, this checkout)
 
 | Check | Result |
 |---|---|
 | `npm run lint` · `npx tsc --noEmit` · `npm run test:unit` | ✅ · ✅ · ✅ 13/13 |
 | `npm run build` | ✅ all routes static/SSG |
-| Full e2e (`PW_BASE_URL=… npx playwright test`) | ✅ 277 pass, 26 skipped by design (baseline capture). Two timing-sensitive tests (`home-experience` playback, `performance-mobile` CLS) can flake under full parallel load and pass alone. |
-| Lighthouse mobile | a11y/BP/SEO 100 on every route (R-3 fixed 2026-10-04). Perf: Home **90** (3 sequential uncontended runs, LCP 3.5 s — the earlier 84 was a loaded-machine reading, R-2), others 91–95. |
+| Full e2e (`PW_BASE_URL=… npx playwright test`) | ✅ 359 pass, 26 skipped by design (baseline capture), 2026-10-05. Known flakes fixed (ROADMAP 7.6). |
+| Lighthouse mobile | 2026-10-05, 18 routes: a11y/BP/SEO 100 everywhere. Perf: Home 91, others 92–94, `/work` **89** locally (gzip; check on Vercel preview, ROADMAP 7.1). |
 | Overflow / one h1 per route | ✅ 0 px at 390 and 1440; one h1 everywhere |
 
 Run locally: `npm ci`, `npx playwright install chromium` (the config uses Playwright's pinned
@@ -82,6 +82,12 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 | `docs/vercel-deployment-2026-08-04.md`, `docs/launch-readiness-report-2026-07-26.md` | Launch-gate steps still valid. |
 
 ## 6. Session log (newest first)
+
+- **2026-10-05** — Stage 7 on `stage-7/release`. 7.1: gate + full e2e green (359 pass, twice);
+  Lighthouse mobile on 18 routes — a11y/BP/SEO 100, perf 91–94, `/work` 89 (HTML weight; brotli on
+  Vercel should clear it — check in 7.2). Parity vs `src/data/*` clean. 7.6: last CI flake
+  (TerraElix preview after reload) fixed with `scrollIntoViewHeld`. Run Lighthouse with system
+  Chrome: Playwright's Chrome for Testing returns NO_FCP headless.
 
 - **2026-10-05** — Stage 6 (Polish) on `stage-6/polish`. 6.2: deleted 20 unreachable files found by
   an import-graph scan from every route + test (exactly the R-7 list) and dead chapter copy. 6.1:

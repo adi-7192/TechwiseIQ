@@ -4,6 +4,12 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-05 — Stage 7: Release verification (ROADMAP 7.1, 7.6)
+
+- 7.6: `work-page` "TerraElix live preview" holds the demo in view after reload
+  (`scrollIntoViewHeld`) — the last test that needed a CI retry.
+- 7.1: full verification recorded in ROADMAP (no product code changed).
+
 ## 2026-10-05 — Stage 6: Polish (ROADMAP 6.1–6.3)
 
 - 6.2: deleted parked redesign components (`src/components/proof/*`, Home `Chapter*`, `FinalCta`,
