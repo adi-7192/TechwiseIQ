@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { scrollIntoViewHeld } from './helpers'
 
 test.describe('Work proof archive (immersive)', () => {
   test.beforeEach(async ({ page }) => {
@@ -212,7 +213,9 @@ test.describe('Work proof archive (immersive)', () => {
     await page.emulateMedia({ reducedMotion: 'no-preference' })
     await page.reload()
     const activeStage = page.locator('[data-concept-stage]').first()
-    await activeStage.scrollIntoViewIfNeeded()
+    // After reload Lenis can carry the native jump away from the demo, so its
+    // observer never sees it and it never starts scrolling (CI flake, 7.6).
+    await scrollIntoViewHeld(activeStage)
     const activeFrame = activeStage.locator('iframe')
     await expect(activeFrame).toHaveAttribute('data-preview-state', 'ready')
     await expect
