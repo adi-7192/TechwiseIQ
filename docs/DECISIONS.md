@@ -247,12 +247,12 @@ client's name with logins; every site ships clear copy, structured data and a si
 | ~~OD-2~~ | **Resolved → D-021.** Home hero "Book a call": go straight to booking (`BOOKING_URL`) or scroll to the "04 / Your move" section? | Scroll to the Home contact section (chosen). | H-1 |
 | OD-3 | About: "Trusted by businesses in Dubai and beyond" — acceptable with two published clients? | Soften to a verifiable line (e.g. "Building for businesses in Dubai and beyond"). | — |
 | ~~OD-4~~ | **Obsolete (Kinetic only, D-028).** Ratify Home's colour use (sun 5+×, 3 ink sections) into `design-system.md`, or pull Home back to the written budget? | Ratify — it is shipped and spec-approved. | design-system.md refresh |
-| OD-5 | Delete dead components, robot video/poster, `src/check-hero.mjs`? | Delete (all verified unimported except check-hero, a one-off script). | Hygiene |
+| ~~OD-5~~ | **Resolved → D-032 Q15 (deleted in ROADMAP 6.2).** Delete dead components, robot video/poster, `src/check-hero.mjs`? | Delete (all verified unimported except check-hero, a one-off script). | Hygiene |
 | OD-6 | "Book a call" opening WhatsApp: supply a calendar URL, or relabel? | Supply Cal.com URL; otherwise relabel "Book via WhatsApp". | H-4 |
 | ~~OD-7~~ | **Resolved → D-027 (approved).** Approve the public "reply within 24 hours" / "Response guarantee" promise. | Owner confirms operationally. | Launch |
 | OD-8 | One primary-CTA verb site-wide (currently 4 variants). | "Book a call" primary, "Start a project" for the form route. | H-5 |
 | ~~OD-9~~ | **Resolved → D-025 (no).** Add a proof band (2 case studies) to Home, per `site-spec.md`? | Yes — compact, data-driven. | H-3 |
-| OD-10 | Concept demos load media from `figma.site`, CloudFront, `images.higgs.ai` and Google Fonts. Self-host, or accept the dependency? | Self-host media + fonts (availability, privacy-policy consistency, licence clarity). | Work reliability |
+| ~~OD-10~~ | **Resolved → D-032 Q8 (self-hosted in ROADMAP 6.1).** Concept demos load media from `figma.site`, CloudFront, `images.higgs.ai` and Google Fonts. Self-host, or accept the dependency? | Self-host media + fonts (availability, privacy-policy consistency, licence clarity). | Work reliability |
 | OD-11 | Is there a real internal automation or client software/AI project to write up as a case study? | Yes if one exists — biggest proof gap. | ROADMAP 2.2 |
 | OD-12 | Show a founder name, photo and signed note on About (reverses D-005)? | Yes — strongest trust signal for a new agency. | ROADMAP 4.1 |
 | ~~OD-13~~ | **Resolved → D-032 (Q3): custom quote per requirement, no packaged models.** Which engagement models do we sell (e.g. discovery sprint → fixed-scope build → retainer)? | Those three, no prices. | ROADMAP 3.1 |

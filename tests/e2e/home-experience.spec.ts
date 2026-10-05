@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { scrollIntoViewHeld } from './helpers'
 
 /** A settled transform is the identity — either the keyword or, once a filled CSS
  *  animation is holding its end frame, the equivalent matrix. */
@@ -124,17 +125,8 @@ test('each demonstration can be completed manually with reduced motion', async (
 test('playback pauses on demand and offscreen, then can replay', async ({ page }) => {
   await page.goto('/')
   const demo = page.locator('[data-demo="web"]')
-  // Lenis can carry a native jump on past the demo (seen at 8% visible), and
-  // Play only resumes while it is ≥30% in view. Retry the jump until it holds.
-  await expect
-    .poll(() =>
-      demo.evaluate((el) => {
-        const y = Math.round(el.getBoundingClientRect().top + window.scrollY - 40)
-        window.scrollTo(0, y)
-        return Math.abs(window.scrollY - y) <= 1
-      }),
-    )
-    .toBe(true)
+  // Play only resumes while the demo is ≥30% in view.
+  await scrollIntoViewHeld(demo)
   await expect(demo).toHaveAttribute('data-playing', 'true')
   await demo.getByRole('button', { name: 'Replay website demo' }).click()
   await demo.getByRole('button', { name: 'Pause', exact: true }).click()

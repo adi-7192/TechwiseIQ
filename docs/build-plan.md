@@ -1,3 +1,6 @@
+> **Historical (written for the Kinetic design, deleted — D-028).** Kept for reference only; do not build from it.
+> Current: `docs/site-spec.md`, `docs/design-system.md`, `docs/DECISIONS.md`.
+
 # Techwise IQ Website — Phased Build Plan
 
 How to take `design-e-kinetic-12-06-2026.html` to a launched Next.js site, phase by phase. Each phase ends with a hard gate: **qa-engineer PASS verdict + `npm run lint` + `npm run build` + your own eyes on `npm run dev`.** Don't start the next phase on a failed gate.

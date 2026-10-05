@@ -1,3 +1,5 @@
+> **Partly historical.** The honesty rules and playbook still apply (D-002); the page structure is now `src/app/work/[slug]` — see `docs/site-spec.md`.
+
 # Case Study Template + "New but Expert" Playbook
 
 For the `/work` pages. Fill one per real project (2 websites + 1–2 apps at launch). **No fake projects, ever** — Dubai's market is small, people verify, and one discovered fake ends the "we know what we're doing" positioning permanently.

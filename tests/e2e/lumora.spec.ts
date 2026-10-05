@@ -1,11 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-const videoUrls = [
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081127_0992a171-d3c6-4978-8213-0ec5df8b6d63.mp4',
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_092026_dd05b805-ea0f-40b2-8c52-332b88502592.mp4',
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_081042_df7202bf-bd80-4b2b-bbc6-1f09ba2870e9.mp4',
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260702_080959_4cac5234-3573-464e-a5b7-76b94b8a7d61.mp4',
-]
+const videoUrls = [0, 1, 2, 3].map((i) => `media/scene-${i}.mp4`)
 
 test.describe('Lumora concept', () => {
   test.beforeEach(async ({ page }) => {
@@ -43,7 +38,7 @@ test.describe('Lumora concept', () => {
     ).toEqual(videoUrls)
     await expect(page.locator('.scene-overlay')).toHaveAttribute(
       'src',
-      'https://soft-zoom-63098134.figma.site/_assets/v11/0b4a435b2df2747593c43d7a1c9b4578f7d8d90c.png',
+      'media/0b4a435b.webp',
     )
 
     const geometry = await page.evaluate(() => ({

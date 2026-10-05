@@ -20,7 +20,7 @@ test.describe('mėntality concept', () => {
     )
     await expect(page.locator('video')).toHaveAttribute(
       'src',
-      'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260603_132049_036591b8-6e92-4760-b94c-a7ea6eef315c.mp4',
+      'media/hero.mp4',
     )
     await expect(page.getByText('pl — en')).toBeVisible()
     await expect(page.getByText('2024', { exact: true })).toBeVisible()

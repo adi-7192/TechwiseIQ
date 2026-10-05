@@ -8,12 +8,12 @@
 
 ## ▶ NEXT
 
-**Stage 5 PR #8 open (`stage-5/growth`) — owner checks `/bottleneck-review` and `/insights` in the preview, then merges.**
-Then: Stage 6.3 docs (6.1 Concept Lab self-hosting and 6.2 parked-component deletion are answered in D-032).
+**Stage 6 PR open (`stage-6/polish`) — owner checks the Concept Lab demos in the preview, then merges.**
+Then: Stage 7 (7.1 full verification, 7.6 de-flake, then the owner launch gates).
 
 ## Progress
 
-**13 / 22 tasks done** · rebuilt for the redesign 2026-10-04
+**16 / 22 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -22,7 +22,7 @@ Then: Stage 6.3 docs (6.1 Concept Lab self-hosting and 6.2 parked-component dele
 | 3. Clarity | How working with us works | 1/1 | ✅ (PR #6 merged) |
 | 4. Trust | Honest claims, people, consistent CTAs, booking | 3/4 | 🟡 (voice draft awaiting owner; Cal.com later) |
 | 5. Growth | First-step offer, insights | 2/2 | ✅ (PR #8 open) |
-| 6. Polish | Concept Lab self-hosting, parked components, docs | 0/3 | ⬜ |
+| 6. Polish | Concept Lab self-hosting, parked components, docs | 3/3 | ✅ (PR open) |
 | 7. Release | Redesign release checklist → merge to `main` | 1/6 | 🟡 (7.3+ 🔒 owner) |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
@@ -112,10 +112,14 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 
 ## Stage 6 — Polish
 
-- 🔒 **6.1 Concept Lab self-hosting** (Q8, R-8).
-- 🔒 **6.2 Parked components** (Q15, R-7).
-- ⬜ **6.3 Docs** — mark `site-spec.md` / old specs historical in place; update `site-spec.md`
-  Home/Work/About/Contact sections to the redesign.
+- ✅ **6.1 Concept Lab self-hosting** (Q8, R-8) — 2026-10-05, `stage-6/polish` (`b48265e`). Media and
+  fonts in `public/concepts/<slug>/media|fonts`; videos re-encoded 1080p (~100 MB → 18.6 MB), images
+  WebP. `release-qa` fails on any third-party request from a demo.
+- ✅ **6.2 Parked components** (Q15, R-7) — 2026-10-05 (`656600c`). Deleted the 20 files unreachable from
+  any route or test (`components/proof/*`, Home `Chapter*`/`FinalCta`, `immersive/index.ts`) and the
+  dead chapter copy in `home-content.ts` (−2,627 lines).
+- ✅ **6.3 Docs** — 2026-10-05. `site-spec.md` rewritten from the shipped code (all routes);
+  31 Kinetic-era docs carry a "Historical" banner in place; redesign-era logs marked accurately.
 
 ## Stage 7 — Release (from the redesign's `TASKS.md`)
 
@@ -132,6 +136,8 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   Same cause fixed 2026-10-04 in `home-experience` "playback pauses…": Lenis carried the jump past
   the demo (8% visible, Play resumes only at ≥30%), so it sat at step 0; now retries the jump until
   it holds and waits for `data-playing="true"` (10/10 alone, 72/72 under 4 workers).
+  2026-10-05: the same jump moved into `tests/e2e/helpers.ts` (`scrollIntoViewHeld`) and used by
+  `kinetic-home` "software construction…" too; full suite 3/3 clean runs (was 1 flake per run).
   Same cause fixed 2026-10-04 in `work-page` "TerraElix live preview … reduced motion": 400 ms after
   `scrollTo(0,0)` the page was still 77–477 px down mid-Lenis-scroll; now waits for scrollY 0.
 - 🔒 **7.5 Production smoke + launch gates** — domain/DNS, real devices, promote.
