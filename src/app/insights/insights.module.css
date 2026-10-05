@@ -1,0 +1,279 @@
+/* Insights (ROADMAP 5.2). Reuses contact .hero/.intro and ServicesOverview .directoryItem. */
+
+.title {
+  max-width: 14ch;
+  margin-top: 1.25rem;
+}
+
+.articleTitle {
+  max-width: 22ch;
+  margin-top: 1.25rem;
+}
+
+.meta {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tw-muted);
+}
+
+.byline {
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+}
+
+.crumbs a {
+  color: var(--tw-accent);
+}
+
+@media (pointer: coarse) {
+  .crumbs a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* Index */
+.index {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.index > li {
+  row-gap: 0.75rem;
+}
+
+.entryTitle {
+  margin-top: 1rem;
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--tw-type-body-lg);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  overflow-wrap: break-word;
+}
+
+.entryTitle a:hover {
+  color: var(--tw-accent);
+}
+
+.dek {
+  max-width: 44ch;
+  margin: 0 0 1rem;
+  color: var(--tw-muted);
+  font-size: var(--tw-type-body);
+  line-height: 1.6;
+}
+
+/* Article body */
+.prose {
+  max-width: 68ch;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+  margin: 0 0 1.1em;
+  color: rgb(242 244 239 / 0.82);
+  font-size: var(--tw-type-body-lg);
+  line-height: 1.6;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.25em;
+}
+
+/* Tailwind preflight strips markers; numbered steps and citations need them. */
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol,
+.sources ol {
+  list-style: decimal;
+}
+
+.prose li + li {
+  margin-top: 0.5em;
+}
+
+.prose li::marker {
+  color: var(--tw-muted);
+}
+
+.prose strong {
+  color: var(--tw-fg);
+  font-weight: 600;
+}
+
+.prose em {
+  font-style: italic;
+}
+
+.prose a {
+  color: var(--tw-fg);
+  text-decoration: underline;
+  text-decoration-color: var(--tw-accent);
+  text-underline-offset: 0.2em;
+}
+
+.prose a:hover {
+  color: var(--tw-accent);
+}
+
+.prose h2,
+.sources h2 {
+  margin: clamp(2.5rem, 6vh, 3.5rem) 0 0.75rem;
+  color: var(--tw-fg);
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--tw-type-body-lg);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  scroll-margin-top: 6rem;
+}
+
+.prose h2 {
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--tw-line);
+}
+
+.prose code {
+  padding: 0 0.25em;
+  background: var(--tw-surface);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+}
+
+.prose sup {
+  line-height: 0;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+}
+
+.prose sup a {
+  padding-inline: 0.1em;
+  color: var(--tw-accent);
+  text-decoration: none;
+}
+
+.prose table {
+  width: 100%;
+  margin: 1.5rem 0 2rem;
+  border-collapse: collapse;
+  font-size: var(--tw-type-body);
+  line-height: 1.5;
+}
+
+.prose th,
+.prose td {
+  padding: 0.75rem 1rem 0.75rem 0;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.prose thead th {
+  border-bottom: 1px solid var(--tw-line);
+  color: var(--tw-muted);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.prose th:first-child {
+  width: 32%;
+}
+
+.prose td,
+.prose tbody th {
+  border-top: 1px solid var(--tw-line);
+  color: rgb(242 244 239 / 0.82);
+}
+
+.prose tbody th {
+  color: var(--tw-fg);
+  font-weight: 600;
+}
+
+.closing,
+.sources {
+  margin-top: clamp(2.5rem, 6vh, 3.5rem);
+  padding-top: clamp(2rem, 5vh, 3rem);
+  border-top: 1px solid var(--tw-line);
+}
+
+.closing {
+  max-width: 68ch;
+}
+
+.closing p {
+  margin: 0 0 1.5rem;
+  color: var(--tw-fg);
+  font-size: var(--tw-type-body-lg);
+  line-height: 1.6;
+}
+
+.closing p a {
+  text-decoration: underline;
+  text-decoration-color: var(--tw-accent);
+  text-underline-offset: 0.2em;
+}
+
+.closing p a:hover {
+  color: var(--tw-accent);
+}
+
+/* Sources */
+.sources {
+  max-width: 68ch;
+}
+
+.sources h2 {
+  margin-top: 0;
+}
+
+.sources ol {
+  margin: 0;
+  padding-left: 1.5em;
+}
+
+.sources li {
+  padding-block: 0.35rem;
+  color: var(--tw-muted);
+  font-size: var(--tw-type-body);
+  line-height: 1.5;
+  scroll-margin-top: 6rem;
+}
+
+.sources li::marker {
+  color: var(--tw-muted);
+  font-family: var(--font-mono), monospace;
+}
+
+.sources a {
+  color: var(--tw-fg);
+  text-decoration: underline;
+  text-decoration-color: var(--tw-accent);
+  text-underline-offset: 0.2em;
+}
+
+.sources li:target {
+  color: var(--tw-fg);
+}
+
+.sources li:target::marker {
+  color: var(--tw-accent);
+}

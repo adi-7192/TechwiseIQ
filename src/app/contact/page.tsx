@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import ImmersiveShell from '@/components/immersive/ImmersiveShell'
 import SectionLabel from '@/components/immersive/primitives/SectionLabel'
 import SiteFooter from '@/components/global/SiteFooter'
@@ -36,6 +37,13 @@ export default function ContactPage() {
               Tell us what&apos;s slowing you down. We reply{' '}
               <strong>within 24 hours</strong> (yes, really), then a written
               scope after a short call.
+            </p>
+            <p className={styles.nextNote}>
+              Not ready for a project? Try the{' '}
+              <Link href="/bottleneck-review">
+                <strong>free 20-minute bottleneck review</strong>
+              </Link>
+              .
             </p>
           </div>
         </section>

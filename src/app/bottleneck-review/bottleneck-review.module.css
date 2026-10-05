@@ -1,0 +1,20 @@
+.title {
+  max-width: 14ch;
+  margin-top: 1.25rem;
+}
+
+.formCol {
+  max-width: 46rem;
+  margin-top: clamp(2rem, 5vh, 3rem);
+}
+
+/* Step 01 links here; keep the h2 clear of the fixed header. */
+.formSection {
+  scroll-margin-top: 6rem;
+}
+
+.inlineLink {
+  color: var(--tw-fg);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}

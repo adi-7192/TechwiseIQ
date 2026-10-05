@@ -493,3 +493,13 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* "Worth a read" insights list in #questions (5.2) */
+.readsLabel {
+  margin-top: 2.5rem;
+}
+.reads {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

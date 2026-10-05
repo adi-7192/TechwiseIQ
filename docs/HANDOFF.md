@@ -81,6 +81,22 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-04** — 5.2 Insights built (D-037) through the pipeline: PM → design → UI → UX PASS → QA
+  PASS (Lighthouse a11y/BP/SEO 100 on `/insights` + an article; citations, JSON-LD, wording diff vs
+  drafts all verified). Full e2e 358 pass on a prod build. Owner then confirmed both [OWNER] claims (shipped). Open for owner:
+  body h2 same size as body text (design Q1); floating Chat pill covers text at 390 (site-wide).
+
+- **2026-10-04** — 5.2: owner asked for researched articles. 6 drafts with cited sources in
+  `docs/insights-drafts-2026-10-04.md` (sites, ownership, spreadsheets, build/buy, AI, AI search).
+  Reddit is blocked to our research tools; community voices from Hacker News + UK Business Forums.
+  Lines about us are marked [OWNER]. Nothing built yet.
+
+- **2026-10-04** — Stage 5 (Growth) on `stage-5/growth`: 5.1 `/bottleneck-review` through the full
+  pipeline (PM → design → UI → UX PASS → QA; QA failed once on a missing subject unit test, fixed).
+  Owner answered the PM's questions → D-036. Spec: `docs/specs/5.1-bottleneck-review.md`. Full e2e
+  332 pass on a prod build. UX nice-to-haves left for the owner: budget is required even for the free
+  review; floating Chat pill covers text at 390 (site-wide); duplicate error announcement on forms.
+
 - **2026-10-04** — Stage 4 (Trust) on `stage-4/trust`, branched off `stage-3/clarity` (PR #6 still
   open). 4.1/4.2/4.4 done, 4.3 CTA unified ("Bring us the problem" → `/contact`); voice rewrite is a
   draft in `docs/voice-draft.md` awaiting owner. Read of D-032 Q7: "WhatsApp only from the WhatsApp

@@ -4,6 +4,31 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-04 — Stage 5: Insights (ROADMAP 5.2)
+
+- Six researched articles (D-037) at `/insights/[slug]`, list at `/insights`, data in
+  `src/data/insights.ts` (inline markup rendered by `src/app/insights/inline.tsx`). Every number
+  cites a numbered source with its year; sources open in a new tab.
+- `Article` + `BreadcrumbList` JSON-LD (author "Techwise IQ team"), `CollectionPage` on the list.
+- Footer "Insights" link; "Worth a read" list in each service page's questions section.
+- Sitemap (+7) and `llms.txt` Insights section. Unit test (`tests/unit/insights.test.ts`) and e2e
+  (`tests/e2e/insights.spec.ts`); routes added to responsive/launch-smoke/release-qa.
+- Test: de-flaked `home-experience` playback (Lenis scroll drift, ROADMAP 7.6).
+- Owner confirmed the two claims: art. 2 and art. 6 now close with them (D-037 update).
+- Draft sources corrected before publish: Portent stat dropped (no primary), Similarweb via
+  TechCrunch, `.ae` via Wikipedia.
+
+## 2026-10-04 — Stage 5: Growth (ROADMAP 5.1)
+
+- New static page `/bottleneck-review` (free 20-minute bottleneck review, D-032 Q4, D-036): hero,
+  How it works (4 steps), Good things to bring, What it is (and isn't), form. `Service` JSON-LD,
+  no price. Step 01 links to the form.
+- `ContactForm review` posts a hidden `inquiry=review`; the action sends subject
+  "Free bottleneck review request — …" + a `Type:` line. Only the exact value counts.
+- Links: one in the `/contact` intro, one under `/services` #engage. Sitemap + `llms.txt` updated.
+- Tests: unit (subject, tampered value), e2e page check; route added to responsive, launch-smoke,
+  release-qa route lists.
+
 ## 2026-10-04 — Stage 4: Trust (ROADMAP 4.1–4.4)
 
 - `/about`: "Building for businesses in Dubai and beyond" (was "Trusted by…"); hero says "a team of

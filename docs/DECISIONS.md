@@ -219,6 +219,24 @@ No jargon or complicated words; say plainly what we do; keep every fact and prom
 words in body copy use `<strong>` (bright foreground via `globals.css`), sparingly. *Apply:* new copy
 follows `docs/voice-draft.md` rules; trade terms only where a buyer would use them.
 
+**D-036 — Free bottleneck review page.** 2026-10-04 · owner (answers to the 5.1 PM spec) · applies D-032 Q4.
+`/bottleneck-review`. The review is the same 20-minute call as `/contact` step 2, offered as a
+no-commitment first step; no written report or summary (the page says "not a report and not a
+quote"). Approved lines: "replies within 24 hours to set up the call", "Not for you? No hard
+feelings.", submit "Request my free review". Linked from `/contact` and `/services` #engage only —
+not header, footer or Home (one primary CTA, D-034). *Apply:* review requests reuse the contact
+action; a hidden `inquiry=review` (exact value only) changes the email subject. No price in copy or
+JSON-LD (D-003).
+
+**D-037 — Insights: six researched articles ship.** 2026-10-04 · owner ("looks good, add them, keep the byline") · un-holds ROADMAP 5.2.
+All six drafts in `docs/insights-drafts-2026-10-04.md` approved. Byline "Techwise IQ team" (D-005).
+The two [OWNER] claims about us (art. 2 "accounts in your name at handover", art. 6 "search
+foundations in every site") are **left out** until the owner confirms them; the CTA closing lines
+ship. *Apply:* every number keeps its source link and year; no client claims; no prices.
+*Update 2026-10-04 (owner: "add the claims"):* both claims confirmed as always true and shipped as
+the closing lines of art. 2 and art. 6. Keep them true: every handover puts accounts in the
+client's name with logins; every site ships clear copy, structured data and a sitemap.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)
@@ -239,4 +257,4 @@ follows `docs/voice-draft.md` rules; trade terms only where a buyer would use th
 | OD-12 | Show a founder name, photo and signed note on About (reverses D-005)? | Yes — strongest trust signal for a new agency. | ROADMAP 4.1 |
 | ~~OD-13~~ | **Resolved → D-032 (Q3): custom quote per requirement, no packaged models.** Which engagement models do we sell (e.g. discovery sprint → fixed-scope build → retainer)? | Those three, no prices. | ROADMAP 3.1 |
 | ~~OD-15~~ | **Obsolete (Kinetic only, D-028).** Services pages ship circular number markers (`border-radius: 50%`, ~8 files) against D-001 "radius 0". Log an exception for process-number circles, or square them? Case-study markers are square for now. | Square them (D-001 is explicit; circles were never ratified). | Consistency |
-| OD-14 | Which first-step offer (free 20-min bottleneck review / website + automation audit)? | Free 20-min bottleneck review. | ROADMAP 5.1 |
+| ~~OD-14~~ | **Resolved → D-032/D-036.** Which first-step offer (free 20-min bottleneck review / website + automation audit)? | Free 20-min bottleneck review. | ROADMAP 5.1 |

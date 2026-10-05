@@ -88,3 +88,21 @@ test('shows the three next steps on the page and after sending', async ({
   ).toHaveCount(1)
   await expect(page.getByRole('main').getByRole('listitem')).toHaveCount(3)
 })
+
+test('bottleneck review page posts a review request and is linked from /contact and /services', async ({
+  page,
+}) => {
+  await page.goto('/bottleneck-review')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    'The free 20-minute bottleneck review.',
+  )
+  await expect(page.locator('input[type="hidden"][name="inquiry"]')).toHaveValue('review')
+  await expect(page.getByRole('button', { name: 'Request my free review' })).toBeVisible()
+  await expect(page.getByText(/not a report and not a quote/)).toBeVisible()
+
+  for (const route of ['/contact', '/services']) {
+    await page.goto(route)
+    await expect(page.locator('main a[href="/bottleneck-review"]'), route).toHaveCount(1)
+  }
+})

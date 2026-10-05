@@ -60,6 +60,15 @@ export function readContactSubmission(formData: FormData): ContactSubmission {
   }
 }
 
+// Set by the /bottleneck-review form. Only the exact value counts; anything else is a normal inquiry.
+export function isReviewRequest(formData: FormData): boolean {
+  return formData.get('inquiry') === 'review'
+}
+
+export function inquirySubject(review: boolean, name: string, budget: string) {
+  return `${review ? 'Free bottleneck review request' : 'New project inquiry'} — ${name} (${budget})`
+}
+
 export function validateContactSubmission(
   input: ContactSubmission,
 ): ValidationResult {

@@ -2,6 +2,8 @@
 
 import { Resend } from 'resend'
 import {
+  inquirySubject,
+  isReviewRequest,
   readContactSubmission,
   validateContactSubmission,
   type ContactField,
@@ -51,6 +53,7 @@ export async function submitContact(
   }
 
   const { name, email, company, message, budget, website } = result.data
+  const review = isReviewRequest(formData)
 
   // Treat a populated honeypot as handled without disclosing the filter to bots.
   if (website) {
@@ -73,8 +76,9 @@ export async function submitContact(
       from: FROM_EMAIL,
       to: TO_EMAIL,
       replyTo: email,
-      subject: `New project inquiry — ${name} (${budget})`,
+      subject: inquirySubject(review, name, budget),
       text: [
+        ...(review ? ['Type: Free 20-minute bottleneck review', ''] : []),
         `Name: ${name}`,
         `Email: ${email}`,
         `Company: ${company || '—'}`,

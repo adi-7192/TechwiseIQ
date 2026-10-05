@@ -23,6 +23,9 @@ const ROUTES = [
   '/work/rsight',
   '/about',
   '/contact',
+  '/bottleneck-review',
+  '/insights',
+  '/insights/who-owns-your-website',
   '/privacy',
   '/terms',
   '/this-page-does-not-exist', // 404

@@ -2,6 +2,8 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import {
   CONTACT_LIMITS,
+  inquirySubject,
+  isReviewRequest,
   validateContactSubmission,
 // @ts-expect-error Node's built-in TypeScript runner requires the file extension.
 } from '../../src/app/contact/contact-validation.ts'
@@ -65,4 +67,16 @@ test('preserves a filled honeypot for the action to suppress', () => {
   })
   assert.equal(result.ok, true)
   if (result.ok) assert.equal(result.data.website, 'https://spam.example')
+})
+
+test('review requests get their own email subject; tampered values do not', () => {
+  const subject = (inquiry: string) => {
+    const data = new FormData()
+    data.set('inquiry', inquiry)
+    return inquirySubject(isReviewRequest(data), 'Ada', 'Not sure yet')
+  }
+  assert.equal(subject('review'), 'Free bottleneck review request — Ada (Not sure yet)')
+  assert.equal(subject(''), 'New project inquiry — Ada (Not sure yet)')
+  assert.equal(subject('admin'), 'New project inquiry — Ada (Not sure yet)')
+  assert.equal(subject('Review '), 'New project inquiry — Ada (Not sure yet)')
 })
