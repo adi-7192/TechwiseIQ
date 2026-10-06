@@ -1,22 +1,11 @@
 /* ═══════════════════════════════════════════════════════════════════════
    /work — immersive proof archive. Type + atmosphere come from `.tw-world`
-   + the shared primitives; this file owns the featured-work grid, the
-   delivery-metric band, and the Concept Lab exhibition. Static-first
-   (no motion library) to match the immersive homepage.
+   + the shared primitives; this file owns the hero proof strip, the
+   featured-work rail, more client work, and the Concept Lab exhibition.
+   Static-first (no motion library) to match the immersive homepage.
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* ─── Shared eyebrow / heading treatments reused by ConceptLab ─── */
-.label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: var(--font-mono), monospace;
-  font-size: var(--tw-type-meta);
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--tw-muted);
-}
+/* ─── Shared heading treatments ─── */
 .sectionIntro {
   max-width: 60ch;
 }
@@ -40,9 +29,11 @@
   color: var(--tw-muted);
 }
 
-/* ─── 1 · Hero ─── */
-.heroInner {
-  max-width: 1100px;
+/* ─── 1 · Hero: copy, then the live-site totals ─── */
+/* The Section is density="flush"; the hero owns its own vertical rhythm
+   (sparse top, tight bottom) so the first project shows above the fold. */
+.heroGrid {
+  padding-block: clamp(6rem, 14vh, 12rem) clamp(2.5rem, 5vh, 3.5rem);
 }
 .heroTitle {
   margin-block-start: 1.5rem;
@@ -65,6 +56,80 @@
   margin-block-start: clamp(2rem, 4vh, 2.75rem);
 }
 
+/* Proof strip: 3-up row below 1024px, a stacked column beside the copy above. */
+.heroProof {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: clamp(2rem, 4vh, 2.75rem) 0 0;
+  border-top: 1px solid var(--tw-line);
+}
+.metric {
+  display: flex;
+  flex-direction: column-reverse; /* <dt> first in the DOM, value shown on top */
+  justify-content: flex-end;
+  gap: 0.4rem;
+  min-width: 0;
+  padding-block: 1.25rem;
+}
+.metric + .metric {
+  padding-inline-start: 1rem;
+  border-left: 1px solid var(--tw-line);
+}
+.metric dd {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--tw-fg);
+}
+.metric dt {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tw-muted);
+  overflow-wrap: break-word;
+}
+@media (min-width: 1024px) {
+  .heroGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    grid-template-areas:
+      'copy proof'
+      'actions proof';
+    column-gap: clamp(2rem, 5vw, 5rem);
+    align-items: end;
+  }
+  .heroCopy {
+    grid-area: copy;
+  }
+  .heroActions {
+    grid-area: actions;
+  }
+  /* Hero size overflows the 1.3fr column at 1024px. */
+  .heroGrid .heroTitle {
+    font-size: var(--tw-type-chapter);
+  }
+  .heroProof {
+    grid-area: proof;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+  .metric,
+  .metric + .metric {
+    padding: 1.25rem 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--tw-line);
+  }
+}
+@media (max-width: 480px) {
+  .metric + .metric {
+    padding-inline-start: 0.75rem;
+  }
+}
+
 /* ─── 2 · Featured client work ─── */
 .workHead {
   display: flex;
@@ -77,17 +142,16 @@
   display: flex;
   flex-direction: column;
   gap: clamp(3rem, 7vh, 6rem);
-  margin-block-start: clamp(2.5rem, 6vh, 4.5rem);
+  margin-block-start: clamp(1.5rem, 3vh, 2.5rem);
 }
 
-/* Each project: an editorial split — dominant image beside the story. */
+/* Each project: an editorial split — browser-framed cover beside the story. */
 .projectStage {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: clamp(1.5rem, 4vw, 3.5rem);
   align-items: center;
-  /* Per-project accent set inline via --tw-accent */
 }
 .projectStageReverse {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
@@ -100,25 +164,38 @@
 }
 
 .projectVisual {
-  position: relative;
-  aspect-ratio: 16 / 11;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   border: 1px solid var(--tw-line);
   border-radius: var(--tw-radius-proof);
   background: var(--tw-surface);
 }
-.projectVisual::after {
-  /* thin accent hairline along the top of the frame */
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 2px;
-  background: var(--tw-accent);
-  opacity: 0.85;
+.projectShot {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
 }
 .projectImage {
   object-fit: cover;
   object-position: top center;
+}
+
+/* Cover hover (featured + more work): pointer users only, never under
+   reduced motion. The browser bar stays put; only the screenshot scales. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .coverLink {
+    transition: border-color var(--tw-duration-component) var(--tw-ease-out);
+  }
+  .coverLink .projectImage {
+    transition: transform var(--tw-duration-component) var(--tw-ease-out);
+  }
+  .coverLink:hover {
+    border-color: color-mix(in oklab, var(--tw-accent) 45%, var(--tw-line));
+  }
+  .coverLink:hover .projectImage {
+    transform: scale(1.03);
+  }
 }
 
 .projectBody {
@@ -164,7 +241,7 @@
 }
 .proofCloud div {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column-reverse; /* <dt> first in the DOM, value shown on top */
   gap: 0.25rem;
 }
 .proofCloud dd {
@@ -182,13 +259,25 @@
   color: var(--tw-muted);
 }
 
-.projectStory {
+/* Before → client-reported Result (live sites only). */
+.beforeResult {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem 1.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.75rem;
+  margin: 0;
 }
-.projectStory > div {
+.beforeResult > div {
   min-width: 0;
+}
+.resultCol {
+  padding-inline-start: 1.75rem;
+  border-left: 1px solid var(--tw-line);
+}
+.beforeResult dd {
+  margin: 0;
+  font-size: var(--tw-type-body);
+  line-height: 1.5;
+  color: rgb(242 244 239 / 0.82);
 }
 .storyLabel {
   font-family: var(--font-mono), monospace;
@@ -198,19 +287,17 @@
   color: var(--tw-accent);
   margin-block-end: 0.4rem;
 }
-.projectStory p:not(.storyLabel) {
-  font-size: var(--tw-type-body);
-  line-height: 1.5;
-  color: rgb(242 244 239 / 0.82);
+.storyLabelMuted,
+.reportedTag {
+  color: var(--tw-muted);
 }
 
 .projectActions {
-  grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem 1.5rem;
-  margin-block-start: 0.5rem;
+  margin-block-start: 1.5rem;
 }
 .projectPrimary {
   display: inline-flex;
@@ -257,101 +344,82 @@
     order: 0;
   }
 }
-@media (max-width: 520px) {
-  .projectStory {
+@media (max-width: 480px) {
+  .beforeResult {
     grid-template-columns: 1fr;
   }
-}
-
-/* ─── Delivery metric band ─── */
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid var(--tw-line);
-  margin-block-start: clamp(3rem, 7vh, 5rem);
-}
-.metric {
-  padding: 1.75rem 1.5rem 2rem 0;
-  border-bottom: 1px solid var(--tw-line);
-}
-.metric + .metric {
-  padding-inline-start: 1.5rem;
-  border-left: 1px solid var(--tw-line);
-}
-.metric dd {
-  margin: 0;
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--tw-fg);
-}
-.metric dt {
-  margin-block-start: 0.4rem;
-  font-family: var(--font-mono), monospace;
-  font-size: var(--tw-type-meta);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--tw-muted);
-}
-@media (max-width: 640px) {
-  .metrics {
-    grid-template-columns: 1fr;
-  }
-  .metric,
-  .metric + .metric {
-    padding: 1.5rem 0 1.75rem;
+  .resultCol {
+    padding-inline-start: 0;
+    padding-block-start: 1.25rem;
     border-left: 0;
+    border-top: 1px solid var(--tw-line);
   }
 }
 
 /* ─── More client work (preview builds, not counted in totals) ─── */
-.moreWork {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  align-items: start;
+.moreHead {
   margin-block-start: clamp(3rem, 7vh, 5rem);
-}
-.moreList {
+  padding-block-start: clamp(2.5rem, 6vh, 4rem);
   border-top: 1px solid var(--tw-line);
 }
-.moreItem {
+.moreGrid {
   display: grid;
-  grid-template-columns: 12rem minmax(0, 1fr);
-  gap: clamp(1.25rem, 2.5vw, 2rem);
-  align-items: start;
-  padding-block: 1.5rem;
-  border-bottom: 1px solid var(--tw-line);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+  margin-block-start: clamp(2rem, 4vh, 3rem);
+}
+.moreProject {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+.principleTitle {
+  margin-block: 1rem 1.25rem;
+  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--tw-fg);
 }
 .moreThumb {
   position: relative;
+  display: block;
+  align-self: stretch;
   aspect-ratio: 16 / 10;
   overflow: hidden;
   border: 1px solid var(--tw-line);
   border-radius: var(--tw-radius-artifact);
   background: var(--tw-surface);
 }
-.moreBody {
+.moreProject .statusChip {
+  margin: 1rem 0 0;
+}
+.moreProject .conceptTitle {
+  margin-block: 0.75rem 0.5rem;
+}
+.moreLinks {
   display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  margin-block-start: 1rem;
 }
-.moreBody .statusChip {
-  margin-block-start: 0;
-  align-self: flex-start;
-}
-@media (max-width: 1024px) {
-  .moreWork {
-    grid-template-columns: 1fr;
+@media (min-width: 1024px) {
+  .moreHead {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .moreHead .principleTitle {
+    margin-block-end: 0;
   }
 }
 @media (max-width: 768px) {
-  .moreItem {
+  .moreGrid {
     grid-template-columns: 1fr;
-  }
-  .moreThumb {
-    max-width: 16rem;
   }
 }
 @media (pointer: coarse) {
@@ -359,13 +427,16 @@
   .projectSecondary {
     min-height: 44px;
   }
+  /* Keep the underline on the text, not 44px down at the box edge. */
+  .projectSecondary {
+    border-bottom: 0;
+    text-decoration: underline 1px var(--tw-accent);
+    text-underline-offset: 0.3em;
+  }
 }
 
 /* ─── 3 · Concept Lab (self-initiated, clearly labelled) ─── */
 .conceptLab {
-  position: relative;
-  padding-block: clamp(3.5rem, 7vh, 6rem);
-  border-top: 1px solid var(--tw-line);
   /* Concept Lab keeps its own quieter identity — blue developer accent */
   --tw-accent: var(--tw-blue);
 }
@@ -420,7 +491,7 @@
   aspect-ratio: 4 / 3;
   overflow: hidden;
   border-bottom: 1px solid var(--tw-line);
-  background: #05070a;
+  background: var(--tw-bg);
 }
 .browserBar {
   position: relative;
@@ -644,46 +715,7 @@
   }
 }
 
-/* Principles: what clients get / what we avoid */
-.principlesGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(2rem, 5vw, 4rem);
-  margin-block-start: clamp(2.5rem, 6vh, 4rem);
-}
-.principleTitle {
-  margin-block: 1rem 1.25rem;
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--tw-fg);
-}
-.principleList {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-}
-.principleList li {
-  padding-block: 0.85rem;
-  border-top: 1px solid var(--tw-line);
-  font-size: var(--tw-type-body);
-  line-height: 1.4;
-  color: rgb(242 244 239 / 0.82);
-}
-@media (max-width: 640px) {
-  .principlesGrid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ─── 5 · Final CTA ─── */
-.ctaInner {
-  max-width: 1000px;
-}
 .ctaTitle {
   margin-block-start: 1.5rem;
 }
@@ -703,6 +735,17 @@
   align-items: center;
   gap: 0.85rem;
   margin-block-start: clamp(2rem, 4vh, 2.75rem);
+}
+@media (min-width: 1024px) {
+  .ctaGrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 5vw, 5rem);
+    align-items: end;
+  }
+  .ctaBody {
+    margin-block-start: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -2,6 +2,8 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 // @ts-expect-error Node's built-in TypeScript runner requires the file extension.
 import { getDeliveryMetrics, getProjectStatus, partitionProjects } from '../../src/app/work/work-projects.ts'
+// @ts-expect-error Node's built-in TypeScript runner requires the file extension.
+import { CASE_STUDIES } from '../../src/data/case-studies.ts'
 
 const projects = (flags: boolean[]) =>
   flags.map((featured, index) => ({
@@ -54,9 +56,9 @@ test('derives aggregate metrics from project proof and timelines', () => {
   ])
 
   assert.deepEqual(result, [
+    { value: '2', label: 'Live client sites' },
     { value: '21', label: 'Pages shipped' },
-    { value: '5–6', label: 'Week launches' },
-    { value: '2', label: 'Live projects' },
+    { value: '5–6', label: 'Weeks, brief to launch' },
   ])
 })
 
@@ -67,4 +69,44 @@ test('labels project status: live wins, then awaiting launch, else preview', () 
   )
   assert.equal(getProjectStatus({ awaitingLaunch: true }), 'Awaiting launch')
   assert.equal(getProjectStatus({}), 'Preview build')
+})
+
+type Study = {
+  slug: string
+  featured: boolean
+  liveUrl?: string
+  result: string
+  workSummary: { challenge: string; reported?: string }
+}
+const studies = CASE_STUDIES as Study[]
+
+test('every featured case study is a live site', () => {
+  for (const study of studies.filter((cs) => cs.featured)) {
+    assert.ok(study.liveUrl, `${study.slug} is featured without a liveUrl`)
+  }
+})
+
+test('client-reported results quote the approved result, live sites only', () => {
+  for (const study of studies.filter((cs) => cs.workSummary.reported)) {
+    assert.ok(study.liveUrl, `${study.slug} reports a result without a liveUrl`)
+    assert.ok(
+      study.result.includes(study.workSummary.reported!),
+      `${study.slug} reported text is not in its approved result`,
+    )
+  }
+})
+
+test('featured cards never share a Before line', () => {
+  const challenges = studies
+    .filter((cs) => cs.featured)
+    .map((cs) => cs.workSummary.challenge)
+  assert.equal(new Set(challenges).size, challenges.length)
+})
+
+test('hero totals count live client sites only, never previews', () => {
+  assert.deepEqual(getDeliveryMetrics(CASE_STUDIES), [
+    { value: '3', label: 'Live client sites' },
+    { value: '114', label: 'Pages shipped' },
+    { value: '3–5', label: 'Weeks, brief to launch' },
+  ])
 })

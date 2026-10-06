@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import BrowserBar from './BrowserBar'
 import styles from './work.module.css'
 
 const LOAD_TIMEOUT_MS = 10_000
@@ -178,12 +179,7 @@ export default function LiveConceptPreview({
 
   return (
     <div className={styles.conceptPreview} ref={rootRef}>
-      <div className={styles.browserBar} aria-hidden="true">
-        <span />
-        <span />
-        <span />
-        <b>{demoPath}</b>
-      </div>
+      <BrowserBar label={demoPath} />
       <div
         className={styles.livePreviewStatus}
         data-state={state}

@@ -8,13 +8,13 @@
 
 ## ▶ NEXT
 
-**Stage 8 skyline (8.1 hero + 8.2 whole-page journey) — PR #11 open: owner checks the Vercel preview, then merges.**
+**Stage 9 /work clarity (9.1) — on `stage-9/work-page`: owner approves the draft copy (HANDOFF §6), then PR → merge.**
 **Stage 7 — owner launch gates.** 7.1 and 7.6 done on `stage-7/release`. Next: 🔒 7.2 preview review
 (include `/work` Lighthouse on the preview, see 7.1), 7.3 form test, 7.5 launch.
 
 ## Progress
 
-**20 / 24 tasks done** · rebuilt for the redesign 2026-10-04
+**21 / 25 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -25,7 +25,8 @@
 | 5. Growth | First-step offer, insights | 2/2 | ✅ (PR #8 open) |
 | 6. Polish | Concept Lab self-hosting, parked components, docs | 3/3 | ✅ (PR #9 merged) |
 | 7. Release | Redesign release checklist → merge to `main` | 3/6 | 🟡 (7.2, 7.3, 7.5 🔒 owner) |
-| 8. Showpiece | Home skyline: hero (D-038) + whole-page journey (D-039) | 2/2 | 🟡 (PR #11 open) |
+| 8. Showpiece | Home skyline: hero (D-038) + whole-page journey (D-039) | 2/2 | ✅ (PR #11 merged) |
+| 9. Work clarity | `/work` shows the work first, with less to read (D-040) | 1/1 | 🟡 (copy awaiting owner) |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
 
@@ -166,6 +167,19 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   light everywhere + desktop cursor halo, footer finale. Render on demand, adaptive DPR, lite
   (hero-only) budget on software WebGL. UX + QA agent review (D-020): wake-jump blocker and legibility
   fixes applied. Full e2e 362 pass; Lighthouse mobile Home 91–94.
+
+## Stage 9 — Work clarity
+
+- ✅ **9.1 `/work` UI/UX clarity + trust pass** (D-040) — 2026-10-06, `stage-9/work-page`. Owner-approved
+  plan after a 390/1440 review. Hero: "Our work", totals strip (3 live sites · 114 pages · 3–5 weeks)
+  beside the h1, first project above the fold at 1440×900. Featured rail: one page accent, browser-framed
+  covers showing the real domain (cover clicks through to the case study), meta = industry only,
+  Before → client-reported Result instead of Challenge/Decision. More client work: 2-up, text links.
+  Concept Lab on `Section` (markers 01/02/03), "Concept 0N", "Open the live demo". How we work: 4 steps,
+  lists dropped. Compact h2 CTA. All 5 covers recaptured without floating widgets/cookie bars.
+  PM + web-designer + UX + QA agents (D-020). Full e2e 362 pass; Lighthouse mobile `/work` perf 90
+  (was 89), a11y/BP/SEO 100; page height 7.6k → 6.6k px desktop, 10.7k → 9.6k mobile.
+  `/ponytail-review` applied (4 trims, ~20 lines).
 
 ## Later / rejected
 

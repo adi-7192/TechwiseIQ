@@ -1,4 +1,8 @@
 import { CONCEPT_SITES, type ConceptSite } from '@/data/concept-sites'
+import Section from '@/components/immersive/primitives/Section'
+import SectionLabel from '@/components/immersive/primitives/SectionLabel'
+import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
+import BrowserBar from './BrowserBar'
 import styles from './work.module.css'
 import LiveConceptPreview from './LiveConceptPreview'
 import {
@@ -19,7 +23,7 @@ function ConceptCopy({
   return (
     <div className={styles.conceptCopy}>
       <p className={styles.conceptIndex}>
-        Demo slot {String(index + 1).padStart(2, '0')} / {concept.category}
+        Concept {String(index + 1).padStart(2, '0')} · {concept.category}
       </p>
       <h3 className={styles.conceptTitle}>{concept.title}</h3>
       <p className={styles.conceptSummary}>{concept.summary}</p>
@@ -31,23 +35,12 @@ function ConceptCopy({
       <p className={published ? styles.conceptOpen : styles.conceptPending}>
         {published ? (
           <>
-            Open live HTML demo <span aria-hidden="true">↗</span>
+            Open the live demo <span aria-hidden="true">↗</span>
           </>
         ) : (
           status === 'unavailable' ? 'Demo unavailable' : 'Brief pending'
         )}
       </p>
-    </div>
-  )
-}
-
-function BrowserBar({ label }: { label: string }) {
-  return (
-    <div className={styles.browserBar} aria-hidden="true">
-      <span />
-      <span />
-      <span />
-      <b>{label}</b>
     </div>
   )
 }
@@ -71,13 +64,13 @@ export default function ConceptLab() {
   if (CONCEPT_SITES.length === 0) return null
 
   return (
-    <section className={styles.conceptLab} data-testid="concept-lab">
-      <div className="tw-wrap">
+    <Section ruled density="dense" className={styles.conceptLab}>
+      <div data-testid="concept-lab">
         <div className={styles.sectionIntro}>
-          <p className={styles.label}>Concept Lab / Self-initiated</p>
-          <h2 className={styles.sectionTitle}>
+          <SectionLabel index="02">Concept Lab / Self-initiated</SectionLabel>
+          <DisplayHeading as="h2" size="h2" className={styles.sectionTitle}>
             What else could we <span>build?</span>
-          </h2>
+          </DisplayHeading>
           <p className={styles.sectionBody}>
             Sites we built for ourselves to try new looks, industries and
             ideas.
@@ -113,7 +106,7 @@ export default function ConceptLab() {
                     className={styles.conceptPublishedLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`Open ${concept.title} live HTML demo (opens in a new tab)`}
+                    aria-label={`Open the live demo: ${concept.title} (opens in a new tab)`}
                   >
                     <ConceptCopy
                       concept={concept}
@@ -144,6 +137,6 @@ export default function ConceptLab() {
           })}
         </div>
       </div>
-    </section>
+    </Section>
   )
 }

@@ -9,6 +9,7 @@ import { CASE_STUDIES } from '@/data/case-studies'
 import { socialMetadata } from '@/lib/metadata'
 import ConceptLab from './ConceptLab'
 import FeaturedWork from './FeaturedWork'
+import { getDeliveryMetrics } from './work-projects'
 import styles from './work.module.css'
 
 export const metadata: Metadata = {
@@ -49,21 +50,9 @@ const OPERATING = [
   ['04', 'Ship', 'Testing, launch, and a clean handover of everything.'],
 ]
 
-const CLIENTS_GET = [
-  'A clear scope, and everything is yours',
-  'Direct access to the people building',
-  'Something working to see every week',
-  'Decisions explained in plain English',
-]
-
-const WE_AVOID = [
-  'Projects you can’t see into',
-  'Weeks with nothing to show',
-  'Templates sold as custom design',
-  'A handover nobody owns',
-]
-
 export default function WorkPage() {
+  const deliveryMetrics = getDeliveryMetrics(CASE_STUDIES)
+
   return (
     <ImmersiveShell scene="web">
       <script
@@ -72,20 +61,29 @@ export default function WorkPage() {
       />
       <SiteHeader />
       <main id="main" data-work-experience data-testid="work-experience">
-        {/* 1 · Hero */}
-        <Section as="header" density="sparse" innerClassName={styles.heroInner}>
-          <SectionLabel>Proof archive / Our way</SectionLabel>
-          <DisplayHeading as="h1" size="hero" className={styles.heroTitle}>
-            Proof, not <span>promises.</span>
-          </DisplayHeading>
-          <p className={styles.heroIntro}>
-            <strong>Real sites for real clients</strong>, and how we made them.
-            Our own experiments are clearly labelled further down.
-          </p>
+        {/* 1 · Hero: orient, then prove */}
+        <Section as="header" density="flush" innerClassName={styles.heroGrid}>
+          <div className={styles.heroCopy}>
+            <SectionLabel>Our work</SectionLabel>
+            <DisplayHeading as="h1" size="hero" className={styles.heroTitle}>
+              Proof, not <span>promises.</span>
+            </DisplayHeading>
+            <p className={styles.heroIntro}>
+              Real sites for real businesses. Open any of them and judge for
+              yourself.
+            </p>
+          </div>
+          {deliveryMetrics.length > 0 && (
+            <dl className={styles.heroProof} aria-label="Published work totals">
+              {deliveryMetrics.map((metric) => (
+                <div key={metric.label} className={styles.metric}>
+                  <dt>{metric.label}</dt>
+                  <dd>{metric.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
           <div className={styles.heroActions}>
-            <PrimaryCTA href="#selected-work" variant="secondary" arrow={false}>
-              See the work
-            </PrimaryCTA>
             <PrimaryCTA href="/contact" variant="ghost">
               Bring us the problem
             </PrimaryCTA>
@@ -108,7 +106,7 @@ export default function WorkPage() {
                 id="selected-work-title"
                 className={styles.sectionTitle}
               >
-                Built for real <span>business.</span>
+                Live client <span>sites.</span>
               </DisplayHeading>
             </div>
           </div>
@@ -121,7 +119,7 @@ export default function WorkPage() {
         {/* 4 · How we work */}
         <Section ruled density="sparse" aria-labelledby="operating-title">
           <div className={styles.sectionIntro}>
-            <SectionLabel index="02">How we work</SectionLabel>
+            <SectionLabel index="03">How we work</SectionLabel>
             <DisplayHeading
               as="h2"
               size="h2"
@@ -144,48 +142,36 @@ export default function WorkPage() {
               </div>
             ))}
           </div>
-
-          <div className={styles.principlesGrid}>
-            <div>
-              <SectionLabel hideMark>What clients get</SectionLabel>
-              <h3 className={styles.principleTitle}>Visible progress.</h3>
-              <ul className={styles.principleList}>
-                {CLIENTS_GET.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <SectionLabel hideMark>What we avoid</SectionLabel>
-              <h3 className={styles.principleTitle}>Delivery theatre.</h3>
-              <ul className={styles.principleList}>
-                {WE_AVOID.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
         </Section>
 
-        {/* 5 · Final CTA */}
-        <Section ruled density="sparse" innerClassName={styles.ctaInner} aria-labelledby="work-cta-title">
-          <SectionLabel>Your project could be next</SectionLabel>
-          <DisplayHeading
-            as="h2"
-            size="statement"
-            id="work-cta-title"
-            className={styles.ctaTitle}
-          >
-            Got a knot? <span>We like knots.</span>
-          </DisplayHeading>
-          <p className={styles.ctaBody}>
-            Twenty minutes. You explain the mess; we explain how we&apos;d
-            untangle it.
-          </p>
-          <div className={styles.ctaActions}>
-            <PrimaryCTA href="/contact" variant="primary">
-              Bring us the problem
-            </PrimaryCTA>
+        {/* 5 · Final CTA: compact, about the work */}
+        <Section
+          ruled
+          density="dense"
+          innerClassName={styles.ctaGrid}
+          aria-labelledby="work-cta-title"
+        >
+          <div>
+            <SectionLabel>Your turn</SectionLabel>
+            <DisplayHeading
+              as="h2"
+              size="h2"
+              id="work-cta-title"
+              className={styles.ctaTitle}
+            >
+              Want one like these? <span>Or something harder?</span>
+            </DisplayHeading>
+          </div>
+          <div>
+            <p className={styles.ctaBody}>
+              Tell us what you need. We reply within 24 hours, then send a
+              written scope after a short call.
+            </p>
+            <div className={styles.ctaActions}>
+              <PrimaryCTA href="/contact" variant="primary">
+                Bring us the problem
+              </PrimaryCTA>
+            </div>
           </div>
         </Section>
       </main>
