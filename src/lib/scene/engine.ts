@@ -639,7 +639,10 @@ class SceneEngine {
   /** One frame. Returns whether the loop should keep running. */
   private frame(now: number) {
     const dtMs = now - this.lastFrame
-    const dt = Math.min(0.1, dtMs / 1000)
+    // Cap one step at 0.5s: enough to absorb a hitch, small enough that very
+    // slow (CPU-rendered) frames still finish the rise and settle in real time.
+    // The loop resets its clock on wake, so a sleep never arrives as one big step.
+    const dt = Math.min(0.5, dtMs / 1000)
     this.lastFrame = now
     this.clock += dt
     const time = this.clock

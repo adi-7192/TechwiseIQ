@@ -91,7 +91,9 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
   fixed the wake jump (scene clock), lite re-attach redraw, iOS `100lvh` layer, copy legibility
   (exposure/well retune, `--tw-bg` text-shadow backing, measured with a p90 contrast sweep). Final:
   full e2e 362 pass, Lighthouse 91/91. Open (not blocking): GPU-path stall budget has no CI test
-  (CI is software WebGL); adaptive DPR also steps down on 30 Hz-capped displays.
+  (CI is software WebGL); adaptive DPR also steps down on 30 Hz-capped displays. First CI run failed
+  the forced-journey test (loop not asleep in 8 s): the 0.1 s frame-step cap stretched the rise and
+  settle on CI's slow CPU-rendered frames; cap raised to 0.5 s, test timeout 25 s.
 
 - **2026-10-06** — Home review → three hero prototypes (`proto/hero-variations`: A liquid shader,
   B three.js skyline, C kinetic type); owner chose B (D-038). Ported on `feat/skyline-hero` into the

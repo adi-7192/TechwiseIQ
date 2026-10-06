@@ -47,7 +47,8 @@ test('the skyline follows the whole page: each section reaches its stop', async 
     await expect(canvas).toHaveAttribute('data-stop', stop)
   }
   // Render on demand: once the camera settles below the hero, the loop sleeps.
-  await expect(canvas).toHaveAttribute('data-animation-running', 'false', { timeout: 8000 })
+  // Generous: CI forces this path on CPU-rendered WebGL, where frames are slow.
+  await expect(canvas).toHaveAttribute('data-animation-running', 'false', { timeout: 25000 })
   await expect(canvas).toBeVisible()
 })
 
