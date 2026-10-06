@@ -86,7 +86,10 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 - **2026-10-06** — Home review → three hero prototypes (`proto/hero-variations`: A liquid shader,
   B three.js skyline, C kinetic type); owner chose B (D-038). Ported on `feat/skyline-hero` into the
   existing engine with the performance contract in `design-system.md` "Hero skyline". Gate green,
-  full e2e on a production build, Lighthouse mobile Home perf 92/95/93, LCP 2.9–3.2 s (was 91 / 3.5 s).
+  full e2e on a production build: 357 pass, 1 fail — `performance-mobile` "stalls bounded" (200 ms
+  long-task budget). A/B under the same host load: `main` fails it too; isolated it passes 10/10; the
+  long frames were page-load work, not the scene (LoAF). Known host-load test (ROADMAP 7.6). Home HTML
+  428 KB → 82 KB (SVG poster gone). Lighthouse mobile Home perf 92/95/93, LCP 2.9–3.2 s (was 91 / 3.5 s).
   Earlier prototypes (`proto/living-field`, `proto/assembling-interface`) were declined/superseded.
 
 - **2026-10-05** — Stage 7 on `stage-7/release`. 7.1: gate + full e2e green (359 pass, twice);

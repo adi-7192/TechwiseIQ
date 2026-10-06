@@ -157,7 +157,8 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
 - ✅ **8.1 Home hero skyline** (D-038) — 2026-10-06, `feat/skyline-hero`. Owner picked prototype B of
   three (`proto/hero-variations`). Instanced three.js city in the existing session-singleton engine
   (`lib/scene/engine.ts`, `lib/scene/city.ts`); per-tower motion in the shader; left-aligned hero;
-  floating cards and the SVG field poster removed. Gate + full e2e on a production build; Lighthouse
+  floating cards and the SVG field poster removed. Gate + full e2e on a production build (one host-load failure, `main` fails it identically —
+  see HANDOFF §6); Home HTML 428 KB → 82 KB; Lighthouse
   mobile Home perf 92/95/93 (was 91). Owner reviews on the PR preview, then merge.
 
 ## Later / rejected
