@@ -19,7 +19,9 @@ type MetricProject = {
   workSummary: { proof: { value: string; label: string }[] }
 }
 
-export function getDeliveryMetrics(projects: readonly MetricProject[]) {
+/** Hero totals: live client sites only. Previews are shown, never counted. */
+export function getDeliveryMetrics(allProjects: readonly MetricProject[]) {
+  const projects = allProjects.filter((project) => project.liveUrl)
   if (projects.length === 0) return []
 
   const pageTotal = projects.reduce((total, project) => {
@@ -37,12 +39,9 @@ export function getDeliveryMetrics(projects: readonly MetricProject[]) {
       : '—'
 
   return [
+    { value: String(projects.length), label: 'Live client sites' },
     { value: String(pageTotal), label: 'Pages shipped' },
-    { value: weekRange, label: 'Week launches' },
-    {
-      value: String(projects.filter((project) => project.liveUrl).length),
-      label: 'Live projects',
-    },
+    { value: weekRange, label: 'Weeks, brief to launch' },
   ]
 }
 

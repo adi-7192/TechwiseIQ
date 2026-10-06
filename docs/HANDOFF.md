@@ -83,6 +83,18 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-06** — 9.1 `/work` clarity pass (D-040), owner-approved plan after reviewing the page at
+  390/1440: no work above the fold, 3 accents in one viewport, ~70 words per card, totals buried,
+  5 white pills, mixed section markers, double closing headline. Owner choices: Before → Result cards,
+  keep live Concept Lab iframes (D-006), keep 4 steps / drop lists, recapture covers. PM gate changed
+  4 strings for honesty (AASKRA not "delivered", CTA matches reply → call → written scope, distinct
+  Before lines). **Awaiting owner OK on the draft copy** — hero intro, h2 "Live client sites.", More-work
+  "Client builds on preview links." (replaces the owner's "Built. Not launched yet."), CTA "Want one
+  like these? Or something harder?". Local `next start` must clear `.next/cache/images` after
+  replacing a cover, or the old variant is served. Logged from UX review, not fixed (pre-existing):
+  `LiveConceptPreview` keeps its rAF loop running under reduced motion (should early-return), and on
+  mobile the page CTA still sits right above the footer's "Let's build" CTA.
+
 - **2026-10-06** — 8.2 whole-page skyline journey (D-039, plan approved by owner). Under load the
   first build added real cost on software WebGL (CI uses SwiftShader: 66 ms frames), failing the
   stall test 3/3 where `main` passed 3/3 — fixed with a lite budget (hero-only, Lambert, deferred

@@ -34,7 +34,7 @@ test.describe('Work proof archive (immersive)', () => {
       page.getByRole('heading', { level: 1, name: 'Proof, not promises.' }),
     ).toHaveCount(1)
     await expect(
-      page.getByRole('heading', { level: 2, name: 'Built for real business.' }),
+      page.getByRole('heading', { level: 2, name: 'Live client sites.' }),
     ).toBeVisible()
 
     await expect(
@@ -49,7 +49,20 @@ test.describe('Work proof archive (immersive)', () => {
     const totals = page.getByLabel('Published work totals')
     await expect(totals.getByText('114', { exact: true })).toBeVisible()
     await expect(totals.getByText('Pages shipped', { exact: true })).toBeVisible()
-    await expect(totals.locator('div', { hasText: 'Live projects' }).locator('dd')).toHaveText('3')
+    await expect(totals.locator('div', { hasText: 'Live client sites' }).locator('dd')).toHaveText('3')
+    await expect(totals.locator('dt')).toHaveText([
+      'Live client sites',
+      'Pages shipped',
+      'Weeks, brief to launch',
+    ])
+
+    // Live cards show the client-reported result; preview builds never do.
+    await expect(
+      page.locator('[data-featured-project]').getByText('Client-reported'),
+    ).toHaveCount(3)
+    await expect(
+      page.getByTestId('more-client-work').getByText('Client-reported'),
+    ).toHaveCount(0)
 
     await expect(
       page.getByRole('heading', {
@@ -73,13 +86,16 @@ test.describe('Work proof archive (immersive)', () => {
       }),
     ).toBeVisible()
     await expect(
-      page.getByRole('heading', { level: 2, name: 'Got a knot? We like knots.' }),
+      page.getByRole('heading', {
+        level: 2,
+        name: 'Want one like these? Or something harder?',
+      }),
     ).toBeVisible()
   })
 
   test('links both projects to stable case-study pages', async ({ page }) => {
     await expect(
-      page.getByRole('link', { name: /Read full case study.*AASKRA Realty/ }),
+      page.getByRole('link', { name: /Read full case study.*AASKRA Realty/i }),
     ).toHaveAttribute('href', '/work/aaskra-realty')
     await expect(
       page.getByRole('link', {
@@ -159,17 +175,17 @@ test.describe('Work proof archive (immersive)', () => {
     ).toBeVisible()
     await expect(
       slots.nth(0).getByRole('link', {
-        name: 'Open TerraElix live HTML demo (opens in a new tab)',
+        name: 'Open the live demo: TerraElix (opens in a new tab)',
       }),
     ).toHaveAttribute('href', '/concepts/terra-elix/index.html')
     await expect(
       slots.nth(1).getByRole('link', {
-        name: 'Open mėntality live HTML demo (opens in a new tab)',
+        name: 'Open the live demo: mėntality (opens in a new tab)',
       }),
     ).toHaveAttribute('href', '/concepts/mentality/index.html')
     await expect(
       slots.nth(2).getByRole('link', {
-        name: 'Open Lumora live HTML demo (opens in a new tab)',
+        name: 'Open the live demo: Lumora (opens in a new tab)',
       }),
     ).toHaveAttribute('href', '/concepts/lumora/index.html')
     await expect(page.getByText('Brief pending', { exact: true })).toHaveCount(
@@ -264,7 +280,7 @@ test('keeps the full-demo action usable when a preview cannot load', async ({
   })
   await expect(
     stage.getByRole('link', {
-      name: 'Open TerraElix live HTML demo (opens in a new tab)',
+      name: 'Open the live demo: TerraElix (opens in a new tab)',
     }),
   ).toHaveAttribute('href', '/concepts/terra-elix/index.html')
 })

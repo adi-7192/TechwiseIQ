@@ -13,6 +13,8 @@ export type WorkSummary = {
   decision: string
   outcome: string
   proof: { value: string; label: string }[]
+  /** Client-reported result. Live sites only; must be a substring of `result`. */
+  reported?: string
 }
 
 export type CaseStudyDecision = {

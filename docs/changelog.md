@@ -4,6 +4,20 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-06 — /work clarity + trust pass (ROADMAP 9.1, D-040)
+
+- Hero: eyebrow "Our work", new intro, totals `<dl>` moved from below the projects into the hero
+  (labels "Live client sites" · "Pages shipped" · "Weeks, brief to launch"), single ghost CTA.
+- Featured rail: no per-card accent, shared `BrowserBar` (new `src/app/work/BrowserBar.tsx`) with the
+  real hostname, cover links to the case study (`tabIndex -1`, `aria-hidden`), hover zoom gated to
+  fine pointers + no-preference motion, Before → Result (`WorkSummary.reported`, new optional field).
+- More client work: 2-up grid, text links. Concept Lab: `Section` + `SectionLabel index="02"`,
+  "Concept 0N · …", "Open the live demo". How we work: index 03, principle lists removed. Final CTA
+  compact (`size="h2"`). `.conceptPreview` raw hex → `var(--tw-bg)`.
+- `public/work/*-hero.webp` (all 5) recaptured from the live/preview sites with floating widgets hidden.
+- Tests: unit (metric order/labels, featured ⇒ live, `reported` ⊂ `result`, unique Before lines),
+  e2e copy/labels + new checks.
+
 ## 2026-10-06 — Whole-page skyline journey (ROADMAP 8.2, D-039)
 
 - One fixed scene layer behind every Home section; `src/lib/scene/journey.ts` (camera stop per

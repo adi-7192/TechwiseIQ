@@ -259,6 +259,14 @@ contract in `design-system.md` "Home journey" (render on demand, adaptive DPR, l
 software WebGL = hero-only). Other routes keep the CSS atmosphere; Home's footer is transparent only
 on Home (`SiteFooter journey`).
 
+**D-040 — `/work` leads with the work and keeps reading light.** 2026-10-06 · owner (approved plan + answers)
+Hero carries the live-only totals strip beside the h1. The featured rail uses the page accent only
+(per-case accents stay on `/work/[slug]`). Featured cards: industry meta, outcome, 3 stats,
+Before (`challenge`) → Result (`reported`, client-reported wording from `result`, live sites only).
+Challenge/Decision detail lives on the case-study page. More client work uses text links, not pills.
+Covers are browser-framed with the real hostname and captured without floating widgets.
+*Apply:* new featured studies need `liveUrl` and a `reported` line before they go on the rail.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

@@ -14,7 +14,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     outcome:
       'A trading-house site that maps origin to market across 49 commodities',
     workSummary: {
-      challenge: 'No website, so no way to win new buyers online.',
+      challenge: 'No website. 49 commodities, invisible online.',
       decision:
         'Make 49 commodities easy to browse, and show how a trade actually moves.',
       outcome:
@@ -24,6 +24,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         { value: '49', label: 'commodity pages' },
         { value: '3 wks', label: 'delivery' },
       ],
+      reported: 'The client reports more leads and more visibility since launch.',
     },
     client: 'Supreme Universal Trading L.L.C',
     industry: 'Agricultural Commodity Trading / Dubai',
@@ -191,6 +192,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         { value: '25+', label: 'countries served' },
         { value: '5 wks', label: 'delivery' },
       ],
+      reported: 'The client reports enquiries from 25+ countries.',
     },
     client: 'Express Trade Financing',
     industry: 'Trade Finance / Dubai',
@@ -263,7 +265,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     outcome:
       'A product-led trading site that turns a specification into an enquiry',
     workSummary: {
-      challenge: 'No website, so no way to win new buyers online.',
+      challenge:
+        'No website. 14 product lines, and no way for buyers to find them.',
       decision:
         'Lead with the product range, and tell buyers exactly what to send in an enquiry.',
       outcome:
@@ -273,6 +276,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         { value: '14', label: 'product lines' },
         { value: '3 wks', label: 'delivery' },
       ],
+      reported: 'The client reports more leads and more visibility since launch.',
     },
     client: 'Express Petroleum FZE',
     industry: 'Petroleum & Commodity Trading / Dubai',
