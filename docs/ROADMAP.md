@@ -8,12 +8,13 @@
 
 ## ▶ NEXT
 
+**Stage 8.1 skyline hero — PR open (`feat/skyline-hero`): owner checks the Vercel preview, then merges.**
 **Stage 7 — owner launch gates.** 7.1 and 7.6 done on `stage-7/release`. Next: 🔒 7.2 preview review
 (include `/work` Lighthouse on the preview, see 7.1), 7.3 form test, 7.5 launch.
 
 ## Progress
 
-**18 / 22 tasks done** · rebuilt for the redesign 2026-10-04
+**19 / 23 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -24,6 +25,7 @@
 | 5. Growth | First-step offer, insights | 2/2 | ✅ (PR #8 open) |
 | 6. Polish | Concept Lab self-hosting, parked components, docs | 3/3 | ✅ (PR #9 merged) |
 | 7. Release | Redesign release checklist → merge to `main` | 3/6 | 🟡 (7.2, 7.3, 7.5 🔒 owner) |
+| 8. Showpiece | Home hero skyline (D-038) | 1/1 | 🟡 (PR open on `feat/skyline-hero`) |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
 
@@ -149,6 +151,14 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   Same cause fixed 2026-10-04 in `work-page` "TerraElix live preview … reduced motion": 400 ms after
   `scrollTo(0,0)` the page was still 77–477 px down mid-Lenis-scroll; now waits for scrollY 0.
 - 🔒 **7.5 Production smoke + launch gates** — domain/DNS, real devices, promote.
+
+## Stage 8 — Showpiece
+
+- ✅ **8.1 Home hero skyline** (D-038) — 2026-10-06, `feat/skyline-hero`. Owner picked prototype B of
+  three (`proto/hero-variations`). Instanced three.js city in the existing session-singleton engine
+  (`lib/scene/engine.ts`, `lib/scene/city.ts`); per-tower motion in the shader; left-aligned hero;
+  floating cards and the SVG field poster removed. Gate + full e2e on a production build; Lighthouse
+  mobile Home perf 92/95/93 (was 91). Owner reviews on the PR preview, then merge.
 
 ## Later / rejected
 

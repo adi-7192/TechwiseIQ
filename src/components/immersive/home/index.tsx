@@ -19,7 +19,8 @@ const motionBootstrap = `(function(){try{var e=document.currentScript.parentElem
 
 export default function ImmersiveHome() {
   return (
-    <div className={styles.experience} data-home-experience data-home-motion="static">
+    // The inline script below sets data-home-motion before hydration on purpose.
+    <div className={styles.experience} data-home-experience data-home-motion="static" suppressHydrationWarning>
       <script dangerouslySetInnerHTML={{ __html: motionBootstrap }} />
       <HomeMotion />
       <HomeHero />

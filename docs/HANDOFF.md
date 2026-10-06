@@ -4,7 +4,7 @@
 > When you finish a task: update §4, add a line to §6, log new decisions in `DECISIONS.md`.
 > If this file disagrees with the code, the code wins — fix this file.
 
-**Last updated:** 2026-10-05 · **Branch:** `main` (redesign merged in PR #1, D-028) ·
+**Last updated:** 2026-10-06 · **Branch:** `main` (redesign merged in PR #1, D-028) ·
 `main` is protected — work on a branch, open a PR, merge when CI is green (D-029).
 
 ---
@@ -82,6 +82,12 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 | `docs/vercel-deployment-2026-08-04.md`, `docs/launch-readiness-report-2026-07-26.md` | Launch-gate steps still valid. |
 
 ## 6. Session log (newest first)
+
+- **2026-10-06** — Home review → three hero prototypes (`proto/hero-variations`: A liquid shader,
+  B three.js skyline, C kinetic type); owner chose B (D-038). Ported on `feat/skyline-hero` into the
+  existing engine with the performance contract in `design-system.md` "Hero skyline". Gate green,
+  full e2e on a production build, Lighthouse mobile Home perf 92/95/93, LCP 2.9–3.2 s (was 91 / 3.5 s).
+  Earlier prototypes (`proto/living-field`, `proto/assembling-interface`) were declined/superseded.
 
 - **2026-10-05** — Stage 7 on `stage-7/release`. 7.1: gate + full e2e green (359 pass, twice);
   Lighthouse mobile on 18 routes — a11y/BP/SEO 100, perf 91–94, `/work` 89 (HTML weight; brotli on

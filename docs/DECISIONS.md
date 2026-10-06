@@ -237,6 +237,16 @@ ship. *Apply:* every number keeps its source link and year; no client claims; no
 the closing lines of art. 2 and art. 6. Keep them true: every handover puts accounts in the
 client's name with logins; every site ships clear copy, structured data and a sitemap.
 
+**D-038 — The home hero is the skyline (prototype B).** 2026-10-06 · owner ("I like the design B… add this to our main website… ensure that it is optimized") · supersedes the "Hero depth field" composition in `design-system.md`.
+Three hero prototypes were reviewed (A liquid shader, B three.js skyline, C kinetic type); the owner
+chose B. The hero is now an instanced city that rises from the centre, an acid light that follows the
+pointer through the streets, and a camera that climbs to an overhead map as the hero scrolls away.
+Copy is left-aligned; the floating hero cards and the inline SVG field poster are removed.
+*Apply:* performance contract in `design-system.md` "Hero skyline" (per-tower motion in the shader,
+one instanced draw, DPR/fps/city-size caps, IntersectionObserver + visibility gating, reduced-motion
+still frame, three.js on Home only). No anime.js — D-008 stands (GSAP only); legibility comes from the
+shader, not a CSS gradient. The prototypes live on unmerged `proto/*` branches for reference only.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

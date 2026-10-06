@@ -37,12 +37,10 @@ test('uses the intentionally reduced mobile scene budget', async ({ browser }) =
   const canvas = page.locator('[data-hero-scene] canvas')
   await expect(canvas).toHaveCount(1)
   await expect(canvas).toHaveAttribute('data-mobile', 'true')
-  await expect(canvas).toHaveAttribute('data-point-limit', '300')
+  await expect(canvas).toHaveAttribute('data-tower-count', '1120')
   await expect(canvas).toHaveAttribute('data-pixel-ratio', '1')
   await expect(canvas).toHaveAttribute('data-target-fps', '30')
   await expect(canvas).toHaveAttribute('data-animation-running', 'true')
-
-  await expect(page.locator('[data-home-artifact]:visible')).toHaveCount(0)
   await context.close()
 })
 
@@ -58,13 +56,13 @@ test('caps high-DPR desktop rendering without dropping the full scene', async ({
 
   const canvas = page.locator('[data-hero-scene] canvas')
   await expect(canvas).toHaveAttribute('data-mobile', 'false')
-  await expect(canvas).toHaveAttribute('data-point-limit', '900')
+  await expect(canvas).toHaveAttribute('data-tower-count', '2560')
   await expect(canvas).toHaveAttribute('data-pixel-ratio', '1.5')
   await expect(canvas).toHaveAttribute('data-target-fps', '60')
 
   await page.setViewportSize({ width: 390, height: 844 })
   await expect(canvas).toHaveAttribute('data-mobile', 'true')
-  await expect(canvas).toHaveAttribute('data-point-limit', '300')
+  await expect(canvas).toHaveAttribute('data-tower-count', '1120')
   await expect(canvas).toHaveAttribute('data-pixel-ratio', '1')
   await expect(canvas).toHaveAttribute('data-target-fps', '30')
 

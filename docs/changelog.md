@@ -4,6 +4,18 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-06 — Home hero skyline (ROADMAP 8.1, D-038)
+
+- Hero scene is now an instanced three.js city (`src/lib/scene/city.ts` + rewritten
+  `src/lib/scene/engine.ts`): rises from the centre, acid light follows the pointer, camera climbs to
+  an overhead view as the hero scrolls away. All per-tower motion in the shader.
+- `HomeHero` copy left-aligned with copy and actions side by side; floating artifact cards, their
+  GSAP drift (`HomeMotion`) and the inline SVG field poster (`HeroFieldPoster`, `lib/scene/field.ts`)
+  deleted. Hero strip's right label shows the Dubai coordinates.
+- Home hydration warning fixed (`suppressHydrationWarning` on the motion-bootstrap root).
+- Tests: `tests/unit/city.test.ts` (budgets, determinism, one needle, rise sweep, downtown framing);
+  e2e updated for no poster/cards and `data-tower-count`.
+
 ## 2026-10-05 — Stage 7: Release verification (ROADMAP 7.1, 7.6)
 
 - 7.6: `work-page` "TerraElix live preview" holds the demo in view after reload
