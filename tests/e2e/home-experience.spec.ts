@@ -64,9 +64,12 @@ test('reduced motion: one still frame of the hero, hidden below it', async ({ pa
 
 test('the cursor halo is desktop-only decoration', async ({ page, browser }) => {
   await page.goto('/')
+  const halo = page.locator('[data-home-experience] > div[aria-hidden="true"]:not([data-home-scene])')
+  // Headless Linux (CI) reports no mouse: the halo must then stay off, as on touch.
+  const finePointer = await page.evaluate(() => matchMedia('(hover: hover) and (pointer: fine)').matches)
   await page.mouse.move(400, 300)
-  const halo = page.locator('[data-home-experience] > div[aria-hidden="true"][data-active]')
-  await expect(halo).toHaveAttribute('data-active', 'true')
+  if (finePointer) await expect(halo).toHaveAttribute('data-active', 'true')
+  else expect(await halo.evaluate((el) => getComputedStyle(el).display)).toBe('none')
   const touch = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true })
   const phone = await touch.newPage()
   await phone.goto('/')
