@@ -38,6 +38,8 @@
 .primary {
   --_bg: var(--tw-fg);
   --_fg: var(--tw-ink);
+  /* Light surface: never inherit the dark text-shadow used over the Home scene. */
+  text-shadow: none;
 }
 .primary:hover {
   --_bg: var(--tw-accent);

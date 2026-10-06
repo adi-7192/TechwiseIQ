@@ -122,7 +122,7 @@ test('carries the route accent on the shell without a WebGL scene', async ({
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/services/ai')
 
-  // WebGL is hero-only now; service routes run on the CSS atmosphere, whose
+  // WebGL runs on Home only; service routes run on the CSS atmosphere, whose
   // accent is published by the shell's data-scene marker.
   await expect(page.locator('.tw-world').first()).toHaveAttribute(
     'data-scene',

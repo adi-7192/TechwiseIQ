@@ -64,7 +64,12 @@ const services = [
 export default function ServiceStories() {
   return (
     <>
-      <section id="services" className={styles.servicesIntro} aria-labelledby="services-title">
+      <section
+        id="services"
+        className={styles.servicesIntro}
+        data-journey="services"
+        aria-labelledby="services-title"
+      >
         <div className={`tw-wrap ${styles.introGrid}`} data-home-reveal>
           <SectionLabel>What we build</SectionLabel>
           <div>
@@ -93,6 +98,7 @@ export default function ServiceStories() {
           key={s.id}
           id={s.id}
           data-scene={s.scene}
+          data-journey={s.id}
           data-service-story
           className={styles.service}
           style={{ '--tw-accent': s.accent } as CSSProperties}

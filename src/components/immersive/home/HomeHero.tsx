@@ -1,12 +1,16 @@
-import SceneLoader from '@/components/immersive/SceneLoader'
 import SectionLabel from '@/components/immersive/primitives/SectionLabel'
 import PrimaryCTA from '@/components/ui/PrimaryCTA'
 import styles from './HeroStage.module.css'
 
 export default function HomeHero() {
   return (
-    <section id="top" className={styles.hero} data-scene="intro" aria-labelledby="hero-title">
-      <SceneLoader className={styles.scene} />
+    <section
+      id="top"
+      className={styles.hero}
+      data-scene="intro"
+      data-journey="hero"
+      aria-labelledby="hero-title"
+    >
       <div className={`tw-wrap ${styles.content}`}>
         <div data-hero-support>
           <SectionLabel>Techwise IQ / Dubai · Worldwide</SectionLabel>
@@ -26,7 +30,7 @@ export default function HomeHero() {
           </p>
           <div className={styles.actions} data-hero-support>
             <PrimaryCTA href="/contact">Bring us the problem</PrimaryCTA>
-            <PrimaryCTA href="/work" variant="secondary">
+            <PrimaryCTA href="/work" variant="secondary" className={styles.onScene}>
               Explore our work
             </PrimaryCTA>
           </div>

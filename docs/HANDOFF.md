@@ -83,6 +83,16 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-06** — 8.2 whole-page skyline journey (D-039, plan approved by owner). Under load the
+  first build added real cost on software WebGL (CI uses SwiftShader: 66 ms frames), failing the
+  stall test 3/3 where `main` passed 3/3 — fixed with a lite budget (hero-only, Lambert, deferred
+  compile) and time-based light smoothing. Then 84/84 on repeat, full e2e 362 pass, Lighthouse mobile
+  Home 94/91/91. GPU path: ~4.6% main-thread while scrolling, idle ~0.3%. UX + QA agents reviewed:
+  fixed the wake jump (scene clock), lite re-attach redraw, iOS `100lvh` layer, copy legibility
+  (exposure/well retune, `--tw-bg` text-shadow backing, measured with a p90 contrast sweep). Final:
+  full e2e 362 pass, Lighthouse 91/91. Open (not blocking): GPU-path stall budget has no CI test
+  (CI is software WebGL); adaptive DPR also steps down on 30 Hz-capped displays.
+
 - **2026-10-06** — Home review → three hero prototypes (`proto/hero-variations`: A liquid shader,
   B three.js skyline, C kinetic type); owner chose B (D-038). Ported on `feat/skyline-hero` into the
   existing engine with the performance contract in `design-system.md` "Hero skyline". Gate green,

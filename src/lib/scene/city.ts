@@ -16,6 +16,21 @@ export const NEEDLE_HEIGHT = 8.5
 /** Seconds for the rise to sweep from the centre to the outer edge. */
 export const RISE_SPREAD = 1.6
 
+/**
+ * District centres (x, z) for web, software and AI. Web is the downtown, which
+ * sits right of centre on landscape screens to frame the left-aligned copy.
+ * All three fit inside the smaller mobile grid.
+ */
+export function districtCentres(portrait: boolean): [number, number][] {
+  return [
+    [portrait ? 1.5 : 5, -6],
+    [-5, -1],
+    [-3.5, -7.5],
+  ]
+}
+/** Towers within this distance of a centre belong to that district. */
+export const DISTRICT_RADIUS = 2.2
+
 function rand(index: number, salt: number) {
   const value = Math.sin(index * 127.1 + salt * 311.7) * 43758.5453
   return value - Math.floor(value)
@@ -32,13 +47,16 @@ function rand(index: number, salt: number) {
  */
 export function createCity(mobile: boolean, portrait: boolean) {
   const { cols, rows } = mobile ? GRID_MOBILE : GRID_DESKTOP
-  const downtownX = portrait ? 1.5 : 5
+  const centres = districtCentres(portrait)
+  const downtownX = centres[0][0]
   const count = cols * rows
   const x = new Float32Array(count)
   const z = new Float32Array(count)
   const height = new Float32Array(count)
   const delay = new Float32Array(count)
   const beacon = new Float32Array(count)
+  /** 0 none, 1 web, 2 software, 3 AI. */
+  const district = new Float32Array(count)
   const maxReach = Math.hypot(cols / 2, rows / 2)
   let needle = 0
   let needleDistance = Infinity
@@ -61,9 +79,12 @@ export function createCity(mobile: boolean, portrait: boolean) {
       height[i] = 0.12 + rand(i, 1) ** 3 * 1.2 + downtown * (1.2 + rand(i, 2) ** 2 * 4.2)
       delay[i] = (Math.hypot(c - cols / 2, r - rows / 2) / maxReach) * RISE_SPREAD
       beacon[i] = rand(i, 3) > 0.9 && height[i] > 0.9 ? 1 : 0
+      for (let d = 0; d < centres.length; d++) {
+        if (Math.hypot(tx - centres[d][0], tz - centres[d][1]) < DISTRICT_RADIUS) district[i] = d + 1
+      }
     }
   }
   // Exactly one needle: the tower nearest the downtown landmark spot.
   height[needle] = NEEDLE_HEIGHT
-  return { cols, rows, count, x, z, height, delay, beacon }
+  return { cols, rows, count, x, z, height, delay, beacon, district }
 }

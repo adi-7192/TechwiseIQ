@@ -4,6 +4,16 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-06 — Whole-page skyline journey (ROADMAP 8.2, D-039)
+
+- One fixed scene layer behind every Home section; `src/lib/scene/journey.ts` (camera stop per
+  section, `data-journey` markers), districts in `city.ts`, damped journey + render on demand +
+  adaptive DPR + software-WebGL lite budget in `engine.ts`.
+- Cursor: city light follows the pointer in every view; new `CursorGlow` halo (desktop only).
+- `SiteFooter journey` (Home only): transparent footer as the finale stop.
+- Scene mount attribute `data-hero-scene` → `data-home-scene`; canvas reports `data-stop` and
+  `data-render`. Tests: `tests/unit/journey.test.ts`, district test, journey/lite/halo e2e.
+
 ## 2026-10-06 — Home hero skyline (ROADMAP 8.1, D-038)
 
 - Hero scene is now an instanced three.js city (`src/lib/scene/city.ts` + rewritten

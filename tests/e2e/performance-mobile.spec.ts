@@ -1,8 +1,14 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Locator } from '@playwright/test'
+
+/** Software WebGL (CI, VMs) runs the lite budget: DPR 0.75, 30fps. */
+const budget = async (canvas: Locator, gpu: { dpr: string; fps: string }) => {
+  const software = (await canvas.getAttribute('data-render')) === 'software'
+  return software ? { dpr: '0.75', fps: '30' } : gpu
+}
 
 test('does not reallocate the canvas for resize events with unchanged dimensions', async ({ page }) => {
   await page.goto('/')
-  const canvas = page.locator('[data-hero-scene] canvas')
+  const canvas = page.locator('[data-home-scene] canvas')
   await expect(canvas).toHaveAttribute('data-animation-running', 'true')
   const mutations = await canvas.evaluate(async (element) => {
     let writes = 0
@@ -34,12 +40,13 @@ test('uses the intentionally reduced mobile scene budget', async ({ browser }) =
   const page = await context.newPage()
   await page.goto('/')
 
-  const canvas = page.locator('[data-hero-scene] canvas')
+  const canvas = page.locator('[data-home-scene] canvas')
   await expect(canvas).toHaveCount(1)
   await expect(canvas).toHaveAttribute('data-mobile', 'true')
   await expect(canvas).toHaveAttribute('data-tower-count', '1120')
-  await expect(canvas).toHaveAttribute('data-pixel-ratio', '1')
-  await expect(canvas).toHaveAttribute('data-target-fps', '30')
+  const mobile = await budget(canvas, { dpr: '1', fps: '30' })
+  await expect(canvas).toHaveAttribute('data-pixel-ratio', mobile.dpr)
+  await expect(canvas).toHaveAttribute('data-target-fps', mobile.fps)
   await expect(canvas).toHaveAttribute('data-animation-running', 'true')
   await context.close()
 })
@@ -54,17 +61,19 @@ test('caps high-DPR desktop rendering without dropping the full scene', async ({
   const page = await context.newPage()
   await page.goto('/')
 
-  const canvas = page.locator('[data-hero-scene] canvas')
+  const canvas = page.locator('[data-home-scene] canvas')
   await expect(canvas).toHaveAttribute('data-mobile', 'false')
   await expect(canvas).toHaveAttribute('data-tower-count', '2560')
-  await expect(canvas).toHaveAttribute('data-pixel-ratio', '1.5')
-  await expect(canvas).toHaveAttribute('data-target-fps', '60')
+  const desktop = await budget(canvas, { dpr: '1.5', fps: '60' })
+  await expect(canvas).toHaveAttribute('data-pixel-ratio', desktop.dpr)
+  await expect(canvas).toHaveAttribute('data-target-fps', desktop.fps)
 
   await page.setViewportSize({ width: 390, height: 844 })
   await expect(canvas).toHaveAttribute('data-mobile', 'true')
   await expect(canvas).toHaveAttribute('data-tower-count', '1120')
-  await expect(canvas).toHaveAttribute('data-pixel-ratio', '1')
-  await expect(canvas).toHaveAttribute('data-target-fps', '30')
+  const mobile = await budget(canvas, { dpr: '1', fps: '30' })
+  await expect(canvas).toHaveAttribute('data-pixel-ratio', mobile.dpr)
+  await expect(canvas).toHaveAttribute('data-target-fps', mobile.fps)
 
   await context.close()
 })
@@ -73,7 +82,7 @@ test('freezes the scene completely for reduced motion', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
 
-  const canvas = page.locator('[data-hero-scene] canvas')
+  const canvas = page.locator('[data-home-scene] canvas')
   await expect(canvas).toHaveAttribute('data-animation-running', 'false')
   await expect(page.locator('[data-home-experience]')).toHaveAttribute(
     'data-home-motion',
@@ -93,7 +102,7 @@ test('loads WebGL only for the home hero, never on other routes', async ({ page 
   for (const route of ['/privacy', '/about', '/services/ai', '/work']) {
     await page.goto(route)
     await expect(page.locator('canvas')).toHaveCount(0)
-    await expect(page.locator('[data-hero-scene]')).toHaveCount(0)
+    await expect(page.locator('[data-home-scene]')).toHaveCount(0)
     expect(
       (await loadedChunks()).some((name) => /three/i.test(name)),
       `three.js must not load on ${route}`,
@@ -101,7 +110,7 @@ test('loads WebGL only for the home hero, never on other routes', async ({ page 
   }
 
   await page.goto('/')
-  await expect(page.locator('[data-hero-scene] canvas')).toHaveCount(1)
+  await expect(page.locator('[data-home-scene] canvas')).toHaveCount(1)
 })
 
 test('keeps one canvas and bounded heap across repeated route changes', async ({

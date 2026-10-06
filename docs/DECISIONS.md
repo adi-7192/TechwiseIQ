@@ -247,6 +247,18 @@ one instanced draw, DPR/fps/city-size caps, IntersectionObserver + visibility ga
 still frame, three.js on Home only). No anime.js — D-008 stands (GSAP only); legibility comes from the
 shader, not a CSS gradient. The prototypes live on unmerged `proto/*` branches for reference only.
 
+**D-039 — The skyline carries through the whole Home page.** 2026-10-06 · owner (approved plan: "implement the effect on the full home page… a smooth continuation… add the cursor glowing effect") · refines D-038, reverses the 2026-09-05 "WebGL on the hero only" scope.
+One fixed WebGL layer sits behind every Home section; the camera travels a continuous path with a
+stop per section (hero → map → web / software / AI districts → work overview → operating model →
+street-level finale in the footer), each service lighting its district in its accent. The acid
+city light follows the cursor everywhere, and a soft acid halo follows fine pointers over the page —
+the halo's radial gradient is a sanctioned exception (`scene-glow-ok`), like the `.tw-world` glow.
+*Apply:* legibility first — lower exposure behind dense sections, a shader "well" behind copy on
+landscape screens, much lower exposure on phones; opaque proof panels stay opaque. Performance
+contract in `design-system.md` "Home journey" (render on demand, adaptive DPR, lite budget on
+software WebGL = hero-only). Other routes keep the CSS atmosphere; Home's footer is transparent only
+on Home (`SiteFooter journey`).
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

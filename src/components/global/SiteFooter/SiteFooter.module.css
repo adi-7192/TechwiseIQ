@@ -6,6 +6,18 @@
   color: var(--tw-fg);
   overflow: clip;
 }
+.journey {
+  background: transparent;
+}
+/* Over the skyline finale: the same --tw-bg backing the hero copy uses. */
+.journey .eyebrow,
+.journey .contactRow,
+.journey .grid,
+.journey .bottom {
+  text-shadow:
+    0 2px 18px var(--tw-bg),
+    0 0 8px var(--tw-bg);
+}
 .inner {
   max-width: var(--tw-max);
   margin-inline: auto;

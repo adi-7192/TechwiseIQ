@@ -70,6 +70,10 @@
 .actions > a {
   min-height: 48px;
 }
+/* The secondary action sits beside the lit downtown: give it a solid backing. */
+.hero .onScene {
+  --_bg: color-mix(in srgb, var(--tw-bg) 88%, transparent);
+}
 .bottom {
   position: relative;
   z-index: 2;
@@ -96,12 +100,6 @@
 .bottom a > span {
   font-size: 1.2rem;
   color: var(--tw-acid);
-}
-.scene {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
 }
 @media (max-width: 1024px) {
   .content {

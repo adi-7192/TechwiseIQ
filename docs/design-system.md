@@ -83,7 +83,7 @@ Size is decoupled from semantic element via `DisplayHeading` (`variant="hero" | 
 - `DisplayHeading` — hero/chapter/statement/h2, element decoupled from size.
 - `ImmersiveShell` — establishes `.tw-world` (dark atmosphere + `--tw-accent` per `scene` prop) and mounts `SmoothScroll`. Wrap any route that should feel like part of the world. It no longer mounts WebGL: `scene` selects the CSS accent only, and there is no `withScene` prop.
 
-**Scene (`immersive/HeroScene`, `lib/scene/engine.ts`):** one session-singleton Three.js renderer (vanilla Three, not React Three Fiber), mounted **behind the home hero only** — see "Hero skyline" below (D-038). Every other route and chapter runs on the CSS radial atmosphere in `globals.css`, which was always the designed fallback. `data-scene` markers on `Section`/`ImmersiveShell` still publish the chapter accent for CSS; nothing reads them for WebGL any more.
+**Scene (`immersive/HeroScene`, `lib/scene/engine.ts`):** one session-singleton Three.js renderer (vanilla Three, not React Three Fiber), mounted **behind the whole Home page** in one fixed layer — see "Hero skyline" and "Home journey" below (D-038, D-039). Every other route and chapter runs on the CSS radial atmosphere in `globals.css`, which was always the designed fallback. `data-scene` markers on `Section`/`ImmersiveShell` still publish the chapter accent for CSS; nothing reads them for WebGL any more.
 
 **Proof objects (`components/proof/`):** DOM/CSS/SVG demonstrations, not screenshots. Shared `ProofFrame` (bordered surface, mono label bar, honest "Illustrative" tag, optional caption, `surface="dark"|"light"`, accent follows ambient `--tw-accent`). Concrete demos: `WebsiteProof`, `AutomationFlowDemo`, `OperationsConsoleDemo`, `OpportunityMapDemo`, `BuildProof`, dispatched via `proof/index.tsx` (`<ProofObject variant=... />`). All state is deterministic sample data — never a fake live metric.
 
@@ -190,7 +190,7 @@ Software and Operating Model sections.
 
 Supersedes the site-wide persistent scene described above and in the two 2026-09-05 sections. Approved by Adi after reviewing a hosted-Spline "galaxy hero" reference: the *idea* (depth, pointer parallax, a field that frames the headline) was kept; the implementation was rebuilt in our own engine because the reference brought a second WebGL runtime, an indigo/purple identity, blur and two overlay gradients — all banned here.
 
-**Scope.** WebGL now exists on exactly one surface: the home hero. `HomeHero` mounts `SceneLoader` → `HeroScene`, which attaches the singleton canvas into a hero-local `.scene` layer (`position: absolute`, not `fixed`). `lib/scene/presets.ts`, `immersive/PersistentScene` and the chapter `IntersectionObserver` that drove per-chapter interpolation are deleted.
+**Scope** *(superseded by "Home journey", D-039: one fixed layer behind the whole Home page)*. WebGL now exists on exactly one surface: the home hero. `HomeHero` mounts `SceneLoader` → `HeroScene`, which attaches the singleton canvas into a hero-local `.scene` layer (`position: absolute`, not `fixed`). `lib/scene/presets.ts`, `immersive/PersistentScene` and the chapter `IntersectionObserver` that drove per-chapter interpolation are deleted.
 
 **Composition.** A receding lattice of ~150 clustered nodes (one anchor plus five satellites, two links back to the anchor), generated deterministically from a `sin`-hash so the frame is identical across hydration and reloads. It reads as connected systems seen in depth, not as decorative stardust — the distinction `anti-slop-checklist.md` draws. Muted graphite-green `0x8fb39a` at rest, acid `0xc8ff54` on a sparse minority of anchors, link lines at `0x4c7360` / 0.18 opacity. Normal blending only, no additive glow.
 
@@ -198,14 +198,14 @@ Supersedes the site-wide persistent scene described above and in the two 2026-09
 
 **Motion.** Slow ambient breathing (z-rotation and z-drift on sine), pointer parallax through the field, and a scroll-linked exit: the camera pushes into the corridor and the field fades to ~5% as the hero leaves. Hero exit progress is read off the container rect **inside the already-scheduled render loop** — deliberately not a scroll listener, so Lenis remains the one scroll driver. `SmoothScroll` no longer feeds the engine and has no `feedScene` prop.
 
-**Budget.** Field construction is allocation-free (no per-node `THREE.Color`) and deferred to `requestIdleCallback`, so it never lands on the hydration critical path. 900 nodes desktop / 300 mobile; DPR capped at 1.5 (1 on mobile); 30fps cap on mobile. The render loop is gated by an `IntersectionObserver` on the hero container — scrolling past the hero stops GPU work entirely, and leaving the route detaches the canvas. Reduced motion renders a single static frame with no RAF loop. Three.js is code-split behind the home route: no other route downloads it.
+**Budget** *(historical — the field was replaced by the skyline)*. Field construction is allocation-free (no per-node `THREE.Color`) and deferred to `requestIdleCallback`, so it never lands on the hydration critical path. 900 nodes desktop / 300 mobile; DPR capped at 1.5 (1 on mobile); 30fps cap on mobile. The render loop is gated by an `IntersectionObserver` on the hero container — scrolling past the hero stops GPU work entirely, and leaving the route detaches the canvas. Reduced motion renders a single static frame with no RAF loop. Three.js is code-split behind the home route: no other route downloads it.
 
 **First paint — 2026-09-06.** The hero includes an inline SVG image of the field in its server-rendered HTML, with the same shared deterministic geometry, perspective, colours and desktop/mobile densities as WebGL (`lib/scene/field.ts`). It needs no JavaScript or separate image request. The deferred renderer prepares its shaders and replaces that image only after painting its first frame, without the previous 900ms opacity entrance. If JavaScript or WebGL is unavailable, the static field stays visible. Existing hero styling and live effects remain unchanged.
 
 ## Hero skyline — 2026-10-06 (Adi-approved, D-038)
 
 Supersedes the composition, legibility and first-paint parts of "Hero depth field" above; its scope
-(WebGL on the home hero only, hero-local canvas, Lenis as the one scroll driver) still holds.
+(Lenis as the one scroll driver) still holds; the hero-only scope was widened to the whole Home page by "Home journey" (D-039).
 Chosen by the owner from three prototypes (`proto/hero-variations`, variant B).
 
 **Composition.** A city of instanced towers on a faint ground grid (`lib/scene/city.ts`, deterministic
@@ -231,7 +231,7 @@ runs in the vertex/fragment shader; instance matrices are written once per layou
 breakpoint change), never per frame, so the CPU only updates a few uniforms, the light and the
 camera. One instanced draw for the city, one for the grid. 2,560 towers desktop / 1,120 mobile
 (`data-tower-count`), DPR ≤1.5 desktop / 1 mobile, MSAA on desktop only, 30fps cap on mobile,
-`powerPreference: 'default'`. Loop gated by an `IntersectionObserver` on the hero and by tab
+`powerPreference: 'default'`. Loop gated by render-on-demand (see "Home journey") and by tab
 visibility; idle-deferred setup and `compileAsync` keep it off hydration; reduced motion renders one
 still frame (city standing, no loop); returning to Home shows the city already standing.
 Measured 2026-10-06 (production build): Lighthouse mobile Home perf 92/95/93, LCP 2.9–3.2 s, TBT
@@ -240,3 +240,53 @@ Measured 2026-10-06 (production build): Lighthouse mobile Home perf 92/95/93, LC
 **First paint.** The inline SVG poster is removed (it was most of the Home HTML). The canvas appears
 on its first drawn frame with the towers at ground level, and the rise is the entrance. Without
 JavaScript or WebGL the hero shows the CSS atmosphere from `globals.css`.
+
+## Home journey — 2026-10-06 (Adi-approved, D-039)
+
+Extends "Hero skyline": the same city and engine now run behind the **whole Home page**.
+
+**Mount.** `immersive/home/index.tsx` renders one `SceneLoader` into `.sceneLayer` (fixed,
+full-viewport, `z-index: 0`); Home sections sit above it (`z-index: 1`). The footer is the last stop:
+`SiteFooter journey` (Home only) drops its background. No other route mounts WebGL.
+
+**Path.** `lib/scene/journey.ts` (pure, unit-tested) holds a stop per section, matched by
+`data-journey` markers: `hero` → `services` (overhead map, three districts glow faintly) →
+`websites` / `apps` / `automation` (camera flies to that service's district, framed opposite its
+copy; light acid / orange / violet; district rooftops glow) → `work` (high overview, low exposure) →
+`model` (pull-back) → `finale` (street level facing the needle behind "Let's build what's next.").
+A stop is reached when its section's top is 30% down the viewport; the camera rests for the first
+35% of each segment, then eases to the next. The engine damps toward the target (frame-rate
+independent), so Lenis + damping give one continuous move with no corners.
+
+**Cursor.** The acid point light follows the pointer's hit on the ground in every view (higher and
+wider over the map). `CursorGlow` adds a soft acid halo (12%, `mix-blend-mode: screen`) for fine
+pointers only, hidden for reduced motion — the sanctioned `scene-glow-ok` gradient.
+
+**Legibility.** Per-stop exposure (1 in the hero/finale, 0.38–0.65 elsewhere), a copy-side shader
+well on landscape (`uWell`: side, strength, top), and on portrait or ≤768px every section after the
+hero at ≤0.42 exposure with no well (copy is full-width; the finale 0.6). Footer text on Home and the
+hero copy carry the `--tw-bg` text-shadow backing; the hero's secondary CTA gets a solid backing
+beside the lit downtown. Proof panels and work cards keep their opaque surfaces. Checked with a
+p90-background contrast sweep per stop at 1440 and 390 (2026-10-06).
+
+**District colours.** Acid and orange are the tokens; the AI district uses `#8b80ff`, `--tw-violet`
+lifted 25% toward `--tw-fg` (raw violet is too dark to read as light in the scene).
+
+**Performance contract (adds to "Hero skyline").**
+- Render on demand: continuous while the hero is on screen; below it the loop runs only while
+  scrolling, pointer movement, resize or the camera settling require it, then sleeps
+  (`data-animation-running`). A passive scroll listener only wakes the loop.
+- Section anchors are measured on attach, resize and a debounced `ResizeObserver(body)` — never in
+  the frame.
+- Adaptive DPR on desktop: 1.5 → 1.25 → 1 when frames average >22 ms, back up when <12 ms.
+- Lite budget on **software WebGL** (SwiftShader/llvmpipe — VMs, no GPU acceleration, CI;
+  `data-render="software"`): city in the hero only (Lambert material, DPR 0.75, 30 fps, no MSAA,
+  render on demand), shader compile deferred past page load, CSS atmosphere below the hero. CPU-drawn
+  frames block the page, so the full journey needs a GPU. Tests force it with `window.__twSceneFull`.
+- Reduced motion: one still hero frame, hidden below the hero.
+- Measured 2026-10-06 (production build, GPU): scrolling the full page with the pointer moving costs
+  ~4.6% main-thread script time on desktop, frames p95 9.4 ms; idle after ~4 s, then ~0.3%. Lighthouse
+  mobile Home perf 91–94 (final 91/91), a11y/BP/SEO 100. Full e2e 362 pass.
+- Scene time (`clock`) advances only while frames are drawn, so waking after a sleep continues
+  exactly where it stopped (QA blocker, verified: 12 px change after a 15 s sleep).
+
