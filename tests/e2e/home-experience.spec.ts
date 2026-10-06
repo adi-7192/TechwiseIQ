@@ -8,55 +8,76 @@ const settled = (n: Element) => {
   return t === 'none' || t === 'matrix(1, 0, 0, 1, 0, 0)'
 }
 
-test('the hero field is present without downloading or running JavaScript', async ({ browser }) => {
+test('the hero works without JavaScript: copy and actions, no canvas', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false })
   const page = await context.newPage()
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 1000 })
     await page.goto('/')
-    await expect(page.locator('[data-hero-poster]')).toBeVisible()
-    expect(await page.locator('[data-hero-poster] img').evaluate((image) => {
-      const img = image as HTMLImageElement
-      return img.complete && img.naturalWidth > 0 && img.currentSrc.startsWith('data:image/svg+xml,')
-    })).toBe(true)
-    await expect(page.locator('[data-hero-scene] canvas')).toHaveCount(0)
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+    await expect(page.locator('#top').getByRole('link', { name: 'Bring us the problem' })).toBeVisible()
+    await expect(page.locator('[data-home-scene] canvas')).toHaveCount(0)
   }
   await context.close()
 })
 
-test('the live field replaces the first frame without a late fade-in', async ({ page }) => {
+test('the skyline appears on its first drawn frame, without a fade-in', async ({ page }) => {
   await page.goto('/')
-  const canvas = page.locator('[data-hero-scene] canvas')
+  const canvas = page.locator('[data-home-scene] canvas')
   await expect(canvas).toHaveAttribute('data-painted', 'true')
-  await expect(page.locator('[data-hero-poster]')).toBeHidden()
   expect(await canvas.evaluate((element) => ({
     opacity: getComputedStyle(element).opacity,
     transition: getComputedStyle(element).transitionDuration,
   }))).toEqual({ opacity: '1', transition: '0s' })
 })
 
-test('floating motion waits for the actual artifact entrance to finish', async ({ page }) => {
+test('the skyline follows the whole page: each section reaches its stop', async ({ page }) => {
+  // CI renders WebGL in software, where the journey is off by design (lite budget);
+  // force the full journey so its behaviour is still covered.
+  await page.addInitScript(() => ((window as Window & { __twSceneFull?: boolean }).__twSceneFull = true))
   await page.goto('/')
-  await expect(page.locator('[data-home-experience]')).toHaveAttribute('data-home-motion', 'active')
-  const artifacts = page.locator('[data-home-artifact]')
-  await artifacts.evaluateAll((elements) => {
-    for (const element of elements) {
-      for (const animation of element.getAnimations()) animation.pause()
-    }
-  })
-  // Longer than the old mount-based timer: a held entrance must not drift.
-  await page.waitForTimeout(1900)
-  expect(await artifacts.evaluateAll((elements) =>
-    elements.every((element) => getComputedStyle(element).transform === 'none')
+  const canvas = page.locator('[data-home-scene] canvas')
+  await expect(canvas).toHaveAttribute('data-painted', 'true')
+  await expect(canvas).toHaveAttribute('data-stop', 'hero')
+  for (const [selector, stop] of [['#apps', 'apps'], ['#selected-work', 'work']]) {
+    await page.evaluate((s) => {
+      const el = document.querySelector(s)!
+      window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.2)
+    }, selector)
+    await expect(canvas).toHaveAttribute('data-stop', stop)
+  }
+  // Render on demand: once the camera settles below the hero, the loop sleeps.
+  // Generous: CI forces this path on CPU-rendered WebGL, where frames are slow.
+  await expect(canvas).toHaveAttribute('data-animation-running', 'false', { timeout: 25000 })
+  await expect(canvas).toBeVisible()
+})
+
+test('reduced motion: one still frame of the hero, hidden below it', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  const canvas = page.locator('[data-home-scene] canvas')
+  await expect(canvas).toHaveAttribute('data-painted', 'true')
+  await expect(canvas).toHaveAttribute('data-animation-running', 'false')
+  await page.evaluate(() => window.scrollTo(0, document.querySelector('#selected-work')!.getBoundingClientRect().top + window.scrollY))
+  await expect(canvas).toBeHidden()
+})
+
+test('the cursor halo is desktop-only decoration', async ({ page, browser }) => {
+  await page.goto('/')
+  const halo = page.locator('[data-home-experience] > div[aria-hidden="true"]:not([data-home-scene])')
+  // Headless Linux (CI) reports no mouse: the halo must then stay off, as on touch.
+  const finePointer = await page.evaluate(() => matchMedia('(hover: hover) and (pointer: fine)').matches)
+  await page.mouse.move(400, 300)
+  if (finePointer) await expect(halo).toHaveAttribute('data-active', 'true')
+  else expect(await halo.evaluate((el) => getComputedStyle(el).display)).toBe('none')
+  const touch = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true })
+  const phone = await touch.newPage()
+  await phone.goto('/')
+  expect(await phone.evaluate(() =>
+    [...document.querySelectorAll('[data-home-experience] > div[aria-hidden="true"]:not([data-home-scene])')]
+      .every((el) => getComputedStyle(el).display === 'none'),
   )).toBe(true)
-  await artifacts.evaluateAll((elements) => {
-    for (const element of elements) {
-      for (const animation of element.getAnimations()) animation.finish()
-    }
-  })
-  await expect.poll(() => artifacts.first().evaluate((element) =>
-    getComputedStyle(element).transform !== 'none'
-  )).toBe(true)
+  await touch.close()
 })
 
 test('introduces three services before client evidence with useful destinations', async ({
@@ -310,4 +331,14 @@ test('the hero entrance holds until the intro overlay lifts', async ({ page }) =
   await expect
     .poll(() => page.locator('[data-hero-line]').first().evaluate(settled), { timeout: 10000 })
     .toBe(true)
+})
+
+test('without a GPU the city stays in the hero and fades out below it', async ({ page }) => {
+  await page.goto('/')
+  const canvas = page.locator('[data-home-scene] canvas')
+  await expect(canvas).toHaveAttribute('data-painted', 'true')
+  test.skip((await canvas.getAttribute('data-render')) !== 'software', 'GPU renderer: full journey runs')
+  await page.evaluate(() => window.scrollTo(0, document.querySelector('#selected-work')!.getBoundingClientRect().top + window.scrollY))
+  await expect(canvas).toBeHidden()
+  await expect(canvas).toHaveAttribute('data-animation-running', 'false')
 })

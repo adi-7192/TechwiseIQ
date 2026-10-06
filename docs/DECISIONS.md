@@ -237,6 +237,28 @@ ship. *Apply:* every number keeps its source link and year; no client claims; no
 the closing lines of art. 2 and art. 6. Keep them true: every handover puts accounts in the
 client's name with logins; every site ships clear copy, structured data and a sitemap.
 
+**D-038 — The home hero is the skyline (prototype B).** 2026-10-06 · owner ("I like the design B… add this to our main website… ensure that it is optimized") · supersedes the "Hero depth field" composition in `design-system.md`.
+Three hero prototypes were reviewed (A liquid shader, B three.js skyline, C kinetic type); the owner
+chose B. The hero is now an instanced city that rises from the centre, an acid light that follows the
+pointer through the streets, and a camera that climbs to an overhead map as the hero scrolls away.
+Copy is left-aligned; the floating hero cards and the inline SVG field poster are removed.
+*Apply:* performance contract in `design-system.md` "Hero skyline" (per-tower motion in the shader,
+one instanced draw, DPR/fps/city-size caps, IntersectionObserver + visibility gating, reduced-motion
+still frame, three.js on Home only). No anime.js — D-008 stands (GSAP only); legibility comes from the
+shader, not a CSS gradient. The prototypes live on unmerged `proto/*` branches for reference only.
+
+**D-039 — The skyline carries through the whole Home page.** 2026-10-06 · owner (approved plan: "implement the effect on the full home page… a smooth continuation… add the cursor glowing effect") · refines D-038, reverses the 2026-09-05 "WebGL on the hero only" scope.
+One fixed WebGL layer sits behind every Home section; the camera travels a continuous path with a
+stop per section (hero → map → web / software / AI districts → work overview → operating model →
+street-level finale in the footer), each service lighting its district in its accent. The acid
+city light follows the cursor everywhere, and a soft acid halo follows fine pointers over the page —
+the halo's radial gradient is a sanctioned exception (`scene-glow-ok`), like the `.tw-world` glow.
+*Apply:* legibility first — lower exposure behind dense sections, a shader "well" behind copy on
+landscape screens, much lower exposure on phones; opaque proof panels stay opaque. Performance
+contract in `design-system.md` "Home journey" (render on demand, adaptive DPR, lite budget on
+software WebGL = hero-only). Other routes keep the CSS atmosphere; Home's footer is transparent only
+on Home (`SiteFooter journey`).
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

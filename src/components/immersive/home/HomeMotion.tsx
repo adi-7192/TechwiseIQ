@@ -51,59 +51,13 @@ export default function HomeMotion() {
             }
           )
         })
-        const artifacts = gsap.utils.toArray<HTMLElement>('[data-home-artifact]', root)
-        const drift = gsap.timeline({ paused: true, repeat: -1, yoyo: true })
-        artifacts.forEach((artifact, i) =>
-          drift.to(
-            artifact,
-            {
-              y: i % 2 ? 12 : -15,
-              rotationY: i % 2 ? -5 : 5,
-              duration: 4.5 + i * 0.4,
-              ease: 'sine.inOut',
-            },
-            0
-          )
-        )
-        // The hero entrance itself is CSS (HeroStage.module.css): driven from here
-        // it could not start until the bundle had booted, which left the hero blank
-        // for ~300ms of every load. GSAP keeps only the continuous drift, which has
-        // nothing to show until the artifacts have arrived anyway.
+        // The hero entrance is CSS (HeroStage.module.css) and the skyline is
+        // WebGL (lib/scene/engine.ts); GSAP owns only the scroll reveals.
         root.dataset.homeMotion = 'active'
 
-        // Let the CSS entrance land before the float starts, so the artifacts are
-        // not still scaling up while they begin to drift.
-        let cancelled = false
-        let entranceDone = false
-        let visible = true
-        const sync = () => {
-          if (entranceDone && visible && !document.hidden) drift.play()
-          else drift.pause()
-        }
-        // CSS animations pause behind the intro. Their actual completion also
-        // handles skipped intros, slow hydration and client-side navigation;
-        // a timer from mount could start drifting before the entrance began.
-        const entrances = artifacts.flatMap((artifact) => artifact.getAnimations())
-        void Promise.allSettled(entrances.map((animation) => animation.finished)).then(() => {
-          if (cancelled) return
-          entranceDone = true
-          sync()
-        })
-        const observer = new IntersectionObserver((entries) => {
-          visible = entries[0].isIntersecting
-          sync()
-        })
-        const hero = root.querySelector('#top')
-        if (hero) observer.observe(hero)
-        document.addEventListener('visibilitychange', sync)
         // Off the hydration commit: refresh() reflows the whole document, and
         // running it inline makes every other client component on this page wait.
         refreshFrame = requestAnimationFrame(() => ScrollTrigger.refresh())
-        return () => {
-          cancelled = true
-          document.removeEventListener('visibilitychange', sync)
-          observer.disconnect()
-        }
       },
       root
     )

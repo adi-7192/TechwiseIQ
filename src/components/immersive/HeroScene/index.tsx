@@ -4,19 +4,17 @@ import { useEffect, useRef } from 'react'
 import { getSceneEngine } from '@/lib/scene/engine'
 
 /**
- * Controller for the hero depth field. Mounts the shared canvas (one renderer
- * for the whole session — see lib/scene/engine.ts) into this hero's own layer
- * rather than into a fixed full-viewport element, and hands it back on unmount.
+ * Controller for the Home skyline (D-039). Mounts the shared canvas (one
+ * renderer for the whole session — see lib/scene/engine.ts) into the page's
+ * fixed scene layer, and hands it back on unmount.
  *
- * Creating the renderer and generating the field is synchronous work, so it is
- * deferred to idle time rather than run inline with hydration — the decorative
- * layer must never sit on the critical path or push a long task into the first
- * interaction. The engine then gates its own render loop on an
- * IntersectionObserver over this container, so scrolling past the hero stops
- * the GPU work entirely.
+ * Creating the renderer is synchronous work, so it is deferred to idle time
+ * rather than run inline with hydration — the decorative layer must never sit
+ * on the critical path. The engine then renders on demand (continuously only
+ * while the hero is on screen) and sleeps when nothing changes.
  *
  * If WebGL is unsupported the engine is null and this renders an inert element,
- * leaving the server-rendered field and CSS atmosphere as the fallback. All
+ * leaving the CSS atmosphere as the fallback. All
  * meaningful content stays in the DOM; this layer is decorative and aria-hidden.
  */
 export default function HeroScene({ className }: { className?: string }) {
@@ -50,6 +48,6 @@ export default function HeroScene({ className }: { className?: string }) {
   }, [])
 
   return (
-    <div ref={mountRef} className={className} data-hero-scene aria-hidden="true" />
+    <div ref={mountRef} className={className} data-home-scene aria-hidden="true" />
   )
 }

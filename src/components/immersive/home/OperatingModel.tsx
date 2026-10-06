@@ -7,7 +7,7 @@ import styles from './home.module.css'
 /** Section 8 — why the studio model works: written scope, weekly demos, direct access, ownership. */
 export default function OperatingModel() {
   return (
-    <Section ruled density="dense" aria-labelledby="operating-title">
+    <Section ruled density="dense" data-journey="model" aria-labelledby="operating-title">
       <div className={styles.operatingHead} data-home-reveal>
         <SectionLabel index="05">{OPERATING_MODEL.index}</SectionLabel>
         <DisplayHeading

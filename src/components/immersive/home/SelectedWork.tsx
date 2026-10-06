@@ -24,6 +24,7 @@ export default function SelectedWork() {
       ruled
       density="dense"
       data-scene="intro"
+      data-journey="work"
       aria-labelledby="work-title"
     >
       <div className={styles.workHead} data-home-reveal>

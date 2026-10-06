@@ -3,6 +3,8 @@ import ServiceStories from './ServiceStories'
 import SelectedWork from './SelectedWork'
 import OperatingModel from './OperatingModel'
 import HomeMotion from './HomeMotion'
+import CursorGlow from './CursorGlow'
+import SceneLoader from '@/components/immersive/SceneLoader'
 import styles from './studio.module.css'
 
 // Runs while the parser is still inside this div, so the scroll reveals' start
@@ -19,9 +21,13 @@ const motionBootstrap = `(function(){try{var e=document.currentScript.parentElem
 
 export default function ImmersiveHome() {
   return (
-    <div className={styles.experience} data-home-experience data-home-motion="static">
+    // The inline script below sets data-home-motion before hydration on purpose.
+    <div className={styles.experience} data-home-experience data-home-motion="static" suppressHydrationWarning>
       <script dangerouslySetInnerHTML={{ __html: motionBootstrap }} />
       <HomeMotion />
+      {/* One fixed WebGL layer behind the whole page (D-039); sections sit above it. */}
+      <SceneLoader className={styles.sceneLayer} />
+      <CursorGlow />
       <HomeHero />
       <ServiceStories />
       <SelectedWork />

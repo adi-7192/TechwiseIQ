@@ -4,7 +4,7 @@
 > When you finish a task: update §4, add a line to §6, log new decisions in `DECISIONS.md`.
 > If this file disagrees with the code, the code wins — fix this file.
 
-**Last updated:** 2026-10-05 · **Branch:** `main` (redesign merged in PR #1, D-028) ·
+**Last updated:** 2026-10-06 · **Branch:** `main` (redesign merged in PR #1, D-028) ·
 `main` is protected — work on a branch, open a PR, merge when CI is green (D-029).
 
 ---
@@ -82,6 +82,27 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 | `docs/vercel-deployment-2026-08-04.md`, `docs/launch-readiness-report-2026-07-26.md` | Launch-gate steps still valid. |
 
 ## 6. Session log (newest first)
+
+- **2026-10-06** — 8.2 whole-page skyline journey (D-039, plan approved by owner). Under load the
+  first build added real cost on software WebGL (CI uses SwiftShader: 66 ms frames), failing the
+  stall test 3/3 where `main` passed 3/3 — fixed with a lite budget (hero-only, Lambert, deferred
+  compile) and time-based light smoothing. Then 84/84 on repeat, full e2e 362 pass, Lighthouse mobile
+  Home 94/91/91. GPU path: ~4.6% main-thread while scrolling, idle ~0.3%. UX + QA agents reviewed:
+  fixed the wake jump (scene clock), lite re-attach redraw, iOS `100lvh` layer, copy legibility
+  (exposure/well retune, `--tw-bg` text-shadow backing, measured with a p90 contrast sweep). Final:
+  full e2e 362 pass, Lighthouse 91/91. Open (not blocking): GPU-path stall budget has no CI test
+  (CI is software WebGL); adaptive DPR also steps down on 30 Hz-capped displays. First CI run failed
+  the forced-journey test (loop not asleep in 8 s): the 0.1 s frame-step cap stretched the rise and
+  settle on CI's slow CPU-rendered frames; cap raised to 0.5 s, test timeout 25 s.
+
+- **2026-10-06** — Home review → three hero prototypes (`proto/hero-variations`: A liquid shader,
+  B three.js skyline, C kinetic type); owner chose B (D-038). Ported on `feat/skyline-hero` into the
+  existing engine with the performance contract in `design-system.md` "Hero skyline". Gate green,
+  full e2e on a production build: 357 pass, 1 fail — `performance-mobile` "stalls bounded" (200 ms
+  long-task budget). A/B under the same host load: `main` fails it too; isolated it passes 10/10; the
+  long frames were page-load work, not the scene (LoAF). Known host-load test (ROADMAP 7.6). Home HTML
+  428 KB → 82 KB (SVG poster gone). Lighthouse mobile Home perf 92/95/93, LCP 2.9–3.2 s (was 91 / 3.5 s).
+  Earlier prototypes (`proto/living-field`, `proto/assembling-interface`) were declined/superseded.
 
 - **2026-10-05** — Stage 7 on `stage-7/release`. 7.1: gate + full e2e green (359 pass, twice);
   Lighthouse mobile on 18 routes — a11y/BP/SEO 100, perf 91–94, `/work` 89 (HTML weight; brotli on

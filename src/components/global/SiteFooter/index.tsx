@@ -2,9 +2,15 @@ import Link from 'next/link'
 import { CONTACT_EMAIL, WHATSAPP_URL } from '@/lib/site'
 import styles from './SiteFooter.module.css'
 
-export default function SiteFooter() {
+/** `journey`: Home only — the footer is the skyline journey's last stop, so it
+ *  drops its background and lets the scene show behind "Let's build what's next". */
+export default function SiteFooter({ journey = false }: { journey?: boolean }) {
   return (
-    <footer className={styles.footer} aria-labelledby="footer-title">
+    <footer
+      className={journey ? `${styles.footer} ${styles.journey}` : styles.footer}
+      data-journey={journey ? 'finale' : undefined}
+      aria-labelledby="footer-title"
+    >
       <div className={styles.inner}>
         <div className={styles.eyebrow}>
           <span>

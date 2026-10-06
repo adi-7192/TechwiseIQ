@@ -70,7 +70,7 @@ export default function Home() {
       <main id="main">
         <ImmersiveHome />
       </main>
-      <SiteFooter />
+      <SiteFooter journey />
     </ImmersiveShell>
   )
 }
