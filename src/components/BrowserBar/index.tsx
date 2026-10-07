@@ -1,4 +1,4 @@
-import styles from './work.module.css'
+import styles from './BrowserBar.module.css'
 
 /** Decorative browser chrome above a site cover or live preview. */
 export default function BrowserBar({ label }: { label: string }) {

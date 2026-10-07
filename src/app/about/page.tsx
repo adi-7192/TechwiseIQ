@@ -1,32 +1,35 @@
 import type { Metadata } from 'next'
 import AboutExperience from '@/components/AboutExperience'
+import { ABOUT_META } from '@/components/AboutExperience/about-content'
 import ImmersiveShell from '@/components/immersive/ImmersiveShell'
 import SiteFooter from '@/components/global/SiteFooter'
 import SiteHeader from '@/components/global/SiteHeader'
+import { getClientCountries } from '@/app/work/work-projects'
+import { CASE_STUDIES } from '@/data/case-studies'
 import { socialMetadata } from '@/lib/metadata'
 
+const description = ABOUT_META.description(
+  getClientCountries(CASE_STUDIES).map((row) => row.country),
+)
+
 export const metadata: Metadata = {
-  title: {
-    absolute: 'About Techwise IQ | Business-First Engineering in Dubai',
-  },
-  description:
-    'Techwise IQ turns business bottlenecks into websites, custom software, and AI systems. Built in Dubai and trusted by businesses beyond borders.',
+  title: { absolute: ABOUT_META.title },
+  description,
   alternates: { canonical: '/about' },
   ...socialMetadata({
-    title: 'About Techwise IQ | Business-First Engineering in Dubai',
-    description:
-      'You bring the business goal. We make the technical path clear and take responsibility for delivery.',
+    title: ABOUT_META.ogTitle,
+    description: ABOUT_META.ogDescription,
     url: '/about',
   }),
 }
 
+// No founder, headcount, rating, review, award or price (D-003, D-005/D-034).
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'AboutPage',
   '@id': 'https://techwiseiq.com/about',
   name: 'About Techwise IQ',
-  description:
-    'Dubai-based digital engineering company building websites, custom software, and AI systems around business outcomes.',
+  description: ABOUT_META.jsonLdDescription,
   mainEntity: { '@id': 'https://techwiseiq.com/#organization' },
 }
 
@@ -37,6 +40,7 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {/* CSS atmosphere only: no WebGL on About (D-041). */}
       <ImmersiveShell scene="advisory">
         <SiteHeader />
         <main id="main">

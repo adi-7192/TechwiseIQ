@@ -4,6 +4,19 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-07 — /about rebuilt around proof, process and commitments (ROADMAP 10.1, D-041)
+
+- `src/components/AboutExperience/` rebuilt: hero h1 + company fact sheet (data-driven), "the short
+  version", track record (route map, live-only totals, case-study cards), the D-033 process on a
+  sample brief (pinned scroll sequence on desktop, stacked elsewhere), five commitments, service
+  paths, compact CTA. New `AboutMotion.tsx` (GSAP: lit words, reveals, count-ups, drawn route and
+  checks, pinned process with a runtime fit guard); full reduced-motion and no-JS final states.
+- `src/app/about/page.tsx`: metadata and JSON-LD from `about-content.ts`; no "trusted by".
+- `BrowserBar` moved to `src/components/BrowserBar` with its own CSS module; `/work` imports updated.
+- `getClientCountries` in `src/app/work/work-projects.ts` (+ unit tests).
+- Tests: `tests/e2e/about-experience.spec.ts` rewritten (structure, honesty, pin, fallback, touch
+  targets, CLS, reduced motion, no-JS).
+
 ## 2026-10-06 — /work clarity + trust pass (ROADMAP 9.1, D-040)
 
 - Hero: eyebrow "Our work", new intro, totals `<dl>` moved from below the projects into the hero

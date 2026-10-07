@@ -1,256 +1,1001 @@
+/* /about (D-041). Spec: docs/specs/10.1-about.md (V0–V13 + UX U1–U9).
+   No `overflow: clip` on the root (UX U2): a clipping ancestor breaks the fixed
+   03 pin, and overflow is root-caused instead. Accent is acid only (scene="advisory"). */
 .experience {
-  overflow: clip;
+  font-family: var(--font-archivo), sans-serif;
 }
 
-.hero {
-  min-height: 100svh;
-  padding-top: clamp(8.5rem, 18vh, 12rem);
+.experience a {
+  scroll-margin-block: 6rem 2rem;
 }
 
-.heroInner {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.55fr);
-  gap: clamp(2rem, 6vw, 6rem);
-  align-items: end;
+/* ─── Motion gate (AboutMotion sets these; the server always sends "static") ───
+   pending: holds the pre-animation frame. OPACITY ONLY, never visibility (UX U2):
+   content stays in the accessibility tree and focusable while it waits. Values
+   mirror the GSAP from-states. static / active / reduced never match, so no-JS and
+   reduced motion always show the final markup. The hero carries no hooks. */
+.experience[data-about-motion='pending'] [data-about-reveal] {
+  opacity: 0;
+}
+/* Keyboard focus before hydration: a focused link never sits inside an invisible
+   reveal (AboutMotion's focusin net takes over once it boots). */
+.experience[data-about-motion='pending'] [data-about-reveal]:focus-within {
+  opacity: 1;
+}
+.experience[data-about-motion='pending'] [data-lit-word] {
+  opacity: 0.45;
+}
+.experience[data-about-motion='pending'] [data-draw] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+/* AC31: while pending (cards are opacity 0 anyway), the lazy covers sit out
+   Chrome's first-layout lazy-load pass, which would otherwise fetch them 2–3k px
+   below the fold before the hero h1 paints. Lifted the moment motion boots
+   (active) or fails open (static), so normal lazy-load distance and no pop-in
+   after that; never applies to no-JS or reduced motion. Zero layout effect: .shot
+   is sized by aspect-ratio / flex, its img is absolutely positioned, and the
+   paint clip equals its overflow: hidden. Not text-bearing (aria-hidden link),
+   so UX U3's content-visibility ban doesn't apply. */
+.experience[data-about-motion='pending'] .shot {
+  content-visibility: auto;
 }
 
-.heroTitle {
-  max-width: 10ch;
+/* ─── Shared ─── */
+.sectionTitle {
   margin-top: 1.25rem;
+  max-width: 16ch;
 }
-
-.heroThesis {
-  padding-bottom: clamp(0.5rem, 2vw, 1.5rem);
+.intro {
+  margin-top: 1.25rem;
+  max-inline-size: 46ch;
   color: var(--tw-muted);
   font-size: var(--tw-type-body-lg);
 }
+.check {
+  flex: none;
+  width: 1em;
+  height: 1em;
+  color: var(--tw-accent);
+}
+.check path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: square;
+}
+.box {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--tw-line);
+  font-size: 1rem;
+}
 
-.heroPromise {
+/* ─── 00 Hero + fact sheet ─── */
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: start;
+  padding-block: clamp(6rem, 14vh, 12rem) clamp(2.5rem, 5vh, 3.5rem);
+}
+.heroTitle {
+  margin-top: 1.25rem;
+}
+.lede {
+  margin-top: 1.5rem;
+  max-inline-size: 46ch;
+  color: var(--tw-muted);
+  font-size: var(--tw-type-body-lg);
+}
+.promise {
   margin-top: 1.25rem;
   color: var(--tw-fg);
+  font-size: var(--tw-type-body-lg);
   font-weight: 700;
 }
-
-.modelGrid {
-  grid-column: 1 / -1;
+.facts {
+  justify-self: stretch;
+  margin-top: clamp(2rem, 5vh, 3rem);
+}
+.factList {
+  margin-top: 1rem;
+}
+.factList > div {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: clamp(2rem, 7vh, 5rem);
+  grid-template-columns: minmax(7.5rem, 2fr) 3fr;
+  gap: 1rem;
+  padding-block: 0.85rem;
   border-top: 1px solid var(--tw-line);
+}
+.factList > div:last-child {
   border-bottom: 1px solid var(--tw-line);
 }
-
-.modelCard {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.75rem 1.25rem;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
-}
-
-.modelCard + .modelCard {
-  border-left: 1px solid var(--tw-line);
-}
-
-.index {
-  color: var(--tw-accent);
+.factList dt,
+.totals dt,
+.cardMeta,
+.fields dt,
+.problem dt,
+.outcome dt {
   font-family: var(--font-mono), monospace;
   font-size: var(--tw-type-meta);
-  letter-spacing: 0.14em;
-}
-
-.modelCard h2,
-.path h3,
-.principle h3 {
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-.modelCard h2 {
-  font-size: clamp(1.4rem, 2.4vw, 2.25rem);
-}
-
-.modelCard p {
-  grid-column: 2;
-  max-width: 42ch;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--tw-muted);
 }
+.factList dt {
+  padding-top: 0.2em;
+}
+.factList dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: break-word;
+  font-size: var(--tw-type-body);
+  font-weight: 500;
+  color: var(--tw-fg);
+}
 
-.noRelay {
-  grid-column: 1 / -1;
-  padding: 1rem clamp(1.5rem, 3vw, 2.5rem);
+/* ─── 01 The short version ─── */
+.shortTitle {
+  margin-top: 1.25rem;
+}
+.short .shortTitle em {
+  display: block;
+}
+.shortBody {
+  margin-top: 2.5rem;
+  max-inline-size: 46ch;
+  color: var(--tw-muted);
+  font-size: var(--tw-type-body-lg);
+}
+.closing {
+  margin-top: 2rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--tw-line);
   color: var(--tw-fg);
+  font-size: var(--tw-type-body);
+  font-weight: 600;
+}
+
+/* ─── 02 Track record ─── */
+.trackHead {
+  display: grid;
+  gap: 2.5rem;
+}
+.mapFigure {
+  margin: 0;
+  inline-size: 100%;
+  max-inline-size: 28rem;
+}
+.map {
+  display: block;
+  inline-size: 100%;
+  height: auto;
+}
+.map text {
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: var(--tw-muted);
+}
+.map .hubLabel {
+  fill: var(--tw-fg);
+}
+.graticule,
+.zone {
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1;
+}
+.graticule {
+  fill: none;
+  stroke: var(--tw-line);
+}
+.zone {
+  fill: none;
+  stroke: var(--tw-muted);
+  stroke-dasharray: 2 4;
+}
+.hub {
+  fill: var(--tw-accent);
+}
+.node {
+  fill: none;
+  stroke: var(--tw-accent);
+  stroke-width: 1.25;
+}
+/* No vector-effect here: it skews pathLength-based dash maths in some engines. */
+.route {
+  fill: none;
+  stroke: var(--tw-accent);
+  stroke-width: 1.5;
+  stroke-linecap: square;
+}
+.mapCaption {
+  margin-top: 0.85rem;
+  color: var(--tw-muted);
+  font-size: var(--tw-type-body);
+}
+
+.totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: clamp(2.5rem, 5vh, 3.5rem);
+  border-block: 1px solid var(--tw-line);
+}
+.totals > div {
+  display: flex;
+  flex-direction: column-reverse; /* <dt> first in the DOM, value shown on top */
+  justify-content: flex-end;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 1.25rem 1rem;
+}
+.totals > div:first-child {
+  padding-inline-start: 0;
+}
+.totals > div + div {
+  border-left: 1px solid var(--tw-line);
+}
+.totals dt {
+  overflow-wrap: break-word;
+}
+.totals dd {
+  margin: 0;
+  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-size: var(--tw-type-h2);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--tw-fg);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+  margin-top: clamp(2.5rem, 5vh, 3.5rem);
+  padding: 0;
+  list-style: none;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.coverLink {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--tw-line);
+  border-radius: var(--tw-radius-artifact);
+  background: var(--tw-surface);
+}
+/* Live = proof object (22px); preview / awaiting launch = artifact (10px), as on /work. */
+.coverLive {
+  border-radius: var(--tw-radius-proof);
+}
+.shot {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+.depth {
+  position: absolute;
+  inset: 0;
+}
+.coverImage {
+  object-fit: cover;
+  object-position: top center;
+}
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding-top: 1.1rem;
+}
+/* DOM order is h3 → meta (UX U1); the meta row is lifted above the title visually. */
+.cardMeta {
+  order: -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.85rem;
+}
+.chip {
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--tw-line);
+  border-radius: var(--tw-radius-control);
+}
+.chipLive {
+  color: var(--tw-fg);
+  border-color: color-mix(in oklab, var(--tw-accent) 45%, var(--tw-line));
+}
+.cardTitle {
+  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-size: var(--tw-type-body-lg);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--tw-fg);
+}
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding-bottom: 0.15rem;
+  border-bottom: 1px solid var(--tw-accent);
   font-family: var(--font-mono), monospace;
   font-size: var(--tw-type-meta);
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  color: var(--tw-fg);
+}
+/* UX B1: 44px touch target, as on /work. Keep the underline on the text, not
+   44px down at the box edge. The focus ring is the global .tw-world one. */
+@media (pointer: coarse) {
+  .textLink {
+    min-height: 44px;
+    padding-bottom: 0;
+    border-bottom: 0;
+    text-decoration: underline 1px var(--tw-accent);
+    text-underline-offset: 0.3em;
+  }
 }
 
-.sectionHead {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.6fr);
-  gap: 1.5rem clamp(2rem, 6vw, 6rem);
-  align-items: end;
+@media (hover: hover) and (pointer: fine) {
+  .textLink:hover {
+    color: var(--tw-accent);
+  }
 }
 
-.sectionHead > :first-child {
-  grid-column: 1 / -1;
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .coverLink {
+    transition: border-color var(--tw-duration-component) var(--tw-ease-out);
+  }
+  .coverImage {
+    transition: transform var(--tw-duration-component) var(--tw-ease-out);
+  }
+  .coverLink:hover {
+    border-color: color-mix(in oklab, var(--tw-accent) 45%, var(--tw-line));
+  }
+  .coverLink:hover .coverImage {
+    transform: scale(1.03);
+  }
 }
 
-.sectionTitle {
-  max-width: 15ch;
-}
-
-.sectionHead > p {
-  padding-bottom: 0.55rem;
-  color: var(--tw-muted);
-  font-size: var(--tw-type-body-lg);
-}
-
-.pathList {
-  margin-top: clamp(3rem, 8vh, 6rem);
-  border-top: 1px solid var(--tw-line);
-  list-style: none;
-}
-
-.path {
-  display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr) 3rem minmax(0, 1fr);
-  gap: 1rem;
-  align-items: center;
-  min-height: 8rem;
-  padding-block: 1.5rem;
-  border-bottom: 1px solid var(--tw-line);
-}
-
-.path h3 {
-  font-size: clamp(1.35rem, 2.6vw, 2.5rem);
-}
-
-.pathArrow {
-  color: var(--tw-accent);
-  font-size: 1.75rem;
-  text-align: center;
-}
-
-.path p {
-  max-width: 36ch;
-  color: var(--tw-muted);
-}
-
-.culture {
-  background: color-mix(in oklab, var(--tw-bg) 88%, var(--tw-accent) 12%);
-}
-
-.principles {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: clamp(3rem, 8vh, 6rem);
-  border-block: 1px solid var(--tw-line);
-}
-
-.principle {
-  min-height: 20rem;
-  padding: clamp(1.5rem, 3vw, 2.75rem);
-}
-
-.principle + .principle {
-  border-left: 1px solid var(--tw-line);
-}
-
-.principle h3 {
-  margin-top: clamp(3rem, 8vh, 6rem);
-  color: var(--tw-accent);
-  font-size: clamp(2.2rem, 5vw, 5rem);
-  line-height: 0.95;
-}
-
-.principle p {
-  max-width: 34ch;
+/* ─── 03 How we work with you ─── */
+.sample {
   margin-top: 1.5rem;
-  color: var(--tw-muted);
+  max-inline-size: 46ch;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--tw-line);
+  color: var(--tw-fg);
+  font-size: var(--tw-type-body);
 }
-
-.closing {
-  text-align: center;
+/* Rail: decorative (aria-hidden), shown only in pinned mode. Server state is final
+   (filled, every check drawn). */
+.rail {
+  display: none;
+  position: relative;
+  justify-content: space-between;
 }
-
-.closingInner {
+/* The track is a pseudo-element (no markup); the fill stays a span for [data-rail-fill]. */
+.rail::before,
+.railFill {
+  content: '';
+  position: absolute;
+  inset-inline: 0.625rem;
+  bottom: 0.625rem;
+  height: 1px;
+}
+.rail::before {
+  background: var(--tw-line);
+}
+.railFill {
+  background: var(--tw-accent);
+  transform-origin: left center;
+}
+.railNode {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.closingTitle {
-  max-width: 14ch;
-  margin-top: 1.5rem;
-}
-
-.closingBody {
-  max-width: 52ch;
-  margin: 1.75rem 0 2rem;
+  gap: 0.5rem;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.14em;
   color: var(--tw-muted);
+}
+.railBox {
+  display: grid;
+  place-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid var(--tw-line);
+  background: var(--tw-bg);
+  font-size: 0.85rem;
+}
+
+.steps {
+  display: grid;
+  gap: 3.5rem;
+  margin-top: clamp(3rem, 7vh, 5rem);
+  padding: 0;
+  list-style: none;
+}
+.step {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+.stepIndex {
+  display: block;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.14em;
+  color: var(--tw-accent);
+}
+.stepText h3 {
+  margin-top: 0.75rem;
+  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-size: var(--tw-type-body-lg);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--tw-fg);
+}
+.stepText p {
+  margin-top: 0.5rem;
+  max-inline-size: 40ch;
+  color: var(--tw-muted);
+  font-size: var(--tw-type-body);
+}
+
+/* Illustrative frame. No fixed heights; overflow: hidden only clips the corners. */
+.frame {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--tw-line);
+  border-radius: var(--tw-radius-proof);
+  background: var(--tw-surface);
+}
+.frameBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.75rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--tw-line-soft);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tw-fg);
+}
+.tag,
+.pickTag {
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--tw-line-soft);
+  border-radius: var(--tw-radius-control);
+  white-space: nowrap;
+}
+.tag {
+  color: var(--tw-muted);
+}
+.frameBody {
+  padding: 1.1rem;
+  font-size: var(--tw-type-body);
+  color: var(--tw-fg);
+}
+.fields > div {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+  padding-block: 0.6rem;
+  border-top: 1px solid var(--tw-line-soft);
+}
+.fields > div:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.fields dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.fields dd::first-letter {
+  text-transform: uppercase;
+}
+.approved,
+.why {
+  margin-top: 0.6rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--tw-line-soft);
+}
+.approved {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.options {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0;
+  list-style: none;
+}
+.options li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: var(--tw-radius-artifact);
+}
+.options li > span:first-of-type {
+  flex: 1 1 10rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.options b {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  font-weight: 400;
+  color: var(--tw-muted);
+}
+.options .pick {
+  border-color: color-mix(in oklab, var(--tw-accent) 45%, var(--tw-line));
+}
+.pickTag {
+  border-color: color-mix(in oklab, var(--tw-accent) 45%, var(--tw-line));
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tw-accent);
+}
+.why {
+  color: var(--tw-muted);
+}
+.why b {
+  color: var(--tw-fg);
+  font-weight: 600;
+}
+.log {
+  padding: 0;
+  list-style: none;
+}
+.log li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-block: 0.6rem;
+  border-top: 1px solid var(--tw-line-soft);
+}
+.log li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.frameCaption {
+  padding: 0.75rem 1.1rem;
+  border-top: 1px solid var(--tw-line-soft);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.06em;
+  color: var(--tw-muted);
+}
+
+/* ─── 04 What we commit to ─── */
+.ledger {
+  margin-top: 2.5rem;
+  padding: 0;
+  list-style: none;
+}
+.ledger li {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  gap: 0.35rem 0.9rem;
+  align-items: start;
+  padding-block: 1.25rem;
+  border-top: 1px solid var(--tw-line);
+}
+.ledger li:last-child {
+  border-bottom: 1px solid var(--tw-line);
+}
+.ledger .box {
+  grid-row: span 2;
+}
+.statement {
+  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-size: var(--tw-type-body-lg);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--tw-fg);
+}
+.detail {
+  grid-column: 2;
+  color: var(--tw-muted);
+  font-size: var(--tw-type-body);
+}
+
+/* ─── 05 What we build ─── */
+.paths {
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  padding: 0;
+  list-style: none;
+}
+.path {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  padding-block: clamp(2rem, 5vh, 3.5rem);
+  border-bottom: 1px solid var(--tw-line);
+}
+.path:first-child {
+  border-top: 1px solid var(--tw-line);
+}
+.pathIndex {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.14em;
+  color: var(--tw-accent);
+}
+.pathLink {
+  color: inherit;
+  text-decoration: none;
+}
+/* Stretched link: the whole row is the target, the name stays the visible service name. */
+.pathLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.path:has(.pathLink:focus-visible) {
+  outline: 2px solid var(--tw-accent);
+  outline-offset: 4px;
+}
+/* Suppressed only where :has() applies, so the link keeps its own ring elsewhere. */
+.path:has(.pathLink:focus-visible) .pathLink:focus-visible {
+  outline: none;
+}
+.problem,
+.outcome {
+  margin: 0;
+}
+.problem dd,
+.outcome dd {
+  margin: 0.35rem 0 0;
   font-size: var(--tw-type-body-lg);
 }
-
-@media (max-width: 880px) {
-  .heroInner,
-  .sectionHead {
-    grid-template-columns: 1fr;
+.problem dd {
+  font-weight: 400;
+  color: var(--tw-muted);
+}
+.outcome dt {
+  color: var(--tw-fg);
+}
+.outcome dd {
+  font-weight: 600;
+  color: var(--tw-fg);
+}
+.pathArrow {
+  justify-self: start;
+  font-size: var(--tw-type-body-lg);
+  line-height: 1;
+  color: var(--tw-accent);
+  rotate: 90deg;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .pathArrow {
+    transition: translate var(--tw-duration-micro) var(--tw-ease-out);
   }
-
-  .heroThesis {
-    max-width: 36rem;
+  /* Nudge along the arrow's direction: down while rotated (<768), right from 768. */
+  .path:hover .pathArrow {
+    translate: 0 4px;
   }
-
-  .sectionHead > :first-child {
-    grid-column: auto;
-  }
-
-  .modelGrid,
-  .principles {
-    grid-template-columns: 1fr;
-  }
-
-  .modelCard + .modelCard,
-  .principle + .principle {
-    border-left: 0;
-    border-top: 1px solid var(--tw-line);
-  }
-
-  .noRelay {
-    grid-column: auto;
-  }
-
-  .principle {
-    min-height: auto;
-  }
-
-  .principle h3 {
-    margin-top: 2rem;
+}
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .path:hover .pathArrow {
+    translate: 4px 0;
   }
 }
 
-@media (max-width: 600px) {
-  .hero {
-    min-height: auto;
+/* ─── CTA ─── */
+.ctaGrid {
+  display: grid;
+  gap: 1rem;
+}
+/* Body-scale tokens on purpose (AC10, UX U8): the footer is the page's big ending. */
+.cta .ctaTitle {
+  margin-top: 1rem;
+  font-size: var(--tw-type-body-lg);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.ctaBody {
+  max-inline-size: 46ch;
+  font-size: var(--tw-type-body);
+  color: color-mix(in oklab, var(--tw-fg) 72%, transparent);
+}
+.ctaButton {
+  justify-self: start;
+  margin-top: 0.5rem;
+}
+
+/* ─── Breakpoints (canonical: 480 / 768 / 1024) ─── */
+@media (max-width: 480px) {
+  .hero .heroTitle {
+    font-size: var(--tw-type-statement);
+  }
+  .cta .ctaTitle {
+    font-size: var(--tw-type-body);
+  }
+  .totals > div {
+    padding-inline: 0.75rem;
+  }
+  .fields > div {
+    grid-template-columns: none;
+    gap: 0.25rem;
+    align-items: normal;
+  }
+}
+
+@media (min-width: 768px) {
+  .facts,
+  .shortBody {
+    max-inline-size: 40rem;
+  }
+  .cards {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(2rem, 4vh, 3rem) clamp(2rem, 5vw, 5rem);
+  }
+  .lead,
+  .compact {
+    grid-column: 1 / -1;
+  }
+  .side {
+    grid-column: span 6;
+  }
+  .compact .card {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: 1.25rem 1.5rem;
+    align-items: center;
+  }
+  .compact .cardBody {
+    padding-top: 0;
+  }
+  .frame {
+    max-inline-size: 36rem;
+  }
+  .ledger li {
+    grid-template-columns: 1.75rem minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 1.5rem;
+  }
+  .ledger .box {
+    grid-row: auto;
+  }
+  .detail {
+    grid-column: 3;
+  }
+  .path {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 1rem 1.5rem;
+  }
+  .pathIndex,
+  .pathTitle {
+    grid-column: 1 / -1;
+  }
+  .pathArrow {
+    align-self: center;
+    rotate: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroGrid {
+    grid-template-columns: minmax(0, 2fr) minmax(18rem, 1fr);
+    grid-template-areas:
+      'label label'
+      'title facts'
+      'lede .'
+      'promise .';
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+  .heroLabel {
+    grid-area: label;
+  }
+  /* Statement scale beside the fact sheet: the approved h1 (option B) runs to
+     7 lines at chapter scale and drops below the fold at 1440×900. */
+  .hero .heroTitle {
+    grid-area: title;
+    font-size: var(--tw-type-statement);
+  }
+  .lede {
+    grid-area: lede;
+  }
+  .promise {
+    grid-area: promise;
+  }
+  .facts {
+    grid-area: facts;
+    align-self: end;
+    max-inline-size: none;
+    margin-top: 0;
+  }
+
+  .shortGrid,
+  .trackHead,
+  .processStage,
+  .step,
+  .commitGrid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+  .shortGrid > :first-child {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  .shortTitle {
+    grid-column: 1 / 11;
+  }
+  .shortBody {
+    grid-column: 7 / 13;
+    max-inline-size: none;
+    margin-top: clamp(2.5rem, 6vh, 4.5rem);
+  }
+
+  .trackCopy {
+    grid-column: 1 / 7;
+  }
+  .mapFigure {
+    grid-column: 8 / 13;
+    align-self: end;
+    justify-self: end;
+  }
+  .lead {
+    grid-column: 1 / 9;
+    grid-row: span 2;
+  }
+  .side {
+    grid-column: 9 / 13;
+  }
+  .compact {
+    grid-column: span 6;
+  }
+  .lead .coverLink {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+  .lead .shot {
+    flex: 1;
+    aspect-ratio: auto;
+    min-block-size: 20rem;
+  }
+
+  .processHead {
+    grid-column: 1 / 8;
+  }
+  .steps {
+    grid-column: 1 / -1;
+    gap: 0;
+  }
+  .step {
+    align-items: start;
+    padding-block: clamp(2.5rem, 6vh, 4rem);
+    border-top: 1px solid var(--tw-line);
+  }
+  .stepText {
+    grid-column: 1 / 6;
+  }
+  .frame {
+    grid-column: 7 / 13;
+    max-inline-size: none;
+  }
+
+  .commitHead {
+    grid-column: 1 / 6;
+    align-self: start;
+  }
+  .ledger {
+    grid-column: 6 / 13;
+    margin-top: 0;
   }
 
   .path {
-    grid-template-columns: 2.25rem minmax(0, 1fr);
-    gap: 0.65rem 0.75rem;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 3fr) 2rem minmax(0, 4fr);
+    column-gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
   }
-
-  .pathArrow {
-    display: none;
+  .pathIndex,
+  .pathTitle {
+    grid-column: 1;
   }
-
-  .path p {
+  .problem,
+  .pathArrow,
+  .outcome {
+    grid-row: 1 / span 2;
+  }
+  .problem {
     grid-column: 2;
   }
+  .pathArrow {
+    grid-column: 3;
+    align-self: start;
+    justify-self: center;
+    margin-top: 1.4rem;
+  }
+  .outcome {
+    grid-column: 4;
+  }
 
-  .modelCard {
-    grid-template-columns: 2.25rem minmax(0, 1fr);
+  .ctaGrid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) auto;
+    column-gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+  .ctaButton {
+    justify-self: end;
+    margin-top: 0;
+  }
+
+  /* Pinned 03 stage. AboutMotion sets data-process-pinned on [data-process] (and
+     removes it on cleanup or when the stage doesn't fit the viewport). Every step
+     shares one grid cell, so the cell is the tallest step and nothing shifts. */
+  .process[data-process-pinned] .processStage {
+    min-height: 100vh;
+    min-height: 100svh;
+    align-content: center;
+    padding-top: clamp(5rem, 10vh, 7rem);
+  }
+  .process[data-process-pinned] .processHead {
+    grid-column: 1 / 6;
+    grid-row: 1;
+  }
+  .process[data-process-pinned] .rail {
+    display: flex;
+    grid-column: 1 / 6;
+    grid-row: 2;
+    align-self: start;
+    margin-top: 2.5rem;
+  }
+  .process[data-process-pinned] .steps {
+    display: grid;
+    grid-column: 7 / 13;
+    grid-row: 1 / 3;
+    align-self: center;
+    margin-top: 0;
+  }
+  .process[data-process-pinned] .step {
+    grid-area: 1 / 1;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    padding: 0;
+    border-top: 0;
+  }
+  .process[data-process-pinned] .stepText,
+  .process[data-process-pinned] .frame {
+    grid-column: auto;
+  }
+  .process[data-process-pinned] .steps:has([data-step-active]) .step:not([data-step-active]) {
+    pointer-events: none;
+  }
+  .process[data-process-pinned] .step[data-step-active] {
+    z-index: 1;
   }
 }

@@ -2,7 +2,7 @@ import { CONCEPT_SITES, type ConceptSite } from '@/data/concept-sites'
 import Section from '@/components/immersive/primitives/Section'
 import SectionLabel from '@/components/immersive/primitives/SectionLabel'
 import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
-import BrowserBar from './BrowserBar'
+import BrowserBar from '@/components/BrowserBar'
 import styles from './work.module.css'
 import LiveConceptPreview from './LiveConceptPreview'
 import {
