@@ -8,14 +8,15 @@
 
 ## ▶ NEXT
 
-**Stage 13 Reference home (13.1) — done, owner-approved 2026-10-10, PR open on `stage-13/reference-home`.** Merge once
-CI is green (CI runs the real Turbopack build). Then 13.2: carry the reference style to the inner pages.
+**Stage 14 Redesign rollout — owner away, Claude works through it alone (no agents, D-046).** One stacked PR per
+group: 14.0 foundation → 14.1 services → 14.2 work → 14.3 about → 14.4 conversion → 14.5 reading → 14.6 edges.
+Each PR is based on the previous group's branch; owner reviews and merges in order.
 **Stage 7 — owner launch gates.** 7.1 and 7.6 done on `stage-7/release`. Next: 🔒 7.2 preview review
 (include `/work` Lighthouse on the preview, see 7.1), 7.3 form test, 7.5 launch.
 
 ## Progress
 
-**23 / 28 tasks done** · rebuilt for the redesign 2026-10-04
+**24 / 35 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -29,7 +30,9 @@ CI is green (CI runs the real Turbopack build). Then 13.2: carry the reference s
 | 8. Showpiece | Home skyline: hero (D-038) + whole-page journey (D-039) | 2/2 | ✅ (PR #11 merged) |
 | 9. Work clarity | `/work` shows the work first, with less to read (D-040) | 1/1 | ✅ (PR #12 merged) |
 | 10. About | `/about` proves who we are: proof, process, commitments (D-041) | 1/1 | ✅ (PR #13 merged) |
-| 13. Reference home | Home rebuilt to the reference composition + Inter Tight (D-045) | 1/2 | 🟡 (13.1 PR #14 open) |
+| 12. Atmosphere | Inner pages float over a dark green checkered backdrop (D-043) | 1/1 | ✅ (12.2 → Stage 14) |
+| 13. Reference home | Home rebuilt to the reference composition + Inter Tight (D-045) | 1/1 | ✅ (PR #14 merged) |
+| 14. Redesign rollout | Every inner page in the Home grammar, one PR per group (D-046) | 0/7 | 🟡 |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
 
@@ -184,6 +187,17 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   (was 89), a11y/BP/SEO 100; page height 7.6k → 6.6k px desktop, 10.7k → 9.6k mobile.
   `/ponytail-review` applied (4 trims, ~20 lines).
 
+## Stage 12 — Atmosphere
+
+- ✅ **12.1 Checkered backdrop + floating depth on `/work`** (D-043) — 2026-10-09, `stage-12/atmosphere`.
+  `ImmersiveShell backdrop="checker"` + new `immersive/DepthMotion.tsx`. Pattern drifts at 0.3× scroll,
+  featured covers / more-work thumbs / Concept Lab cards drift ±16–28px (desktop only). Lighthouse `/work`
+  (local, prod build) unchanged: perf 89–90 before and after, a11y 100, CLS 0, TBT 5–6ms. Unit 32 pass;
+  e2e 353 pass against the dev server (404-route sweep times out on `networkidle` in dev only — passes
+  on the prod build).
+- ➡️ 12.2 folded into Stage 14 — — `/services`, `/services/*`, `/about`, `/contact`,
+  `/work/[slug]`, legal, 404. One prop each + `data-depth` on opaque proof panels.
+
 ## Stage 10 — About
 
 - ✅ **10.1 `/about` rebuild** (D-041) — 2026-10-07, `stage-10/about`. Owner-approved plan after a
@@ -212,7 +226,20 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   - TBT: Lighthouse mobile median TBT 0 ms over 6 runs, but single runs spike to ~190 ms — a rAF task
     where the first WebGL frame's compositor commit lands (headless software GL). Not a HomeMotion cost
     (its setup is ~27 ms at 4× CPU). Recheck on the Vercel preview with real GPU before treating as a gap.
-- ⬜ **13.2 Carry the reference style to inner pages** — after owner review of 13.1.
+- ➡️ 13.2 folded into Stage 14.
+
+## Stage 14 — Redesign rollout (D-046)
+
+Skill: `.claude/skills/reference-redesign/SKILL.md`. Checkered backdrop (D-043) on every inner route.
+
+- 🟡 **14.0 Foundation** — branch `redesign/0-foundation`. Shared reference primitives extracted from Home
+  (Home unchanged), backdrop on by default for inner routes, skill committed.
+- ⬜ **14.1 Services** — `/services`, `/services/web`, `/services/software`, `/services/ai`.
+- ⬜ **14.2 Work** — `/work`, `/work/[slug]`.
+- ⬜ **14.3 About** — `/about`.
+- ⬜ **14.4 Conversion** — `/contact`, `/bottleneck-review`.
+- ⬜ **14.5 Reading** — `/insights`, `/insights/[slug]`.
+- ⬜ **14.6 Edges** — `/privacy`, `/terms`, 404, error.
 
 ## Later / rejected
 

@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import SmoothScroll from '@/components/immersive/SmoothScroll'
+import DepthMotion from '@/components/immersive/DepthMotion'
 
 /** Scene accents from docs/03_DESIGN_SYSTEM.md — one accent dominates per viewport. */
 export type SceneName =
@@ -25,6 +26,8 @@ type ImmersiveShellProps = {
   children: ReactNode
   /** Accent for the route's CSS atmosphere. Defaults to intro (acid). */
   scene?: SceneName
+  /** Opt-in checkered backdrop with floating depth (D-043). Never on Home. */
+  backdrop?: 'checker'
   className?: string
 }
 
@@ -40,6 +43,7 @@ type ImmersiveShellProps = {
 export default function ImmersiveShell({
   children,
   scene = 'intro',
+  backdrop,
   className,
 }: ImmersiveShellProps) {
   const style = { '--tw-accent': SCENE_ACCENT[scene] } as CSSProperties
@@ -47,6 +51,14 @@ export default function ImmersiveShell({
   return (
     <div className={cn('tw-world', className)} data-scene={scene} style={style}>
       <SmoothScroll />
+      {backdrop === 'checker' && (
+        <>
+          <div className="tw-backdrop" aria-hidden="true">
+            <div className="tw-backdrop__pattern" data-backdrop-pattern />
+          </div>
+          <DepthMotion />
+        </>
+      )}
       {children}
     </div>
   )

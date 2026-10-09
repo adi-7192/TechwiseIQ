@@ -42,6 +42,18 @@ Running log of all changes made to the codebase. Most recent first.
 - Tests: `tests/e2e/about-experience.spec.ts` rewritten (structure, honesty, pin, fallback, touch
   targets, CLS, reduced motion, no-JS).
 
+## 2026-10-09 — Checkered backdrop + floating depth on /work (ROADMAP 12.1, D-043)
+
+- `ImmersiveShell` gains opt-in `backdrop="checker"`: fixed `.tw-backdrop` layer (globals.css) — dark
+  green checker (SVG mask over acid 7% in `--tw-bg`, 48px / 32px on phones), radial edge fade
+  (`scene-glow-ok`, D-043).
+- New `src/components/immersive/DepthMotion.tsx`: ScrollTrigger-driven backdrop drift (0.3× / 0.15×
+  phones) and `[data-depth]` panel drift via `translate`; off on phones (panels) and under reduced motion.
+- `/work`: backdrop on; `data-depth` on featured covers (28), more-work thumbs (16), Concept Lab cards
+  (16/28 alternating).
+
+---
+
 ## 2026-10-06 — /work clarity + trust pass (ROADMAP 9.1, D-040)
 
 - Hero: eyebrow "Our work", new intro, totals `<dl>` moved from below the projects into the hero

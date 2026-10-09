@@ -155,6 +155,22 @@ Performance budget: one WebGL renderer (session singleton, guarded against dupli
 Full checklist: `docs/anti-slop-checklist.md`. System-specific don'ts from the design brief:
 No hosted third-party 3D scenes (Spline and friends) — a second WebGL runtime, an asset we do not own, and a bundle we cannot budget for. No generic glass cards everywhere. No neon purple+blue gradient as a default "AI" identity. No meaningless KPI dashboards. No random particle explosions. No 3D spheres behind every heading. No tiny low-contrast copy. No endless logo/testimonial blocks without evidence. No rounded-card overload — radius is reserved for proof objects, floating artifacts, and CTAs (§3). No second scroll/animation library. No fabricated metrics in proof objects — sample data must read as sample data.
 
+## Checkered backdrop — 2026-10-09 (D-043)
+
+Inner routes (never Home) opt in with `<ImmersiveShell backdrop="checker">`. The shell renders
+`.tw-backdrop` (fixed, `z-index: -1`, between the scene glow and the grain) and mounts `DepthMotion`.
+
+- **Look.** Checker squares of `--tw-checker` (48px; 32px ≤768px), drawn as an SVG mask over
+  `color-mix(in oklab, var(--tw-acid) 7%, var(--tw-bg))`. The outer layer fades the pattern toward the
+  edges with one radial mask — the second sanctioned `scene-glow-ok` gradient. No new colour token.
+  Muted text over the brightest square stays above AA.
+- **Float.** `DepthMotion` drifts the pattern at 0.3× page scroll (0.15× on phones), wrapping one tile
+  so the layer stays one viewport tall. Opaque proof panels tagged `data-depth="<px>"` drift ±px across
+  their pass through the viewport (§5 proof-object depth), via the standalone `translate` property so
+  hover `transform`s still compose. Copy is never tagged.
+- **Contract.** Rides the Lenis → ScrollTrigger feed (no scroll listener of its own), no per-frame
+  layout reads, compositor-only writes. Phones: no panel drift. Reduced motion: still pattern, no drift.
+
 
 ## Homepage refinement — 2026-09-05
 

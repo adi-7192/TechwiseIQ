@@ -105,6 +105,13 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
   1024/1280 (decorative); Home `data-home-reveal` still uses `autoAlpha`; untested: Safari/Firefox,
   real devices, screen readers, real browser zoom.
 
+- **2026-10-09** — 12.1 checkered backdrop on `/work` (D-043). Owner asked for a subtle dark green
+  checkered "gradient" behind every page except Home with content that floats like Home's; chose
+  checkers over a line grid. Lenis was already on every route, so the float is ScrollTrigger parallax on
+  top of it (`DepthMotion`), no new library. Lighthouse `/work` unchanged (perf 89–90 is pre-existing,
+  LCP-bound — see 7.1). Stage 11 `/contact` work was committed on `stage-11/contact` before branching.
+  Next: owner review, then 12.2 rollout.
+
 - **2026-10-06** — 9.1 `/work` clarity pass (D-040), owner-approved plan after reviewing the page at
   390/1440: no work above the fold, 3 accents in one viewport, ~70 words per card, totals buried,
   5 white pills, mixed section markers, double closing headline. Owner choices: Before → Result cards,

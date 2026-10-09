@@ -300,6 +300,23 @@ the "Illustrative" tag; no invented client names or metrics as fact (D-002).
 *Apply:* reference = idea source, never pasted (handoff CLAUDE.md). Copy stays the site's current
 approved copy unless the owner approves reference lines. Inner pages follow in a later stage.
 
+**D-043 — Inner pages float over a dark green checkered backdrop.** 2026-10-09 · owner ("add a checkered gradient in all the pages except home… dark green subtle checkered… make the content over it float"; chose checkers over a line grid) · extends §7's gradient exception.
+Every route except Home gets a fixed checker layer (48px squares, 32px on phones) in acid mixed 7%
+into `--tw-bg`, faded toward the edges by one radial mask — the second sanctioned `scene-glow-ok`
+gradient. Lenis stays the scroll driver; the float is parallax on top of it via ScrollTrigger: the
+pattern drifts at 0.3× scroll (0.15× on phones), and `[data-depth]` proof panels drift ±16–28px.
+*Apply:* opt in with `<ImmersiveShell backdrop="checker">` and tag opaque proof panels with
+`data-depth` (never text blocks, never on Home). Transform/translate only, no own scroll listener,
+no panel drift on phones, still backdrop and no drift under reduced motion. Rolled out route by
+route, `/work` first (ROADMAP 12.1).
+
+**D-046 — Every inner page is redesigned in the Home grammar, group by group.** 2026-10-10 · owner ("we wanna re work all the pages… the home page design theory needs to be replicated in all the other pages"; "use checkered backdrop or try a different one which should look good, one PR per group… do all the changes by yourself… no multi agent work")
+Rollout follows `.claude/skills/reference-redesign/SKILL.md`: 14.0 foundation → services → work → about →
+conversion → reading → edges, one PR per group. Every inner route gets the D-043 checkered backdrop by
+default (Home keeps the skyline). Owner is away: Claude builds without the per-page approval gate and
+without sub-agents (overrides D-020 for this stage); new copy strings are listed in each PR for review.
+The stage-12 footer-arrow edits (D-044) are stashed, not merged; the footer is revisited in 14.6.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

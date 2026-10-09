@@ -54,7 +54,7 @@ export default function WorkPage() {
   const deliveryMetrics = getDeliveryMetrics(CASE_STUDIES)
 
   return (
-    <ImmersiveShell scene="web">
+    <ImmersiveShell scene="web" backdrop="checker">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
