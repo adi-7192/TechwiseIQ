@@ -83,6 +83,11 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-10** — 14.0 rollout foundation (D-046), `redesign/0-foundation`. Owner away; Claude works
+  alone with no agents. Reference primitives in `immersive/reference/`, checkered backdrop default on
+  inner routes, skill committed. Stage-12 footer work is `git stash` "stage-12 footer arrows D-044…".
+  Group PRs stack: each `redesign/<n>-<group>` is based on the previous group's branch.
+
 - **2026-10-10** — 13.1 Home to the reference composition (D-045), branch `stage-13/reference-home`,
   worktree `website-stage-13`. Built through the full pipeline; UX recheck SHIP; its should-fixes closed
   (opacity-only reveals keep chapter links tabbable, intro 3 s failsafe, pill focus radius, mock-pill

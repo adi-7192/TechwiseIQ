@@ -26,8 +26,8 @@ type ImmersiveShellProps = {
   children: ReactNode
   /** Accent for the route's CSS atmosphere. Defaults to intro (acid). */
   scene?: SceneName
-  /** Opt-in checkered backdrop with floating depth (D-043). Never on Home. */
-  backdrop?: 'checker'
+  /** Checkered backdrop with floating depth (D-043), on by default (D-046). Home passes 'none'. */
+  backdrop?: 'checker' | 'none'
   className?: string
 }
 
@@ -43,7 +43,7 @@ type ImmersiveShellProps = {
 export default function ImmersiveShell({
   children,
   scene = 'intro',
-  backdrop,
+  backdrop = 'checker',
   className,
 }: ImmersiveShellProps) {
   const style = { '--tw-accent': SCENE_ACCENT[scene] } as CSSProperties

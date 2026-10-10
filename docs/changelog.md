@@ -4,6 +4,16 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-10 — Redesign rollout foundation (ROADMAP 14.0, D-046)
+
+- `src/components/immersive/reference/`: `RefHero`, `RefIntro`, `Chapter`, `CapabilityGrid`, `Panel`,
+  `ClosingCta`, `PillNav` (IntersectionObserver active state) + `reference.module.css`, mirroring Home's
+  grammar. Home is not migrated onto them yet.
+- Checkered backdrop (D-043, cherry-picked from `stage-12/atmosphere`) is on by default in
+  `ImmersiveShell`; Home passes `backdrop="none"`.
+- Skill `.claude/skills/reference-redesign/SKILL.md` for redesigning one page at a time.
+- Stage-12 footer-arrow edits (D-044) stashed, not merged.
+
 ## 2026-10-10 — Home to the reference composition (ROADMAP 13.1, D-045)
 
 - Owner-approved 2026-10-10. QA contrast blocker fixed: every Home stop ≥ 4.5:1 at 390 and 1440, with
