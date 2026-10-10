@@ -83,6 +83,18 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-07** — 10.1 `/about` rebuild (D-041). The first orchestrator run hit the account's
+  session limit after the build; a fresh run finished review + QA from what was on disk. UX blocked
+  twice (20px card links on touch; the pin's stacked fallback glided because `html` has
+  `scroll-behavior: smooth`), QA failed once on perf (median 90 vs baseline 94) → hero paints before
+  the motion bootstrap, covers deferred → PASS. Owner then chose h1 option B, which ran to 7 lines at
+  chapter scale (978px at 1440×900): desktop h1 now uses `--tw-type-statement`. Open, not blocking:
+  `/about` Lighthouse margin is thin on localhost (re-check on the Vercel preview); root layout
+  preloads four woff2 (~80KB) before LCP site-wide (own ticket); Lenis wait in the fit guard is
+  frame-capped (60 frames ≈ 0.5s at 120Hz); BrowserBar hostnames truncate in compact cards at
+  1024/1280 (decorative); Home `data-home-reveal` still uses `autoAlpha`; untested: Safari/Firefox,
+  real devices, screen readers, real browser zoom.
+
 - **2026-10-06** — 9.1 `/work` clarity pass (D-040), owner-approved plan after reviewing the page at
   390/1440: no work above the fold, 3 accents in one viewport, ~70 words per card, totals buried,
   5 white pills, mixed section markers, double closing headline. Owner choices: Before → Result cards,

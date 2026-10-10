@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { CASE_STUDIES } from '@/data/case-studies'
 import type { CaseStudy } from '@/types'
 import SectionLabel from '@/components/immersive/primitives/SectionLabel'
-import BrowserBar from './BrowserBar'
+import BrowserBar from '@/components/BrowserBar'
 import { getProjectStatus, partitionProjects } from './work-projects'
 import styles from './work.module.css'
 
