@@ -685,6 +685,8 @@ test('orbit cards clear the hero copy with the pointer in every corner at 1025',
 
 for (const [width, height] of [[1440, 900], [769, 800]]) {
   test(`focused controls are never hidden behind fixed UI at ${width}x${height}`, async ({ page }) => {
+    // 320 key presses over a WebGL page: ~30s locally, slower on CI runners.
+    test.setTimeout(90_000)
     await openMotionHome(page, width, height)
     const check = () =>
       page.evaluate(() => {
