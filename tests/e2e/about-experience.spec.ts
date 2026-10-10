@@ -199,7 +199,7 @@ test('service rows link to the three services with the KEEP copy', async ({ page
   }
 })
 
-test('keyboard: exactly nine tab stops in main, in order', async ({ page }) => {
+test('keyboard: chapter nav, then nine tab stops in main, in order', async ({ page }) => {
   await page.goto('/about')
   await page.locator('#about-title').click()
   const stops: string[] = []
@@ -213,6 +213,12 @@ test('keyboard: exactly nine tab stops in main, in order', async ({ page }) => {
     stops.push(href)
   }
   expect(stops).toEqual([
+    // The chapter nav sits right after the hero (D-046, like Home).
+    '#short-version',
+    '#track-record',
+    '#process',
+    '#commitments',
+    '#services',
     ...ordered.map((cs) => `/work/${cs.slug}`),
     '/services/web',
     '/services/software',
@@ -530,7 +536,9 @@ async function firstMainStop(page: Page) {
     await page.keyboard.press('Tab')
     const href = await page.evaluate(() => {
       const el = document.activeElement
-      return el?.closest('main') ? el.getAttribute('href') : null
+      // The fixed chapter nav (D-046) is not page content; skip it.
+      if (!el?.closest('main') || el.closest('nav[aria-label="Page chapters"]')) return null
+      return el.getAttribute('href')
     })
     if (href) return href
   }

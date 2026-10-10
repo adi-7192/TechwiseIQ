@@ -433,3 +433,10 @@ well on the thesis side. Opaque illustration surfaces stop the Home text-shadow 
 pointer tilt"). Section content = reveal. Skyline = ambient persistence + chapter transition. Static
 tilts use the CSS `rotate` property so GSAP transforms compose with them. Reduced motion: cards
 static (tilt kept), no parallax or pointer response, content shown directly.
+
+## Inner-page rollout — 2026-10-10 (D-046)
+
+Inner pages use the blocks in `src/components/immersive/reference/` and the skill
+`.claude/skills/reference-redesign/SKILL.md`. Every inner route sits on the checkered backdrop (D-043)
+by default. `DisplayHeading`'s `<em>` is the grey ghost run (muted, 400), not an accent. No page adds
+a closing CTA section: the footer is the close.

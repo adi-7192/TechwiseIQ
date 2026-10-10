@@ -83,6 +83,9 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-10** — 14.3 about (`redesign/3-about`). Light touch: D-041 layout/motion kept; ghost `<em>`
+  site-wide via `DisplayHeading`; pill nav. Full e2e 427/427 on a local prod build.
+
 - **2026-10-10** — 14.2 work (`redesign/2-work`, stacked on 14.1). Work + case-study + concept specs,
   a11y and responsive green against a local prod build.
 

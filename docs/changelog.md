@@ -4,6 +4,15 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-10 — About in the reference grammar (ROADMAP 14.3, D-046)
+
+- `DisplayHeading` `<em>` is now the grey ghost run (muted, weight 400) instead of the acid accent, and
+  statement/h2 sizes get the reference's tighter tracking. This applies site-wide wherever headings
+  use `<em>` (About, Contact, Insights, legal).
+- `/about`: pill nav (Short version / Track record / Process / Commitments / Services) right after the
+  hero. Layout, motion and copy from D-041 unchanged (fact sheet stays beside the h1).
+- Tests: About tab-order tests account for the chapter nav. Full e2e 427/427 locally.
+
 ## 2026-10-10 — Work in the reference grammar (ROADMAP 14.2, D-046)
 
 - `/work`: centred "Proof, not / promises." hero with the orbit cards and the totals as one centred row;
