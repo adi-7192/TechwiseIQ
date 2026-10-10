@@ -17,7 +17,7 @@
   place-items: center;
   min-height: 86vh;
   min-height: 86svh;
-  padding: 8rem var(--tw-page-pad) 6rem;
+  padding: 10.5rem var(--tw-page-pad) 6rem;
   overflow: clip;
   isolation: isolate;
   text-align: center;

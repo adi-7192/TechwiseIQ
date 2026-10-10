@@ -1,10 +1,7 @@
 import type { Metadata } from 'next'
 import ImmersiveShell from '@/components/immersive/ImmersiveShell'
-import Section from '@/components/immersive/primitives/Section'
-import SectionLabel from '@/components/immersive/primitives/SectionLabel'
-import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
 import { SiteHeader, SiteFooter } from '@/components/global'
-import PrimaryCTA from '@/components/ui/PrimaryCTA'
+import { RefHero, RefIntro, CapabilityGrid, PillNav } from '@/components/immersive/reference'
 import { CASE_STUDIES } from '@/data/case-studies'
 import { socialMetadata } from '@/lib/metadata'
 import ConceptLab from './ConceptLab'
@@ -61,18 +58,15 @@ export default function WorkPage() {
       />
       <SiteHeader />
       <main id="main" data-work-experience data-testid="work-experience">
-        {/* 1 · Hero: orient, then prove */}
-        <Section as="header" density="flush" innerClassName={styles.heroGrid}>
-          <div className={styles.heroCopy}>
-            <SectionLabel>Our work</SectionLabel>
-            <DisplayHeading as="h1" size="hero" className={styles.heroTitle}>
-              Proof, not <span>promises.</span>
-            </DisplayHeading>
-            <p className={styles.heroIntro}>
-              Real sites for real businesses. Open any of them and judge for
-              yourself.
-            </p>
-          </div>
+        <RefHero
+          eyebrow="Our work"
+          line="Proof, not"
+          ghost="promises."
+          lead="Real sites for real businesses. Open any of them and judge for yourself."
+          primary={{ href: '#selected-work', label: 'See the work' }}
+          secondary={{ href: '/contact', label: 'Bring us the problem' }}
+          orbit
+        >
           {deliveryMetrics.length > 0 && (
             <dl className={styles.heroProof} aria-label="Published work totals">
               {deliveryMetrics.map((metric) => (
@@ -83,97 +77,38 @@ export default function WorkPage() {
               ))}
             </dl>
           )}
-          <div className={styles.heroActions}>
-            <PrimaryCTA href="/contact" variant="ghost">
-              Bring us the problem
-            </PrimaryCTA>
-          </div>
-        </Section>
+        </RefHero>
+        <PillNav
+          items={[
+            ['selected-work', 'Client work'],
+            ['concept-lab', 'Concept Lab'],
+            ['how-we-work', 'How we work'],
+          ]}
+        />
 
-        {/* 2 · Selected client work — visually dominant */}
-        <Section
-          id="selected-work"
-          ruled
-          density="dense"
-          aria-labelledby="selected-work-title"
-        >
-          <div className={styles.workHead}>
-            <div className={styles.sectionIntro}>
-              <SectionLabel index="01">Selected client work</SectionLabel>
-              <DisplayHeading
-                as="h2"
-                size="h2"
-                id="selected-work-title"
-                className={styles.sectionTitle}
-              >
-                Live client <span>sites.</span>
-              </DisplayHeading>
-            </div>
-          </div>
+        <RefIntro id="selected-work" count="01 / Selected client work" line="Live client" ghost="sites.">
           <FeaturedWork />
-        </Section>
+        </RefIntro>
 
-        {/* 3 · Concept Lab — self-initiated, clearly labelled */}
         <ConceptLab />
 
-        {/* 4 · How we work */}
-        <Section ruled density="sparse" aria-labelledby="operating-title">
-          <div className={styles.sectionIntro}>
-            <SectionLabel index="03">How we work</SectionLabel>
-            <DisplayHeading
-              as="h2"
-              size="h2"
-              id="operating-title"
-              className={styles.sectionTitle}
-            >
-              Clear from kickoff <span>to launch.</span>
-            </DisplayHeading>
-            <p className={styles.sectionBody}>
-              A simple process, progress you can see, and{' '}
-              <strong>straight answers</strong> all the way.
-            </p>
-          </div>
-          <div className={styles.operatingGrid}>
-            {OPERATING.map(([index, title, body]) => (
-              <div key={index} className={styles.operatingStep}>
-                <span className={styles.operatingIndex}>{index}</span>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        {/* 5 · Final CTA: compact, about the work */}
-        <Section
-          ruled
-          density="dense"
-          innerClassName={styles.ctaGrid}
-          aria-labelledby="work-cta-title"
+        <RefIntro
+          id="how-we-work"
+          count="03 / How we work"
+          line="Clear from kickoff"
+          ghost="to launch."
+          aside={
+            <>
+              A simple process, progress you can see, and <strong>straight answers</strong> all the
+              way.
+            </>
+          }
         >
-          <div>
-            <SectionLabel>Your turn</SectionLabel>
-            <DisplayHeading
-              as="h2"
-              size="h2"
-              id="work-cta-title"
-              className={styles.ctaTitle}
-            >
-              Want one like these? <span>Or something harder?</span>
-            </DisplayHeading>
-          </div>
-          <div>
-            <p className={styles.ctaBody}>
-              Tell us what you need. We reply within 24 hours, then send a
-              written scope after a short call.
-            </p>
-            <div className={styles.ctaActions}>
-              <PrimaryCTA href="/contact" variant="primary">
-                Bring us the problem
-              </PrimaryCTA>
-            </div>
-          </div>
-        </Section>
+          <CapabilityGrid
+            cols={4}
+            items={OPERATING.map(([label, title, body]) => ({ label, title, body }))}
+          />
+        </RefIntro>
       </main>
       <SiteFooter />
     </ImmersiveShell>

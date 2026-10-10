@@ -548,3 +548,14 @@
   gap: 0.85rem;
   margin-block-start: clamp(2rem, 4vh, 2.75rem);
 }
+
+/* Stage 14.2: the hero is RefHero (centred, reference grammar). */
+.heroDot {
+  color: var(--tw-accent);
+}
+.experience .breadcrumb {
+  justify-content: center;
+}
+.experience .heroMeta {
+  margin-top: 0.75rem;
+}

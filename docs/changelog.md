@@ -4,6 +4,15 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-10 — Work in the reference grammar (ROADMAP 14.2, D-046)
+
+- `/work`: centred "Proof, not / promises." hero with the orbit cards and the totals as one centred row;
+  "Live client / sites." and Concept Lab and How we work as reference intros (ruled 4-col process grid);
+  pill nav; the closing "Want one like these?" section removed (the footer closes the page).
+- `/work/[slug]`: centred RefHero (breadcrumb + meta, title with accent full stop, outcome, live-site +
+  contact pills); the duplicate project CTA section removed. Story chapters unchanged.
+- RefHero top padding raised so orbit cards clear the header.
+
 ## 2026-10-10 — Services in the reference grammar (ROADMAP 14.1, D-046)
 
 - `/services`: centred ghost-line hero with the connected-system demo floating below; "Three services. One

@@ -83,6 +83,9 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-10** — 14.2 work (`redesign/2-work`, stacked on 14.1). Work + case-study + concept specs,
+  a11y and responsive green against a local prod build.
+
 - **2026-10-10** — 14.1 services (`redesign/1-services`, stacked on 14.0). Service e2e + responsive
   217/217, a11y 6/6 against a local prod build. New strings for owner review are listed in the PR.
 
