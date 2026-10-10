@@ -1,7 +1,6 @@
 import { CONCEPT_SITES, type ConceptSite } from '@/data/concept-sites'
-import Section from '@/components/immersive/primitives/Section'
 import SectionLabel from '@/components/immersive/primitives/SectionLabel'
-import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
+import { refStyles } from '@/components/immersive/reference'
 import BrowserBar from '@/components/BrowserBar'
 import styles from './work.module.css'
 import LiveConceptPreview from './LiveConceptPreview'
@@ -64,22 +63,24 @@ export default function ConceptLab() {
   if (CONCEPT_SITES.length === 0) return null
 
   return (
-    <Section ruled density="dense" className={styles.conceptLab}>
-      <div data-testid="concept-lab">
-        <div className={styles.sectionIntro}>
-          <SectionLabel index="02">Concept Lab / Self-initiated</SectionLabel>
-          <DisplayHeading as="h2" size="h2" className={styles.sectionTitle}>
-            What else could we <span>build?</span>
-          </DisplayHeading>
-          <p className={styles.sectionBody}>
-            Sites we built for ourselves to try new looks, industries and
-            ideas.
-          </p>
-          <p className={styles.conceptDisclosure}>
-            Concept work — not client commissions
-          </p>
+    <section
+      id="concept-lab"
+      className={`${refStyles.section} ${styles.conceptLab}`}
+      aria-labelledby="concept-lab-title"
+    >
+      <div className="tw-wrap" data-testid="concept-lab">
+        <div className={refStyles.introGrid}>
+          <SectionLabel hideMark className={refStyles.introCount}>
+            02 / Concept Lab / Self-initiated
+          </SectionLabel>
+          <h2 id="concept-lab-title" className={refStyles.introTitle}>
+            <span>What else could we</span> <span className={refStyles.ghost}>build?</span>
+          </h2>
+          <div className={refStyles.introAside}>
+            <p>Sites we built for ourselves to try new looks, industries and ideas.</p>
+            <p className={styles.conceptDisclosure}>Concept work — not client commissions</p>
+          </div>
         </div>
-
         <div
           className={styles.conceptTrail}
           data-testid="concept-exhibition"
@@ -139,6 +140,6 @@ export default function ConceptLab() {
           })}
         </div>
       </div>
-    </Section>
+    </section>
   )
 }

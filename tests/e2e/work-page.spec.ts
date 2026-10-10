@@ -85,12 +85,6 @@ test.describe('Work proof archive (immersive)', () => {
         name: 'Clear from kickoff to launch.',
       }),
     ).toBeVisible()
-    await expect(
-      page.getByRole('heading', {
-        level: 2,
-        name: 'Want one like these? Or something harder?',
-      }),
-    ).toBeVisible()
   })
 
   test('links both projects to stable case-study pages', async ({ page }) => {

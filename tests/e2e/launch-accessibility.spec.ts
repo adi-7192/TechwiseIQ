@@ -37,7 +37,7 @@ test.describe('launch accessibility hardening', () => {
 
     await page.goto('/work')
     await expect(
-      page.getByRole('heading', { level: 1 }).locator('span'),
+      page.getByRole('heading', { level: 1 }).locator('[data-ref-line]').last(),
     ).toHaveCSS('color', 'rgb(138, 145, 140)')
     await expect(page.getByText('Selected client work')).toBeVisible()
   })

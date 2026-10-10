@@ -16,7 +16,7 @@ Each PR is based on the previous group's branch; owner reviews and merges in ord
 
 ## Progress
 
-**26 / 35 tasks done** · rebuilt for the redesign 2026-10-04
+**27 / 35 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -32,7 +32,7 @@ Each PR is based on the previous group's branch; owner reviews and merges in ord
 | 10. About | `/about` proves who we are: proof, process, commitments (D-041) | 1/1 | ✅ (PR #13 merged) |
 | 12. Atmosphere | Inner pages float over a dark green checkered backdrop (D-043) | 1/1 | ✅ (12.2 → Stage 14) |
 | 13. Reference home | Home rebuilt to the reference composition + Inter Tight (D-045) | 1/1 | ✅ (PR #14 merged) |
-| 14. Redesign rollout | Every inner page in the Home grammar, one PR per group (D-046) | 2/7 | 🟡 |
+| 14. Redesign rollout | Every inner page in the Home grammar, one PR per group (D-046) | 3/7 | 🟡 |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
 
@@ -235,7 +235,7 @@ Skill: `.claude/skills/reference-redesign/SKILL.md`. Checkered backdrop (D-043) 
 - ✅ **14.0 Foundation** — 2026-10-10, branch `redesign/0-foundation`. Shared reference primitives extracted from Home
   (Home unchanged), backdrop on by default for inner routes, skill committed.
 - ✅ **14.1 Services** — 2026-10-10, `redesign/1-services`. `/services`, `/services/web`, `/services/software`, `/services/ai`.
-- ⬜ **14.2 Work** — `/work`, `/work/[slug]`.
+- ✅ **14.2 Work** — 2026-10-10, `redesign/2-work`. `/work`, `/work/[slug]`.
 - ⬜ **14.3 About** — `/about`.
 - ⬜ **14.4 Conversion** — `/contact`, `/bottleneck-review`.
 - ⬜ **14.5 Reading** — `/insights`, `/insights/[slug]`.

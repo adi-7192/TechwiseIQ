@@ -726,3 +726,20 @@
     transform: none;
   }
 }
+
+/* Stage 14.2: totals sit as one centred row under the RefHero actions. */
+.heroProof.heroProof {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 40rem;
+  margin: 0 auto;
+  text-align: left;
+}
+.heroProof .metric.metric {
+  padding: 1.25rem 0;
+  border-bottom: 0;
+}
+.heroProof .metric + .metric.metric {
+  padding-inline-start: 1rem;
+  border-left: 1px solid var(--tw-line);
+}

@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import ImmersiveShell from '@/components/immersive/ImmersiveShell'
 import { SiteHeader, SiteFooter } from '@/components/global'
-import PrimaryCTA from '@/components/ui/PrimaryCTA'
+import { RefHero } from '@/components/immersive/reference'
 import {
   CASE_STUDIES,
   SERVICE_LABELS,
@@ -86,25 +86,34 @@ export default async function CaseStudyPage({ params }: Props) {
         data-testid="case-study-experience"
       >
         {/* Hero */}
-        <section className={styles.hero}>
-          <div className={styles.wrap}>
-            <div className={styles.breadcrumb}>
-              <Link href="/work" className={styles.back}>
-                Work
-              </Link>
-              <span aria-hidden="true">/</span>
-              <span>{cs.title}</span>
-            </div>
-            <p className={styles.heroMeta}>
-              {cs.industry} / {SERVICE_LABELS[cs.service]} / {cs.timeline}
-            </p>
-            <h1 className={styles.title}>
+        <RefHero
+          id="case-hero"
+          crumb={
+            <>
+              <div className={styles.breadcrumb}>
+                <Link href="/work" className={styles.back}>
+                  Work
+                </Link>
+                <span aria-hidden="true">/</span>
+                <span>{cs.title}</span>
+              </div>
+              <p className={styles.heroMeta}>
+                {cs.industry} / {SERVICE_LABELS[cs.service]} / {cs.timeline}
+              </p>
+            </>
+          }
+          line={
+            <>
               {cs.title}
-              <span aria-hidden="true">.</span>
-            </h1>
-            <p className={styles.outcome}>{cs.outcome}</p>
-          </div>
-        </section>
+              <span className={styles.heroDot} aria-hidden="true">
+                .
+              </span>
+            </>
+          }
+          lead={cs.outcome}
+          primary={cs.liveUrl ? { href: cs.liveUrl, label: 'Visit the live site', external: true } : undefined}
+          secondary={{ href: '/contact', label: 'Bring us the problem' }}
+        />
 
         {/* Project facts */}
         <section className={styles.facts} aria-label="Project facts">
@@ -346,26 +355,6 @@ export default async function CaseStudyPage({ params }: Props) {
           </section>
         )}
 
-        {/* Project CTA */}
-        <section className={styles.ctaChapter}>
-          <div className={styles.wrap}>
-            <div className={styles.ctaInner}>
-              <p className={styles.sectionLabel}>Start a project like this</p>
-              <h2 className={styles.ctaTitle}>
-                Want one like this? <span>Yours will be different.</span>
-              </h2>
-              <p className={styles.ctaBody}>
-                Send us the tired website, the painful workflow or the half-baked
-                app idea. We&apos;ll tell you <strong>how we&apos;d tackle it</strong>.
-              </p>
-              <div className={styles.ctaActions}>
-                <PrimaryCTA href="/contact" variant="primary">
-                  Bring us the problem
-                </PrimaryCTA>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
       <SiteFooter />
     </ImmersiveShell>
