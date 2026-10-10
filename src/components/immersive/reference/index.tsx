@@ -37,9 +37,12 @@ export function RefHero({
   secondary,
   orbit = false,
   crumb,
+  compact = false,
   children,
 }: {
   id?: string
+  /** No viewport min-height: for pages whose job (a form, an article) starts right below. */
+  compact?: boolean
   eyebrow?: string
   /** Replaces the eyebrow (e.g. a breadcrumb nav). */
   crumb?: ReactNode
@@ -53,7 +56,12 @@ export function RefHero({
   children?: ReactNode
 }) {
   return (
-    <section id={id} className={styles.hero} aria-labelledby={`${id}-title`}>
+    <section
+      id={id}
+      className={styles.hero}
+      data-compact={compact || undefined}
+      aria-labelledby={`${id}-title`}
+    >
       <div className={styles.stage}>
         {orbit ? <HeroOrbit /> : <span hidden />}
         <div className={styles.eyebrow} data-ref-support>

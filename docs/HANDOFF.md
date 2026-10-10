@@ -83,6 +83,9 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-10** — 14.4 conversion (`redesign/4-conversion`). Hero/layout only, forms untouched.
+  Contact, smoke, routes, release, analytics and responsive specs 210/210.
+
 - **2026-10-10** — 14.3 about (`redesign/3-about`). Light touch: D-041 layout/motion kept; ghost `<em>`
   site-wide via `DisplayHeading`; pill nav. Full e2e 427/427 on a local prod build.
 
