@@ -4,6 +4,19 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-10 — Services in the reference grammar (ROADMAP 14.1, D-046)
+
+- `/services`: centred ghost-line hero with the connected-system demo floating below; "Three services. One
+  team." intro; one chapter per service (giant word + accent dot, Home's illustrated feature space, first
+  three capabilities as a ruled grid); starting-point and engagement sections as intros with ruled grids;
+  pill nav (Services / Starting point / How we engage).
+- `/services/{web,software,ai}`: centred hero with the service demo on a floating panel; fit intro with an
+  outcome grid; chapters Build / Approach / Delivery / Proof / Details with the service accent; Build
+  carries the illustrated feature space, the workbench and every capability (examples folded in, the
+  "full scope" disclosure removed); pill nav.
+- No second closing section: the footer is every page's close (skill updated, `ClosingCta` dropped).
+- Tests: `/services` h1 text now has its space; a11y spec checks the muted ghost line, not acid.
+
 ## 2026-10-10 — Redesign rollout foundation (ROADMAP 14.0, D-046)
 
 - `src/components/immersive/reference/`: `RefHero`, `RefIntro`, `Chapter`, `CapabilityGrid`, `Panel`,

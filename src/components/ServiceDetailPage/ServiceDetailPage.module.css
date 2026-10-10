@@ -503,3 +503,26 @@
   padding: 0;
   list-style: none;
 }
+
+/* ─── Stage 14.1 reference layout (D-046) ─── */
+.heroDemo {
+  width: min(100%, 46rem);
+  margin-inline: auto;
+  text-align: left;
+}
+.workbenchWrap {
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+}
+.ownSection {
+  padding-block: clamp(4rem, 7vw, 6rem);
+}
+.ownTitle {
+  font-size: var(--tw-type-thesis);
+  font-weight: 450;
+  line-height: 1.03;
+  letter-spacing: -0.045em;
+  color: var(--tw-fg);
+}
+.experience .otherServices {
+  padding-block: 0 clamp(3rem, 6vw, 4.5rem);
+}

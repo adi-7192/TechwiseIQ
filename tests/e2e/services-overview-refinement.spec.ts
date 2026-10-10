@@ -30,7 +30,7 @@ test('services overview is complete without JavaScript', async ({ browser }) => 
   const context = await browser.newContext({ javaScriptEnabled: false })
   const page = await context.newPage()
   await page.goto('/services')
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your next move.Built right.')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your next move. Built right.')
   await expect(page.locator('#service-web')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Pause animation' })).toBeHidden()
   await expect(page.locator('main').getByRole('link', { name: 'Bring us the problem' })).toHaveAttribute(

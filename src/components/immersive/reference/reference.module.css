@@ -368,41 +368,6 @@
   overflow: hidden;
 }
 
-/* ─── Closing CTA ─── */
-.close {
-  display: grid;
-  place-items: center;
-  padding-block: clamp(7rem, 14vw, 13rem) clamp(5rem, 10vw, 8rem);
-  text-align: center;
-}
-.closeInner {
-  max-width: 64rem;
-}
-.closeTitle {
-  font-size: var(--tw-type-statement);
-  font-weight: 650;
-  line-height: 0.86;
-  letter-spacing: -0.068em;
-  color: var(--tw-fg);
-  text-wrap: balance;
-}
-.closeTitle > span {
-  display: block;
-}
-.closeBody {
-  max-width: 48ch;
-  margin: 1.75rem auto 2rem;
-  font-size: var(--tw-type-body-lg);
-  line-height: 1.55;
-  color: var(--tw-muted);
-}
-.closeActions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.625rem;
-}
-
 /* ─── Pill chapter nav (same as Home's) ─── */
 .pillNav {
   position: fixed;

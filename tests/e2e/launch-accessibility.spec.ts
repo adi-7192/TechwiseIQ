@@ -28,11 +28,11 @@ test.describe('launch accessibility hardening', () => {
   }) => {
     // Immersive dark world: the h1 accent run is the muted foreground
     // (contrast-safe on the near-black background), not a light-theme ink.
-    // /services accents its h1 with the scene accent (acid on near-black, 3f65173).
+    // /services sets its h1 second line as the muted "ghost" line (D-045/D-046).
     await page.goto('/services')
     await expect(
-      page.getByRole('heading', { level: 1 }).locator('span'),
-    ).toHaveCSS('color', 'rgb(200, 255, 84)')
+      page.getByRole('heading', { level: 1 }).locator('[data-ref-line]').last(),
+    ).toHaveCSS('color', 'rgb(138, 145, 140)')
     await expect(page.getByTestId('problem-navigator')).toBeVisible()
 
     await page.goto('/work')
