@@ -10,13 +10,12 @@
 
 **Stage 13 Reference home (13.1) — done, owner-approved 2026-10-10, PR open on `stage-13/reference-home`.** Merge once
 CI is green (CI runs the real Turbopack build). Then 13.2: carry the reference style to the inner pages.
-**Stage 9 /work clarity (9.1) — on `stage-9/work-page`: owner approves the draft copy (HANDOFF §6), then PR → merge.**
 **Stage 7 — owner launch gates.** 7.1 and 7.6 done on `stage-7/release`. Next: 🔒 7.2 preview review
 (include `/work` Lighthouse on the preview, see 7.1), 7.3 form test, 7.5 launch.
 
 ## Progress
 
-**22 / 27 tasks done** · rebuilt for the redesign 2026-10-04
+**23 / 28 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -28,8 +27,9 @@ CI is green (CI runs the real Turbopack build). Then 13.2: carry the reference s
 | 6. Polish | Concept Lab self-hosting, parked components, docs | 3/3 | ✅ (PR #9 merged) |
 | 7. Release | Redesign release checklist → merge to `main` | 3/6 | 🟡 (7.2, 7.3, 7.5 🔒 owner) |
 | 8. Showpiece | Home skyline: hero (D-038) + whole-page journey (D-039) | 2/2 | ✅ (PR #11 merged) |
-| 9. Work clarity | `/work` shows the work first, with less to read (D-040) | 1/1 | 🟡 (copy awaiting owner) |
-| 13. Reference home | Home rebuilt to the reference composition + Inter Tight (D-045) | 1/2 | 🟡 (13.1 PR open) |
+| 9. Work clarity | `/work` shows the work first, with less to read (D-040) | 1/1 | ✅ (PR #12 merged) |
+| 10. About | `/about` proves who we are: proof, process, commitments (D-041) | 1/1 | ✅ (PR #13 merged) |
+| 13. Reference home | Home rebuilt to the reference composition + Inter Tight (D-045) | 1/2 | 🟡 (13.1 PR #14 open) |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
 
@@ -183,6 +183,18 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   PM + web-designer + UX + QA agents (D-020). Full e2e 362 pass; Lighthouse mobile `/work` perf 90
   (was 89), a11y/BP/SEO 100; page height 7.6k → 6.6k px desktop, 10.7k → 9.6k mobile.
   `/ponytail-review` applied (4 trims, ~20 lines).
+
+## Stage 10 — About
+
+- ✅ **10.1 `/about` rebuild** (D-041) — 2026-10-07, `stage-10/about`. Owner-approved plan after a
+  390/1440 review: fact-sheet hero, why-we-exist statement, track record from data, D-033 process
+  showpiece (pinned on desktop, stacked on touch/short screens), five commitments, service paths,
+  one compact CTA. Meta description no longer says "trusted by". `BrowserBar` moved to
+  `src/components/BrowserBar` (shared with /work). Full agent pipeline (D-020): UX no-ship ×2
+  (tap targets, smooth-glide on pin fallback) → fixed; QA FAIL on perf → fixed → PASS. Owner copy
+  answers 2026-10-07: h1 option B, search-foundations row dropped, EP label stays Dubai; h1 set at
+  statement scale on desktop so it fits the fold. Full e2e 388 pass; Lighthouse mobile `/about`
+  median 95 (5 runs, min 92; pre-rebuild 94), a11y/BP/SEO 100, CLS 0. `/ponytail-review` applied.
 
 ## Stage 13 — Reference home
 

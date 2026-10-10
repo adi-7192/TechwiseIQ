@@ -70,9 +70,24 @@ non-focusable previews, D-006) → "02 How we work" (what clients get / what we 
 Hero + facts → proof grid → story → decisions → system/visual (live preview where available) →
 result (only verified claims, D-032) → next case study → CTA.
 
-### About (`src/components/AboutExperience`)
-Hero ("a team of experts", D-034) → "01 What we bring" → "02 How we behave" → closing ("Building
-for businesses in Dubai and beyond…", D-032 Q5) + CTA. No founder/team names or photos (D-005).
+### About (`src/components/AboutExperience`, D-041)
+Spec: `docs/specs/10.1-about.md`. Accent: acid only (`scene="advisory"`), CSS atmosphere, no WebGL.
+Hero: a plain h1 naming websites, custom software and AI; a lede with "a team of experts" (D-034);
+and a company fact sheet `<dl>` beside the h1 on desktop (based in, what we build, client
+countries, live client sites, live-site build weeks, 24 h first reply). Real data only.
+→ "01 The short version": the tagline "Agencies sell hours. We sell outcomes." with scroll-lit
+words, plus "Building for businesses in Dubai and beyond." (D-032 Q5).
+→ "02 Track record": live-only totals from `getDeliveryMetrics` (count-up), a schematic client map
+from `getClientCountries` (drawn route line), and all 5 client builds with status chips. Cards link
+to `/work/[slug]` only.
+→ "03 How we work with you": the page's one showpiece. The D-033 four steps on an illustrative
+sample brief, pinned and scroll-driven on desktop, stacked on mobile.
+→ "04 What we commit to": six approved commitments (D-027, D-033, D-037, direct ownership), drawn
+check marks.
+→ "05 What we build": three service paths, problem → outcome.
+→ one compact CTA ("Bring us the problem" → `/contact`).
+Not allowed on About: founder or team names or photos (D-005), client-reported results, prices, and
+outbound live/preview links.
 
 ### Contact (`src/app/contact`)
 Intro (reply within 24 hours, then a written scope after a short call — D-027) + link to the free

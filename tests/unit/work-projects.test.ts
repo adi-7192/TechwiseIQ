@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
 // @ts-expect-error Node's built-in TypeScript runner requires the file extension.
-import { getDeliveryMetrics, getProjectStatus, partitionProjects } from '../../src/app/work/work-projects.ts'
+import { getClientCountries, getDeliveryMetrics, getProjectStatus, partitionProjects } from '../../src/app/work/work-projects.ts'
 // @ts-expect-error Node's built-in TypeScript runner requires the file extension.
 import { CASE_STUDIES } from '../../src/data/case-studies.ts'
 
@@ -109,4 +109,26 @@ test('hero totals count live client sites only, never previews', () => {
     { value: '114', label: 'Pages shipped' },
     { value: '3–5', label: 'Weeks, brief to launch' },
   ])
+})
+
+test('client countries come from the industry suffix, Dubai counted as UAE', () => {
+  assert.deepEqual(getClientCountries(CASE_STUDIES), [
+    { country: 'UAE', count: 4 },
+    { country: 'India', count: 1 },
+  ])
+})
+
+test('every case study maps to a client country', () => {
+  const total = getClientCountries(CASE_STUDIES).reduce(
+    (sum: number, row: { count: number }) => sum + row.count,
+    0,
+  )
+  assert.equal(total, CASE_STUDIES.length)
+  for (const study of CASE_STUDIES as { slug: string; industry: string }[]) {
+    const [country] = getClientCountries([study])
+    assert.ok(
+      study.industry.includes(' / ') && country.country.length > 0,
+      `${study.slug} has no " / Place" suffix in industry`,
+    )
+  }
 })

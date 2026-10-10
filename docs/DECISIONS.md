@@ -267,6 +267,25 @@ Challenge/Decision detail lives on the case-study page. More client work uses te
 Covers are browser-framed with the real hostname and captured without floating widgets.
 *Apply:* new featured studies need `liveUrl` and a `reported` line before they go on the rail.
 
+**D-041 — About is rebuilt around proof, process and commitments.** 2026-10-06 · owner (approved review + plan; answers: keep anonymous, approve all motion, plain + witty headline)
+After a 390/1440 review (no proof on the page, generic values, abstract hero, no motion, double
+closing, meta description still said "trusted by"), `/about` becomes: hero with a plain h1 + a
+company fact sheet (real data only) → short "why we exist" statement → track record from
+`src/data/case-studies.ts` (industries, client builds, live-only totals, client locations) → the
+D-033 process as the page's one showpiece → "What we commit to" (only already-approved claims:
+D-027, D-033, D-037, direct ownership) → the three service paths → one compact CTA. Removed: hero
+model cards, the values band, the duplicate closing. People stay anonymous (D-005/D-034 stand).
+Motion signed off (vocabulary expansion for About only): scroll-lit statement words, a pinned
+scroll-driven process sequence on desktop (stacked reveals on mobile/coarse pointers), count-ups,
+a drawn route line, drawn check marks — GSAP only, transform/opacity/stroke only, full
+reduced-motion and no-JS final states. No WebGL on About (CSS atmosphere).
+*Apply:* headline + new copy drafted by PM, owner approves the final strings before merge.
+*Owner answers 2026-10-07:* h1 = "Websites, software and AI automation. Minus the agency theatre."
+(option B; statement scale beside the fact sheet so it stays above the fold). All other drafted copy
+approved. The "Search foundations, built in" commitment is dropped (RSiGHT, shown on the page, has no
+structured data or sitemap): five commitments, each already true for every project shown. Express
+Petroleum's industry label stays "Dubai".
+
 **D-045 — Home returns to the reference composition, over the skyline.** 2026-10-10 · owner ("I liked the font and design of the reference… the flow of content, the placement, and the colorful images and illustrations… the current design is very static and basic, simple blocks aligned side to side"; chose: keep skyline + reference layout, Inter Tight, Home first) · refines D-038/D-039, reverses D-038's "floating hero cards removed".
 Source: `techwise-iq-build-handoff/reference/techwise-iq-editions-reference.html` + `reference/assets/*.svg`
 (not in git; read from the owner's handoff folder). Home adopts the reference's layout and rhythm: centred

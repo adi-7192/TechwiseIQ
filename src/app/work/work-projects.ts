@@ -52,3 +52,18 @@ export function getProjectStatus(project: {
   if (project.liveUrl) return 'Live'
   return project.awaitingLaunch ? 'Awaiting launch' : 'Preview build'
 }
+
+const CITY_COUNTRY: Record<string, string> = { Dubai: 'UAE' }
+
+/** Client countries with build counts, most builds first. Reads the `industry` suffix ("… / Dubai"). */
+export function getClientCountries(projects: readonly { industry: string }[]) {
+  const counts = new Map<string, number>()
+  for (const { industry } of projects) {
+    const place = industry.split(' / ').at(-1)?.trim() ?? ''
+    const country = CITY_COUNTRY[place] ?? place
+    counts.set(country, (counts.get(country) ?? 0) + 1)
+  }
+  return [...counts]
+    .map(([country, count]) => ({ country, count }))
+    .sort((a, b) => b.count - a.count)
+}

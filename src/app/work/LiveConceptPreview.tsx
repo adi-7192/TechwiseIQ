@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import BrowserBar from './BrowserBar'
+import BrowserBar from '@/components/BrowserBar'
 import styles from './work.module.css'
 
 const LOAD_TIMEOUT_MS = 10_000

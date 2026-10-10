@@ -493,34 +493,6 @@
   border-bottom: 1px solid var(--tw-line);
   background: var(--tw-bg);
 }
-.browserBar {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  height: 2rem;
-  padding-inline: 0.85rem;
-  background: color-mix(in oklab, var(--tw-surface) 80%, #000 20%);
-  border-bottom: 1px solid var(--tw-line);
-}
-.browserBar span {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: var(--tw-radius-control);
-  background: var(--tw-line);
-}
-.browserBar b {
-  margin-inline-start: 0.5rem;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  color: var(--tw-muted);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
 .livePreviewStatus {
   position: absolute;
   inset: 2rem 0 0 0;

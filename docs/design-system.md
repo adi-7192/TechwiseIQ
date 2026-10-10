@@ -315,6 +315,52 @@ lifted 25% toward `--tw-fg` (raw violet is too dark to read as light in the scen
 - Scene time (`clock`) advances only while frames are drawn, so waking after a sleep continues
   exactly where it stopped (QA blocker, verified: 12 px change after a 15 s sleep).
 
+## About motion — 2026-10-06 (Adi-approved, D-041)
+
+A vocabulary expansion for **`/about` only**. Every other route keeps the four primitives in §5.
+It lives in one client boundary, `AboutExperience/AboutMotion.tsx`, and one `gsap.matchMedia()`.
+Spec: `docs/specs/10.1-about.md` (Visual spec, V10).
+
+**Added motions.**
+- **Scroll-lit statement words.** The 01 tagline's words are server-rendered spans (no JS split, so
+  the plain sentence stays the accessible name). They start dim at opacity 0.45, which keeps ≥3:1
+  for large text, and light to 1 in reading order, scrubbed as the heading crosses the viewport.
+- **Pinned process sequence.** Under `(min-width: 1024px) and (min-height: 720px) and (pointer:
+  fine) and (prefers-reduced-motion: no-preference)`, section 03 pins for 3 viewport heights (the
+  cap; UX U3 gives each middle step ≥0.9 viewport heights of hold). It is scrubbed (`scrub: true`)
+  and reversible. The four step frames crossfade (opacity + y), a progress rail fills on `scaleX`,
+  and each step's check draws. It ends on frame 04 with all four steps complete. There is no snap.
+  It arms only when the stage fits the viewport (runtime fit guard) and 03 is still below the
+  viewport when the motion boots, so the pin spacer never shifts visible content (CLS). Everywhere
+  else, the four frames stack and reveal in turn.
+- **Count-ups.** The 02 live-only totals count from 0 once, on first view, in ≤1.2s. The final
+  value is the accessible text (sr-only), and the changing digits are `aria-hidden` and
+  `tabular-nums`.
+- **Drawn route line.** The client map's route path draws once with `stroke-dashoffset`
+  (`pathLength="1"`), and then the remote node fades in.
+- **Drawn check marks.** The ledger checks (04), the in-frame checks and the rail checks (03) draw
+  once with `stroke-dashoffset`.
+- **Slight depth on covers.** Track-record cover images drift `yPercent` ±3 at a fixed `scale(1.06)`,
+  scrubbed, at ≥768px. This is §5 proof-object depth applied to covers. The motion goes on a wrapper
+  element, and the hover scale stays on the `img` (D-008: one system per element's `transform`).
+
+**Constraints.**
+- GSAP + ScrollTrigger only. No new package.
+- Animate `transform`, `opacity` and `stroke-dashoffset`/`stroke-dasharray` only. No layout
+  properties, no filter, no blur. **No `autoAlpha`/`visibility` on About** (UX U2/U3): hidden
+  start states are opacity only, so content stays in the accessibility tree and focusable.
+- Reveals and count-ups whose element is already on screen (or above it) when the motion boots
+  show their final state immediately (scroll restoration, late hydration).
+- Timed tweens use the token durations and easing (`expo.out` = `cubic-bezier(.16, 1, .3, 1)`).
+  Scrubbed tweens use `ease: 'none'`.
+- Reduced motion: every element is in its final state immediately (all words lit, line and checks
+  drawn, totals final, all frames visible). No pin, no drift, and Lenis stays off.
+- No JS: everything is visible. Pre-animation states apply only under
+  `data-about-motion="pending"`, set by an inline bootstrap or the layout effect, and fail open to
+  `static` after 3s (Home's `data-home-motion` pattern).
+- No WebGL or canvas on About. The page runs on the CSS atmosphere, acid accent only
+  (`scene="advisory"`).
+
 ## Home reference composition — 2026-10-10 (Adi-approved, D-045)
 
 Refines "Home journey": the skyline stays as the backdrop; Home's foreground returns to the layout and
