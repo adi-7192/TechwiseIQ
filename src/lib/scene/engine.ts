@@ -82,7 +82,7 @@ class SceneEngine {
     uBeacon: { value: new THREE.Color(ACID) },
     uViewport: { value: new THREE.Vector2(1, 1) },
     uExposure: { value: 1 },
-    uWell: { value: new THREE.Vector3(-1, 0.62, 0.62) }, // side, strength, top
+    uWell: { value: new THREE.Vector3(0, 0.7, 0.9) }, // side (0 = centre), strength, top
     uDistrict: { value: new THREE.Vector3() },
     // Acid, orange, and violet lifted 25% toward the foreground (--tw-violet is too dark to read as light).
     uDistrictColor: { value: [new THREE.Color(ACID), new THREE.Color(0xff6540), new THREE.Color(0x8b80ff)] },
@@ -252,9 +252,12 @@ class SceneEngine {
           '#include <dithering_fragment>',
           /* glsl */ `#include <dithering_fragment>
           vec2 screen = gl_FragCoord.xy / uViewport;
-          float side = uWell.x < 0.0 ? screen.x : 1.0 - screen.x;
-          float behindCopy = (1.0 - smoothstep(0.22, 0.55, side)) * (1.0 - smoothstep(uWell.z - 0.2, uWell.z, screen.y));
-          gl_FragColor.rgb *= (1.0 - uWell.y * abs(uWell.x) * behindCopy) * uExposure;`,
+          // |uWell.x| blends a centred well (0) into a side well (±1); no well = strength 0.
+          float edge = uWell.x < 0.0 ? screen.x : 1.0 - screen.x;
+          float sideMask = 1.0 - smoothstep(0.22, 0.55, edge);
+          float centreMask = 1.0 - smoothstep(0.2, 0.42, abs(screen.x - 0.5));
+          float behindCopy = mix(centreMask, sideMask, abs(uWell.x)) * (1.0 - smoothstep(uWell.z - 0.2, uWell.z, screen.y));
+          gl_FragColor.rgb *= (1.0 - uWell.y * behindCopy) * uExposure;`,
         )
     }
 

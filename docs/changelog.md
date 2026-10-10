@@ -4,6 +4,31 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-10 — Home to the reference composition (ROADMAP 13.1, D-045)
+
+- Owner-approved 2026-10-10. QA contrast blocker fixed: every Home stop ≥ 4.5:1 at 390 and 1440, with
+  and without motion. Unit 33/33, e2e home + responsive 235/235.
+- Inter Tight replaces Manrope + Archivo site-wide.
+- Home rebuilt to the reference composition: centred hero + ghost line + floating orbit cards, chapter
+  per service (giant title, accent dot, illustrated feature card + parallax artifacts, capability grid),
+  centred closing CTA. A centred skyline well frames both the hero and the finale.
+- Pill chapter nav restored (Intro / Websites / Software / Automation / Work), `aria-current` from
+  ScrollTrigger, hidden ≤768px and while the intro overlay plays.
+- `ServiceDemo` removed from Home; its tests moved to `tests/e2e/service-detail-refinement.spec.ts`.
+- Lenis: a hash deep link lands outright when Lenis starts (`scrollTo(target, { immediate: true })`);
+  the scroll-behavior override keys on `html.lenis`, not `.lenis.lenis-smooth`.
+- GSAP 3.12+ folds computed CSS `rotate`/`scale`/`translate` into its transform: the reduce cleanup
+  strips those inline values from depth objects.
+- UX should-fixes: reveals use opacity only (no `visibility: hidden` pre-state or `autoAlpha`), so
+  unrevealed chapter links stay in the Tab order; the intro bootstrap has a 3 s failsafe to
+  `data-intro="ready"` if the bundle never runs; pill nav focus ring follows the pill radius; feature
+  mock pills show `cursor: default`. New e2e: first Tab pass reaches "Explore web development" before
+  the footer; intro failsafe with the JS bundle blocked.
+- QA contrast fix (§8 sweep, every stop at 1440 and 390, motion and reduced): skyline exposure lowered at services 0.3,
+  websites/apps 0.22, automation 0.28, work 0.4, model 0.3; hero well 0.8; phone stops capped at 0.18 with a 0.45
+  centred hero well; 11px count/index labels lifted to `--tw-fg`. Tap targets: every `PrimaryCTA` variant (ghost
+  included) is ≥44px under `pointer: coarse`.
+
 ## 2026-10-06 — /work clarity + trust pass (ROADMAP 9.1, D-040)
 
 - Hero: eyebrow "Our work", new intro, totals `<dl>` moved from below the projects into the hero

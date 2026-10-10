@@ -40,6 +40,11 @@ function acquireLenis() {
   }
   gsap.ticker.add(rafHandler)
   gsap.ticker.lagSmoothing(0)
+
+  // A deep link's native jump is smooth (html scroll-behavior) and gets cut off a
+  // few px in by Lenis starting and ScrollTrigger's refresh. Land it outright.
+  const target = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)))
+  if (target) instance.scrollTo(target, { immediate: true })
 }
 
 function releaseLenis() {

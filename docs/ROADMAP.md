@@ -8,13 +8,15 @@
 
 ## ▶ NEXT
 
+**Stage 13 Reference home (13.1) — done, owner-approved 2026-10-10, PR open on `stage-13/reference-home`.** Merge once
+CI is green (CI runs the real Turbopack build). Then 13.2: carry the reference style to the inner pages.
 **Stage 9 /work clarity (9.1) — on `stage-9/work-page`: owner approves the draft copy (HANDOFF §6), then PR → merge.**
 **Stage 7 — owner launch gates.** 7.1 and 7.6 done on `stage-7/release`. Next: 🔒 7.2 preview review
 (include `/work` Lighthouse on the preview, see 7.1), 7.3 form test, 7.5 launch.
 
 ## Progress
 
-**21 / 25 tasks done** · rebuilt for the redesign 2026-10-04
+**22 / 27 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -27,6 +29,7 @@
 | 7. Release | Redesign release checklist → merge to `main` | 3/6 | 🟡 (7.2, 7.3, 7.5 🔒 owner) |
 | 8. Showpiece | Home skyline: hero (D-038) + whole-page journey (D-039) | 2/2 | ✅ (PR #11 merged) |
 | 9. Work clarity | `/work` shows the work first, with less to read (D-040) | 1/1 | 🟡 (copy awaiting owner) |
+| 13. Reference home | Home rebuilt to the reference composition + Inter Tight (D-045) | 1/2 | 🟡 (13.1 PR open) |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
 
@@ -180,6 +183,24 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   PM + web-designer + UX + QA agents (D-020). Full e2e 362 pass; Lighthouse mobile `/work` perf 90
   (was 89), a11y/BP/SEO 100; page height 7.6k → 6.6k px desktop, 10.7k → 9.6k mobile.
   `/ponytail-review` applied (4 trims, ~20 lines).
+
+## Stage 13 — Reference home
+
+- ✅ **13.1 Home to the reference composition** (D-045) — 2026-10-10 — branch `stage-13/reference-home`. Centred hero +
+  ghost line + floating artifact cards over the skyline; chapter per service (giant title + accent dot,
+  thesis right, illustrated feature card + parallax artifacts, hairline capability grid); pill chapter
+  nav; centred closing CTA. Inter Tight replaces Manrope + Archivo. Full pipeline (D-020).
+  **Done 2026-10-10:** owner reviewed on local prod build ("looks good"), accepting the as-built orbit
+  accents, chapter-dot glow and pill-nav strings. QA contrast blocker fixed (0 failures, 390 + 1440,
+  motion + reduced). Gates: lint, tsc, `next build --webpack`, unit 33/33, e2e home + responsive 235/235.
+  Notes carried forward:
+  - Turbopack build panics in the `website-stage-13` worktree (symlinked `node_modules`); gates ran on
+    `next build --webpack`. CI runs the real `npm run build`.
+  - HANDOFF §6: reconcile `SiteFooter` with the owner's uncommitted edits on `stage-12/atmosphere`.
+  - TBT: Lighthouse mobile median TBT 0 ms over 6 runs, but single runs spike to ~190 ms — a rAF task
+    where the first WebGL frame's compositor commit lands (headless software GL). Not a HomeMotion cost
+    (its setup is ~27 ms at 4× CPU). Recheck on the Vercel preview with real GPU before treating as a gap.
+- ⬜ **13.2 Carry the reference style to inner pages** — after owner review of 13.1.
 
 ## Later / rejected
 

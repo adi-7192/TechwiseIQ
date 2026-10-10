@@ -1,201 +1,205 @@
 /* ═══════════════════════════════════════════════════════════════════════
-   Immersive homepage — layout for the nine sections. Type/atmosphere come
-   from globals `.tw-world` + the shared primitives; this file owns the
-   section-specific grids and rhythm. Motion is progressive enhancement only.
+   Immersive homepage (13.1, D-045) — intro, service chapters, capability
+   grids, selected work, operating model. The hero lives in HeroStage.module.css,
+   the illustrations in Illustrations.module.css. Motion is progressive only.
    ═══════════════════════════════════════════════════════════════════════ */
 
-/* ─── 1 · Hero ─── */
-.experience {
-  position: relative;
-}
-
-.hero {
-  position: relative;
-  min-height: 100svh;
-  display: grid;
-  place-items: center;
-  padding-block: clamp(9rem, 18vh, 14rem) clamp(5rem, 10vh, 8rem);
-  overflow: hidden;
-  scroll-margin-top: 5rem;
-}
-.heroInner {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 1180px;
-  margin-inline: auto;
-  padding-inline: var(--tw-page-pad);
-  text-align: center;
-}
-.heroTitle {
-  margin-block: 1.75rem 0;
-}
-.heroTitle .tail {
-  display: block;
+.ghost {
+  font-weight: 400;
   color: var(--tw-muted);
 }
-.heroActions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-block-start: clamp(2rem, 4vh, 2.75rem);
+
+/* ─── Intro · #services ─── */
+.intro {
+  padding-block: clamp(6rem, 11vw, 11rem) clamp(6rem, 12vw, 11.25rem);
+}
+.introGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 7fr) minmax(0, 3fr);
+  gap: 2rem;
+  align-items: start;
+}
+.introCount {
+  padding-top: 0.75rem;
+}
+.introTitle {
+  font-size: var(--tw-type-intro);
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.065em;
+  color: var(--tw-fg);
+}
+.introTitle > span {
+  display: block;
+}
+.introAside {
+  align-self: end;
+  max-width: 30ch;
+  font-size: var(--tw-type-body);
+  line-height: 1.55;
+  color: var(--tw-muted);
 }
 
-/* ─── 3–6 · Chapters ─── */
+/* ─── Service chapters ─── */
 .chapter {
-  scroll-margin-top: 5rem;
+  padding-block: clamp(6rem, 10vw, 8.5rem) clamp(5rem, 11vw, 11rem);
 }
 .chapterHead {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(2rem, 4vw, 4rem);
   align-items: end;
 }
-.chapterTitleWrap {
-  align-self: start;
+.count {
+  display: flex;
+  margin-bottom: 0.75rem;
 }
-.chapterTitle {
-  margin-block-start: 1.25rem;
+/* 11px labels over the lit skyline: full foreground, not muted (§8 contrast sweep). */
+.chapterHead .count,
+.introGrid .introCount,
+.operatingHead > span {
+  color: var(--tw-fg);
+}
+.word {
+  font-size: var(--tw-type-chapter);
+  font-weight: 400;
+  line-height: 0.84;
+  letter-spacing: -0.072em;
+  color: var(--tw-fg);
+}
+/* Clip mask for the word reveal; padded so the descender and the dot's glow survive. */
+.wordMask {
+  display: inline-block;
+  overflow: clip;
+  padding: 0.1em 0.5em 0.14em 0;
+  margin: -0.1em -0.5em -0.14em 0;
+}
+.wordMask > span {
+  display: inline-block;
 }
 .dot {
   display: inline-block;
-  width: 0.22em;
-  height: 0.22em;
-  margin-inline-start: 0.12em;
+  width: 0.24em;
+  height: 0.24em;
+  margin-left: 0.08em;
+  vertical-align: 0.14em;
   border-radius: var(--tw-radius-control);
   background: var(--tw-accent);
-  vertical-align: 0.12em;
+  /* OQ-13.1-B: the one sanctioned accent glow, scoped to this dot. */
+  box-shadow: 0 0 0.5em color-mix(in srgb, var(--tw-accent) 50%, transparent);
 }
 .chapterThesis {
-  max-width: 46ch;
   justify-self: end;
-  padding-block-end: 0.5rem;
+  max-width: 30rem;
+  padding-bottom: 1.25rem;
 }
 .thesisHead {
-  margin: 0;
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
-  font-size: clamp(1.5rem, 2.6vw, 2.5rem);
-  font-weight: 500;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
+  margin-bottom: 1.125rem;
+  font-size: var(--tw-type-thesis);
+  font-weight: 450;
+  line-height: 1.03;
+  letter-spacing: -0.045em;
+  color: var(--tw-fg);
   text-wrap: balance;
 }
 .thesisBody {
-  margin-block-start: 1rem;
+  max-width: 46ch;
   font-size: var(--tw-type-body);
-  line-height: 1.6;
+  line-height: 1.55;
   color: var(--tw-muted);
-}
-.transformation {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  margin-block-start: 1.5rem;
-  font-family: var(--font-mono), monospace;
-  font-size: var(--tw-type-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--tw-muted);
-}
-.transformation .to {
-  color: var(--tw-fg);
-}
-.transformation .arrow {
-  color: var(--tw-accent);
 }
 .chapterLink {
-  margin-block-start: 1.5rem;
-}
-@media (max-width: 1024px) {
-  .chapterHead {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    align-items: start;
-  }
-  .chapterThesis {
-    justify-self: start;
-    max-width: 60ch;
-  }
+  margin-top: 1.25rem;
 }
 
-/* Proof stage — the spectacular beat of the chapter. The proof is a defined,
-   centred object (not full-bleed) lifted out of the dark scene, with room around
-   it for floating artifacts. Generous air before and after separates the sparse
-   head and the dense matrix: sparse → spectacular → dense. */
-.proofReveal {
-  position: relative;
-  margin-block-start: clamp(4.5rem, 11vh, 9rem);
-  padding-block: clamp(1rem, 4vh, 3.5rem);
-  perspective: 1500px;
-  display: flex;
-  justify-content: center;
-}
-
-.proofDepth {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 940px;
-  transform-style: preserve-3d;
-  transform-origin: center;
-  will-change: transform;
-}
-
-.matrix {
+/* Capability grid: a ruled table, not cards. */
+.capGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: clamp(3rem, 6vw, 4.5rem);
   border-top: 1px solid var(--tw-line);
-  margin-block-start: clamp(4rem, 9vh, 7rem);
+  list-style: none;
 }
-.cap {
-  padding: 1.75rem 1.5rem 2.25rem 0;
+.cap,
+.promise {
+  padding: 1.75rem 1.625rem 2.375rem 0;
   border-bottom: 1px solid var(--tw-line);
 }
-.cap:nth-child(3n+2),
-.cap:nth-child(3n+3) {
-  padding-inline-start: 1.5rem;
+.cap:not(:nth-child(3n + 1)) {
+  padding-left: 1.625rem;
   border-left: 1px solid var(--tw-line);
 }
-.capType {
+.capIndex {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   font-family: var(--font-mono), monospace;
   font-size: var(--tw-type-meta);
   letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--tw-accent);
+  color: var(--tw-fg);
 }
-.capHead {
-  margin-block: 0.9rem 0.5rem;
+.capIndex > i {
+  width: 6px;
+  height: 6px;
+  background: var(--tw-accent);
+}
+.capHead,
+.promiseTitle {
+  margin: 0.9rem 0 0.5rem;
   font-size: 1.0625rem;
   font-weight: 650;
-  line-height: 1.25;
+  line-height: 1.2;
   letter-spacing: -0.01em;
   color: var(--tw-fg);
 }
-.capBody {
+.capBody,
+.promiseBody {
   margin: 0;
   max-width: 38ch;
   font-size: var(--tw-type-body);
   line-height: 1.55;
   color: var(--tw-muted);
 }
-@media (max-width: 880px) {
-  .matrix {
-    grid-template-columns: 1fr 1fr;
+
+@media (max-width: 1024px) {
+  .introGrid {
+    grid-template-columns: minmax(0, 1fr);
   }
-  .cap:nth-child(3n+2),
-  .cap:nth-child(3n+3) {
-    padding-inline-start: 0;
+  .introCount {
+    padding-top: 0;
+  }
+  .introAside {
+    align-self: start;
+    max-width: 40ch;
+  }
+  .chapterHead {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+  .word {
+    font-size: var(--tw-type-word);
+  }
+  .chapterThesis {
+    justify-self: start;
+    max-width: 38rem;
+  }
+}
+@media (max-width: 880px) {
+  .capGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cap:not(:nth-child(3n + 1)) {
+    padding-left: 0;
     border-left: 0;
   }
   .cap:nth-child(2n) {
-    padding-inline-start: 1.5rem;
+    padding-left: 1.625rem;
     border-left: 1px solid var(--tw-line);
   }
 }
-@media (max-width: 560px) {
-  .matrix {
-    grid-template-columns: 1fr;
+@media (max-width: 480px) {
+  .capGrid {
+    grid-template-columns: minmax(0, 1fr);
   }
   .cap,
   .cap:nth-child(2n) {
@@ -203,47 +207,59 @@
     border-left: 0;
   }
 }
+
+/* ─── Selected work ─── */
+section.workSection {
+  padding-block: clamp(5rem, 9vw, 8rem);
+}
 .workHead {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   gap: 1.5rem 2rem;
+  align-items: end;
+}
+.sectionTitle {
+  margin-top: 1.25rem;
+  line-height: 0.92;
+}
+.workAll {
+  justify-self: end;
 }
 .workGrid {
   display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(0, 1fr);
-  gap: clamp(1.75rem, 3.5vw, 3rem);
-  margin-block-start: clamp(3rem, 7vh, 4.5rem);
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: clamp(3rem, 7vh, 4.5rem);
+}
+/* The lead project spans two rows when it has at least two siblings. */
+.workCard:first-child:nth-last-child(n + 3) {
+  grid-row: span 2;
+}
+.workCard:first-child:nth-last-child(n + 3) .workCover {
+  flex: 1;
+  min-height: 18rem;
+  aspect-ratio: auto;
 }
 .workCard {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   border: 1px solid var(--tw-line);
   border-radius: var(--tw-radius-proof);
-  overflow: hidden;
   background: var(--tw-surface);
-  transition:
-    border-color var(--tw-duration-micro) var(--tw-ease-out),
-    transform var(--tw-duration-micro) var(--tw-ease-out);
+  transition: border-color var(--tw-duration-micro) var(--tw-ease-out);
 }
 .workCard:hover {
   border-color: color-mix(in oklab, var(--tw-accent) 45%, var(--tw-line));
-  transform: translateY(-3px);
 }
 .workCover {
   position: relative;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 2 / 1;
   overflow: hidden;
   border-bottom: 1px solid var(--tw-line);
 }
 .workCover :global(img) {
   object-fit: cover;
-  transition: transform var(--tw-duration-chapter) var(--tw-ease-out);
-}
-.workCard:hover .workCover :global(img) {
-  transform: scale(1.03);
 }
 .workBody {
   display: flex;
@@ -256,18 +272,19 @@
   flex-wrap: wrap;
   gap: 0.35rem 1rem;
   font-family: var(--font-mono), monospace;
-  font-size: var(--tw-type-meta);
+  font-size: 0.6875rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--tw-muted);
 }
 .workTitle {
   font-size: clamp(1.9rem, 3.4vw, 2.6rem);
-  font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -0.025em;
+  font-weight: 650;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
 }
 .workOutcome {
+  margin-bottom: 0.75rem;
   font-size: var(--tw-type-body);
   line-height: 1.55;
   color: var(--tw-muted);
@@ -276,45 +293,65 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  margin-block-start: 0.25rem;
-  padding-block-start: 1.25rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
   border-top: 1px solid var(--tw-line);
 }
 .proofValue {
   display: block;
   font-size: clamp(1.5rem, 2.4vw, 1.85rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 650;
+  letter-spacing: -0.03em;
   color: var(--tw-fg);
 }
 .proofLabel {
   font-family: var(--font-mono), monospace;
-  font-size: var(--tw-type-meta);
+  font-size: 0.6875rem;
   letter-spacing: 0.08em;
   color: var(--tw-muted);
 }
 .workCta {
-  margin-block-start: auto;
-  padding-block-start: 1.25rem;
+  padding-top: 1.25rem;
   font-family: var(--font-mono), monospace;
-  font-size: var(--tw-type-meta);
+  font-size: 0.6875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--tw-accent);
 }
 @media (max-width: 1024px) {
+  .workHead {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .workAll {
+    justify-self: start;
+  }
   .workGrid {
-    grid-auto-flow: row;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .workCard:first-child {
+    grid-column: 1 / -1;
+  }
+  .workCard:first-child:nth-last-child(n + 3) {
+    grid-row: auto;
+  }
+  .workCard:first-child:nth-last-child(n + 3) .workCover {
+    flex: none;
+    min-height: 0;
+    aspect-ratio: 2 / 1;
+  }
+}
+@media (max-width: 768px) {
+  .workGrid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
-/* ─── 8 · Operating model ─── */
+/* ─── Operating model ─── */
 .operatingHead {
-  max-width: 46ch;
+  max-width: 18ch;
 }
 .operatingBody {
-  margin-block-start: 1.25rem;
+  margin-top: 1.25rem;
   max-width: 54ch;
   font-size: var(--tw-type-body-lg);
   line-height: 1.55;
@@ -322,53 +359,30 @@
 }
 .promiseList {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: clamp(2.5rem, 6vh, 4rem);
   border-top: 1px solid var(--tw-line);
-  margin-block-start: clamp(2.5rem, 6vh, 4rem);
 }
-.promise {
-  padding: 1.75rem 1.5rem 2rem 0;
-  border-bottom: 1px solid var(--tw-line);
-}
-.promise + .promise {
-  padding-inline-start: 1.5rem;
+.promise:not(:nth-child(4n + 1)) {
+  padding-left: 1.625rem;
   border-left: 1px solid var(--tw-line);
 }
-.promiseIndex {
-  font-family: var(--font-mono), monospace;
-  font-size: var(--tw-type-meta);
-  letter-spacing: 0.14em;
-  color: var(--tw-accent);
-}
-.promiseTitle {
-  margin-block: 0.75rem 0.4rem;
-  font-size: 1.125rem;
-  font-weight: 650;
-  letter-spacing: -0.01em;
-}
-.promiseBody {
-  margin: 0;
-  font-size: var(--tw-type-body);
-  line-height: 1.5;
-  color: var(--tw-muted);
-}
-@media (max-width: 880px) {
+@media (max-width: 1024px) {
   .promiseList {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .promise {
-    padding-inline-start: 0;
+  .promise:not(:nth-child(4n + 1)) {
+    padding-left: 0;
     border-left: 0;
   }
   .promise:nth-child(2n) {
-    padding-inline-start: 1.5rem;
+    padding-left: 1.625rem;
     border-left: 1px solid var(--tw-line);
   }
 }
 @media (max-width: 480px) {
   .promiseList {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .promise,
   .promise:nth-child(2n) {
@@ -376,50 +390,3 @@
     border-left: 0;
   }
 }
-
-/* ─── 9 · Final CTA ─── */
-.ctaInner {
-  text-align: center;
-  max-width: 1000px;
-  margin-inline: auto;
-}
-.ctaSup {
-  justify-content: center;
-}
-.ctaTitle {
-  margin-block-start: 1.5rem;
-}
-.ctaTitle .tail {
-  display: block;
-  color: var(--tw-muted);
-}
-.ctaSupport {
-  max-width: 52ch;
-  margin: clamp(1.5rem, 3vh, 2.25rem) auto 0;
-  font-size: var(--tw-type-body-lg);
-  line-height: 1.55;
-  color: rgb(242 244 239 / 0.72);
-  text-wrap: balance;
-}
-.ctaActions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 0.85rem;
-  margin-block-start: clamp(2rem, 4vh, 2.75rem);
-}
-
-/* Homepage refinement: quiet evidence, readable details, and consistent rhythm. */
-.workCover { aspect-ratio: 2 / 1; }
-.workMeta, .proofLabel, .workCta, .promiseIndex { font-size: .6875rem; }
-.workTitle { line-height: 1.1; }
-.workOutcome, .promiseBody { font-family: var(--font-archivo), sans-serif; }
-.ctaTitle .tail { color: var(--tw-acid); }
-@media (max-width: 880px) { .promise + .promise { border-left: 0; padding-inline-start: 0; }.promise:nth-child(2n) { padding-inline-start: 1.5rem; border-left: 1px solid var(--tw-line); } }
-@media (max-width: 480px) { .promise:nth-child(2n) { padding-inline-start: 0; border-left: 0; } }
-
-.workBody { flex: 1; }
-.workProof { margin-block-start: auto; }
-.workOutcome { margin-block-end: .75rem; }
-.workCta { margin-block-start: 0; }

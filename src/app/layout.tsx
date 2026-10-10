@@ -1,15 +1,15 @@
 import type { Metadata, Viewport } from 'next'
-import { Archivo, Manrope, Space_Mono } from 'next/font/google'
+import { Inter_Tight, Space_Mono } from 'next/font/google'
 import Analytics from '@/components/Analytics'
 import RouteFocusManager from '@/components/RouteFocusManager'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import { socialMetadata } from '@/lib/metadata'
 import './globals.css'
 
-const archivo = Archivo({
+// One variable face for display and body (D-045); weights 400–680 come from the axis.
+const interTight = Inter_Tight({
   subsets: ['latin'],
-  weight: ['500', '600', '700'],
-  variable: '--font-archivo',
+  variable: '--font-display',
   display: 'swap',
 })
 
@@ -17,15 +17,6 @@ const spaceMono = Space_Mono({
   weight: ['400', '700'],
   subsets: ['latin'],
   variable: '--font-mono',
-  display: 'swap',
-})
-
-// Immersive display grotesk (variable, high x-height) — carries the large
-// chapter/hero type of the redesign. The retired Anton face is no longer loaded.
-const manrope = Manrope({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-display',
   display: 'swap',
 })
 
@@ -64,7 +55,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${archivo.variable} ${spaceMono.variable} ${manrope.variable}`}
+      className={`${interTight.variable} ${spaceMono.variable}`}
       suppressHydrationWarning
     >
       <body>

@@ -6,7 +6,8 @@ import styles from './IntroPreloader.module.css'
 
 // Runs while parsing the document: the first frame and hydration agree about
 // showing the introduction. Storage failures and reduced motion fail open.
-const bootstrap = `(function(){try{if(!sessionStorage.getItem('tw-intro-seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!location.hash){document.documentElement.dataset.intro='loading'}}catch(e){}})()`
+// If the bundle never runs, the 3s failsafe releases the hero and the pill nav.
+const bootstrap = `(function(){try{var d=document.documentElement;if(!sessionStorage.getItem('tw-intro-seen')&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!location.hash){d.dataset.intro='loading';setTimeout(function(){if(d.dataset.intro==='loading')d.dataset.intro='ready'},3000)}}catch(e){}})()`
 
 export default function IntroPreloader() {
   const ref = useRef<HTMLDivElement>(null)

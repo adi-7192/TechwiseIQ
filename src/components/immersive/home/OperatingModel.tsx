@@ -9,14 +9,10 @@ export default function OperatingModel() {
   return (
     <Section ruled density="dense" data-journey="model" aria-labelledby="operating-title">
       <div className={styles.operatingHead} data-home-reveal>
-        <SectionLabel index="05">{OPERATING_MODEL.index}</SectionLabel>
-        <DisplayHeading
-          as="h2"
-          size="h2"
-          id="operating-title"
-          className={styles.chapterTitle}
-        >
-          {OPERATING_MODEL.title}
+        <SectionLabel hideMark>05 / {OPERATING_MODEL.index}</SectionLabel>
+        <DisplayHeading as="h2" size="statement" id="operating-title" className={styles.sectionTitle}>
+          {OPERATING_MODEL.title[0]}{' '}
+          <span className={styles.ghost}>{OPERATING_MODEL.title[1]}</span>
         </DisplayHeading>
       </div>
       <p className={styles.operatingBody} data-home-reveal>
@@ -26,7 +22,8 @@ export default function OperatingModel() {
       <dl className={styles.promiseList} data-home-reveal>
         {OPERATING_MODEL.promises.map(([title, body], i) => (
           <div className={styles.promise} key={title}>
-            <span className={styles.promiseIndex}>
+            <span className={styles.capIndex} aria-hidden="true">
+              <i />
               {String(i + 1).padStart(2, '0')}
             </span>
             <dt className={styles.promiseTitle}>{title}</dt>

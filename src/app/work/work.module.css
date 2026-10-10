@@ -11,7 +11,7 @@
 }
 .sectionTitle {
   margin-block-start: 1.25rem;
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: var(--tw-type-h2);
   font-weight: 800;
   line-height: 1;
@@ -217,7 +217,7 @@
 }
 .projectTitle {
   margin-block: 1rem 0.75rem;
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(2.25rem, 4.5vw, 3.5rem);
   font-weight: 800;
   line-height: 0.98;
@@ -376,7 +376,7 @@
 }
 .principleTitle {
   margin-block: 1rem 1.25rem;
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.75rem, 3vw, 2.5rem);
   font-weight: 800;
   line-height: 1;
@@ -601,7 +601,7 @@
   color: var(--tw-accent);
 }
 .conceptTitle {
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.5rem, 2.6vw, 2rem);
   font-weight: 700;
   line-height: 1.02;
