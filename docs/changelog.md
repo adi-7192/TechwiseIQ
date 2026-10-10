@@ -4,6 +4,12 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-10 — Insights + edge pages (ROADMAP 14.5–14.6, D-046)
+
+- `/insights`: centred "Plain answers. / Real sources." compact hero; the article list is unchanged.
+  Articles keep their reading layout (they inherit the new `DisplayHeading` type).
+- Privacy, terms, 404 and error verified on the backdrop with the new heading type; no code change needed.
+
 ## 2026-10-10 — Contact + bottleneck review in the reference grammar (ROADMAP 14.4, D-046)
 
 - `RefHero compact`: no viewport min-height, for pages whose job starts right below the hero.

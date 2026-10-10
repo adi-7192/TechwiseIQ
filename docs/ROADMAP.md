@@ -8,15 +8,16 @@
 
 ## ▶ NEXT
 
-**Stage 14 Redesign rollout — owner away, Claude works through it alone (no agents, D-046).** One stacked PR per
-group: 14.0 foundation → 14.1 services → 14.2 work → 14.3 about → 14.4 conversion → 14.5 reading → 14.6 edges.
-Each PR is based on the previous group's branch; owner reviews and merges in order.
+**Stage 14 Redesign rollout — built, awaiting owner review.** Stacked PRs #15 (foundation) → #16 services →
+#17 work → #18 about → #19 conversion → #20 reading + edges. Merge in that order; each PR lists its new
+strings. Then: fold Home onto `immersive/reference` (ponytail note in `reference.module.css`), decide the
+stashed footer arrows (D-044).
 **Stage 7 — owner launch gates.** 7.1 and 7.6 done on `stage-7/release`. Next: 🔒 7.2 preview review
 (include `/work` Lighthouse on the preview, see 7.1), 7.3 form test, 7.5 launch.
 
 ## Progress
 
-**29 / 35 tasks done** · rebuilt for the redesign 2026-10-04
+**31 / 35 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -32,7 +33,7 @@ Each PR is based on the previous group's branch; owner reviews and merges in ord
 | 10. About | `/about` proves who we are: proof, process, commitments (D-041) | 1/1 | ✅ (PR #13 merged) |
 | 12. Atmosphere | Inner pages float over a dark green checkered backdrop (D-043) | 1/1 | ✅ (12.2 → Stage 14) |
 | 13. Reference home | Home rebuilt to the reference composition + Inter Tight (D-045) | 1/1 | ✅ (PR #14 merged) |
-| 14. Redesign rollout | Every inner page in the Home grammar, one PR per group (D-046) | 5/7 | 🟡 |
+| 14. Redesign rollout | Every inner page in the Home grammar, one PR per group (D-046) | 7/7 | 🟡 (PRs #15–#20 open) |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
 
@@ -238,8 +239,9 @@ Skill: `.claude/skills/reference-redesign/SKILL.md`. Checkered backdrop (D-043) 
 - ✅ **14.2 Work** — 2026-10-10, `redesign/2-work`. `/work`, `/work/[slug]`.
 - ✅ **14.3 About** — 2026-10-10, `redesign/3-about`. `/about`.
 - ✅ **14.4 Conversion** — 2026-10-10, `redesign/4-conversion`. `/contact`, `/bottleneck-review`.
-- ⬜ **14.5 Reading** — `/insights`, `/insights/[slug]`.
-- ⬜ **14.6 Edges** — `/privacy`, `/terms`, 404, error.
+- ✅ **14.5 Reading** — 2026-10-10, `redesign/5-reading`. `/insights`, `/insights/[slug]`.
+- ✅ **14.6 Edges** — 2026-10-10, verified on `redesign/5-reading`, no code of its own: the backdrop,
+  `DisplayHeading` ghost/tracking (14.3) and Inter Tight already carry it. `/privacy`, `/terms`, 404, error.
 
 ## Later / rejected
 

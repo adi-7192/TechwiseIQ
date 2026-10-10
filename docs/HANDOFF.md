@@ -83,6 +83,9 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-10** — 14.5/14.6 reading + edges (`redesign/5-reading`). Rollout complete; owner reviews
+  PRs #15–#20 in order. Footer arrows (D-044) still in `git stash`.
+
 - **2026-10-10** — 14.4 conversion (`redesign/4-conversion`). Hero/layout only, forms untouched.
   Contact, smoke, routes, release, analytics and responsive specs 210/210.
 

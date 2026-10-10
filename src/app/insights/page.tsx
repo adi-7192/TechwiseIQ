@@ -1,14 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { RefHero } from '@/components/immersive/reference'
 import ImmersiveShell from '@/components/immersive/ImmersiveShell'
-import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
 import Section from '@/components/immersive/primitives/Section'
-import SectionLabel from '@/components/immersive/primitives/SectionLabel'
 import { SiteFooter, SiteHeader } from '@/components/global'
 import s from '@/components/ServicesOverview/ServicesOverview.module.css'
 import { INSIGHTS, readingMinutes } from '@/data/insights'
 import { socialMetadata } from '@/lib/metadata'
-import c from '../contact/contact.module.css'
 import { Inline, formatDate } from './inline'
 import i from './insights.module.css'
 
@@ -44,18 +42,13 @@ export default function InsightsPage() {
       <ImmersiveShell scene="advisory">
         <SiteHeader />
         <main id="main">
-          <section className={c.hero}>
-            <div className="tw-wrap">
-              <SectionLabel>Insights</SectionLabel>
-              <DisplayHeading as="h1" size="statement" className={i.title}>
-                Plain answers. <em>Real sources.</em>
-              </DisplayHeading>
-              <p className={c.intro}>
-                Short reads for business owners on websites, software and AI. Every number links to
-                where it came from, with its year.
-              </p>
-            </div>
-          </section>
+          <RefHero
+            compact
+            eyebrow="Insights"
+            line="Plain answers."
+            ghost="Real sources."
+            lead="Short reads for business owners on websites, software and AI. Every number links to where it came from, with its year."
+          />
 
           <Section density="dense" aria-label="Articles">
             <ol role="list" className={i.index}>
