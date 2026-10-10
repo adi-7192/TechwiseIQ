@@ -21,6 +21,7 @@ export default function SelectedWork() {
   return (
     <Section
       id="selected-work"
+      className={styles.workSection}
       ruled
       density="dense"
       data-scene="intro"
@@ -29,12 +30,12 @@ export default function SelectedWork() {
     >
       <div className={styles.workHead} data-home-reveal>
         <div>
-          <SectionLabel index="04">Selected work</SectionLabel>
-          <DisplayHeading as="h2" size="h2" id="work-title" className={styles.chapterTitle}>
-            Real projects, shipped.
+          <SectionLabel hideMark>04 / Selected work</SectionLabel>
+          <DisplayHeading as="h2" size="statement" id="work-title" className={styles.sectionTitle}>
+            Real projects, <span className={styles.ghost}>shipped.</span>
           </DisplayHeading>
         </div>
-        <PrimaryCTA href="/work" variant="ghost">
+        <PrimaryCTA href="/work" variant="ghost" className={styles.workAll}>
           See all work
         </PrimaryCTA>
       </div>
@@ -49,7 +50,7 @@ export default function SelectedWork() {
                 width={1440}
                 height={900}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                sizes="(max-width: 1024px) 100vw, 33vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 58vw"
               />
             </div>
             <div className={styles.workBody}>

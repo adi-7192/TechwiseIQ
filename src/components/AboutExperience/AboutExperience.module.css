@@ -2,7 +2,7 @@
    No `overflow: clip` on the root (UX U2): a clipping ancestor breaks the fixed
    03 pin, and overflow is root-caused instead. Accent is acid only (scene="advisory"). */
 .experience {
-  font-family: var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
 }
 
 .experience a {
@@ -243,7 +243,7 @@
 }
 .totals dd {
   margin: 0;
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: var(--tw-type-h2);
   font-weight: 800;
   line-height: 1;
@@ -314,7 +314,7 @@
   border-color: color-mix(in oklab, var(--tw-accent) 45%, var(--tw-line));
 }
 .cardTitle {
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: var(--tw-type-body-lg);
   font-weight: 700;
   line-height: 1.2;
@@ -440,7 +440,7 @@
 }
 .stepText h3 {
   margin-top: 0.75rem;
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: var(--tw-type-body-lg);
   font-weight: 700;
   line-height: 1.2;
@@ -616,7 +616,7 @@
   grid-row: span 2;
 }
 .statement {
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: var(--tw-type-body-lg);
   font-weight: 700;
   line-height: 1.25;

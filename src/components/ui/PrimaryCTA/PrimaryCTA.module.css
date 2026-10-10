@@ -10,7 +10,7 @@
   padding: 0.85em 1.5em;
   border: 1px solid transparent;
   border-radius: var(--tw-radius-control);
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: 0.9375rem;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -66,6 +66,13 @@
 }
 .ghost:hover {
   --_fg: var(--tw-accent);
+}
+
+/* Touch: every variant, ghost included, is a ≥44px tap target. */
+@media (pointer: coarse) {
+  .cta {
+    min-height: 44px;
+  }
 }
 
 .arrow {

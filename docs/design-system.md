@@ -36,27 +36,44 @@ Usage rules:
 
 ## 2. Typography
 
+*Revised 2026-10-10 (D-045, owner-approved): Inter Tight replaces Manrope (display) and Archivo (body) site-wide.*
+
 | Role | Font | Variable | Usage |
 |---|---|---|---|
-| Display | **Manrope** (variable grotesk) | `--font-display` | Hero, chapter titles, statements, h2 |
-| Body/UI | **Archivo** | `--font-archivo` | Paragraphs, buttons, capability matrix copy |
-| Labels/mono | **Space Mono** | `--font-mono` | Section eyebrows (`SectionLabel`), proof-frame labels, meta |
+| Display + body | **Inter Tight** (variable, wght 100–900) | `--font-display` | Hero, chapter titles, statements, headings, paragraphs, buttons, matrix copy, mock-UI text |
+| Labels/mono | **Space Mono** | `--font-mono` | Section eyebrows (`SectionLabel`), count labels, "Illustrative" tags, meta |
 
-Loaded via `next/font/google` in `layout.tsx` (`Archivo, Manrope, Space_Mono`). **Anton is retired** — removed from `layout.tsx` imports entirely; do not reintroduce it.
+Loaded via `next/font/google` in `layout.tsx` (`Inter_Tight, Space_Mono`). Inter Tight is loaded as the variable font (no `weight` list) with `variable: '--font-display'`, `display: 'swap'`. **Manrope, Archivo and Anton are retired** — `--font-archivo` and `--font-anton` are removed from `globals.css`; every former `var(--font-archivo)` reads `var(--font-display)`. Do not reintroduce them.
+
+Plain **Inter** stays banned (`anti-slop-checklist.md`): Inter Tight is the owner's specific choice for the reference look, not a default grotesk. Never write a family name in a `font-family` declaration — always `var(--font-display)` / `var(--font-mono)`. The `design-guard` hook greps `font-family…Inter` and will block a literal (that includes a comment on the same line).
+
+Setting — "the reference way":
+- **Display:** weight 400–680 (680 for a primary line, 400 for ghost lines and the one-word chapter titles), tracking −0.065em to −0.075em, line-height 0.78–0.9.
+- **Ghost line:** the second line of a two-line display heading in `--tw-muted` at weight 400. It stages emphasis without a second accent colour (hero, intro, closing CTA, section titles).
+- **Thesis (sub-display):** weight ~450, tracking −0.045em, line-height ~1.03.
+- **Card / matrix titles:** weight 650, tracking −0.01em, line-height 1.2.
+- **Body:** weight 400 (`<strong>` 600, `--tw-fg`), tracking 0, line-height 1.5–1.65.
 
 Type scale (`globals.css`):
 
 ```
-hero:      clamp(4.25rem, 10.5vw, 10.25rem)
-chapter:   clamp(4rem, 8.7vw, 8.5rem)
-statement: clamp(3rem, 6vw, 6rem)
-h2:        clamp(2.2rem, 4vw, 4.5rem)
-body-lg:   clamp(1.125rem, 0.6rem + 1vw, 1.375rem)
-body:      clamp(0.95rem, 0.9rem + 0.3vw, 1.0625rem)
-meta:      clamp(0.625rem, 0.55rem + 0.35vw, 0.75rem)
+display:          clamp(4.25rem, 10.6vw, 10.3125rem)   Home hero h1 (>768px)
+display-compact:  clamp(2.5rem, 13.5vw, 6.5rem)        Home hero h1 (≤768px), keeps two lines at 320px
+hero:             clamp(4.25rem, 10.5vw, 10.25rem)
+chapter:          clamp(4rem, 8.7vw, 8.5rem)           one-word chapter titles (>1024px), footer CTA
+word:             clamp(2.75rem, 17vw, 8.5rem)         one-word chapter titles (≤1024px, stacked)
+intro:            clamp(2.5rem, 7.8vw, 7.1875rem)      Home intro statement
+statement:        clamp(3rem, 6vw, 6rem)
+h2:               clamp(2.2rem, 4vw, 4.5rem)
+thesis:           clamp(1.5rem, 3vw, 2.875rem)         chapter thesis h3
+body-lg:          clamp(1.125rem, 0.6rem + 1vw, 1.375rem)
+body:             clamp(0.95rem, 0.9rem + 0.3vw, 1.0625rem)
+meta:             clamp(0.625rem, 0.55rem + 0.35vw, 0.75rem)
 ```
 
-Size is decoupled from semantic element via `DisplayHeading` (`variant="hero" | "chapter" | "statement" | "h2"`, `as` prop for the actual tag) — never invent a new clamp stop inline.
+`DisplayHeading` primitive weights/tracking under Inter Tight: hero and chapter 680 / −0.07em and −0.065em; statement and h2 600 / −0.05em and −0.04em.
+
+Size is decoupled from semantic element via `DisplayHeading` (`variant="hero" | "chapter" | "statement" | "h2"`, `as` prop for the actual tag) or a `--tw-type-*` token — never invent a new clamp stop inline. Mock-UI text inside illustrations is the one exception: it uses local container-relative sizes (see "Home reference composition").
 
 ## 3. Structure, borders, radius
 
@@ -74,7 +91,7 @@ Size is decoupled from semantic element via `DisplayHeading` (`variant="hero" | 
 
 **Global shell:**
 - `global/SiteHeader` — compact mono nav, hide-on-scroll, solid technical surface when scrolled (no glass/blur), skip-link, focus trap.
-- `global/SiteFooter` — all contact/legal links preserved, dark restyle.
+- `global/SiteFooter` — all contact/legal links preserved, dark restyle. `journey` variant (Home only) is the closing CTA: transparent over the skyline finale, centred "Let’s build" / ghost "what’s next." (D-045).
 - `global/MobileNav` — full-screen overlay, focus trap + return, Esc, scroll-lock.
 
 **Immersive primitives (`immersive/primitives`):**
@@ -85,9 +102,14 @@ Size is decoupled from semantic element via `DisplayHeading` (`variant="hero" | 
 
 **Scene (`immersive/HeroScene`, `lib/scene/engine.ts`):** one session-singleton Three.js renderer (vanilla Three, not React Three Fiber), mounted **behind the whole Home page** in one fixed layer — see "Hero skyline" and "Home journey" below (D-038, D-039). Every other route and chapter runs on the CSS radial atmosphere in `globals.css`, which was always the designed fallback. `data-scene` markers on `Section`/`ImmersiveShell` still publish the chapter accent for CSS; nothing reads them for WebGL any more.
 
-**Proof objects (`components/proof/`):** DOM/CSS/SVG demonstrations, not screenshots. Shared `ProofFrame` (bordered surface, mono label bar, honest "Illustrative" tag, optional caption, `surface="dark"|"light"`, accent follows ambient `--tw-accent`). Concrete demos: `WebsiteProof`, `AutomationFlowDemo`, `OperationsConsoleDemo`, `OpportunityMapDemo`, `BuildProof`, dispatched via `proof/index.tsx` (`<ProofObject variant=... />`). All state is deterministic sample data — never a fake live metric.
+**Proof objects and illustrations:** DOM/CSS/inline-SVG demonstrations, never screenshots of fake products. The old `components/proof/` set (`ProofFrame`, `WebsiteProof`, …) is deleted. Current: `immersive/home/ServiceDemo` (finite interactive demos, used on `/services/*` only) and the Home illustrations (`immersive/home/Illustrations.tsx`, D-045: hero orbit cards, chapter feature cards, artifacts). Every mock that shows text or data carries a visible Space Mono "Illustrative" tag; mock strings come only from `src/data/services.ts`. All state is deterministic sample data — never a fake live metric.
 
-**Homepage (`immersive/home/`):** `HomeHero` (real `<h1>`, left-aligned copy over the WebGL skyline; the floating artifacts were removed 2026-10-06), `Chapter` (reusable chapter shell: `SectionLabel` + `DisplayHeading` + `ProofObject` + capability matrix), `ChapterNav` (compact persistent nav, scroll-synced active state, native hash anchors), `SelectedWork` (real case studies only), `OperatingModel`, `FinalCta`, `ChapterArtifacts`, `HomeMotion` (GSAP client boundary — see §5).
+**Homepage (`immersive/home/`, D-045):**
+- `HomeHero` — centred real `<h1>` ("Technology that" / ghost "moves the work."), lead, two pill CTAs, five decorative tilted orbit cards (`aria-hidden`, no focusables).
+- `ServiceStories` — intro statement (count label / giant h2 with ghost line / muted aside) and three service chapters. Chapter anatomy: count label → giant one-word title with accent dot → thesis set right → illustrated feature card (`--tw-radius-proof`) with 2–4 tilted artifacts (`--tw-radius-artifact`) at differing parallax rates → hairline-ruled 3-col capability grid from `SERVICES[id].capabilities`.
+- `SelectedWork` (real case studies only, asymmetric grid), `OperatingModel` (hairline grid), `HomeMotion` (GSAP client boundary — see §5), `CursorGlow`, `IntroPreloader`.
+- Pill chapter nav — light pill fixed bottom-centre, `<nav aria-label="Page chapters">`, Intro / Websites / Software / Automation / Work, hidden ≤768px. Markup in `home/index.tsx`, active state set by `HomeMotion`.
+- Retired and deleted: `Chapter`, `ChapterNav`, `FinalCta`, `ChapterArtifacts`.
 
 **Buttons (`ui/PrimaryCTA`):** pill control (`--tw-radius-control`). `primary` = light bg / dark text, `secondary` = dark translucent + technical border, `ghost` = inline text link. Polymorphic: `Link` for internal routes, plain `<a>` for external (mailto/wa.me/http) with `external` + `rel`, or `<button>`. No gradients, ever.
 
@@ -101,6 +123,8 @@ Four primitives only (`techwise-iq-build-handoff/docs/04_MOTION_AND_3D_SPEC.md`)
 4. **Reveal** — text/dense content use consistent vertical or clip reveals.
 
 Architecture: **GSAP is the sole DOM animation library** (`gsap` + `@gsap/react`) — no Framer Motion. **Lenis** (`lenis`) drives smooth scroll via `immersive/SmoothScroll.tsx`, feeding scene state (`feedScene` prop on `ImmersiveShell`). Do not add a second scroll or animation library without updating this doc and getting sign-off — that's a vocabulary expansion.
+
+GSAP 3.12+ folds an element's computed CSS `rotate`/`scale`/`translate` into its own transform the first time it touches it; any cleanup on a switch to reduced motion must strip those inline values too, or the CSS rest pose never comes back.
 
 Timing:
 ```
@@ -120,6 +144,7 @@ Performance budget: one WebGL renderer (session singleton, guarded against dupli
 - DOM carries all meaningful content, navigation, interaction, and accessibility — the scene canvas is `aria-hidden`, `pointer-events: none`, purely decorative.
 - Real `<h1>` lives in `HomeHero`, not in decorative chapter titles alone.
 - Chapter nav: native hash anchors, keyboard operable, visible focus (acid focus ring, scoped inside `.tw-world`), scroll-synced `aria-current`.
+- Approved exception (13.1, D-045): the Home pill chapter nav sits on `--tw-paper`, where the acid ring is invisible, so its links use a 2px `--tw-ink` focus ring instead (`.pillNav a:focus-visible` in `home/studio.module.css`).
 - Skip link precedes all other focusable elements (including the global WhatsApp control — this was a real bug, fixed in Phase 9; don't regress it).
 - Touch targets ≥44px. Mobile sheds 30–60% of floating artifacts and shrinks spatial depth — verify by reading the actual breakpoint CSS, not assuming.
 - Proof objects are labelled figures (`ProofFrame`'s `aria-label`) with an honest "Illustrative" tag — never presented as real live data.
@@ -335,3 +360,60 @@ Spec: `docs/specs/10.1-about.md` (Visual spec, V10).
   `static` after 3s (Home's `data-home-motion` pattern).
 - No WebGL or canvas on About. The page runs on the CSS atmosphere, acid accent only
   (`scene="advisory"`).
+
+## Home reference composition — 2026-10-10 (Adi-approved, D-045)
+
+Refines "Home journey": the skyline stays as the backdrop; Home's foreground returns to the layout and
+rhythm of `techwise-iq-build-handoff/reference/techwise-iq-editions-reference.html` (idea source only —
+nothing pasted). Full build spec: `docs/superpowers/specs/2026-10-10-13.1-reference-home-design.md`.
+Supersedes the 2026-09-05 "Homepage refinement" and "Motion and footer revision" layouts and D-038's
+"floating hero cards removed".
+
+**Hero.** Centred: mono eyebrow, `h1` "Technology that" (680) / ghost "moves the work." (400,
+`--tw-muted`) at `--tw-type-display` (≤768px `--tw-type-display-compact`, two lines down to 320px),
+lead, primary + secondary pills. Five decorative orbit cards (`aria-hidden`, text-free UI skeletons,
+tilted ±2–7°) sit outside the copy: on screens >768px they are anchored to the copy block's outer edges,
+so they can never cover the `h1`, lead or CTAs; ≤768px at most two sit in the band above the eyebrow
+(none on short phones). The `h1`/lead remain the LCP element. The scroll note shows only ≤768px, where
+the pill nav is hidden.
+
+**Chapters (Websites → Software → AI).** Count label (`01 / Websites`), giant one-word title (400,
+−0.072em) with an `aria-hidden` accent dot, thesis h3 + muted body set right, a large illustrated
+feature card (`--tw-radius-proof`) with 2–3 tilted artifacts (`--tw-radius-artifact`), then a hairline
+3-col capability grid from `SERVICES[id].capabilities`. Illustrations are DOM + small inline SVG in
+tokens, every mock with text carries a visible Space Mono "Illustrative" tag, and mock strings come only
+from `services.ts` (`fitSignals`, `capabilities[].title`, `process[].title`) plus "Illustrative" /
+"Sample".
+
+**Accent rule as applied (strict, default).** Each chapter's illustrations use only that chapter's
+accent (web acid, software orange, AI violet) plus neutrals (`--tw-fg`, `--tw-paper`, `--tw-ink`,
+`--tw-surface`, `--tw-bg`, greys). The hero orbit is acid + neutrals. *Pending owner question
+OQ-13.1-A:* whether the hero orbit may show one service accent per card (acid / orange / violet). The
+orbit reads its colours from one block of per-card custom properties, so the variant is a token swap;
+it is not built.
+
+**Violet and orange contrast.** Small text never sits on violet (white/ink on `--tw-violet` is
+~4.1–4.4:1) or white text on orange (~2.6:1). Violet is a fill/shape colour; labels on orange are
+`--tw-ink`. Text on `--tw-paper` is `--tw-ink` (muted on paper fails).
+
+**Chapter dot.** The accent dot after each one-word title may carry a soft accent `box-shadow`
+halo — the one sanctioned accent glow, scoped to that dot (from the approved reference). It is never
+applied to cards, borders or buttons. *Flagged for Adi's confirmation; removing it is one declaration.*
+
+**Elevation.** Feature cards, artifacts and orbit cards may carry a dark elevation shadow
+(`box-shadow` in `rgb(0 0 0 / …)`) for depth. Dark only — never an accent-coloured glow.
+
+**Pill nav.** Fixed bottom-centre light pill (`--tw-paper` / `--tw-ink`, active item inverted),
+`<nav aria-label="Page chapters">`, hidden ≤768px, clear of the WhatsApp control; its focus ring is
+`--tw-ink` because the acid ring is invisible on paper. Home's footer reserves bottom padding for it.
+
+**Legibility.** The hero shader well becomes centred: `uWell.x = 0` now means "centre column" (the
+mask blends from centre to side by `|x|`), and "no well" is `wellStrength = 0`. Chapter stops put the
+well on the thesis side. Opaque illustration surfaces stop the Home text-shadow backing
+(`[data-illustration]`).
+
+**Motion mapping (no new primitives).** Orbit cards and feature-card artifacts = proof-object depth
+(scroll parallax at per-card rates; pointer tilt for fine pointers, from the brief's "Websites:
+pointer tilt"). Section content = reveal. Skyline = ambient persistence + chapter transition. Static
+tilts use the CSS `rotate` property so GSAP transforms compose with them. Reduced motion: cards
+static (tilt kept), no parallax or pointer response, content shown directly.

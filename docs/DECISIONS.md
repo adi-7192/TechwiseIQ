@@ -286,6 +286,20 @@ approved. The "Search foundations, built in" commitment is dropped (RSiGHT, show
 structured data or sitemap): five commitments, each already true for every project shown. Express
 Petroleum's industry label stays "Dubai".
 
+**D-045 — Home returns to the reference composition, over the skyline.** 2026-10-10 · owner ("I liked the font and design of the reference… the flow of content, the placement, and the colorful images and illustrations… the current design is very static and basic, simple blocks aligned side to side"; chose: keep skyline + reference layout, Inter Tight, Home first) · refines D-038/D-039, reverses D-038's "floating hero cards removed".
+Source: `techwise-iq-build-handoff/reference/techwise-iq-editions-reference.html` + `reference/assets/*.svg`
+(not in git; read from the owner's handoff folder). Home adopts the reference's layout and rhythm: centred
+hero headline with a grey "ghost" second line and tilted floating artifact cards orbiting it; an intro
+statement; one chapter per service with a giant one-word title + accent dot, thesis set right, a large
+colourful illustrated feature card with parallax artifacts around it, and a hairline-ruled 3-col
+capability grid; a bottom pill chapter nav; centred closing CTA. The skyline WebGL journey (D-039) stays
+as the backdrop. Type: **Inter Tight** replaces Manrope (display) and Archivo (body) site-wide, set the
+reference way (display ~400–680 weight, −0.065 to −0.075em tracking, ~0.8–0.9 line-height); Space Mono
+stays for labels. Illustrations are re-drawn in Immersive tokens (no pasted SVG) and every mock carries
+the "Illustrative" tag; no invented client names or metrics as fact (D-002).
+*Apply:* reference = idea source, never pasted (handoff CLAUDE.md). Copy stays the site's current
+approved copy unless the owner approves reference lines. Inner pages follow in a later stage.
+
 ---
 
 ## Open decisions (need owner — do not resolve on your own)

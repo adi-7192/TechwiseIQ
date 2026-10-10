@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test'
-import { scrollIntoViewHeld } from './helpers'
 
 test('intro opens the hero and runs only once per tab', async ({ page }) => {
   await page.addInitScript(() => {
@@ -24,36 +23,10 @@ test('intro opens the hero and runs only once per tab', async ({ page }) => {
   ).not.toContain('loading')
 })
 
-test('reduced motion bypasses the intro and shows complete service illustrations', async ({
-  page,
-}) => {
+test('reduced motion bypasses the intro', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await expect(page.locator('[data-intro-overlay]')).toBeHidden()
-  for (const kind of ['web', 'software', 'ai']) {
-    const demo = page.locator(`[data-demo="${kind}"]`)
-    await demo.scrollIntoViewIfNeeded()
-    await expect(demo).toHaveAttribute('data-step', '3')
-    const pieces = demo.locator('[data-build-piece], [data-review], [data-output]')
-    for (const piece of await pieces.all()) await expect(piece).toBeVisible()
-  }
-})
-
-test('the software construction is visibly animated, and pause freezes it', async ({ page }) => {
-  await page.goto('/')
-  const demo = page.locator('[data-demo="software"]')
-  await scrollIntoViewHeld(demo)
-  await demo.getByRole('button', { name: 'Replay software demo' }).click()
-  await expect(demo).toHaveAttribute('data-playing', 'true')
-  const piece = demo.locator('[data-app-piece]').first()
-  await expect
-    .poll(async () => piece.evaluate((el) => parseFloat(getComputedStyle(el).opacity)))
-    .toBeGreaterThan(0.1)
-  await demo.getByRole('button', { name: 'Pause', exact: true }).click()
-  const snapshot = await piece.getAttribute('style')
-  await page.waitForTimeout(600)
-  expect(await piece.getAttribute('style')).toBe(snapshot)
-  await expect(demo).toHaveAttribute('data-playing', 'false')
 })
 
 for (const width of [320, 390, 768, 1440]) {

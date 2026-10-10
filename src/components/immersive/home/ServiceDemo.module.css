@@ -6,7 +6,7 @@
   background: var(--tw-surface);
   box-shadow: 0 30px 80px rgb(0 0 0 / 0.22);
   overflow: hidden;
-  font-family: var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
 }
 .topbar {
   display: flex;

@@ -22,8 +22,8 @@
     0 2px 18px var(--tw-bg),
     0 0 8px var(--tw-bg);
 }
-/* …but not inside the light demo panels or the opaque work cards. */
-.experience [data-demo],
+/* …but not on the opaque illustration surfaces or the work cards. */
+.experience [data-illustration],
 .experience a[href^='/work/'] {
   text-shadow: none;
 }
@@ -73,239 +73,67 @@
               which is what makes the tweens' trailing clearProps safe.
    Values mirror the `from` vars in HomeMotion.tsx exactly. */
 .experience[data-home-motion='pending'] [data-home-reveal] {
+  /* Opacity only: `visibility: hidden` would drop the CTAs from the Tab order. */
   opacity: 0;
-  visibility: hidden;
 }
-.hero {
-  position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
+
+/* ─── Pill chapter nav (Home, >768px). Plain hash anchors; HomeMotion sets
+   aria-current on the active link. Above the cursor halo (40), below the
+   WhatsApp control (50) and the header (60). No transform: GSAP-free. ─── */
+.pillNav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(22px + env(safe-area-inset-bottom));
+  z-index: 45;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-top: 8rem;
-  overflow: clip;
+  gap: 2px;
+  width: fit-content;
+  margin-inline: auto;
+  padding: 5px;
+  border-radius: var(--tw-radius-control);
+  background: var(--tw-paper);
+  box-shadow: 0 15px 45px rgb(0 0 0 / 0.45);
+  text-shadow: none;
 }
-.heroCopy {
-  position: relative;
-  z-index: 2;
-}
-.heroCopy > span {
-  letter-spacing: 0.12em;
-  font-size: 0.6875rem;
-}
-.heroTitle {
-  font-family: var(--font-display), sans-serif;
-  font-size: var(--tw-type-statement);
-  font-weight: 800;
-  line-height: 0.99;
-  letter-spacing: -0.06em;
-  margin: 2rem 0 1.75rem;
-}
-.heroTitle em {
-  color: var(--tw-acid);
-  font-style: normal;
-}
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+.pillNav a {
+  display: inline-flex;
   align-items: center;
-  margin-top: 2rem;
-}
-.browserBar {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid rgb(16 17 16 / 0.12);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.5625rem;
+  min-height: 36px;
+  padding: 0.625rem 0.9rem;
+  border-radius: var(--tw-radius-control);
   color: var(--tw-ink);
-}
-.browserBar > span:first-child {
-  letter-spacing: 0.3em;
-  opacity: 0.45;
-}
-.servicesIntro {
-  padding-block: 4.5rem;
-  border-bottom: 1px solid var(--tw-line);
-  scroll-margin-top: 6rem;
-}
-.introGrid {
-  display: grid;
-  grid-template-columns: 1fr 2.4fr 1.7fr;
-  gap: 2rem;
-  align-items: start;
-}
-.introGrid h2 {
-  font-size: 1.75rem;
-  line-height: 1.2;
-  font-weight: 600;
-  letter-spacing: -0.04em;
-}
-.introGrid h2 span {
-  color: var(--tw-muted);
-}
-.introGrid p {
-  color: var(--tw-muted);
-  margin-top: 1rem;
-  max-width: 35ch;
-  font-size: 0.9375rem;
-}
-.serviceIndex {
-  display: grid;
-}
-.serviceIndex a {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  min-height: 48px;
-  font-size: 0.8125rem;
-  border-bottom: 1px solid var(--tw-line);
-}
-.serviceIndex a span:first-child {
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
-  color: var(--tw-muted);
-}
-.serviceIndex a span:last-child {
-  margin-left: auto;
-  color: var(--tw-acid);
-}
-.serviceIndex a:hover {
-  color: var(--tw-acid);
-}
-.service {
-  padding-block: clamp(4rem, 8vw, 8rem);
-  border-bottom: 1px solid var(--tw-line);
-  scroll-margin-top: 5rem;
-}
-.serviceGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: clamp(2rem, 6vw, 6rem);
-  align-items: center;
-}
-.service:nth-of-type(4) .serviceCopy {
-  order: 2;
-}
-.service:nth-of-type(4) .demoWrap {
-  order: 1;
-}
-.serviceCopy h2 {
-  font-size: var(--tw-type-h2);
-  line-height: 1.08;
-  letter-spacing: -0.05em;
-  margin: 1.75rem 0 1.25rem;
-  font-weight: 600;
-}
-.serviceCopy h2 span {
-  color: var(--tw-muted);
-}
-.serviceCopy > p {
-  font-family: var(--font-archivo), sans-serif;
-  font-size: 1rem;
-  line-height: 1.7;
-  max-width: 43ch;
-  color: var(--tw-muted);
-}
-.serviceCopy ul {
-  list-style: none;
-  margin: 1.75rem 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem 1.2rem;
-  max-width: 38ch;
-}
-.serviceCopy li {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  font-family: var(--font-display), sans-serif;
   font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  transition:
+    background-color var(--tw-duration-micro) var(--tw-ease-out),
+    color var(--tw-duration-micro) var(--tw-ease-out);
 }
-.serviceCopy li::before {
-  content: '';
-  width: 4px;
-  height: 4px;
-  background: var(--tw-accent);
+.pillNav a:hover {
+  background: color-mix(in srgb, var(--tw-ink) 8%, var(--tw-paper));
 }
-.demoWrap {
-  min-width: 0;
+.pillNav a[aria-current='true'] {
+  background: var(--tw-ink);
+  color: var(--tw-paper);
 }
-@media (min-width: 1025px) {
-  .heroTitle {
-    font-size: var(--tw-type-chapter);
-  }
+/* The acid ring is invisible on paper: ink ring here (design-system.md §6). */
+.pillNav a:focus-visible {
+  outline: 2px solid var(--tw-ink);
+  border-radius: var(--tw-radius-control);
+  outline-offset: 2px;
 }
-@media (max-width: 1024px) {
-  .heroCopy > span {
-    max-width: 32ch;
-    line-height: 1.7;
-  }
-  .introGrid {
-    grid-template-columns: 1.5fr 1fr;
-  }
-  .introGrid > span {
-    grid-column: 1 / -1;
-  }
-  .serviceGrid {
-    gap: 2rem;
-  }
-  .serviceCopy h2 {
-    font-size: var(--tw-type-h2);
+@media (pointer: coarse) {
+  .pillNav a {
+    min-height: 44px;
   }
 }
 @media (max-width: 768px) {
-  .hero {
-    padding-top: 6rem;
-  }
-  .heroTitle {
-    font-size: var(--tw-type-hero);
-    margin-top: 1.5rem;
-  }
-  .heroCopy > span {
-    max-width: none;
-    font-size: 0.625rem;
-  }
-  .introGrid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  .servicesIntro {
-    padding-block: 3rem;
-  }
-  .serviceIndex {
-    margin-top: 0.5rem;
-  }
-  .serviceGrid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-  .service:nth-of-type(4) .serviceCopy,
-  .service:nth-of-type(4) .demoWrap {
-    order: initial;
-  }
-  .serviceCopy h2 {
-    font-size: var(--tw-type-h2);
-  }
-  .serviceCopy > p {
-    max-width: 55ch;
-  }
-  .serviceCopy ul {
-    max-width: none;
-  }
-  .service {
-    padding-block: 3.5rem;
+  .pillNav {
+    display: none;
   }
 }
-@media (max-width: 480px) {
-  .actions {
-    gap: 0.4rem;
-  }
-  .heroTitle {
-    letter-spacing: -0.055em;
-  }
-}
-.actions > a {
-  min-height: 44px;
+:global(html[data-intro='loading']) .pillNav {
+  visibility: hidden;
 }

@@ -16,7 +16,7 @@
 
 .code {
   color: var(--tw-accent);
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(8rem, 25vw, 18rem);
   font-weight: 800;
   letter-spacing: -0.09em;

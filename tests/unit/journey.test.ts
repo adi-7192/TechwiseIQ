@@ -37,7 +37,13 @@ test('district stops are resolved relative to their district', () => {
 
 test('on phones, every section after the hero runs dimmer than its desktop stop', () => {
   for (const name of STOP_NAMES.slice(1, -1)) {
-    assert.ok(portraitStop(name).exposure <= 0.42, name)
+    assert.ok(portraitStop(name).exposure <= 0.18, name)
     assert.equal(portraitStop(name).wellStrength, 0)
   }
+})
+
+test('the hero and the closing CTA are centred, so their light well is centred too', () => {
+  assert.equal(STOPS.hero.wellSide, 0)
+  assert.equal(STOPS.finale.wellSide, 0)
+  assert.ok(STOPS.hero.wellStrength > 0 && STOPS.finale.wellStrength > 0)
 })

@@ -83,6 +83,16 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-10** — 13.1 Home to the reference composition (D-045), branch `stage-13/reference-home`,
+  worktree `website-stage-13`. Built through the full pipeline; UX recheck SHIP; its should-fixes closed
+  (opacity-only reveals keep chapter links tabbable, intro 3 s failsafe, pill focus radius, mock-pill
+  cursor). Gates on `next build --webpack` (Turbopack panics on the worktree's symlinked `node_modules`
+  — run a real `npm run build` before merge). Lighthouse mobile Home (local prod, 3 runs): perf 95,
+  TBT 0, LCP 2.71 s, CLS 0 (median); occasional single-run TBT ~190 ms from the first WebGL frame's
+  compositor commit, not HomeMotion. QA contrast blocker fixed (0 failures, 390/1440,
+  motion + reduced); unit 33/33, e2e home + responsive 235/235; owner approved the as-built page
+  ("looks good"), incl. orbit accents, dot glow and pill strings. **Open:** reconcile `SiteFooter` with the owner's uncommitted edits on `stage-12/atmosphere`.
+
 - **2026-10-07** — 10.1 `/about` rebuild (D-041). The first orchestrator run hit the account's
   session limit after the build; a fresh run finished review + QA from what was on disk. UX blocked
   twice (20px card links on touch; the pin's stacked fallback glided because `html` has

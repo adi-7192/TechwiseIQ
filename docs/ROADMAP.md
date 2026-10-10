@@ -8,13 +8,14 @@
 
 ## ▶ NEXT
 
-**Stage 10 About rebuild (10.1) — PR open from `stage-10/about`: owner checks the Vercel preview (incl. `/about` Lighthouse), then merges.**
+**Stage 13 Reference home (13.1) — done, owner-approved 2026-10-10, PR open on `stage-13/reference-home`.** Merge once
+CI is green (CI runs the real Turbopack build). Then 13.2: carry the reference style to the inner pages.
 **Stage 7 — owner launch gates.** 7.1 and 7.6 done on `stage-7/release`. Next: 🔒 7.2 preview review
 (include `/work` Lighthouse on the preview, see 7.1), 7.3 form test, 7.5 launch.
 
 ## Progress
 
-**22 / 26 tasks done** · rebuilt for the redesign 2026-10-04
+**23 / 28 tasks done** · rebuilt for the redesign 2026-10-04
 
 | Stage | Goal | Done | Status |
 |---|---|---|---|
@@ -27,7 +28,8 @@
 | 7. Release | Redesign release checklist → merge to `main` | 3/6 | 🟡 (7.2, 7.3, 7.5 🔒 owner) |
 | 8. Showpiece | Home skyline: hero (D-038) + whole-page journey (D-039) | 2/2 | ✅ (PR #11 merged) |
 | 9. Work clarity | `/work` shows the work first, with less to read (D-040) | 1/1 | ✅ (PR #12 merged) |
-| 10. About | `/about` proves who we are: proof, process, commitments (D-041) | 1/1 | 🟡 (PR open) |
+| 10. About | `/about` proves who we are: proof, process, commitments (D-041) | 1/1 | ✅ (PR #13 merged) |
+| 13. Reference home | Home rebuilt to the reference composition + Inter Tight (D-045) | 1/2 | 🟡 (13.1 PR #14 open) |
 
 Legend: ⬜ to do · 🟡 in progress · ✅ done · 🔒 blocked on owner · ⏸ held.
 
@@ -193,6 +195,24 @@ New section/page → full agent pipeline (D-020). Visual work follows `docs/desi
   answers 2026-10-07: h1 option B, search-foundations row dropped, EP label stays Dubai; h1 set at
   statement scale on desktop so it fits the fold. Full e2e 388 pass; Lighthouse mobile `/about`
   median 95 (5 runs, min 92; pre-rebuild 94), a11y/BP/SEO 100, CLS 0. `/ponytail-review` applied.
+
+## Stage 13 — Reference home
+
+- ✅ **13.1 Home to the reference composition** (D-045) — 2026-10-10 — branch `stage-13/reference-home`. Centred hero +
+  ghost line + floating artifact cards over the skyline; chapter per service (giant title + accent dot,
+  thesis right, illustrated feature card + parallax artifacts, hairline capability grid); pill chapter
+  nav; centred closing CTA. Inter Tight replaces Manrope + Archivo. Full pipeline (D-020).
+  **Done 2026-10-10:** owner reviewed on local prod build ("looks good"), accepting the as-built orbit
+  accents, chapter-dot glow and pill-nav strings. QA contrast blocker fixed (0 failures, 390 + 1440,
+  motion + reduced). Gates: lint, tsc, `next build --webpack`, unit 33/33, e2e home + responsive 235/235.
+  Notes carried forward:
+  - Turbopack build panics in the `website-stage-13` worktree (symlinked `node_modules`); gates ran on
+    `next build --webpack`. CI runs the real `npm run build`.
+  - HANDOFF §6: reconcile `SiteFooter` with the owner's uncommitted edits on `stage-12/atmosphere`.
+  - TBT: Lighthouse mobile median TBT 0 ms over 6 runs, but single runs spike to ~190 ms — a rAF task
+    where the first WebGL frame's compositor commit lands (headless software GL). Not a HomeMotion cost
+    (its setup is ~27 ms at 4× CPU). Recheck on the Vercel preview with real GPU before treating as a gap.
+- ⬜ **13.2 Carry the reference style to inner pages** — after owner review of 13.1.
 
 ## Later / rejected
 

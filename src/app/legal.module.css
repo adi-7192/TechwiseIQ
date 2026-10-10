@@ -11,7 +11,7 @@
 
 .title {
   max-width: 12ch;
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(3.5rem, 8vw, 7rem);
   font-weight: 800;
   letter-spacing: -0.055em;
@@ -36,7 +36,7 @@
 }
 
 .heading {
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: clamp(1.35rem, 2.2vw, 2rem);
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -46,7 +46,7 @@
 .section p {
   max-width: 68ch;
   color: var(--tw-muted);
-  font-family: var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: var(--tw-type-body);
   font-weight: 500;
   line-height: 1.75;

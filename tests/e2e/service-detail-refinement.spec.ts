@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { scrollIntoViewHeld } from './helpers'
 
 const services = ['web', 'software', 'ai'] as const
 
@@ -101,3 +102,62 @@ for (const service of services) {
     await context.close()
   })
 }
+
+// Moved from the Home specs in 13.1: ServiceDemo now renders on /services/* only.
+test('each demonstration can be completed manually with reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  for (const kind of services) {
+    await page.goto(`/services/${kind}`)
+    const demo = page.locator(`[data-demo="${kind}"]`)
+    await demo.scrollIntoViewIfNeeded()
+    await expect(demo).toHaveAttribute('data-step', '3')
+    for (const piece of await demo.locator('[data-build-piece], [data-review], [data-output]').all()) {
+      await expect(piece).toBeVisible()
+    }
+    await demo.getByRole('button', { name: 'Try it yourself' }).click()
+    await expect(demo).toHaveAttribute('data-step', '0')
+    await demo.getByRole('button', { name: 'Next step' }).click()
+    await demo.getByRole('button', { name: 'Next step' }).click()
+    await demo
+      .getByRole('button', { name: kind === 'software' ? 'Approve request' : 'Next step' })
+      .click()
+    await expect(demo).toHaveAttribute('data-step', '3')
+    await expect(demo.getByRole('status')).toContainText(
+      kind === 'web'
+        ? 'Enquiry received'
+        : kind === 'software'
+          ? 'Approved and recorded'
+          : 'Ready for human review'
+    )
+  }
+})
+
+test('the software construction is visibly animated, and pause freezes it', async ({ page }) => {
+  await page.goto('/services/software')
+  const demo = page.locator('[data-demo="software"]')
+  await scrollIntoViewHeld(demo)
+  await demo.getByRole('button', { name: 'Replay software demo' }).click()
+  await expect(demo).toHaveAttribute('data-playing', 'true')
+  const piece = demo.locator('[data-app-piece]').first()
+  await expect
+    .poll(async () => piece.evaluate((el) => parseFloat(getComputedStyle(el).opacity)))
+    .toBeGreaterThan(0.1)
+  await demo.getByRole('button', { name: 'Pause', exact: true }).click()
+  const snapshot = await piece.getAttribute('style')
+  await page.waitForTimeout(600)
+  expect(await piece.getAttribute('style')).toBe(snapshot)
+  await expect(demo).toHaveAttribute('data-playing', 'false')
+})
+
+test('playback pauses offscreen', async ({ page }) => {
+  await page.goto('/services/web')
+  const demo = page.locator('[data-demo="web"]')
+  await scrollIntoViewHeld(demo)
+  await expect(demo).toHaveAttribute('data-playing', 'true')
+  await demo.getByRole('button', { name: 'Replay website demo' }).click()
+  await page.evaluate(() => window.scrollTo(0, 0))
+  await page.waitForTimeout(400)
+  const offscreenStep = await demo.getAttribute('data-step')
+  await page.waitForTimeout(1900)
+  await expect(demo).toHaveAttribute('data-step', offscreenStep!)
+})

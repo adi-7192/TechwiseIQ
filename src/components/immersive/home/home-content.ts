@@ -1,7 +1,8 @@
 /** Homepage operating-model copy (the only home content not inlined in its component). */
 export const OPERATING_MODEL = {
   index: 'Operating model',
-  title: 'A clear plan. A working product.',
+  /** Rendered as one h2: the second half is the ghost line. */
+  title: ['A clear plan.', 'A working product.'],
   body: 'Talk straight to the people building your product. Know what’s next, see real progress, and own everything we ship.',
   promises: [
     ['Written scope', 'Timeline and cost agreed before the build starts.'],

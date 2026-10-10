@@ -11,7 +11,7 @@ export type Stop = {
   look: Vec3
   /** Final colour scale: 1 in open sections, lower behind dense content. */
   exposure: number
-  /** Copy-side dimming: -1 copy on the left, +1 on the right, 0 none. */
+  /** Copy-side dimming: -1 copy on the left, +1 on the right, 0 centred (no well = wellStrength 0). */
   wellSide: number
   wellStrength: number
   /** Screen height (0 bottom → 1 top) where the well fades out; >1 covers the full height. */
@@ -36,30 +36,31 @@ export type StopName = (typeof STOP_NAMES)[number]
 const base = { wellSide: 0, wellStrength: 0, wellTop: 1.2, light: ACID, lightHeight: 1.4, lightPower: 1, districts: [0, 0, 0] as Vec3, ambient: 0.35 }
 
 export const STOPS: Record<StopName, Stop> = {
-  // Street level, copy over the lower-left city.
-  hero: { ...base, focus: 0, pos: [0, 3.6, 15.5], look: [0, 1.6, -6], exposure: 1, wellSide: -1, wellStrength: 0.62, wellTop: 0.62, ambient: 1 },
+  // Street level, copy centred over the city.
+  hero: { ...base, focus: 0, pos: [0, 3.6, 15.5], look: [0, 1.6, -6], exposure: 1, wellSide: 0, wellStrength: 0.8, wellTop: 0.9, ambient: 1 },
   // The climb ends on a map: three districts glow faintly — "three ways forward".
-  services: { ...base, focus: 0, pos: [0, 19, 2.5], look: [0, 0, -3.5], exposure: 0.45, wellSide: -1, wellStrength: 0.7, lightHeight: 3, lightPower: 1.6, districts: [0.45, 0.45, 0.45], ambient: 0.3 },
-  // Each service flies to its district, framed on the side opposite its copy.
-  websites: { ...base, focus: 1, pos: [-3, 5.5, 10], look: [-3.5, 0.5, 0], exposure: 0.65, wellSide: -1, wellStrength: 0.8, lightHeight: 2, lightPower: 1.3, districts: [1, 0.12, 0.12] },
-  apps: { ...base, focus: 2, pos: [4, 6, 9], look: [3.5, 0.5, 0], exposure: 0.65, wellSide: 1, wellStrength: 0.8, light: ORANGE, lightHeight: 2, lightPower: 1.3, districts: [0.12, 1, 0.12] },
-  automation: { ...base, focus: 3, pos: [-4, 7, 9], look: [-3.5, 0.5, 0], exposure: 0.65, wellSide: -1, wellStrength: 0.8, light: VIOLET, lightHeight: 2, lightPower: 1.3, districts: [0.12, 0.12, 1] },
+  services: { ...base, focus: 0, pos: [0, 19, 2.5], look: [0, 0, -3.5], exposure: 0.3, wellSide: -1, wellStrength: 0.7, lightHeight: 3, lightPower: 1.6, districts: [0.45, 0.45, 0.45], ambient: 0.3 },
+  // Each service flies to its district; the well sits behind the thesis, set right.
+  websites: { ...base, focus: 1, pos: [-3, 5.5, 10], look: [-3.5, 0.5, 0], exposure: 0.22, wellSide: 1, wellStrength: 0.8, lightHeight: 2, lightPower: 1.3, districts: [1, 0.12, 0.12] },
+  apps: { ...base, focus: 2, pos: [4, 6, 9], look: [3.5, 0.5, 0], exposure: 0.22, wellSide: 1, wellStrength: 0.8, light: ORANGE, lightHeight: 2, lightPower: 1.3, districts: [0.12, 1, 0.12] },
+  automation: { ...base, focus: 3, pos: [-4, 7, 9], look: [-3.5, 0.5, 0], exposure: 0.28, wellSide: 1, wellStrength: 0.8, light: VIOLET, lightHeight: 2, lightPower: 1.3, districts: [0.12, 0.12, 1] },
   // Dense cards: a high, quiet overview.
-  work: { ...base, focus: 0, pos: [0, 24, 10], look: [0, 0, -4], exposure: 0.5, lightHeight: 4, lightPower: 2, districts: [0.35, 0.35, 0.35], ambient: 0.2 },
-  model: { ...base, focus: 0, pos: [14, 12, 16], look: [0, 0, -5], exposure: 0.38, lightHeight: 3, lightPower: 1.6, districts: [0.25, 0.25, 0.25], ambient: 0.2 },
-  // Back down to the street, facing the needle: "Let's build what's next."
-  finale: { ...base, focus: 1, pos: [-4, 1.6, 12], look: [0, 4, -1], exposure: 1, wellSide: -1, wellStrength: 0.6, districts: [0.6, 0.6, 0.6], ambient: 1 },
+  work: { ...base, focus: 0, pos: [0, 24, 10], look: [0, 0, -4], exposure: 0.4, lightHeight: 4, lightPower: 2, districts: [0.35, 0.35, 0.35], ambient: 0.2 },
+  model: { ...base, focus: 0, pos: [14, 12, 16], look: [0, 0, -5], exposure: 0.3, lightHeight: 3, lightPower: 1.6, districts: [0.25, 0.25, 0.25], ambient: 0.2 },
+  // Back down to the street, facing the needle: "Let's build what's next." (centred CTA)
+  finale: { ...base, focus: 1, pos: [-4, 1.6, 12], look: [0, 4, -1], exposure: 1, wellSide: 0, wellStrength: 0.6, districts: [0.6, 0.6, 0.6], ambient: 1 },
 }
 
 /**
  * Portrait screens (phones): copy runs the full width, so a side well cannot
- * protect it. The hero is framed closer (as before) and every later section
- * runs at lower exposure instead.
+ * protect it. The hero is framed closer with a softer centred well, and every
+ * later section runs at a low exposure instead (§8 contrast sweep: muted body
+ * text needs a near-black backdrop).
  */
 export function portraitStop(name: StopName, closeHero = true): Stop {
   const stop = STOPS[name]
-  if (name === 'hero') return closeHero ? { ...stop, pos: [0, 3.4, 9.5], look: [0, 3.6, -6], wellStrength: 0 } : stop
-  return { ...stop, wellStrength: 0, exposure: name === 'finale' ? 0.6 : Math.min(stop.exposure, 0.42) }
+  if (name === 'hero') return closeHero ? { ...stop, pos: [0, 3.4, 9.5], look: [0, 3.6, -6], wellStrength: 0.45 } : stop
+  return { ...stop, wellStrength: 0, exposure: name === 'finale' ? 0.6 : Math.min(stop.exposure, 0.18) }
 }
 
 /** Flat parameter layout shared by the sampler and the engine's damped state. */

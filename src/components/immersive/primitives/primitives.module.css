@@ -63,8 +63,8 @@
 /* ─── DisplayHeading — the large type that carries the design ─── */
 .heading {
   margin: 0;
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
-  font-weight: 700;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
   line-height: 0.95;
   letter-spacing: -0.02em;
   text-wrap: balance;
@@ -73,25 +73,29 @@
 
 .hero {
   font-size: var(--tw-type-hero);
-  line-height: 0.9;
-  letter-spacing: -0.035em;
-  font-weight: 800;
+  letter-spacing: -0.07em;
+  font-weight: 680;
+  line-height: 0.86;
 }
 
 .chapter {
   font-size: var(--tw-type-chapter);
-  letter-spacing: -0.03em;
-  font-weight: 800;
+  letter-spacing: -0.065em;
+  font-weight: 680;
+  line-height: 0.9;
 }
 
 .statement {
   font-size: var(--tw-type-statement);
-  letter-spacing: -0.025em;
+  font-weight: 600;
+  letter-spacing: -0.05em;
 }
 
 .h2 {
   font-size: var(--tw-type-h2);
+  font-weight: 600;
   line-height: 1;
+  letter-spacing: -0.04em;
 }
 
 /* Accent a run of the heading — wrap it in <em> (rendered non-italic). */

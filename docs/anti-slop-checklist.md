@@ -6,10 +6,10 @@ The premise: LLM-generated design converges on the median of its training data �
 
 ## Visual tells to forbid
 
-- Inter, Roboto, or any default system grotesk as the display face (this project uses Manrope/Archivo/Space Mono — see `design-system.md` §2).
+- Inter, Roboto, or any default system grotesk as the display face. This project uses **Inter Tight** (display + body) and **Space Mono** (labels) — see `design-system.md` §2. Inter Tight is the owner's deliberate choice for the reference composition (D-045, 2026-10-10), set the reference way (weights 400–680, −0.065 to −0.075em display tracking, ghost second lines). Plain Inter remains banned, and Inter Tight must never be used "default-style" (body-weight headings at 0 tracking).
 - Indigo→purple (or any) gradient used as a default "this is an AI product" signal. Gradients are banned outright in this system (`design-guard.sh` gate).
 - Glassmorphism / `backdrop-filter` blur anywhere, including nav bars.
-- Glowing card borders, neon-on-dark accent glow, `box-shadow` blur used as a glow effect.
+- Glowing card borders, neon-on-dark accent glow, `box-shadow` blur used as a glow effect. Single exception: the small accent dot after a Home chapter title (D-045, `design-system.md` "Home reference composition"). Dark elevation shadows on cards are not glow.
 - Permanent dark mode reached for as a reflex rather than a deliberate atmosphere decision (this site's dark world is a *designed* atmosphere with a documented rationale — not "dark mode because AI defaults to it").
 - A thin colored accent bar down the left edge of every card — a specific, very recognizable 2026 AI-generated-UI tell.
 - Uniform 1px-gray-border card grids where every card looks identical.
@@ -37,7 +37,7 @@ Extends the existing banned-vocabulary list (empowering, unlock, elevate, synerg
 
 - One locked archetype for the whole site: dark technical atmosphere / operating-environment, not brutalist-editorial (retired) and not generic SaaS.
 - A capped, intentional accent system — one signal color dominant per viewport (`--tw-accent`), never all four signals competing at once.
-- A real, non-default font pairing (Manrope + Archivo + Space Mono) — not Inter.
+- A real, deliberately set font pairing — Inter Tight set the reference way (tight display tracking, 680/400 weight contrast, ghost lines) + Space Mono labels (D-045). Not plain Inter, and not Inter Tight at default settings.
 - Radius used as a deliberate signal ("this is an interface") on proof objects/artifacts/buttons only — not applied uniformly to every block.
 - Asymmetric chapter rhythm (sparse ↔ dense alternation) instead of a neat repeating grid.
 - Proof objects that demonstrate an actual believable workflow with real labels — not fake dashboards or stock screenshots.

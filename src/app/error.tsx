@@ -40,7 +40,7 @@ export default function Error({
       </p>
       <p
         style={{
-          fontFamily: 'var(--font-archivo)',
+          fontFamily: 'var(--font-display)',
           fontSize: 'clamp(16px, 2vw, 22px)',
           fontWeight: 500,
           marginTop: '24px',

@@ -260,7 +260,7 @@
 }
 .steps strong {
   font:
-    500 var(--tw-type-body)/1.4 var(--font-archivo),
+    500 var(--tw-type-body)/1.4 var(--font-display),
     sans-serif;
 }
 .steps button > span:last-child {

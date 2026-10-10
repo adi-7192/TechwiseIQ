@@ -19,6 +19,14 @@ import styles from './studio.module.css'
 // the content back after 3s. Same idiom as IntroPreloader.tsx.
 const motionBootstrap = `(function(){try{var e=document.currentScript.parentElement;if(!e||matchMedia('(prefers-reduced-motion: reduce)').matches)return;e.dataset.homeMotion='pending';setTimeout(function(){if(e.dataset.homeMotion==='pending')e.dataset.homeMotion='static'},3000)}catch(err){}})()`
 
+const CHAPTERS = [
+  ['top', 'Intro'],
+  ['websites', 'Websites'],
+  ['apps', 'Software'],
+  ['automation', 'Automation'],
+  ['selected-work', 'Work'],
+] as const
+
 export default function ImmersiveHome() {
   return (
     // The inline script below sets data-home-motion before hydration on purpose.
@@ -29,6 +37,14 @@ export default function ImmersiveHome() {
       <SceneLoader className={styles.sceneLayer} />
       <CursorGlow />
       <HomeHero />
+      {/* Straight after the hero so it is early in the tab order (UX 13.1). */}
+      <nav aria-label="Page chapters" className={styles.pillNav}>
+        {CHAPTERS.map(([id, label]) => (
+          <a key={id} href={`#${id}`} data-nav={id}>
+            {label}
+          </a>
+        ))}
+      </nav>
       <ServiceStories />
       <SelectedWork />
       <OperatingModel />

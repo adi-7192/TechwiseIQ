@@ -6,7 +6,7 @@
 .title {
   max-width: 10ch;
   margin-top: 1.25rem;
-  font-family: var(--font-display), var(--font-archivo), sans-serif;
+  font-family: var(--font-display), sans-serif;
   font-size: var(--tw-type-hero);
   font-weight: 800;
   letter-spacing: -0.06em;
