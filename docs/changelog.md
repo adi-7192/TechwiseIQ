@@ -4,6 +4,13 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-10 — Contact + bottleneck review in the reference grammar (ROADMAP 14.4, D-046)
+
+- `RefHero compact`: no viewport min-height, for pages whose job starts right below the hero.
+- `/contact`: centred "Let's / talk shop." hero; the form, direct methods and next steps unchanged.
+- `/bottleneck-review`: centred "The free 20-minute / bottleneck review." hero with a pill to the form;
+  "How it works" as a reference intro with a ruled 4-col grid. Form and copy unchanged.
+
 ## 2026-10-10 — About in the reference grammar (ROADMAP 14.3, D-046)
 
 - `DisplayHeading` `<em>` is now the grey ghost run (muted, weight 400) instead of the acid accent, and

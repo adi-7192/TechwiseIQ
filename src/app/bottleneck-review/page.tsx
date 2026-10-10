@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import ImmersiveShell from '@/components/immersive/ImmersiveShell'
 import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
 import Section from '@/components/immersive/primitives/Section'
-import SectionLabel from '@/components/immersive/primitives/SectionLabel'
+import { RefHero, RefIntro, CapabilityGrid } from '@/components/immersive/reference'
 import SiteFooter from '@/components/global/SiteFooter'
 import SiteHeader from '@/components/global/SiteHeader'
 import s from '@/components/ServicesOverview/ServicesOverview.module.css'
@@ -54,58 +54,62 @@ export default function BottleneckReviewPage() {
       <ImmersiveShell scene="advisory">
         <SiteHeader />
         <main id="main">
-          <section className={c.hero}>
-            <div className="tw-wrap">
-              <SectionLabel>Free · 20 minutes · Dubai / Worldwide</SectionLabel>
-              <DisplayHeading as="h1" size="statement" className={p.title}>
-                The free 20-minute <em>bottleneck review.</em>
-              </DisplayHeading>
-              <p className={c.intro}>
+          <RefHero
+            compact
+            eyebrow="Free · 20 minutes · Dubai / Worldwide"
+            line="The free 20-minute"
+            ghost="bottleneck review."
+            lead={
+              <>
                 Something in your business is slower than it should be. Bring it to us.{' '}
-                <strong>Twenty minutes, free</strong>: you explain the mess, we explain how
-                we&apos;d untangle it.
-              </p>
-            </div>
-          </section>
+                <strong>Twenty minutes, free</strong>: you explain the mess, we explain how we&apos;d
+                untangle it.
+              </>
+            }
+            primary={{ href: '#review-form', label: 'Tell us what’s stuck' }}
+          />
 
-          <Section ruled density="dense" aria-labelledby="how-title">
-            <DisplayHeading as="h2" size="h2" id="how-title" className={s.sectionTitle}>
-              How it works
-            </DisplayHeading>
-            <ol role="list" className={s.deliveryTrack}>
-              <li>
-                <span className={s.deliveryMarker}>01</span>
-                <h3>You tell us.</h3>
-                <p>
-                  Fill in <a href="#review-form" className={p.inlineLink}>
-                    the form below
-                  </a>: what&apos;s stuck and
-                  what you use today.
-                </p>
-              </li>
-              <li>
-                <span className={s.deliveryMarker}>02</span>
-                <h3>We reply.</h3>
-                <p>
-                  A real person reads it and replies <strong>within 24 hours</strong> to set
-                  up the call.
-                </p>
-              </li>
-              <li>
-                <span className={s.deliveryMarker}>03</span>
-                <h3>The 20-minute call.</h3>
-                <p>You explain the problem. We explain how we&apos;d untangle it.</p>
-              </li>
-              <li>
-                <span className={s.deliveryMarker}>04</span>
-                <h3>Then it&apos;s your call.</h3>
-                <p>
-                  Want us to build it? We bring options with our recommendation, then the
-                  scope and price in writing. Not for you? <strong>No hard feelings.</strong>
-                </p>
-              </li>
-            </ol>
-          </Section>
+          <RefIntro id="how" count="01 / How it works" line="How it" ghost="works.">
+            <CapabilityGrid
+              cols={4}
+              items={[
+                {
+                  title: 'You tell us.',
+                  body: (
+                    <>
+                      Fill in{' '}
+                      <a href="#review-form" className={p.inlineLink}>
+                        the form below
+                      </a>
+                      : what&apos;s stuck and what you use today.
+                    </>
+                  ),
+                },
+                {
+                  title: 'We reply.',
+                  body: (
+                    <>
+                      A real person reads it and replies <strong>within 24 hours</strong> to set
+                      up the call.
+                    </>
+                  ),
+                },
+                {
+                  title: 'The 20-minute call.',
+                  body: 'You explain the problem. We explain how we’d untangle it.',
+                },
+                {
+                  title: 'Then it’s your call.',
+                  body: (
+                    <>
+                      Want us to build it? We bring options with our recommendation, then the
+                      scope and price in writing. Not for you? <strong>No hard feelings.</strong>
+                    </>
+                  ),
+                },
+              ]}
+            />
+          </RefIntro>
 
           <Section ruled density="dense" aria-labelledby="bring-title">
             <div className={s.directoryIntro}>

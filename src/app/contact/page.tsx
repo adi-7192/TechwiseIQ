@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import ImmersiveShell from '@/components/immersive/ImmersiveShell'
-import SectionLabel from '@/components/immersive/primitives/SectionLabel'
+import { RefHero } from '@/components/immersive/reference'
 import SiteFooter from '@/components/global/SiteFooter'
 import SiteHeader from '@/components/global/SiteHeader'
 import { CONTACT_EMAIL, WHATSAPP_URL } from '@/lib/site'
@@ -27,26 +27,26 @@ export default function ContactPage() {
     <ImmersiveShell scene="advisory">
       <SiteHeader />
       <main id="main" data-contact-page>
-        <section className={styles.hero}>
-          <div className="tw-wrap">
-            <SectionLabel>Get in touch / Dubai · Worldwide</SectionLabel>
-            <h1 className={styles.title}>
-              Let&apos;s <span className={styles.titleAccent}>talk shop.</span>
-            </h1>
-            <p className={styles.intro}>
-              Tell us what&apos;s slowing you down. We reply{' '}
-              <strong>within 24 hours</strong> (yes, really), then a written
-              scope after a short call.
-            </p>
-            <p className={styles.nextNote}>
-              Not ready for a project? Try the{' '}
-              <Link href="/bottleneck-review">
-                <strong>free 20-minute bottleneck review</strong>
-              </Link>
-              .
-            </p>
-          </div>
-        </section>
+        <RefHero
+          compact
+          eyebrow="Get in touch / Dubai · Worldwide"
+          line="Let’s"
+          ghost="talk shop."
+          lead={
+            <>
+              Tell us what&apos;s slowing you down. We reply <strong>within 24 hours</strong> (yes,
+              really), then a written scope after a short call.
+            </>
+          }
+        >
+          <p className={styles.nextNote}>
+            Not ready for a project? Try the{' '}
+            <Link href="/bottleneck-review">
+              <strong>free 20-minute bottleneck review</strong>
+            </Link>
+            .
+          </p>
+        </RefHero>
 
         <section>
           <div className="tw-wrap">
