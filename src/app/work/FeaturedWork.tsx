@@ -52,6 +52,7 @@ function FeaturedProject({
         tabIndex={-1}
         aria-hidden="true"
         data-project-image
+        data-depth="28"
       >
         {/* Featured studies are always live (unit-tested); the bar shows the real domain. */}
         <BrowserBar
@@ -136,6 +137,7 @@ function MoreProject({ caseStudy }: { caseStudy: CaseStudy }) {
         className={`${styles.moreThumb} ${styles.coverLink}`}
         tabIndex={-1}
         aria-hidden="true"
+        data-depth="16"
       >
         {caseStudy.coverImage && (
           <Image

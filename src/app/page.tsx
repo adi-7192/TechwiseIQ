@@ -60,7 +60,7 @@ const jsonLd = {
 
 export default function Home() {
   return (
-    <ImmersiveShell scene="intro">
+    <ImmersiveShell scene="intro" backdrop="none">
       <IntroPreloader />
       <script
         type="application/ld+json"

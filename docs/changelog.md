@@ -4,6 +4,16 @@ Running log of all changes made to the codebase. Most recent first.
 
 ---
 
+## 2026-10-10 — Redesign rollout foundation (ROADMAP 14.0, D-046)
+
+- `src/components/immersive/reference/`: `RefHero`, `RefIntro`, `Chapter`, `CapabilityGrid`, `Panel`,
+  `ClosingCta`, `PillNav` (IntersectionObserver active state) + `reference.module.css`, mirroring Home's
+  grammar. Home is not migrated onto them yet.
+- Checkered backdrop (D-043, cherry-picked from `stage-12/atmosphere`) is on by default in
+  `ImmersiveShell`; Home passes `backdrop="none"`.
+- Skill `.claude/skills/reference-redesign/SKILL.md` for redesigning one page at a time.
+- Stage-12 footer-arrow edits (D-044) stashed, not merged.
+
 ## 2026-10-10 — Home to the reference composition (ROADMAP 13.1, D-045)
 
 - Owner-approved 2026-10-10. QA contrast blocker fixed: every Home stop ≥ 4.5:1 at 390 and 1440, with
@@ -41,6 +51,18 @@ Running log of all changes made to the codebase. Most recent first.
 - `getClientCountries` in `src/app/work/work-projects.ts` (+ unit tests).
 - Tests: `tests/e2e/about-experience.spec.ts` rewritten (structure, honesty, pin, fallback, touch
   targets, CLS, reduced motion, no-JS).
+
+## 2026-10-09 — Checkered backdrop + floating depth on /work (ROADMAP 12.1, D-043)
+
+- `ImmersiveShell` gains opt-in `backdrop="checker"`: fixed `.tw-backdrop` layer (globals.css) — dark
+  green checker (SVG mask over acid 7% in `--tw-bg`, 48px / 32px on phones), radial edge fade
+  (`scene-glow-ok`, D-043).
+- New `src/components/immersive/DepthMotion.tsx`: ScrollTrigger-driven backdrop drift (0.3× / 0.15×
+  phones) and `[data-depth]` panel drift via `translate`; off on phones (panels) and under reduced motion.
+- `/work`: backdrop on; `data-depth` on featured covers (28), more-work thumbs (16), Concept Lab cards
+  (16/28 alternating).
+
+---
 
 ## 2026-10-06 — /work clarity + trust pass (ROADMAP 9.1, D-040)
 

@@ -310,6 +310,40 @@ img { display: block; max-width: 100%; }
   }
 }
 
+/* Checkered backdrop (D-043) — opt-in per route via ImmersiveShell `backdrop`.
+   Home never uses it (the skyline is its backdrop). A fixed, pointer-inert layer
+   between the scene glow and the grain. The checker is an SVG mask over a dark
+   green fill (acid mixed into the page bg), so no new colour token is needed.
+   DepthMotion drifts the inner pattern slower than the page (wrapping one tile)
+   so content reads as floating above it; under reduced motion it stays still. */
+.tw-world > .tw-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  /* scene-glow-ok — D-043: the checker fades out toward the edges, not a decorative fill */
+  mask-image: radial-gradient(120% 85% at 50% 35%, #000 25%, transparent 80%);
+}
+.tw-backdrop__pattern {
+  --tw-checker: 48px;
+  position: absolute;
+  inset: calc(var(--tw-checker) * -2) 0;
+  background-color: color-mix(in oklab, var(--tw-acid) 7%, var(--tw-bg));
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2' shape-rendering='crispEdges'%3E%3Crect width='1' height='1'/%3E%3Crect x='1' y='1' width='1' height='1'/%3E%3C/svg%3E");
+  mask-size: calc(var(--tw-checker) * 2) calc(var(--tw-checker) * 2);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tw-backdrop__pattern {
+    will-change: transform;
+  }
+}
+@media (max-width: 768px) {
+  .tw-backdrop__pattern {
+    --tw-checker: 32px;
+  }
+}
+
 /* Key words in body copy: bright foreground on the muted body text, no extra accent (one accent per viewport). */
 :where(p) > strong {
   color: var(--tw-fg);

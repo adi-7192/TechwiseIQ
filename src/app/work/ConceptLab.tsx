@@ -96,6 +96,7 @@ export default function ConceptLab() {
                   data-concept-status="published"
                   data-concept-index={index}
                   data-concept-slug={concept.slug}
+                  data-depth={index % 2 ? 28 : 16}
                 >
                   <LiveConceptPreview
                     demoPath={concept.demoPath}
@@ -125,6 +126,7 @@ export default function ConceptLab() {
                 data-concept-stage
                 data-concept-status={presentationStatus}
                 data-concept-index={index}
+                data-depth={index % 2 ? 28 : 16}
               >
                 <ConceptBlueprint />
                 <ConceptCopy

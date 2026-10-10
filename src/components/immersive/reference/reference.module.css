@@ -1,0 +1,462 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Reference grammar for inner pages (Stage 14, D-045/D-046). Mirrors Home's
+   HeroStage.module.css + home.module.css + studio.module.css (.pillNav).
+   ponytail: duplicated from Home rather than refactoring Home under it; fold
+   Home onto these once the rollout is merged and Home can be re-screenshotted.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.ghost {
+  font-weight: 400;
+  color: var(--tw-muted);
+}
+
+/* ─── Hero: centred, ghost second line, optional orbit ─── */
+.hero {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 86vh;
+  min-height: 86svh;
+  padding: 8rem var(--tw-page-pad) 6rem;
+  overflow: clip;
+  isolation: isolate;
+  text-align: center;
+}
+.stage {
+  --h1-size: var(--tw-type-chapter);
+  position: relative;
+  width: min(100%, 64rem);
+  margin-inline: auto;
+}
+.stage > :not(:first-child) {
+  position: relative;
+  z-index: 1;
+}
+.eyebrow {
+  margin-bottom: 1.75rem;
+}
+.title {
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--h1-size);
+  font-weight: 680;
+  line-height: 0.84;
+  letter-spacing: -0.07em;
+  color: var(--tw-fg);
+  text-wrap: balance;
+}
+.line {
+  display: block;
+  overflow: clip;
+  padding-block: 0.12em 0.24em;
+  margin-block: -0.12em -0.24em;
+}
+.line > span {
+  display: inline-block;
+}
+.lead {
+  max-width: 44ch;
+  margin: 2.125rem auto 1.75rem;
+  font-size: var(--tw-type-body-lg);
+  line-height: 1.5;
+  color: var(--tw-muted);
+  text-wrap: balance;
+}
+.lead strong {
+  color: var(--tw-fg);
+  font-weight: 600;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+}
+.actions > a {
+  min-height: 48px;
+}
+.heroExtra {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+@media (max-width: 768px) {
+  .hero {
+    min-height: 0;
+    padding-block: 7rem 4rem;
+  }
+  .stage {
+    --h1-size: var(--tw-type-display-compact);
+  }
+  .title {
+    line-height: 0.88;
+  }
+}
+
+/* Entrance, CSS from first paint (same reasoning as HeroStage.module.css). */
+@keyframes ref-line {
+  from {
+    transform: translateY(115%) rotate(3deg);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes ref-support {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ref-orbit {
+  from {
+    opacity: 0;
+    scale: 0.92;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+.hero [data-ref-line] {
+  animation: ref-line 1.1s var(--tw-ease-out) both;
+}
+.line:nth-of-type(2) [data-ref-line] {
+  animation-delay: 0.12s;
+}
+.hero [data-ref-support] {
+  animation: ref-support 0.85s 0.35s var(--tw-ease-out) both;
+}
+.lead[data-ref-support] {
+  animation-delay: 0.45s;
+}
+.actions[data-ref-support] {
+  animation-delay: 0.55s;
+}
+.hero [data-orbit-slot] {
+  animation: ref-orbit 0.9s 0.6s var(--tw-ease-out) both;
+}
+
+/* ─── Section rhythm ─── */
+.section {
+  padding-block: clamp(5rem, 9vw, 8.5rem);
+}
+.section[data-tight] {
+  padding-block: clamp(3.5rem, 6vw, 5.5rem);
+}
+
+/* ─── Intro statement: count / giant statement / aside ─── */
+.introGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 7fr) minmax(0, 3fr);
+  gap: 2rem;
+  align-items: start;
+}
+.introCount {
+  padding-top: 0.75rem;
+  color: var(--tw-fg);
+}
+.introTitle {
+  font-size: var(--tw-type-intro);
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.065em;
+  color: var(--tw-fg);
+}
+.introTitle > span {
+  display: block;
+}
+.introAside {
+  align-self: end;
+  max-width: 30ch;
+  font-size: var(--tw-type-body);
+  line-height: 1.55;
+  color: var(--tw-muted);
+}
+.introAside strong {
+  color: var(--tw-fg);
+}
+
+/* ─── Chapter: count + giant word + dot | thesis ─── */
+.chapterHead {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: end;
+}
+.count {
+  display: flex;
+  margin-bottom: 0.75rem;
+  color: var(--tw-fg);
+}
+.word {
+  font-size: var(--tw-type-chapter);
+  font-weight: 400;
+  line-height: 0.84;
+  letter-spacing: -0.072em;
+  color: var(--tw-fg);
+  overflow-wrap: anywhere;
+}
+.dot {
+  display: inline-block;
+  width: 0.24em;
+  height: 0.24em;
+  margin-left: 0.08em;
+  vertical-align: 0.14em;
+  border-radius: var(--tw-radius-control);
+  background: var(--tw-accent);
+  /* The one sanctioned accent glow, scoped to the dot (design-system.md, D-045). */
+  box-shadow: 0 0 0.5em color-mix(in srgb, var(--tw-accent) 50%, transparent);
+}
+.thesis {
+  justify-self: end;
+  max-width: 30rem;
+  padding-bottom: 1.25rem;
+}
+.thesisHead {
+  margin-bottom: 1.125rem;
+  font-size: var(--tw-type-thesis);
+  font-weight: 450;
+  line-height: 1.03;
+  letter-spacing: -0.045em;
+  color: var(--tw-fg);
+  text-wrap: balance;
+}
+.thesisBody {
+  max-width: 46ch;
+  font-size: var(--tw-type-body);
+  line-height: 1.55;
+  color: var(--tw-muted);
+}
+.thesisBody strong {
+  color: var(--tw-fg);
+}
+.thesisLink {
+  margin-top: 1.25rem;
+}
+.chapterBody {
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+/* ─── Capability grid: a ruled table, not cards ─── */
+.capGrid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+  border-top: 1px solid var(--tw-line);
+  list-style: none;
+}
+.cap {
+  padding: 1.75rem 1.625rem 2.375rem 0;
+  border-bottom: 1px solid var(--tw-line);
+  min-width: 0;
+}
+.cap:not(:nth-child(3n + 1)) {
+  padding-left: 1.625rem;
+  border-left: 1px solid var(--tw-line);
+}
+.capGrid[data-cols='2'] .cap {
+  padding-left: 0;
+  border-left: 0;
+}
+.capGrid[data-cols='2'] .cap:nth-child(2n) {
+  padding-left: 1.625rem;
+  border-left: 1px solid var(--tw-line);
+}
+.capGrid[data-cols='4'] .cap:not(:nth-child(3n + 1)) {
+  padding-left: 0;
+  border-left: 0;
+}
+.capGrid[data-cols='4'] .cap:not(:nth-child(4n + 1)) {
+  padding-left: 1.625rem;
+  border-left: 1px solid var(--tw-line);
+}
+.capIndex {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--tw-type-meta);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--tw-fg);
+}
+.capIndex > i {
+  width: 6px;
+  height: 6px;
+  background: var(--tw-accent);
+}
+.capHead {
+  margin: 0.9rem 0 0.5rem;
+  font-size: 1.0625rem;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--tw-fg);
+}
+.capBody {
+  margin: 0;
+  max-width: 38ch;
+  font-size: var(--tw-type-body);
+  line-height: 1.55;
+  color: var(--tw-muted);
+}
+.capBody a {
+  color: var(--tw-fg);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+@media (max-width: 1024px) {
+  .introGrid,
+  .chapterHead {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+  .introCount {
+    padding-top: 0;
+  }
+  .introAside {
+    align-self: start;
+    max-width: 40ch;
+  }
+  .word {
+    font-size: var(--tw-type-word);
+  }
+  .thesis {
+    justify-self: start;
+    max-width: 38rem;
+  }
+}
+@media (max-width: 880px) {
+  .capGrid,
+  .capGrid[data-cols] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .capGrid .cap:nth-child(n),
+  .capGrid[data-cols] .cap:nth-child(n) {
+    padding-left: 0;
+    border-left: 0;
+  }
+  .capGrid .cap:nth-child(2n),
+  .capGrid[data-cols] .cap:nth-child(2n) {
+    padding-left: 1.625rem;
+    border-left: 1px solid var(--tw-line);
+  }
+}
+@media (max-width: 480px) {
+  .capGrid,
+  .capGrid[data-cols] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .capGrid .cap:nth-child(n),
+  .capGrid[data-cols] .cap:nth-child(n) {
+    padding: 1.5rem 0 2rem;
+    border-left: 0;
+  }
+}
+
+/* ─── Floating panel: an opaque proof surface that drifts (DepthMotion) ─── */
+.panel {
+  position: relative;
+  border: 1px solid var(--tw-line);
+  border-radius: var(--tw-radius-proof);
+  background: var(--tw-surface);
+  box-shadow: 0 40px 100px rgb(0 0 0 / 0.55);
+  overflow: hidden;
+}
+
+/* ─── Closing CTA ─── */
+.close {
+  display: grid;
+  place-items: center;
+  padding-block: clamp(7rem, 14vw, 13rem) clamp(5rem, 10vw, 8rem);
+  text-align: center;
+}
+.closeInner {
+  max-width: 64rem;
+}
+.closeTitle {
+  font-size: var(--tw-type-statement);
+  font-weight: 650;
+  line-height: 0.86;
+  letter-spacing: -0.068em;
+  color: var(--tw-fg);
+  text-wrap: balance;
+}
+.closeTitle > span {
+  display: block;
+}
+.closeBody {
+  max-width: 48ch;
+  margin: 1.75rem auto 2rem;
+  font-size: var(--tw-type-body-lg);
+  line-height: 1.55;
+  color: var(--tw-muted);
+}
+.closeActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.625rem;
+}
+
+/* ─── Pill chapter nav (same as Home's) ─── */
+.pillNav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(22px + env(safe-area-inset-bottom));
+  z-index: 45;
+  display: flex;
+  gap: 2px;
+  width: fit-content;
+  max-width: calc(100vw - 2rem);
+  margin-inline: auto;
+  padding: 5px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-radius: var(--tw-radius-control);
+  background: var(--tw-paper);
+  box-shadow: 0 15px 45px rgb(0 0 0 / 0.45);
+}
+.pillNav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0.625rem 0.9rem;
+  border-radius: var(--tw-radius-control);
+  color: var(--tw-ink);
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color var(--tw-duration-micro) var(--tw-ease-out),
+    color var(--tw-duration-micro) var(--tw-ease-out);
+}
+.pillNav a:hover {
+  background: color-mix(in srgb, var(--tw-ink) 8%, var(--tw-paper));
+}
+.pillNav a[aria-current='true'] {
+  background: var(--tw-ink);
+  color: var(--tw-paper);
+}
+.pillNav a:focus-visible {
+  outline: 2px solid var(--tw-ink);
+  border-radius: var(--tw-radius-control);
+  outline-offset: 2px;
+}
+@media (pointer: coarse) {
+  .pillNav a {
+    min-height: 44px;
+  }
+}
+@media (max-width: 768px) {
+  .pillNav {
+    display: none;
+  }
+}
