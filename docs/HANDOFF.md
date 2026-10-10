@@ -83,6 +83,9 @@ inquiry, booking URL, domain/DNS, real-device sign-off, `npm audit` review, prod
 
 ## 6. Session log (newest first)
 
+- **2026-10-10** — 14.1 services (`redesign/1-services`, stacked on 14.0). Service e2e + responsive
+  217/217, a11y 6/6 against a local prod build. New strings for owner review are listed in the PR.
+
 - **2026-10-10** — 14.0 rollout foundation (D-046), `redesign/0-foundation`. Owner away; Claude works
   alone with no agents. Reference primitives in `immersive/reference/`, checkered backdrop default on
   inner routes, skill committed. Stage-12 footer work is `git stash` "stage-12 footer arrows D-044…".

@@ -1,10 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import type { SceneName } from '@/components/immersive/ImmersiveShell'
-import Section from '@/components/immersive/primitives/Section'
-import SectionLabel from '@/components/immersive/primitives/SectionLabel'
-import DisplayHeading from '@/components/immersive/primitives/DisplayHeading'
 import PrimaryCTA from '@/components/ui/PrimaryCTA'
+import { FeatureSpace } from '@/components/immersive/home/Illustrations'
+import {
+  RefHero,
+  RefIntro,
+  Chapter,
+  CapabilityGrid,
+  Panel,
+  PillNav,
+  type Accent,
+} from '@/components/immersive/reference'
 import ServiceDemo from '@/components/immersive/home/ServiceDemo'
 import { CASE_STUDIES } from '@/data/case-studies'
 import { SERVICE_LIST, type ServiceId, type ServiceContent } from '@/data/services'
@@ -20,6 +27,16 @@ export const SERVICE_SCENE: Record<ServiceId, SceneName> = {
   ai: 'automation',
 }
 
+const ACCENT: Record<ServiceId, Accent> = { web: 'acid', software: 'orange', ai: 'violet' }
+
+const NAV = [
+  ['capabilities', 'What we build'],
+  ['expertise', 'Approach'],
+  ['delivery', 'Delivery'],
+  ['work', 'Work'],
+  ['questions', 'Questions'],
+] as const
+
 export default function ServiceDetailPage({ service }: { service: ServiceContent }) {
   const guide = SERVICE_GUIDES[service.id]
   const studies = service.proofSlugs
@@ -31,168 +48,123 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
     ai: ['Make room', 'for better work.'],
   }[service.id]
 
+  const accent = ACCENT[service.id]
+
   return (
     <div className={styles.experience} data-service-experience>
-      <Section
-        as="header"
-        density="sparse"
-        className={styles.hero}
-        innerClassName={styles.heroInner}
-      >
-        <div className={styles.heroCopy}>
+      <RefHero
+        id="service-hero"
+        crumb={
           <nav className={styles.breadcrumb} aria-label="Breadcrumb">
             <Link href="/services">Services</Link>
             <span aria-hidden="true">/</span>
             <span>{service.title}</span>
           </nav>
-          <DisplayHeading as="h1" size="statement" className={styles.heroTitle}>
-            {headline[0]}
-            <br />
-            <span>{headline[1]}</span>
-          </DisplayHeading>
-          <p className={styles.heroLede}>{service.description}</p>
-          <div className={styles.heroActions}>
-            <PrimaryCTA href="/contact">Bring us the problem</PrimaryCTA>
-            <PrimaryCTA href="#capabilities" variant="ghost">
-              What we build
-            </PrimaryCTA>
-          </div>
-        </div>
-        <div id="service-proof-object" data-testid="service-proof-object" className={styles.demo}>
-          <ServiceDemo kind={service.id} />
+        }
+        line={headline[0]}
+        ghost={headline[1]}
+        lead={service.description}
+        primary={{ href: '/contact', label: 'Bring us the problem' }}
+        secondary={{ href: '#capabilities', label: 'What we build' }}
+      >
+        <div
+          id="service-proof-object"
+          data-testid="service-proof-object"
+          className={`${styles.demo} ${styles.heroDemo}`}
+        >
+          <Panel depth={18}>
+            <ServiceDemo kind={service.id} />
+          </Panel>
           <p className={styles.demoCaption}>{guide.demoCaption}</p>
         </div>
-        <nav className={styles.pageNav} aria-label="On this page">
-          <span>Explore the service</span>
-          <a href="#capabilities">
-            What we build <span aria-hidden="true">↓</span>
-          </a>
-          <a href="#expertise">
-            Our approach <span aria-hidden="true">↓</span>
-          </a>
-          <a href="#delivery">
-            Delivery <span aria-hidden="true">↓</span>
-          </a>
-          <a href="#questions">
-            Questions <span aria-hidden="true">↓</span>
-          </a>
-        </nav>
-      </Section>
+      </RefHero>
+      <PillNav items={NAV} />
 
-      <Section
+      <RefIntro
         id="service-fit"
-        ruled
-        density="dense"
-        data-testid="service-fit"
-        aria-labelledby="fit-title"
-      >
-        <div className={styles.fitRibbon}>
-          <div>
-            <SectionLabel>Built for your next chapter</SectionLabel>
-            <h2 id="fit-title">{guide.promise}</h2>
-          </div>
-          <div className={styles.fitTags}>
+        testId="service-fit"
+        count="Built for your next chapter"
+        line={guide.promise}
+        aside={
+          <span className={styles.fitTags}>
             {service.fitSignals.map((signal) => (
               <span key={signal}>{signal}</span>
             ))}
-          </div>
-        </div>
-        <div className={styles.transformation} data-testid="outcome-flow" aria-label="What changes">
-          {service.outcomes.map((outcome, index) => (
-            <div key={outcome.title}>
-              <span className={styles.meta}>0{index + 1}</span>
-              <strong>{outcome.title}</strong>
-              {index < 2 && <span aria-hidden="true">↗</span>}
-            </div>
-          ))}
-        </div>
-      </Section>
+          </span>
+        }
+      >
+        <CapabilityGrid
+          testId="outcome-flow"
+          ariaLabel="What changes"
+          items={service.outcomes.map((outcome, i) => ({
+            label: `0${i + 1} / What changes`,
+            title: outcome.title,
+            body: outcome.body,
+          }))}
+        />
+      </RefIntro>
 
-      <Section
+      <Chapter
         id="capabilities"
-        ruled
-        density="sparse"
-        data-testid="capability-river"
-        aria-labelledby="capability-title"
+        testId="capability-river"
+        count="01 / What we can build"
+        word="Build"
+        title={guide.buildTitle}
+        body={guide.buildIntro}
+        accent={accent}
+      >
+        <FeatureSpace kind={service.id} />
+        <div className={styles.workbenchWrap}>
+          <ServiceWorkbench service={service} />
+        </div>
+        <CapabilityGrid
+          items={service.capabilities.map((capability) => ({
+            title: capability.title,
+            body: (
+              <>
+                {capability.body} {guide.examples[capability.title]}
+              </>
+            ),
+          }))}
+        />
+      </Chapter>
+
+      <Chapter
+        id="expertise"
+        testId="service-expertise"
+        count="02 / The thinking behind the build"
+        word="Approach"
+        title={guide.expertiseTitle}
+        body={guide.expertiseIntro}
+        accent={accent}
       >
         <div className={styles.split}>
-          <div>
-            <SectionLabel index="02">What we can build</SectionLabel>
-            <DisplayHeading as="h2" size="h2" id="capability-title" className={styles.sectionTitle}>
-              {guide.buildTitle}
-            </DisplayHeading>
-          </div>
-          <p className={styles.sectionBody}>{guide.buildIntro}</p>
-        </div>
-        <ServiceWorkbench service={service} />
-        <details className={styles.scopeNotes}>
-          <summary>
-            Explore the full scope <span aria-hidden="true">+</span>
-          </summary>
-          <div className={styles.scopeGrid}>
-            {service.capabilities.map((capability) => (
-              <div key={capability.title}>
-                <h3>{capability.title}</h3>
-                <p>{capability.body}</p>
-                <p>{guide.examples[capability.title]}</p>
-              </div>
+          <div className={styles.decisionNotes}>
+            {guide.standards.map((standard) => (
+              <details key={standard.title}>
+                <summary>
+                  {standard.title}
+                  <span aria-hidden="true">+</span>
+                </summary>
+                <p>{standard.body}</p>
+              </details>
             ))}
           </div>
-        </details>
-      </Section>
-
-      <Section
-        id="expertise"
-        ruled
-        density="dense"
-        className={styles.expertise}
-        aria-labelledby="expertise-title"
-        data-testid="service-expertise"
-      >
-        <div className={styles.split}>
-          <div>
-            <SectionLabel index="03">The thinking behind the build</SectionLabel>
-            <DisplayHeading as="h2" size="h2" id="expertise-title" className={styles.sectionTitle}>
-              {guide.expertiseTitle}
-            </DisplayHeading>
-            <p className={styles.sectionBody}>{guide.expertiseIntro}</p>
-            <div className={styles.decisionNotes}>
-              {guide.standards.map((standard) => (
-                <details key={standard.title}>
-                  <summary>
-                    {standard.title}
-                    <span aria-hidden="true">+</span>
-                  </summary>
-                  <p>{standard.body}</p>
-                </details>
-              ))}
-            </div>
-          </div>
-          <DecisionLab kind={service.id} />
+          <Panel depth={22}>
+            <DecisionLab kind={service.id} />
+          </Panel>
         </div>
-      </Section>
+      </Chapter>
 
-      <Section
+      <Chapter
         id="delivery"
-        ruled
-        density="sparse"
-        data-testid="connected-process"
-        aria-labelledby="process-title"
+        testId="connected-process"
+        count="03 / From brief to handover"
+        word="Delivery"
+        title="Your call. At every step."
+        body="We gather your requirements, bring you options and say which we would pick. You choose, then we build exactly that, and you see it take shape every week."
+        accent={accent}
       >
-        <div className={styles.split}>
-          <div>
-            <SectionLabel index="04">From brief to handover</SectionLabel>
-            <DisplayHeading as="h2" size="h2" id="process-title" className={styles.sectionTitle}>
-              Your call.
-              <br />
-              <span>At every step.</span>
-            </DisplayHeading>
-          </div>
-          <p className={styles.sectionBody}>
-            We gather your requirements, bring you options and say which we would pick. You choose,
-            then we build exactly that, and you see it take shape every week.
-          </p>
-        </div>
         <DeliveryJourney service={service} handover={guide.handover} />
         <details className={styles.scopeNotes} data-testid="service-handover">
           <summary>
@@ -205,69 +177,56 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
           </ul>
           <p>Your written scope lists exactly what you get and what support follows.</p>
         </details>
-      </Section>
+      </Chapter>
 
       {guide.ownStack && (
-        <Section
+        <section
           id="own-automation"
-          ruled
-          density="dense"
+          className={styles.ownSection}
           aria-labelledby="own-automation-title"
           data-testid="own-automation"
         >
-          <div className={styles.split}>
-            <div>
-              <SectionLabel>Our own stack</SectionLabel>
-              <DisplayHeading
-                as="h2"
-                size="h2"
-                id="own-automation-title"
-                className={styles.sectionTitle}
-              >
+          <div className="tw-wrap">
+            <div className={styles.split}>
+              <h2 id="own-automation-title" className={styles.ownTitle}>
                 What we automate for ourselves.
-              </DisplayHeading>
+              </h2>
+              <p className={styles.sectionBody}>
+                We don&apos;t have a client automation case study to show you yet. We do run our own
+                business on these.
+              </p>
             </div>
-            <p className={styles.sectionBody}>
-              We don&apos;t have a client automation case study to show you yet. We do run our own
-              business on these.
-            </p>
+            <CapabilityGrid
+              items={guide.ownStack.map((item) => ({ title: item.title, body: item.body }))}
+            />
+            <p className={styles.meta}>Our own use. Not client work.</p>
           </div>
-          <div className={`${styles.scopeGrid} ${styles.ownStack}`}>
-            {guide.ownStack.map((item) => (
-              <div key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </div>
-            ))}
-          </div>
-          <p className={styles.meta}>Our own use. Not client work.</p>
-        </Section>
+        </section>
       )}
 
-      <Section
+      <Chapter
         id="work"
-        ruled
-        density="dense"
-        data-testid="service-proof"
-        aria-labelledby="related-title"
+        testId="service-proof"
+        count="04 / Selected client work"
+        word="Proof"
+        title={studies.length > 0 ? 'Designed here. Out in the world.' : 'Explore our published work.'}
+        body={
+          studies.length > 0
+            ? guide.reviewBody
+            : 'The demos above are examples. Our published client projects so far are websites.'
+        }
+        cta={studies.length > 0 ? undefined : { href: '/work', label: 'See the projects' }}
+        accent={accent}
       >
         {studies.length > 0 && (
-          <div className={styles.split}>
-            <div>
-              <SectionLabel index="05">Selected client work</SectionLabel>
-              <DisplayHeading as="h2" size="h2" id="related-title" className={styles.sectionTitle}>
-                Designed here.
-                <br />
-                <span>Out in the world.</span>
-              </DisplayHeading>
-            </div>
-            <p className={styles.sectionBody}>{guide.reviewBody}</p>
-          </div>
-        )}
-        {studies.length > 0 ? (
           <div className={styles.relatedGrid}>
-            {studies.map((study) => (
-              <Link href={`/work/${study.slug}`} key={study.slug} className={styles.relatedCard}>
+            {studies.map((study, i) => (
+              <Link
+                href={`/work/${study.slug}`}
+                key={study.slug}
+                className={styles.relatedCard}
+                data-depth={16 + i * 6}
+              >
                 {study.coverImage && (
                   <div className={styles.relatedImage}>
                     <Image
@@ -290,38 +249,20 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
               </Link>
             ))}
           </div>
-        ) : (
-          <div className={styles.publishedNote}>
-            <h2 id="related-title">Explore our published work.</h2>
-            <p>
-              The demos above are examples. Our published client projects so far are websites.
-            </p>
-            <Link className={styles.textLink} href="/work">
-              See the projects <span aria-hidden="true">↗</span>
-            </Link>
-          </div>
         )}
-      </Section>
+      </Chapter>
 
-      <Section
+      <Chapter
         id="questions"
-        ruled
-        density="dense"
-        data-testid="service-faq"
-        aria-labelledby="questions-title"
+        testId="service-faq"
+        count="05 / Before we start"
+        word="Details"
+        title="The details worth knowing."
+        body={guide.brief}
+        accent={accent}
       >
         <div className={styles.split}>
           <div>
-            <SectionLabel index="06">Before we start</SectionLabel>
-            <DisplayHeading as="h2" size="h2" id="questions-title" className={styles.sectionTitle}>
-              The details
-              <br />
-              <span>worth knowing.</span>
-            </DisplayHeading>
-            <p className={styles.sectionBody}>{guide.brief}</p>
-            <PrimaryCTA href="/contact" variant="ghost">
-              Talk through your brief
-            </PrimaryCTA>
             <p id="worth-a-read" className={`${styles.meta} ${styles.readsLabel}`}>
               Worth a read
             </p>
@@ -334,6 +275,9 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
                 </li>
               ))}
             </ul>
+            <PrimaryCTA href="/contact" variant="ghost">
+              Talk through your brief
+            </PrimaryCTA>
           </div>
           <div className={styles.faqs}>
             {service.faqs.map((faq) => (
@@ -347,8 +291,9 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
             ))}
           </div>
         </div>
-      </Section>
-      <Section density="flush" className={styles.otherServices} aria-label="Other services">
+      </Chapter>
+
+      <section className={styles.otherServices} aria-label="Other services">
         <div className={styles.otherInner}>
           <span className={styles.meta}>Connect the next part</span>
           {SERVICE_LIST.filter((item) => item.id !== service.id).map((item) => (
@@ -358,7 +303,7 @@ export default function ServiceDetailPage({ service }: { service: ServiceContent
             </Link>
           ))}
         </div>
-      </Section>
+      </section>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 ---
 name: reference-redesign
-description: Redesign one Techwise IQ page (any route other than Home) in the reference composition that Home shipped with in ROADMAP 13.1 / D-045 — centred ghost-line hero, giant-word chapters with accent dot, illustrated feature cards with parallax artifacts, hairline capability grids, pill chapter nav, centred closing CTA, Inter Tight. Use when the owner says "redesign /about", "apply the home design to <page>", "next page in the redesign", or "/reference-redesign <route>".
+description: Redesign one Techwise IQ page (any route other than Home) in the reference composition that Home shipped with in ROADMAP 13.1 / D-045 — centred ghost-line hero, giant-word chapters with accent dot, illustrated feature cards with parallax artifacts, hairline capability grids, pill chapter nav, Inter Tight, over the checkered backdrop. Use when the owner says "redesign /about", "apply the home design to <page>", "next page in the redesign", or "/reference-redesign <route>".
 ---
 
 # Reference redesign: one page at a time
@@ -37,7 +37,7 @@ the ROADMAP "Redesign rollout" stage.
 | **Rhythm** | Alternate sparse (giant type, air) and dense (grid, data). Never two dense blocks back to back. No rows of equal rounded cards. |
 | **Accent** | One accent per viewport: web acid, software orange, AI violet, build blue. A page with no service leans acid. |
 | **Nav** | A page with ≥3 chapters gets the fixed bottom pill nav (`<nav aria-label="Page chapters">`, hidden ≤768px). |
-| **Close** | Centred CTA: `h2` with a ghost second line, one sentence, one primary pill. |
+| **Close** | The site footer ("Let's build what's next.") is every page's close. Never add a second closing CTA section above it. |
 | **Type** | Inter Tight (`--font-display`) for everything except labels, which use Space Mono (`--font-mono`). `--font-archivo` no longer exists, so grep for it. |
 
 Not every page gets every element. Long-form reading pages (insights articles, legal) take only the
@@ -47,7 +47,7 @@ hero, type and close treatment, and the body stays a calm ~65ch column.
 
 The building blocks live in `src/components/immersive/reference/` (14.0): `RefHero` (optional `orbit`),
 `RefIntro`, `Chapter` (`accent`: acid | orange | violet | blue), `CapabilityGrid` (2/3/4 cols), `Panel`
-(opaque surface that floats via `data-depth`), `ClosingCta`, `PillNav`, and `refStyles` for one-off
+(opaque surface that floats via `data-depth`), `PillNav`, and `refStyles` for one-off
 needs. Service illustrations: `FeatureSpace kind="web|software|ai"` from `home/Illustrations.tsx`.
 The checkered backdrop is on by default in `ImmersiveShell` (Home passes `backdrop="none"`).
 A new need goes into these files, not into a page-local copy. Home itself is not migrated onto them

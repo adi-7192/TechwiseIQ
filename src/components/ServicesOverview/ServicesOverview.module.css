@@ -378,3 +378,10 @@
     transition: none;
   }
 }
+
+/* ─── Stage 14.1 reference layout (D-046) ─── */
+.heroSystem {
+  width: min(100%, 44rem);
+  margin-inline: auto;
+  text-align: left;
+}

@@ -36,10 +36,13 @@ export function RefHero({
   primary,
   secondary,
   orbit = false,
+  crumb,
   children,
 }: {
   id?: string
-  eyebrow: string
+  eyebrow?: string
+  /** Replaces the eyebrow (e.g. a breadcrumb nav). */
+  crumb?: ReactNode
   line: ReactNode
   ghost?: ReactNode
   lead?: ReactNode
@@ -54,7 +57,7 @@ export function RefHero({
       <div className={styles.stage}>
         {orbit ? <HeroOrbit /> : <span hidden />}
         <div className={styles.eyebrow} data-ref-support>
-          <SectionLabel hideMark>{eyebrow}</SectionLabel>
+          {crumb ?? <SectionLabel hideMark>{eyebrow}</SectionLabel>}
         </div>
         <h1 id={`${id}-title`} className={styles.title}>
           <span className={styles.line}>
@@ -107,15 +110,24 @@ export function RefIntro({
   line,
   ghost,
   aside,
+  testId,
+  children,
 }: {
   id: string
   count: string
   line: ReactNode
   ghost?: ReactNode
   aside?: ReactNode
+  testId?: string
+  children?: ReactNode
 }) {
   return (
-    <section id={id} className={styles.section} aria-labelledby={`${id}-title`}>
+    <section
+      id={id}
+      className={styles.section}
+      aria-labelledby={`${id}-title`}
+      data-testid={testId}
+    >
       <div className={`tw-wrap ${styles.introGrid}`}>
         <SectionLabel hideMark className={styles.introCount}>
           {count}
@@ -123,8 +135,9 @@ export function RefIntro({
         <h2 id={`${id}-title`} className={styles.introTitle}>
           <span>{line}</span> {ghost && <span className={styles.ghost}>{ghost}</span>}
         </h2>
-        {aside ? <p className={styles.introAside}>{aside}</p> : <span />}
+        {aside ? <div className={styles.introAside}>{aside}</div> : <span />}
       </div>
+      {children && <div className="tw-wrap">{children}</div>}
     </section>
   )
 }
@@ -140,6 +153,7 @@ export function Chapter({
   accent,
   children,
   tight = false,
+  testId,
 }: {
   id: string
   count: string
@@ -150,12 +164,14 @@ export function Chapter({
   accent?: Accent
   children?: ReactNode
   tight?: boolean
+  testId?: string
 }) {
   return (
     <section
       id={id}
       className={styles.section}
       data-tight={tight || undefined}
+      data-testid={testId}
       style={accentStyle(accent)}
       aria-labelledby={`${id}-title`}
     >
@@ -172,7 +188,7 @@ export function Chapter({
           </div>
           <div className={styles.thesis}>
             <h3 className={styles.thesisHead}>{title}</h3>
-            {body && <p className={styles.thesisBody}>{body}</p>}
+            {body && <div className={styles.thesisBody}>{body}</div>}
             {cta && (
               <PrimaryCTA href={cta.href} variant="ghost" className={styles.thesisLink}>
                 {cta.label}
@@ -193,13 +209,19 @@ export function CapabilityGrid({
   items,
   cols = 3,
   className,
+  testId,
+  ariaLabel,
 }: {
   items: CapItem[]
   cols?: 2 | 3 | 4
   className?: string
+  testId?: string
+  ariaLabel?: string
 }) {
   return (
     <ol
+      data-testid={testId}
+      aria-label={ariaLabel}
       className={`${styles.capGrid} ${className ?? ''}`}
       data-cols={cols === 3 ? undefined : cols}
       style={{ '--cols': cols } as CSSProperties}
@@ -232,43 +254,5 @@ export function Panel({
     <div className={`${styles.panel} ${className ?? ''}`} data-depth={depth}>
       {children}
     </div>
-  )
-}
-
-/** Centred close: h2 with ghost line, one sentence, one or two pills. */
-export function ClosingCta({
-  id = 'next',
-  line,
-  ghost,
-  body,
-  primary,
-  secondary,
-}: {
-  id?: string
-  line: ReactNode
-  ghost?: ReactNode
-  body?: ReactNode
-  primary: Cta
-  secondary?: Cta
-}) {
-  return (
-    <section id={id} className={styles.close} aria-labelledby={`${id}-title`}>
-      <div className={`tw-wrap ${styles.closeInner}`}>
-        <h2 id={`${id}-title`} className={styles.closeTitle}>
-          <span>{line}</span> {ghost && <span className={styles.ghost}>{ghost}</span>}
-        </h2>
-        {body && <p className={styles.closeBody}>{body}</p>}
-        <div className={styles.closeActions}>
-          <PrimaryCTA href={primary.href} external={primary.external}>
-            {primary.label}
-          </PrimaryCTA>
-          {secondary && (
-            <PrimaryCTA href={secondary.href} variant="secondary" external={secondary.external}>
-              {secondary.label}
-            </PrimaryCTA>
-          )}
-        </div>
-      </div>
-    </section>
   )
 }
