@@ -30,6 +30,7 @@
 import { Fragment } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { PillNav } from '@/components/immersive/reference'
 import BrowserBar from '@/components/BrowserBar'
 import Section from '@/components/immersive/primitives/Section'
 import SectionLabel from '@/components/immersive/primitives/SectionLabel'
@@ -217,6 +218,14 @@ function Frame({ id, step }: { id: string; step: (typeof STEPS)[number] }) {
   )
 }
 
+const NAV = [
+  ['short-version', 'Short version'],
+  ['track-record', 'Track record'],
+  ['process', 'Process'],
+  ['commitments', 'Commitments'],
+  ['services', 'Services'],
+] as const
+
 export default function AboutExperience() {
   const totals = getDeliveryMetrics(CASE_STUDIES)
   const [liveSites, , weeks] = totals
@@ -271,6 +280,8 @@ export default function AboutExperience() {
           paints what it has. Here that first paint already holds the h1 (the LCP),
           and the script still runs before the first gated hook is parsed. */}
       <script dangerouslySetInnerHTML={{ __html: motionBootstrap }} />
+      {/* After the hero, like Home's, so it is early in the tab order. */}
+      <PillNav items={NAV} />
 
       {/* 01 The short version */}
       <Section as="section" id="short-version" ruled density="sparse" className={styles.short} innerClassName={styles.shortGrid} aria-labelledby="short-version-title">

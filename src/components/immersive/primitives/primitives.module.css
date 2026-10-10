@@ -88,18 +88,20 @@
 .statement {
   font-size: var(--tw-type-statement);
   font-weight: 600;
-  letter-spacing: -0.05em;
+  line-height: 0.92;
+  letter-spacing: -0.06em;
 }
 
 .h2 {
   font-size: var(--tw-type-h2);
   font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
 }
 
-/* Accent a run of the heading — wrap it in <em> (rendered non-italic). */
+/* The ghost run of a heading (D-045/D-046): wrap it in <em>. Muted, lighter, non-italic. */
 .heading em {
-  color: var(--tw-accent);
+  color: var(--tw-muted);
   font-style: normal;
+  font-weight: 400;
 }
